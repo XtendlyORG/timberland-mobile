@@ -1,9 +1,12 @@
 import 'package:dartz/dartz.dart';
-import 'package:timberland_biketrail/core/errors/failures.dart';
-import 'package:timberland_biketrail/core/utils/repository.dart';
-import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
-import 'package:timberland_biketrail/features/authentication/domain/usecases/login.dart';
-import 'package:timberland_biketrail/features/authentication/domain/usecases/register.dart';
+
+import '../../../../core/errors/failures.dart';
+import '../../../../core/utils/repository.dart';
+import '../entities/user.dart';
+import '../usecases/forgot_password.dart';
+import '../usecases/login.dart';
+import '../usecases/register.dart';
+import '../usecases/reset_password.dart';
 
 abstract class AuthRepository extends Repository {
   Future<Either<Failure, User>> login(LoginParameter params);
@@ -15,4 +18,12 @@ abstract class AuthRepository extends Repository {
   Future<Either<Failure, User>> facebookAuth();
 
   Future<Either<Failure, void>> logout();
+
+  Future<Either<Failure, void>> resetPassword(
+    ResetPasswordParams restPasswordParams,
+  );
+
+  Future<Either<Failure, void>> forgotPassword(
+    ForgotPasswordParams forgotPasswordParams,
+  );
 }

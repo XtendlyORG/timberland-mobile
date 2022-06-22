@@ -1,7 +1,9 @@
-import 'package:timberland_biketrail/features/authentication/data/datasources/authenticator.dart';
-import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
-import 'package:timberland_biketrail/features/authentication/domain/usecases/login.dart';
-import 'package:timberland_biketrail/features/authentication/domain/usecases/register.dart';
+import '../../domain/entities/user.dart';
+import '../../domain/usecases/forgot_password.dart';
+import '../../domain/usecases/login.dart';
+import '../../domain/usecases/register.dart';
+import '../../domain/usecases/reset_password.dart';
+import 'authenticator.dart';
 
 class RemoteAuthenticator implements Authenticator {
   @override
@@ -31,6 +33,18 @@ class RemoteAuthenticator implements Authenticator {
   @override
   Future<User> register(RegisterParameter registerParameter) {
     // TODO: implement register
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> forgotPassword(ForgotPasswordParams forgotPasswordParams) {
+    // TODO: implement forgotPassword
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> resetPassword(ResetPasswordParams resetPasswordParams) {
+    // TODO: implement resetPassword
     throw UnimplementedError();
   }
 }

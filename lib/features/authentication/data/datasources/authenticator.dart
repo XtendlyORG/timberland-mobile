@@ -1,6 +1,8 @@
-import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
-import 'package:timberland_biketrail/features/authentication/domain/usecases/login.dart';
-import 'package:timberland_biketrail/features/authentication/domain/usecases/register.dart';
+import '../../domain/entities/user.dart';
+import '../../domain/usecases/forgot_password.dart';
+import '../../domain/usecases/login.dart';
+import '../../domain/usecases/register.dart';
+import '../../domain/usecases/reset_password.dart';
 
 abstract class Authenticator {
   Future<User> login(LoginParameter loginParameter);
@@ -8,4 +10,7 @@ abstract class Authenticator {
   Future<User> googleAuth();
   Future<User> facebookAuth();
   Future<void> logout();
+
+  Future<void> resetPassword(ResetPasswordParams resetPasswordParams);
+  Future<void> forgotPassword(ForgotPasswordParams forgotPasswordParams);
 }
