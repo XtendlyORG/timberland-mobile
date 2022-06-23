@@ -11,6 +11,8 @@ import '../usecases/reset_password.dart';
 abstract class AuthRepository extends Repository {
   Future<Either<Failure, User>> login(LoginParameter params);
 
+  Future<Either<Failure, User>> fingerPrintAuth();
+
   Future<Either<Failure, User>> register(RegisterParameter params);
 
   Future<Either<Failure, User>> googleAuth();

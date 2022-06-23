@@ -65,6 +65,11 @@ class AuthRepositoryImpl implements AuthRepository {
     );
   }
 
+  @override
+  Future<Either<Failure, User>> fingerPrintAuth() {
+    return authRequest(request: authenticator.fingerPrintAuth);
+  }
+
   Future<Either<Failure, ReturnType>> authRequest<ReturnType>({
     required Future<ReturnType> Function() request,
   }) async {

@@ -47,4 +47,10 @@ class RemoteAuthenticator implements Authenticator {
     // TODO: implement resetPassword
     throw UnimplementedError();
   }
+
+  @override
+  Future<User> fingerPrintAuth() {
+    // TODO: implement fingerPrintAuth
+    throw UnimplementedError();
+  }
 }
