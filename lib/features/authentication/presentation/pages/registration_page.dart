@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timberland_biketrail/core/routes/routes.dart';
+import 'package:timberland_biketrail/core/router/router.dart';
 
 class RegistrationPage extends StatelessWidget {
   const RegistrationPage({
