@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/core/router/router.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -15,33 +17,42 @@ class Dashboard extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            TextButton(
-              onPressed: () {},
-              child: const Text('Trail Directory'),
+            ListTile(
+              onTap: () {
+                context.goNamed(Routes.trails.name);
+                Navigator.pop(context);
+              },
+              title: const Text('Trail Directory'),
             ),
-            TextButton(
-              onPressed: () {},
-              child: const Text('My Profile'),
+            ListTile(
+              onTap: () {
+                context.goNamed(Routes.profile.name);
+                Navigator.pop(context);
+              },
+              title: const Text('My Profile'),
             ),
-            TextButton(
-              onPressed: () {},
-              child: const Text('Booking'),
+            ListTile(
+              onTap: () {},
+              title: const Text('Booking'),
             ),
-            TextButton(
-              onPressed: () {},
-              child: const Text('QR Generator'),
+            ListTile(
+              onTap: () {},
+              title: const Text('QR Generator'),
             ),
-            TextButton(
-              onPressed: () {},
-              child: const Text('Rules'),
+            ListTile(
+              onTap: () {
+                context.goNamed(Routes.rules.name);
+                Navigator.pop(context);
+              },
+              title: const Text('Rules'),
             ),
-            TextButton(
-              onPressed: () {},
-              child: const Text('Contact Us'),
+            ListTile(
+              onTap: () {},
+              title: const Text('Contact Us'),
             ),
-            TextButton(
-              onPressed: () {},
-              child: const Text('Emergency'),
+            ListTile(
+              onTap: () {},
+              title: const Text('Emergency'),
             ),
           ],
         ),

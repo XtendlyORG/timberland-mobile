@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/router/routes/routes.dart';
 
 import 'package:timberland_biketrail/features/authentication/presentation/pages/pages.dart';
+import 'package:timberland_biketrail/main_page.dart';
 
 final appRouter = GoRouter(
   initialLocation: Routes.home.path,
@@ -44,8 +47,9 @@ final appRouter = GoRouter(
           Routes.emergency.name,
           Routes.profile.name,
         ].contains(
-          routeState.params['tab'],
+          routeState.location,
         )) {
+          log(routeState.location);
           return null;
         }
         return Routes.trails.path;
@@ -55,11 +59,10 @@ final appRouter = GoRouter(
           path: Routes.trails.asSubPath(),
           name: Routes.trails.name,
           pageBuilder: (context, routeState) {
+            log('trail list');
             return const MaterialPage(
-              child: Scaffold(
-                body: Center(
-                  child: Text('Trail List'),
-                ),
+              child: MainPage(
+                selectedTabIndex: 0,
               ),
             );
           },
@@ -68,19 +71,40 @@ final appRouter = GoRouter(
               path: ':id',
               name: Routes.specificTrail.name,
               pageBuilder: (context, routeState) {
-                return const MaterialPage(
-                  child: Scaffold(
-                    body: Center(
-                      child: Text('Specific Trail'),
-                    ),
-                  ),
+                log('specificTrail');
+                return MaterialPage(
+                  child: Center(child: Text(routeState.params['id']!)),
                 );
               },
             ),
           ],
         ),
+        GoRoute(
+          path: Routes.profile.asSubPath(),
+          name: Routes.profile.name,
+          pageBuilder: (context, routeState) {
+            log('profile');
+            return const MaterialPage(
+              child: MainPage(
+                selectedTabIndex: 1,
+              ),
+            );
+          },
+        ),
+        GoRoute(
+          path: Routes.rules.asSubPath(),
+          name: Routes.rules.name,
+          pageBuilder: (context, routeState) {
+            log('rules');
+            return const MaterialPage(
+              child: MainPage(
+                selectedTabIndex: 3,
+              ),
+            );
+          },
+        ),
       ],
-    )
+    ),
   ],
   errorPageBuilder: (context, state) {
     // TODO: Return Error Page
