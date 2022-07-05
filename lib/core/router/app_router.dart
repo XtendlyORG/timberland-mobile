@@ -8,7 +8,7 @@ import 'package:timberland_biketrail/features/authentication/presentation/pages/
 import 'package:timberland_biketrail/main_page.dart';
 
 final appRouter = GoRouter(
-  initialLocation: Routes.home.path,
+  initialLocation: Routes.login.path,
   redirect: (routeState) {
     //TODO: Check auth status and redirect to the right page
 
@@ -30,10 +30,16 @@ final appRouter = GoRouter(
       path: Routes.register.path,
       name: Routes.register.name,
       pageBuilder: (context, state) {
-        return MaterialPage(
+        return CustomTransitionPage(
           key: state.pageKey,
-          restorationId: state.pageKey.value,
           child: const RegistrationPage(),
+          transitionDuration: const Duration(milliseconds: 500),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
         );
       },
     ),
