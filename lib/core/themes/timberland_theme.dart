@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:timberland_biketrail/core/themes/timberland_color.dart';
+
+import 'timberland_color.dart';
 
 class TimberlandTheme {
   static ThemeData get lightTheme => ThemeData(
@@ -21,16 +22,25 @@ class TimberlandTheme {
             borderSide: const BorderSide(color: TimberlandColor.primary),
             borderRadius: BorderRadius.circular(6),
           ),
+          fillColor: TimberlandColor.background,
+          filled: true,
           enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: TimberlandColor.primary),
             borderRadius: BorderRadius.circular(6),
           ),
         ),
+        scaffoldBackgroundColor: TimberlandColor.background,
         textTheme: const TextTheme(
           titleSmall: TextStyle(
             color: TimberlandColor.text,
             fontSize: 14,
           ),
+        ),
+        listTileTheme: const ListTileThemeData(
+          minLeadingWidth: 20,
+          style: ListTileStyle.drawer,
+          textColor: TimberlandColor.background,
+          iconColor: TimberlandColor.background,
         ),
       );
 }

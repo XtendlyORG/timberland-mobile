@@ -8,7 +8,9 @@ abstract class AuthState extends Equatable {
   List<Object> get props => [];
 }
 
-class UnAuthenticated extends AuthState {}
+class UnAuthenticated extends AuthState {
+  const UnAuthenticated();
+}
 
 class Authenticated extends AuthState {
   final User user;
@@ -17,4 +19,13 @@ class Authenticated extends AuthState {
   });
   @override
   List<Object> get props => super.props..add(user);
+}
+
+class AuthError extends AuthState {
+  final String errorMessage;
+  const AuthError({
+    required this.errorMessage,
+  });
+  @override
+  List<Object> get props => super.props..add(errorMessage);
 }

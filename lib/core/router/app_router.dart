@@ -2,16 +2,28 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timberland_biketrail/core/router/routes/routes.dart';
 
-import 'package:timberland_biketrail/features/authentication/presentation/pages/pages.dart';
-import 'package:timberland_biketrail/main_page.dart';
+import '../../features/authentication/presentation/pages/pages.dart';
+import '../../main_page.dart';
+import '../utils/session.dart';
+import 'routes/routes.dart';
 
 final appRouter = GoRouter(
   initialLocation: Routes.login.path,
+  refreshListenable: Session(),
   redirect: (routeState) {
-    //TODO: Check auth status and redirect to the right page
+    bool isAuthenticating = [
+      Routes.login.path,
+      Routes.register.path,
+    ].contains(routeState.location);
 
+    if (Session().isLoggedIn && isAuthenticating) {
+      // if logged in redirect to home page
+      return Routes.home.path;
+    } else if (!Session().isLoggedIn && !isAuthenticating) {
+      //if not logged in redirect to login page
+      return Routes.login.path;
+    }
     return null;
   },
   routes: [
@@ -86,10 +98,10 @@ final appRouter = GoRouter(
           ],
         ),
         GoRoute(
-          path: Routes.profile.asSubPath(),
-          name: Routes.profile.name,
+          path: Routes.rules.asSubPath(),
+          name: Routes.rules.name,
           pageBuilder: (context, routeState) {
-            log('profile');
+            log('rules');
             return const MaterialPage(
               child: MainPage(
                 selectedTabIndex: 1,
@@ -98,10 +110,10 @@ final appRouter = GoRouter(
           },
         ),
         GoRoute(
-          path: Routes.rules.asSubPath(),
-          name: Routes.rules.name,
+          path: Routes.profile.asSubPath(),
+          name: Routes.profile.name,
           pageBuilder: (context, routeState) {
-            log('rules');
+            log('profile');
             return const MaterialPage(
               child: MainPage(
                 selectedTabIndex: 3,

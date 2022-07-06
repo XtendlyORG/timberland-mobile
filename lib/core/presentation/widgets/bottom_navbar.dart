@@ -38,6 +38,15 @@ class _BottomNavBarState extends State<BottomNavBar> {
           .toList(),
       currentIndex: currentIndex,
       type: BottomNavigationBarType.fixed,
+      backgroundColor: Theme.of(context).primaryColor,
+      selectedItemColor: Theme.of(context).backgroundColor,
+      unselectedItemColor: Theme.of(context).primaryColorLight,
+      selectedIconTheme: IconThemeData(
+        color: Theme.of(context).backgroundColor,
+      ),
+      unselectedIconTheme: IconThemeData(
+        color: Theme.of(context).backgroundColor,
+      ),
       onTap: (index) {
         if (widget.configs[index].routeName != Routes.emergency.name) {
           widget.onTap(index);
@@ -46,7 +55,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           log('CALL EMERGENCY HERE');
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text("EmERGECY"),
+              content: Text("EMERGENCY"),
             ),
           );
         }
@@ -56,7 +65,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
 }
 
 class BottomNavBarConfigs {
-  final Icon icon;
+  final Widget icon;
   final String label;
   final String routeName;
   final Widget Function(BuildContext context)? pageBuider;

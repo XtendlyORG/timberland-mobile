@@ -1,9 +1,13 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:timberland_biketrail/core/constants/constants.dart';
-import 'package:timberland_biketrail/features/authentication/presentation/widgets/circular_icon_button.dart';
-import 'package:timberland_biketrail/features/authentication/presentation/widgets/password_field.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/constants/constants.dart';
+import '../../domain/usecases/login.dart';
+import '../bloc/auth_bloc.dart';
+import 'circular_icon_button.dart';
+import 'password_field.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -51,7 +55,7 @@ class LoginForm extends StatelessWidget {
               bottom: kFieldPadding,
             ),
             child: RepaintBoundary(
-              child: PasswordField(passwordCtrl: passwordCtrl),
+              child: PasswordField(controller: passwordCtrl),
             ),
           ),
           Container(
@@ -62,6 +66,14 @@ class LoginForm extends StatelessWidget {
                 if (formKey.currentState!.validate()) {
                   //TODO: Call login here
                   log('Login');
+                  BlocProvider.of<AuthBloc>(context).add(
+                    LoginEvent(
+                      loginParameter: LoginParameter(
+                        email: emailCtrl.text,
+                        password: passwordCtrl.text,
+                      ),
+                    ),
+                  );
                 }
               },
               child: const Text("Log in"),
