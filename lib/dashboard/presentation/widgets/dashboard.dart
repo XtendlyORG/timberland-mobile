@@ -1,10 +1,9 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard_header.dart';
 
-import '../../router/router.dart';
-import '../../utils/session.dart';
-import 'inherited_user.dart';
+import '../../../core/router/router.dart';
+import '../../../core/utils/session.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -75,7 +74,10 @@ class Dashboard extends StatelessWidget {
                       title: const Text('Booking'),
                     ),
                     ListTile(
-                      onTap: () {},
+                      onTap: () {
+                        context.pushNamed(Routes.qr.name);
+                        Navigator.pop(context);
+                      },
                       minLeadingWidth: 20,
                       leading: const Icon(Icons.qr_code),
                       title: const Text('QR Generator'),
@@ -129,56 +131,6 @@ class Dashboard extends StatelessWidget {
             ),
           );
         },
-      ),
-    );
-  }
-}
-
-class DashBoardHeader extends StatelessWidget {
-  const DashBoardHeader({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final user = InheritedUser.of(context).user;
-    return Container(
-      height: 120,
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: SizedBox(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const CircleAvatar(),
-            const SizedBox(
-              width: 10,
-            ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AutoSizeText(
-                    "${user.firstName} ${user.lastName}",
-                    minFontSize: 18,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: Theme.of(context).backgroundColor,
-                        ),
-                  ),
-                  Text(
-                    'Manila',
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          color: Theme.of(context).backgroundColor,
-                        ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

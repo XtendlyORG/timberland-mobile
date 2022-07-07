@@ -9,23 +9,23 @@ import '../usecases/register.dart';
 import '../usecases/reset_password.dart';
 
 abstract class AuthRepository extends Repository {
-  Future<Either<Failure, User>> login(LoginParameter params);
+  Future<Either<AuthFailure, User>> login(LoginParameter params);
 
-  Future<Either<Failure, User>> fingerPrintAuth();
+  Future<Either<AuthFailure, User>> fingerPrintAuth();
 
-  Future<Either<Failure, User>> register(RegisterParameter params);
+  Future<Either<AuthFailure, User>> register(RegisterParameter params);
 
-  Future<Either<Failure, User>> googleAuth();
+  Future<Either<AuthFailure, User>> googleAuth();
 
-  Future<Either<Failure, User>> facebookAuth();
+  Future<Either<AuthFailure, User>> facebookAuth();
 
-  Future<Either<Failure, void>> logout();
+  Future<Either<AuthFailure, void>> logout();
 
-  Future<Either<Failure, void>> resetPassword(
+  Future<Either<AuthFailure, void>> resetPassword(
     ResetPasswordParams restPasswordParams,
   );
 
-  Future<Either<Failure, void>> forgotPassword(
+  Future<Either<AuthFailure, void>> forgotPassword(
     ForgotPasswordParams forgotPasswordParams,
   );
 }

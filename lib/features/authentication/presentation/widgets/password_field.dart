@@ -29,6 +29,7 @@ class _PasswordFieldState extends State<PasswordField> {
         if (password == null || password.isEmpty) {
           return 'Password cannot be empty';
         }
+        return null;
       },
       decoration: InputDecoration(
         hintText: 'Password',

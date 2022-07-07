@@ -38,7 +38,6 @@ class TimberlandTheme {
         ),
         listTileTheme: const ListTileThemeData(
           minLeadingWidth: 20,
-          style: ListTileStyle.drawer,
           textColor: TimberlandColor.background,
           iconColor: TimberlandColor.background,
         ),

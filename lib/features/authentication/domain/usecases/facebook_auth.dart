@@ -12,7 +12,7 @@ class FacebookAuth implements Usecase<User, void> {
     required this.repository,
   });
   @override
-  Future<Either<Failure, User>> call(void params) {
+  Future<Either<AuthFailure, User>> call(void params) {
     // TODO: implement call
     throw UnimplementedError();
   }

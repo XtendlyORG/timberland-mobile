@@ -12,7 +12,7 @@ class ForgotPassword implements Usecase<void, ForgotPasswordParams> {
   });
 
   @override
-  Future<Either<Failure, void>> call(forgotPassowrdParams) {
+  Future<Either<AuthFailure, void>> call(forgotPassowrdParams) {
     return repository.forgotPassword(forgotPassowrdParams);
   }
 }

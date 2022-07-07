@@ -17,38 +17,38 @@ class AuthRepositoryImpl implements AuthRepository {
   });
 
   @override
-  Future<Either<Failure, User>> login(LoginParameter params) {
+  Future<Either<AuthFailure, User>> login(LoginParameter params) {
     return authRequest<User>(
       request: () => authenticator.login(params),
     );
   }
 
   @override
-  Future<Either<Failure, User>> register(RegisterParameter params) {
+  Future<Either<AuthFailure, User>> register(RegisterParameter params) {
     return authRequest<User>(
       request: () => authenticator.register(params),
     );
   }
 
   @override
-  Future<Either<Failure, User>> facebookAuth() {
+  Future<Either<AuthFailure, User>> facebookAuth() {
     return authRequest(request: authenticator.facebookAuth);
   }
 
   @override
-  Future<Either<Failure, User>> googleAuth() {
+  Future<Either<AuthFailure, User>> googleAuth() {
     return authRequest(request: authenticator.googleAuth);
   }
 
   @override
-  Future<Either<Failure, void>> logout() {
+  Future<Either<AuthFailure, void>> logout() {
     return authRequest<void>(
       request: authenticator.logout,
     );
   }
 
   @override
-  Future<Either<Failure, void>> forgotPassword(
+  Future<Either<AuthFailure, void>> forgotPassword(
     ForgotPasswordParams forgotPasswordParams,
   ) {
     return authRequest<void>(
@@ -57,7 +57,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, void>> resetPassword(
+  Future<Either<AuthFailure, void>> resetPassword(
     ResetPasswordParams resetPasswordParams,
   ) {
     return authRequest(
@@ -66,11 +66,11 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, User>> fingerPrintAuth() {
+  Future<Either<AuthFailure, User>> fingerPrintAuth() {
     return authRequest(request: authenticator.fingerPrintAuth);
   }
 
-  Future<Either<Failure, ReturnType>> authRequest<ReturnType>({
+  Future<Either<AuthFailure, ReturnType>> authRequest<ReturnType>({
     required Future<ReturnType> Function() request,
   }) async {
     try {

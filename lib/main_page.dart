@@ -2,17 +2,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/bottom_navbar.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/dashboard.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/drawer_iconbutton.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/inherited_tab.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/inherited_user.dart';
-import 'package:timberland_biketrail/core/router/router.dart';
-import 'package:timberland_biketrail/core/utils/session.dart';
-import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:timberland_biketrail/core/constants/navbar_configs.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
+import 'package:timberland_biketrail/dashboard/presentation/pages/profile_page.dart';
+import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard.dart';
 
 class MainPage extends StatefulWidget {
   final int selectedTabIndex;
@@ -26,7 +20,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  late final List<BottomNavBarConfigs> configs;
   late int currentIndex;
   late PageController pageController;
 
@@ -38,48 +31,6 @@ class _MainPageState extends State<MainPage> {
       initialPage: currentIndex,
       keepPage: true,
     );
-    configs = [
-      BottomNavBarConfigs(
-        icon: const Icon(Icons.map_outlined),
-        label: 'Trail',
-        routeName: Routes.trails.name,
-        pageBuider: _buildTrailsPage,
-      ),
-      BottomNavBarConfigs(
-        icon: const Image(
-          image: AssetImage('assets/icons/rules-icon.png'),
-          height: 24,
-          width: 24,
-        ),
-        label: 'Rules',
-        routeName: Routes.rules.name,
-        pageBuider: (context) {
-          return const Center(
-            child: Text("rules"),
-          );
-        },
-      ),
-      BottomNavBarConfigs(
-        icon: const Image(
-          image: AssetImage('assets/icons/emergency-icon.png'),
-          height: 24,
-          width: 24,
-          color: Color(0xffF60505),
-        ),
-        label: 'Emergency',
-        routeName: Routes.emergency.name,
-      ),
-      BottomNavBarConfigs(
-        icon: const Image(
-          image: AssetImage('assets/icons/profile-icon.png'),
-          height: 24,
-          width: 24,
-        ),
-        label: 'Profile',
-        routeName: Routes.profile.name,
-        pageBuider: _buildProfilePage,
-      ),
-    ];
   }
 
   @override
@@ -91,90 +42,84 @@ class _MainPageState extends State<MainPage> {
       );
     }
 
-    return BlocBuilder<AuthBloc, AuthState>(
-      builder: (context, state) {
-        if (state is UnAuthenticated) {
-          BlocProvider.of<AuthBloc>(context).add(
-            FetchUserEvent(uid: Session().currentUID!),
-          );
-        } else if (state is Authenticated) {
-          return SafeArea(
-            child: RefreshIndicator(
-              onRefresh: () async {
-                // TODO: Refresh
-                log('refreshed');
-              },
-              child: InheritedUser(
-                user: state.user,
-                child: Scaffold(
-                  endDrawer: const Dashboard(),
-                  appBar: AppBar(
-                    elevation: 0,
-                    backgroundColor: Colors.transparent,
-                    foregroundColor: Theme.of(context).colorScheme.primary,
-                    actions: const [
-                      DrawerIconButton(),
-                    ],
-                  ),
-                  extendBodyBehindAppBar: true,
-                  bottomNavigationBar: InheritedTabIndex(
-                    tabIndex: currentIndex,
-                    child: BottomNavBar(
-                      configs: configs,
-                      onTap: (index) {
-                        pageController.jumpToPage(
-                          index < 2 ? index : index - 1,
-                        );
-                      },
-                    ),
-                  ),
-                  body: RepaintBoundary(
-                    child: LayoutBuilder(
-                      builder: (context, constraints) {
-                        return SingleChildScrollView(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          scrollDirection: Axis.vertical,
-                          child: SizedBox(
-                            height: constraints.maxHeight,
-                            child: PageView(
-                              controller: pageController,
-                              onPageChanged: (index) {
-                                // dismis keyboard
-                                WidgetsBinding
-                                    .instance.focusManager.primaryFocus
-                                    ?.unfocus();
-
-                                currentIndex = index < 2 ? index : index + 1;
-
-                                context.goNamed(
-                                  configs[currentIndex].routeName,
-                                );
-                              },
-                              children: configs
-                                  .where((config) => config.pageBuider != null)
-                                  .map(
-                                    (config) => RepaintBoundary(
-                                      child: config.pageBuider!(context),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ),
+    return SafeArea(
+      child: RefreshIndicator(
+        onRefresh: () async {
+          // TODO: Refresh
+          log('refreshed');
+        },
+        child: Scaffold(
+          endDrawer: const Dashboard(),
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(kToolbarHeight),
+            child: TimberlandAppbar(
+              actions: currentIndex == 3
+                  ? [
+                      CircularIconButton(
+                        onTap: () {},
+                        icon: Icon(
+                          Icons.settings,
+                          color: Theme.of(context).backgroundColor,
+                          size: 18,
+                        ),
+                        size: 24,
+                      ),
+                    ]
+                  : null,
             ),
-          );
-        }
-        return const Center(
-          child: RepaintBoundary(
-            child: CircularProgressIndicator(),
           ),
-        );
-      },
+          extendBodyBehindAppBar: true,
+          bottomNavigationBar: BottomNavBar(
+            index: currentIndex,
+            configs: navbarConfigs,
+            onTap: (index) {
+              pageController.jumpToPage(
+                index < 2 ? index : index - 1,
+              );
+            },
+          ),
+          body: RepaintBoundary(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  child: SizedBox(
+                    height: constraints.maxHeight,
+                    child: PageView(
+                      controller: pageController,
+                      onPageChanged: (index) {
+                        // dismis keyboard
+                        WidgetsBinding.instance.focusManager.primaryFocus
+                            ?.unfocus();
+
+                        currentIndex = index < 2 ? index : index + 1;
+
+                        context.goNamed(
+                          navbarConfigs[currentIndex].routeName,
+                        );
+                      },
+                      children: [
+                        RepaintBoundary(
+                          child: _buildTrailsPage(context),
+                        ),
+                        const RepaintBoundary(
+                          child: Center(
+                            child: Text('Rules'),
+                          ),
+                        ),
+                        RepaintBoundary(
+                          child: _buildProfilePage(context),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -185,8 +130,6 @@ class _MainPageState extends State<MainPage> {
   }
 
   Widget _buildProfilePage(BuildContext context) {
-    return const Center(
-      child: Text("Profile Page"),
-    );
+    return const ProfilePage();
   }
 }

@@ -44,17 +44,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
     });
 
-    on<LoginEvent>((event, emit) {
+    on<LoginEvent>((event, emit) async {
       emit(
-        Authenticated(
-          user: User(
-            age: 19,
-            email: event.loginParameter.email,
-            firstName: 'FirstName',
-            lastName: 'LastName',
-            id: 'test-uid',
-          ),
-        ),
+        const AuthLoading(loadingMessage: "Logging in to your account."),
+      );
+      final result = await login(event.loginParameter);
+      result.fold(
+        (failure) {
+          emit(AuthError(errorMessage: failure.message));
+        },
+        (user) {
+          emit(Authenticated(user: user));
+        },
       );
     });
 

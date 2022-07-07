@@ -13,7 +13,7 @@ class Login implements Usecase<User, LoginParameter> {
   const Login({required this.repository});
 
   @override
-  Future<Either<Failure, User>> call(params) {
+  Future<Either<AuthFailure, User>> call(params) {
     return repository.login(params);
   }
 }

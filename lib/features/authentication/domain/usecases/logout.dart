@@ -12,7 +12,7 @@ class Logout implements Usecase<void, void> {
     required this.repository,
   });
   @override
-  Future<Either<Failure, void>> call(void _) {
+  Future<Either<AuthFailure, void>> call(void _) {
     return repository.logout();
   }
 }

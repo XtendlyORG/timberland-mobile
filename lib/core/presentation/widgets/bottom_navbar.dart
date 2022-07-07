@@ -3,15 +3,16 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/inherited_tab.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 
 class BottomNavBar extends StatefulWidget {
+  final int index;
   final List<BottomNavBarConfigs> configs;
   final void Function(int index) onTap;
 
   const BottomNavBar({
     Key? key,
+    required this.index,
     required this.configs,
     required this.onTap,
   }) : super(key: key);
@@ -23,9 +24,7 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
-    int currentIndex = InheritedTabIndex.of(context).tabIndex;
-
-    log('Navbar Rebuilt: $currentIndex');
+    log('Navbar Rebuilt: ${widget.index}');
     return BottomNavigationBar(
       items: widget.configs
           .map(
@@ -36,7 +35,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             ),
           )
           .toList(),
-      currentIndex: currentIndex,
+      currentIndex: widget.index,
       type: BottomNavigationBarType.fixed,
       backgroundColor: Theme.of(context).primaryColor,
       selectedItemColor: Theme.of(context).backgroundColor,

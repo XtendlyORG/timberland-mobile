@@ -1,3 +1,5 @@
+import 'package:timberland_biketrail/features/authentication/data/models/user_model.dart';
+
 import '../../domain/entities/user.dart';
 import '../../domain/usecases/forgot_password.dart';
 import '../../domain/usecases/login.dart';
@@ -19,9 +21,15 @@ class RemoteAuthenticator implements Authenticator {
   }
 
   @override
-  Future<User> login(LoginParameter loginParameter) {
+  Future<User> login(LoginParameter loginParameter) async {
     // TODO: implement login
-    throw UnimplementedError();
+    return UserModel(
+      id: "test",
+      firstName: "FirstName",
+      lastName: "LastName",
+      email: "Email",
+      age: 20,
+    );
   }
 
   @override

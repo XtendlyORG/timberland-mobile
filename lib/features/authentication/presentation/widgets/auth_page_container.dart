@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -21,7 +22,33 @@ class AuthPageContainer extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is Authenticated) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Text("Welcome back ${state.user.firstName}"),
+              ),
+            );
           context.goNamed(Routes.home.name);
+        }
+        if (state is AuthLoading) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Row(
+                  children: [
+                    const RepaintBoundary(
+                      child: CircularProgressIndicator(),
+                    ),
+                    AutoSizeText(
+                      state.loadingMessage,
+                      maxLines: 1,
+                    ),
+                  ],
+                ),
+              ),
+            );
         }
       },
       child: Stack(

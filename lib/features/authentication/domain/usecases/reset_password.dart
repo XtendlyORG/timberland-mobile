@@ -12,7 +12,8 @@ class ResetPassword implements Usecase<void, ResetPasswordParams> {
     required this.repository,
   });
   @override
-  Future<Either<Failure, void>> call(ResetPasswordParams resetPasswordParams) {
+  Future<Either<AuthFailure, void>> call(
+      ResetPasswordParams resetPasswordParams) {
     return repository.resetPassword(resetPasswordParams);
   }
 }

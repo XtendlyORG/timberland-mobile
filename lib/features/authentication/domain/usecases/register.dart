@@ -13,7 +13,7 @@ class Register implements Usecase<User, RegisterParameter> {
   const Register({required this.repository});
 
   @override
-  Future<Either<Failure, User>> call(params) {
+  Future<Either<AuthFailure, User>> call(params) {
     return repository.register(params);
   }
 }

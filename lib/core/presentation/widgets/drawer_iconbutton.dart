@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/circular_icon_button.dart';
 
 class DrawerIconButton extends StatelessWidget {
   const DrawerIconButton({
@@ -7,23 +8,15 @@ class DrawerIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: () {
+    return CircularIconButton(
+      icon: const Icon(
+        Icons.more_vert,
+        color: Colors.white,
+      ),
+      size: 24,
+      onTap: () {
         Scaffold.of(context).openEndDrawer();
       },
-      icon: Container(
-        height: 24,
-        width: 24,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Theme.of(context).primaryColor,
-        ),
-        alignment: Alignment.center,
-        child: const Icon(
-          Icons.more_vert,
-          color: Colors.white,
-        ),
-      ),
     );
   }
 }

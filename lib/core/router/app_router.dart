@@ -2,9 +2,14 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/dashboard/presentation/pages/qr_code_page.dart';
 
 import '../../features/authentication/presentation/pages/pages.dart';
 import '../../main_page.dart';
+import '../constants/navbar_configs.dart';
+import '../presentation/widgets/bottom_navbar.dart';
+import '../../dashboard/presentation/widgets/dashboard.dart';
+import '../presentation/widgets/timberland_appbar.dart';
 import '../utils/session.dart';
 import 'routes/routes.dart';
 
@@ -122,6 +127,23 @@ final appRouter = GoRouter(
           },
         ),
       ],
+    ),
+    GoRoute(
+      path: Routes.qr.path,
+      name: Routes.qr.name,
+      pageBuilder: (context, routeState) {
+        return CustomTransitionPage(
+          child: const QrCodePage(),
+          key: routeState.pageKey,
+          transitionDuration: const Duration(milliseconds: 500),
+          transitionsBuilder: (context, animation, secondaryAnim, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
     ),
   ],
   errorPageBuilder: (context, state) {

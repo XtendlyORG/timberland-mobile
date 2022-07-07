@@ -29,3 +29,13 @@ class AuthError extends AuthState {
   @override
   List<Object> get props => super.props..add(errorMessage);
 }
+
+class AuthLoading extends AuthState {
+  final String loadingMessage;
+  const AuthLoading({
+    required this.loadingMessage,
+  });
+
+  @override
+  List<Object> get props => super.props..add(loadingMessage);
+}
