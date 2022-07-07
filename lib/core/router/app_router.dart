@@ -130,7 +130,8 @@ final appRouter = GoRouter(
       pageBuilder: (context, routeState) {
         return CustomTransitionPage(
           child: const QrCodePage(),
-          key: routeState.pageKey,
+          // key: routeState.pageKey,
+          // restorationId: routeState.pageKey.value,
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnim, child) {
             return FadeTransition(

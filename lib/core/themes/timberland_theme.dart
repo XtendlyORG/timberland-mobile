@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'timberland_color.dart';
 
@@ -7,6 +8,7 @@ class TimberlandTheme {
         primarySwatch: TimberlandColor.primary,
         primaryColor: TimberlandColor.primary,
         backgroundColor: TimberlandColor.background,
+        fontFamily: GoogleFonts.openSans().fontFamily,
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
             backgroundColor: TimberlandColor.primary,
@@ -30,10 +32,16 @@ class TimberlandTheme {
           ),
         ),
         scaffoldBackgroundColor: TimberlandColor.background,
-        textTheme: const TextTheme(
-          titleSmall: TextStyle(
+        textTheme: TextTheme(
+          titleSmall: const TextStyle(
             color: TimberlandColor.text,
             fontSize: 14,
+          ),
+          headlineSmall: TextStyle(
+            color: TimberlandColor.text,
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            fontFamily: GoogleFonts.barlow().fontFamily,
           ),
         ),
         listTileTheme: const ListTileThemeData(

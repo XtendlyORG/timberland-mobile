@@ -15,7 +15,7 @@ abstract class TimberlandColor {
     900: Color(0xFF003B60),
   });
 
-  static const background = Color(0xffF5F5F5);
+  static const background = Color(0xffF2F2F2);
   static const text = Color(0xff333333);
   static const subtext = Color(0xff4E4B4B);
 }

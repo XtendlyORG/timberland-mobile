@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader({
@@ -16,9 +17,9 @@ class ProfileHeader extends StatelessWidget {
             width: double.infinity,
             clipBehavior: Clip.hardEdge,
             decoration: const BoxDecoration(
-              borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
-              color: Colors.amber,
-            ),
+                borderRadius:
+                    BorderRadius.vertical(bottom: Radius.circular(20)),
+                color: TimberlandColor.subtext),
             child: const Image(
               image: NetworkImage(
                 'https://imaging.nikon.com/lineup/dslr/df/img/sample/img_01.jpg',

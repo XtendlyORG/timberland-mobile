@@ -53,12 +53,7 @@ class TimberlandScaffold extends StatelessWidget {
                         padding: const EdgeInsets.only(top: kToolbarHeight),
                         child: AutoSizeText(
                           titleText!,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall!
-                              .copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
+                          style: Theme.of(context).textTheme.headlineSmall,
                         ),
                       ),
                     Expanded(child: body),
