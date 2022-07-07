@@ -11,61 +11,45 @@ class DashBoardHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthState>(
-      builder: (context, state) {
-        if (state is UnAuthenticated) {
-          BlocProvider.of<AuthBloc>(context).add(
-            FetchUserEvent(uid: Session().currentUID!),
-          );
-        } else if (state is Authenticated) {
-          return Container(
-            height: 120,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: SizedBox(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
+    final state = BlocProvider.of<AuthBloc>(context).state as Authenticated;
+    return Container(
+      height: 120,
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: SizedBox(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const CircleAvatar(),
+            const SizedBox(
+              width: 10,
+            ),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const CircleAvatar(),
-                  const SizedBox(
-                    width: 10,
+                  AutoSizeText(
+                    "${state.user.firstName} ${state.user.lastName}",
+                    minFontSize: 18,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          color: Theme.of(context).backgroundColor,
+                        ),
                   ),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AutoSizeText(
-                          "${state.user.firstName} ${state.user.lastName}",
-                          minFontSize: 18,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style:
-                              Theme.of(context).textTheme.titleLarge!.copyWith(
-                                    color: Theme.of(context).backgroundColor,
-                                  ),
+                  Text(
+                    'Manila',
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: Theme.of(context).backgroundColor,
                         ),
-                        Text(
-                          'Manila',
-                          style:
-                              Theme.of(context).textTheme.titleMedium!.copyWith(
-                                    color: Theme.of(context).backgroundColor,
-                                  ),
-                        ),
-                      ],
-                    ),
                   ),
                 ],
               ),
             ),
-          );
-        }
-        return const Center(
-          child: RepaintBoundary(
-            child: CircularProgressIndicator(),
-          ),
-        );
-      },
+          ],
+        ),
+      ),
     );
   }
 }

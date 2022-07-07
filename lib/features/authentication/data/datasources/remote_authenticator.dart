@@ -29,6 +29,7 @@ class RemoteAuthenticator implements Authenticator {
       lastName: "LastName",
       email: "Email",
       age: 20,
+      accessCode: "Test Access Code",
     );
   }
 

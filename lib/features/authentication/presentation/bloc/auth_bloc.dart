@@ -39,6 +39,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             firstName: 'FirstName',
             lastName: 'LastName',
             id: event.uid,
+            accessCode: "Test Access Code",
           ),
         ),
       );

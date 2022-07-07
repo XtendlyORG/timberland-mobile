@@ -6,10 +6,6 @@ import 'package:timberland_biketrail/dashboard/presentation/pages/qr_code_page.d
 
 import '../../features/authentication/presentation/pages/pages.dart';
 import '../../main_page.dart';
-import '../constants/navbar_configs.dart';
-import '../presentation/widgets/bottom_navbar.dart';
-import '../../dashboard/presentation/widgets/dashboard.dart';
-import '../presentation/widgets/timberland_appbar.dart';
 import '../utils/session.dart';
 import 'routes/routes.dart';
 

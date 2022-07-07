@@ -7,5 +7,6 @@ class UserModel extends User {
     required super.lastName,
     required super.email,
     required super.age,
+    required super.accessCode,
   });
 }
