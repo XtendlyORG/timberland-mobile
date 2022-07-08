@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:timberland_biketrail/dependency_injection/dependency_injection.dart'
     as di;
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
@@ -36,6 +37,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     final Session session = Session();
+    FlutterNativeSplash.remove();
 
     BlocProvider.of<AuthBloc>(context).stream.listen((state) {
       if (state is AuthError) {

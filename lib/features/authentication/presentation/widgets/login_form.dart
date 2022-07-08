@@ -87,7 +87,9 @@ class LoginForm extends StatelessWidget {
             child: Text(
               'Forgot your password?',
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.titleSmall,
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
           ),
           Container(

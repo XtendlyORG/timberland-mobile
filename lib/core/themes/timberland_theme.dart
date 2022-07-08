@@ -39,7 +39,7 @@ class TimberlandTheme {
           ),
           headlineSmall: TextStyle(
             color: TimberlandColor.text,
-            fontSize: 14,
+            fontSize: 20,
             fontWeight: FontWeight.bold,
             fontFamily: GoogleFonts.barlow().fontFamily,
           ),
