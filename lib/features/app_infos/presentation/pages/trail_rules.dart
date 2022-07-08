@@ -14,6 +14,7 @@ class TrailRulesPage extends StatelessWidget {
         log('refresh trail rules');
       },
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.only(top: kToolbarHeight),
