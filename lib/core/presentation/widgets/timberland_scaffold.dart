@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/constants/navbar_configs.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/bottom_navbar.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_appbar.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/timberland_container.dart';
 import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard.dart';
 
 class TimberlandScaffold extends StatelessWidget {
@@ -36,32 +37,34 @@ class TimberlandScaffold extends StatelessWidget {
             context.goNamed(navbarConfigs[index].routeName);
           },
         ),
-        body: LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxHeight: constraints.maxHeight > constraints.maxWidth
-                      ? constraints.maxHeight
-                      : constraints.maxWidth,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (titleText != null)
-                      Padding(
-                        padding: const EdgeInsets.only(top: kToolbarHeight),
-                        child: AutoSizeText(
-                          titleText!,
-                          style: Theme.of(context).textTheme.headlineSmall,
+        body: TimberlandContainer(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: constraints.maxHeight > constraints.maxWidth
+                        ? constraints.maxHeight
+                        : constraints.maxWidth,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (titleText != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: kToolbarHeight),
+                          child: AutoSizeText(
+                            titleText!,
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
                         ),
-                      ),
-                    Expanded(child: body),
-                  ],
+                      Expanded(child: body),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );

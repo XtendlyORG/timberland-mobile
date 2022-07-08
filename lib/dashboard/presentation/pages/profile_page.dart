@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/refreshable_scrollview.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/dashboard/presentation/widgets/profile_header.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
@@ -11,7 +14,10 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authState = BlocProvider.of<AuthBloc>(context).state as Authenticated;
-    return SingleChildScrollView(
+    return RefreshableScrollView(
+      onRefresh: () async {
+        log('refresh profile');
+      },
       child: Column(
         children: [
           const ProfileHeader(),
