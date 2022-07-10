@@ -13,6 +13,7 @@ import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard.da
 import 'package:timberland_biketrail/features/app_infos/presentation/pages/trail_rules.dart';
 
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:timberland_biketrail/features/trail/presentation/pages/trail_list.dart';
 
 class MainPage extends StatefulWidget {
   final int selectedTabIndex;
@@ -105,14 +106,14 @@ class _MainPageState extends State<MainPage> {
                               navbarConfigs[currentIndex].routeName,
                             );
                           },
-                          children: [
+                          children: const [
                             RepaintBoundary(
-                              child: _buildTrailsPage(context),
+                              child: TrailList(),
                             ),
-                            const RepaintBoundary(
+                            RepaintBoundary(
                               child: TrailRulesPage(),
                             ),
-                            const RepaintBoundary(
+                            RepaintBoundary(
                               child: ProfilePage(),
                             ),
                           ],
@@ -131,12 +132,6 @@ class _MainPageState extends State<MainPage> {
           ),
         );
       },
-    );
-  }
-
-  Widget _buildTrailsPage(BuildContext context) {
-    return const Center(
-      child: Text("Trail Directory"),
     );
   }
 }

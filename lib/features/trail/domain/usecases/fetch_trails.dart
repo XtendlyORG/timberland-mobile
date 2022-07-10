@@ -6,7 +6,7 @@ import 'package:timberland_biketrail/core/utils/usecase.dart';
 import 'package:timberland_biketrail/features/trail/domain/entities/trail.dart';
 import 'package:timberland_biketrail/features/trail/domain/repositories/trail_repository.dart';
 
-class FetchTrails implements Usecase<List<Trail>, void> {
+class FetchTrails implements Usecase<List<Trail>, FetchTrailsParams> {
   @override
   final TrailRepository repository;
   const FetchTrails({
@@ -14,8 +14,10 @@ class FetchTrails implements Usecase<List<Trail>, void> {
   });
 
   @override
-  Future<Either<Failure, List<Trail>>> call(void params) {
-    // TODO: implement call
-    throw UnimplementedError();
+  Future<Either<Failure, List<Trail>>> call(
+      FetchTrailsParams fetchTrailsParams) {
+    return repository.fetchTrails(fetchTrailsParams);
   }
 }
+
+class FetchTrailsParams {}
