@@ -2,10 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timberland_biketrail/dashboard/presentation/pages/qr_code_page.dart';
 
+import '../../dashboard/presentation/pages/qr_code_page.dart';
 import '../../features/authentication/presentation/pages/pages.dart';
 import '../../main_page.dart';
+import '../presentation/widgets/timberland_scaffold.dart';
 import '../utils/session.dart';
 import 'routes/routes.dart';
 
@@ -87,12 +88,24 @@ final appRouter = GoRouter(
           },
           routes: [
             GoRoute(
-              path: ':id',
+              path: Routes.specificTrail.path,
               name: Routes.specificTrail.name,
               pageBuilder: (context, routeState) {
                 log('specificTrail');
-                return MaterialPage(
-                  child: Center(child: Text(routeState.params['id']!)),
+                return CustomTransitionPage(
+                  child: TimberlandScaffold(
+                    body: Center(
+                      child: Text(routeState.params['id']!),
+                    ),
+                  ),
+                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    );
+                  },
                 );
               },
             ),

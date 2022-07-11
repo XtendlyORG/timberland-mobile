@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-
+import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/features/trail/domain/entities/trail.dart';
 
 class TrailWidget extends StatelessWidget {
@@ -12,30 +13,97 @@ class TrailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          height: 150,
-          clipBehavior: Clip.hardEdge,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            // image: const DecorationImage(
-            //   image: NetworkImage(''),
-            // ),
+    return GestureDetector(
+      onTap: () {
+        context.pushNamed(
+          Routes.specificTrail.name,
+          params: {
+            'id': trail.trailId,
+          },
+        );
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 150,
+            clipBehavior: Clip.hardEdge,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              // image: const DecorationImage(
+              //   image: NetworkImage(''),
+              // ),
+            ),
+            child: const Placeholder(),
           ),
-          child: const Placeholder(),
-        ),
-        Text.rich(TextSpan(children: [
-          TextSpan(
-            text: '${trail.difficulty}\n',
-          ),
-          TextSpan(
-            text: trail.trailName,
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-        ])),
-      ],
+          Text.rich(TextSpan(children: [
+            TextSpan(
+              text: '${trail.difficulty}\n',
+            ),
+            TextSpan(
+              text: trail.trailName,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            TextSpan(
+              text: '\nSan Mateo, Quezon, Philippines',
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+          ])),
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 400),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Length\n',
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                      TextSpan(
+                        text: '2.9 mi',
+                        style: Theme.of(context).textTheme.subtitle2,
+                      ),
+                    ],
+                  ),
+                  textAlign: TextAlign.start,
+                ),
+                Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Elevation Gain\n',
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                      TextSpan(
+                        text: '459 ft',
+                        style: Theme.of(context).textTheme.subtitle2,
+                      ),
+                    ],
+                  ),
+                  textAlign: TextAlign.start,
+                ),
+                Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Route Type\n',
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                      TextSpan(
+                        text: 'Loop',
+                        style: Theme.of(context).textTheme.subtitle2,
+                      ),
+                    ],
+                  ),
+                  textAlign: TextAlign.start,
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }
