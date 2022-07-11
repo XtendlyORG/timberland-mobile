@@ -37,6 +37,16 @@ class TimberlandTheme {
             color: TimberlandColor.text,
             fontSize: 14,
           ),
+          titleMedium: const TextStyle(
+            color: TimberlandColor.text,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+          titleLarge: const TextStyle(
+            color: TimberlandColor.text,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
           headlineSmall: TextStyle(
             color: TimberlandColor.text,
             fontSize: 20,
