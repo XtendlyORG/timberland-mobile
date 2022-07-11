@@ -1,6 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -13,7 +11,7 @@ import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard.da
 import 'package:timberland_biketrail/features/app_infos/presentation/pages/trail_rules.dart';
 
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
-import 'package:timberland_biketrail/features/trail/presentation/pages/trail_list.dart';
+import 'package:timberland_biketrail/features/trail/presentation/pages/trail_directory.dart';
 
 class MainPage extends StatefulWidget {
   final int selectedTabIndex;
@@ -108,7 +106,7 @@ class _MainPageState extends State<MainPage> {
                           },
                           children: const [
                             RepaintBoundary(
-                              child: TrailList(),
+                              child: TrailDirectory(),
                             ),
                             RepaintBoundary(
                               child: TrailRulesPage(),
