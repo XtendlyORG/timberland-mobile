@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.timberland_biketrail">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="timberland_biketrail"
         android:name="${applicationName}"
