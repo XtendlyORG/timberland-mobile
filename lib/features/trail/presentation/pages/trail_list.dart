@@ -52,28 +52,7 @@ class TrailList extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        fillColor: TimberlandColor.primary.withOpacity(.05),
-                        hintText: 'Trail Name',
-                        prefixIcon: const Icon(
-                          Icons.search,
-                        ),
-                        prefixIconColor: TimberlandColor.text,
-                        suffixIcon: CircularIconButton(
-                          onTap: () {},
-                          color: Theme.of(context).disabledColor,
-                          icon: const Icon(
-                            Icons.close,
-                            size: 16,
-                          ),
-                          size: 18,
-                        ),
-                      ),
-                    ),
+                    child: const TrailSearchBar(),
                   ),
                 ),
                 Padding(
@@ -146,6 +125,51 @@ class TrailList extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class TrailSearchBar extends StatelessWidget {
+  const TrailSearchBar({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final trailSearchCtrl = TextEditingController();
+    return TextFormField(
+      controller: trailSearchCtrl,
+      validator: (val) {
+        if (val == null || val.isEmpty) {
+          return 'Field Cannot be empty';
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        border: InputBorder.none,
+        focusedBorder: InputBorder.none,
+        enabledBorder: InputBorder.none,
+        fillColor: TimberlandColor.primary.withOpacity(.05),
+        hintText: 'Trail Name',
+        prefixIcon: const Icon(
+          Icons.search,
+        ),
+        prefixIconColor: Theme.of(context).disabledColor,
+        suffixIcon: GestureDetector(
+          onTap: () {},
+          child: Stack(
+            alignment: Alignment.center,
+            children: const [
+              Icon(Icons.circle),
+              Icon(
+                Icons.close,
+                size: 16,
+                color: TimberlandColor.text,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
