@@ -19,7 +19,6 @@ class TimberlandRemoteDatasource implements RemoteDatasource {
   Future<List<TrailRule>> fetchTrailRules() async {
     try {
       final response = await _dio.get('${environmentConfig.apihost}/rules');
-      log(response.data.toString());
 
       return response.data != null
           ? response.data!
