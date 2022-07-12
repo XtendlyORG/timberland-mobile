@@ -12,13 +12,26 @@ class UnAuthenticated extends AuthState {
   const UnAuthenticated();
 }
 
+class OtpSent extends AuthState {
+  final RegisterParameter registerParameter;
+  const OtpSent({
+    required this.registerParameter,
+  });
+  @override
+  List<Object> get props => super.props..add(registerParameter);
+}
+
 class Authenticated extends AuthState {
+  final String message;
+  final bool firstTimeUser;
   final User user;
   const Authenticated({
+    required this.message,
+    this.firstTimeUser = false,
     required this.user,
   });
   @override
-  List<Object> get props => super.props..add(user);
+  List<Object> get props => super.props..addAll([user, message, firstTimeUser]);
 }
 
 class AuthError extends AuthState {

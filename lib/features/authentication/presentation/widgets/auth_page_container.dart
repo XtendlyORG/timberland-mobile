@@ -26,7 +26,7 @@ class AuthPageContainer extends StatelessWidget {
             ..hideCurrentSnackBar()
             ..showSnackBar(
               SnackBar(
-                content: Text("Welcome back ${state.user.firstName}"),
+                content: Text(state.message),
               ),
             );
           context.goNamed(Routes.home.name);
@@ -46,6 +46,18 @@ class AuthPageContainer extends StatelessWidget {
                       maxLines: 1,
                     ),
                   ],
+                ),
+              ),
+            );
+        }
+        if (state is OtpSent) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: AutoSizeText(
+                  "OTP is sent to ${state.registerParameter.email}",
+                  maxLines: 1,
                 ),
               ),
             );

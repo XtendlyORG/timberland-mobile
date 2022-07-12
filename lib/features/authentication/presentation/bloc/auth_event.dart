@@ -27,6 +27,16 @@ class LoginEvent extends AuthEvent {
   List<Object> get props => super.props..add(loginParameter);
 }
 
+class SendOtpEvent extends AuthEvent {
+  final RegisterParameter registerParameter;
+  const SendOtpEvent({
+    required this.registerParameter,
+  });
+
+  @override
+  List<Object> get props => super.props..add(registerParameter);
+}
+
 class RegisterEvent extends AuthEvent {
   final RegisterParameter registerParameter;
   const RegisterEvent({

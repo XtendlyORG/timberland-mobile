@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore: depend_on_referenced_packages
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
@@ -41,6 +43,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             id: event.uid,
             accessCode: "Test Access Code",
           ),
+          message: 'Logged In',
         ),
       );
     });
@@ -55,13 +58,48 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(AuthError(errorMessage: failure.message));
         },
         (user) {
-          emit(Authenticated(user: user));
+          emit(
+            Authenticated(
+              user: user,
+              message: 'Welcome back ${user.firstName}',
+            ),
+          );
         },
       );
     });
 
-    on<RegisterEvent>((event, emit) {
-      // TODO: implement event handler
+    on<SendOtpEvent>((event, emit) async {
+      log('sending otp');
+      emit(
+        AuthLoading(
+          loadingMessage: 'Sending Otp to ${event.registerParameter.email}.',
+        ),
+      );
+      await Future.delayed(
+        const Duration(seconds: 1),
+        () => emit(OtpSent(registerParameter: event.registerParameter)),
+      );
+    });
+
+    on<RegisterEvent>((event, emit) async {
+      emit(
+        const AuthLoading(loadingMessage: "Creating your timberland account."),
+      );
+      final result = await register(event.registerParameter);
+      result.fold(
+        (failure) {
+          emit(AuthError(errorMessage: failure.message));
+        },
+        (user) {
+          emit(
+            Authenticated(
+              user: user,
+              message: 'Welcome to Timberland, ${user.firstName}',
+              firstTimeUser: true,
+            ),
+          );
+        },
+      );
     });
     on<GoogleAuthEvent>((event, emit) {
       // TODO: implement event handler

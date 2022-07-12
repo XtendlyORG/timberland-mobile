@@ -4,6 +4,10 @@ abstract class Routes {
   // Authentiaction
   static const login = _Route(path: '/login', name: 'login');
   static const register = _Route(path: '/register', name: 'register');
+  static const otpVerification = _Route(
+    path: '/otp-verification',
+    name: 'otp-verification',
+  );
 
   //---MAIN PAGE
   static const home = _Route(path: '/', name: 'home');
