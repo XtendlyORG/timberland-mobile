@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:timberland_biketrail/core/configs/dev_config.dart';
 import 'package:timberland_biketrail/dependency_injection/dependency_injection.dart'
     as di;
 import 'package:timberland_biketrail/features/app_infos/presentation/bloc/app_info_bloc.dart';
@@ -13,9 +15,11 @@ import 'core/router/app_router.dart';
 import 'core/themes/timberland_theme.dart';
 import 'core/utils/session.dart';
 
-void main() async {
+Future main() async {
+  await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
-  di.init();
+
+  di.init(DevEnvironmentConfig());
   await Session().init();
   runApp(MultiBlocProvider(
     providers: [

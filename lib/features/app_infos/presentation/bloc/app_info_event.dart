@@ -7,6 +7,6 @@ abstract class AppInfoEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class FetchTrailRules extends AppInfoEvent {
-  const FetchTrailRules();
+class FetchTrailRulesEvent extends AppInfoEvent {
+  const FetchTrailRulesEvent();
 }

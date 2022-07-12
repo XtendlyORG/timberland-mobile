@@ -12,12 +12,16 @@ class TrailRuleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final rule = trailRule.rule.trimRight().endsWith('.')
+        ? '${trailRule.rule} '
+        : '${trailRule.rule}. ';
     return Text.rich(
       TextSpan(
         children: [
           TextSpan(
-              text: '${trailRule.rule.trimRight()}. ',
-              style: const TextStyle(fontWeight: FontWeight.bold)),
+            text: rule,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
           TextSpan(
             text: trailRule.note,
           ),

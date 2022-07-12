@@ -1,30 +1,33 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+
 import 'package:timberland_biketrail/features/app_infos/domain/entities/trail_rule.dart';
+import 'package:timberland_biketrail/features/app_infos/domain/usecases/fetch_trail_rules.dart';
 
 part 'app_info_event.dart';
 part 'app_info_state.dart';
 
 class AppInfoBloc extends Bloc<AppInfoEvent, AppInfoState> {
-  AppInfoBloc()
-      : super(
-          const TrailRulesLoaded(
-            trailRules: [
-              TrailRule(
-                rule: "Trail Rule 1",
-                note:
-                    "In ad exercitation minim nisi duis nulla Lorem. Ipsum minim culpa cupidatat laborum. Ipsum commodo occaecat et ea laboris ad consectetur culpa. Deserunt ea velit in qui sint anim et dolore incididunt. Nulla do cupidatat deserunt magna enim ex est ipsum duis cupidatat tempor anim incididunt in.",
-              ),
-              TrailRule(
-                rule: "Trail Rule 2",
-                note:
-                    "In ad exercitation minim nisi duis nulla Lorem. Ipsum minim culpa cupidatat laborum. Ipsum commodo occaecat et ea laboris ad consectetur culpa. Deserunt ea velit in qui sint anim et dolore incididunt. Nulla do cupidatat deserunt magna enim ex est ipsum duis cupidatat tempor anim incididunt in.",
-              ),
-            ],
-          ),
-        ) {
+  final FetchTrailRules fetchTrailRules;
+
+  AppInfoBloc({
+    required this.fetchTrailRules,
+  }) : super(AppInfoInitial()) {
     on<AppInfoEvent>((event, emit) {
       // TODO: implement event handler
+    });
+    on<FetchTrailRulesEvent>((event, emit) async {
+      emit(const LoadingTrailRules());
+      final result = await fetchTrailRules(null);
+      result.fold(
+        (failure) {
+          emit(TrailRuleError(message: failure.message));
+        },
+        (trailRules) {
+          emit(TrailRulesLoaded(trailRules: trailRules));
+        },
+      );
     });
   }
 }
