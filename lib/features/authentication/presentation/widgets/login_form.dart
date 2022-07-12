@@ -2,6 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/core/router/router.dart';
+import 'package:timberland_biketrail/core/utils/email_validator.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../domain/usecases/login.dart';
@@ -12,17 +15,6 @@ import 'password_field.dart';
 class LoginForm extends StatelessWidget {
   const LoginForm({Key? key}) : super(key: key);
 
-  String? validateEmail(String? email) {
-    final regex = RegExp(
-        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-    if (email == null || email.isEmpty) {
-      return 'Email cannot be empty';
-    } else if (!regex.hasMatch(email)) {
-      return 'Invalid email address.';
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
@@ -32,15 +24,17 @@ class LoginForm extends StatelessWidget {
       key: formKey,
       child: Column(
         children: [
-          Text('Welcome to Timberland Mountain Bike Park!',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.titleSmall),
+          Text(
+            'Welcome to Timberland Mountain Bike Park!',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
           const SizedBox(
             height: 27,
           ),
           Container(
             margin: const EdgeInsets.only(
-              bottom: kFieldPadding,
+              bottom: kVerticalPadding,
             ),
             child: TextFormField(
               controller: emailCtrl,
@@ -52,7 +46,7 @@ class LoginForm extends StatelessWidget {
           ),
           Container(
             margin: const EdgeInsets.only(
-              bottom: kFieldPadding,
+              bottom: kVerticalPadding,
             ),
             child: RepaintBoundary(
               child: PasswordField(controller: passwordCtrl),
@@ -60,12 +54,10 @@ class LoginForm extends StatelessWidget {
           ),
           Container(
             width: double.infinity,
-            margin: const EdgeInsets.only(bottom: kFieldPadding),
+            margin: const EdgeInsets.only(bottom: kVerticalPadding),
             child: TextButton(
               onPressed: () {
                 if (formKey.currentState!.validate()) {
-                  //TODO: Call login here
-                  log('Login');
                   BlocProvider.of<AuthBloc>(context).add(
                     LoginEvent(
                       loginParameter: LoginParameter(
@@ -81,8 +73,7 @@ class LoginForm extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              //TODO: Call forgot password here
-              log('Forgot password');
+              context.pushNamed(Routes.forgotPassword.name);
             },
             child: Text(
               'Forgot your password?',
@@ -94,7 +85,7 @@ class LoginForm extends StatelessWidget {
           ),
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: kFieldPadding),
+            padding: const EdgeInsets.symmetric(vertical: kVerticalPadding),
             child: Row(
               children: const [
                 Expanded(

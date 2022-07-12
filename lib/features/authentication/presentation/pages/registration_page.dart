@@ -25,6 +25,11 @@ class RegistrationPage extends StatelessWidget {
             backgroundColor: Colors.transparent,
             foregroundColor: Theme.of(context).colorScheme.primary,
             elevation: 0,
+            leading: BackButton(
+              onPressed: () {
+                context.goNamed(Routes.login.name);
+              },
+            ),
           ),
           extendBodyBehindAppBar: true,
           body: AuthPageContainer(
@@ -32,7 +37,7 @@ class RegistrationPage extends StatelessWidget {
               children: [
                 const RegistrationForm(),
                 const SizedBox(
-                  height: kFieldPadding,
+                  height: kVerticalPadding,
                 ),
                 Text.rich(
                   TextSpan(
