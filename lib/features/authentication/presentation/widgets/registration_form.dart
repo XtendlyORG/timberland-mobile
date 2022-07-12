@@ -51,7 +51,7 @@ class RegistrationForm extends StatelessWidget {
           children: [
             Container(
               margin: const EdgeInsets.only(
-                bottom: kFieldPadding,
+                bottom: kVerticalPadding,
               ),
               child: TextFormField(
                 controller: firstNameCtrl,
@@ -63,7 +63,7 @@ class RegistrationForm extends StatelessWidget {
             ),
             Container(
               margin: const EdgeInsets.only(
-                bottom: kFieldPadding,
+                bottom: kVerticalPadding,
               ),
               child: TextFormField(
                 controller: lastNameCtrl,
@@ -75,7 +75,7 @@ class RegistrationForm extends StatelessWidget {
             ),
             Container(
               margin: const EdgeInsets.only(
-                bottom: kFieldPadding,
+                bottom: kVerticalPadding,
               ),
               child: TextFormField(
                 controller: emailCtrl,
@@ -87,13 +87,13 @@ class RegistrationForm extends StatelessWidget {
             ),
             Container(
               margin: const EdgeInsets.only(
-                bottom: kFieldPadding,
+                bottom: kVerticalPadding,
               ),
               child: PasswordField(controller: passwordCtrl),
             ),
             Container(
               width: double.infinity,
-              margin: const EdgeInsets.only(bottom: kFieldPadding),
+              margin: const EdgeInsets.only(bottom: kVerticalPadding),
               child: TextButton(
                 onPressed: () {
                   if (formKey.currentState!.validate() & agreedToTermsOfUse) {

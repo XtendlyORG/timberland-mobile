@@ -69,7 +69,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
 
     on<SendOtpEvent>((event, emit) async {
-      log('sending otp');
       emit(
         AuthLoading(
           loadingMessage: 'Sending Otp to ${event.registerParameter.email}.',
@@ -101,12 +100,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         },
       );
     });
+
     on<GoogleAuthEvent>((event, emit) {
       // TODO: implement event handler
     });
     on<FacebookAuthEvent>((event, emit) {
       // TODO: implement event handler
     });
+    on<FinishUserGuideEvent>((event, emit) {
+      emit(
+        Authenticated(
+          message: "Finished Beginner's Guide",
+          user: (state as Authenticated).user,
+          firstTimeUser: false,
+        ),
+      );
+    });
+
     on<LogoutEvent>((event, emit) {
       // TODO: implement event handler
     });

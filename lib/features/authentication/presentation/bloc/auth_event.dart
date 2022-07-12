@@ -54,6 +54,10 @@ class FacebookAuthEvent extends AuthEvent {
   const FacebookAuthEvent();
 }
 
+class FinishUserGuideEvent extends AuthEvent {
+  const FinishUserGuideEvent();
+}
+
 class LogoutEvent extends AuthEvent {
   const LogoutEvent();
 }

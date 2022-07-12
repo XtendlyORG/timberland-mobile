@@ -3,6 +3,8 @@ part 'route.dart';
 abstract class Routes {
   // Authentiaction
   static const login = _Route(path: '/login', name: 'login');
+  static const forgotPassword =
+      _Route(path: '/forgot-password', name: 'forgot-password');
   static const register = _Route(path: '/register', name: 'register');
   static const otpVerification = _Route(
     path: '/otp-verification',

@@ -37,7 +37,7 @@ class RegistrationPage extends StatelessWidget {
               children: [
                 const RegistrationForm(),
                 const SizedBox(
-                  height: kFieldPadding,
+                  height: kVerticalPadding,
                 ),
                 Text.rich(
                   TextSpan(

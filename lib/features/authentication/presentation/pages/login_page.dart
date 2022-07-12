@@ -25,7 +25,7 @@ class LoginPage extends StatelessWidget {
               children: [
                 const LoginForm(),
                 const SizedBox(
-                  height: kFieldPadding,
+                  height: kVerticalPadding,
                 ),
                 Text.rich(
                   TextSpan(

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/features/authentication/presentation/pages/forgot_password.dart';
 
 import '../../dashboard/presentation/pages/qr_code_page.dart';
 import '../../features/authentication/presentation/pages/otp_verification_page.dart';
@@ -17,6 +18,7 @@ final appRouter = GoRouter(
   redirect: (routeState) {
     bool isAuthenticating = [
       Routes.login.path,
+      Routes.forgotPassword.path,
       Routes.register.path,
       Routes.otpVerification.path,
     ].contains(routeState.location);
@@ -38,6 +40,17 @@ final appRouter = GoRouter(
           key: state.pageKey,
           restorationId: state.pageKey.value,
           child: const LoginPage(),
+        );
+      },
+    ),
+    GoRoute(
+      path: Routes.forgotPassword.path,
+      name: Routes.forgotPassword.name,
+      pageBuilder: (context, state) {
+        return MaterialPage(
+          key: state.pageKey,
+          restorationId: state.pageKey.value,
+          child: const ForgotPasswordPage(),
         );
       },
     ),
