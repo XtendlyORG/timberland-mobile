@@ -16,6 +16,9 @@ class TrailRulesPage extends StatelessWidget {
     return RefreshableScrollView(
       onRefresh: () async {
         log('refresh trail rules');
+        BlocProvider.of<AppInfoBloc>(context).add(
+          const FetchTrailRulesEvent(),
+        );
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -29,6 +32,18 @@ class TrailRulesPage extends StatelessWidget {
           ),
           BlocBuilder<AppInfoBloc, AppInfoState>(
             builder: (context, state) {
+              if (state is AppInfoInitial) {
+                BlocProvider.of<AppInfoBloc>(context).add(
+                  const FetchTrailRulesEvent(),
+                );
+              }
+              if (state is LoadingTrailRules) {
+                return const RepaintBoundary(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
               if (state is TrailRulesLoaded) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(
@@ -74,10 +89,11 @@ class TrailRulesPage extends StatelessWidget {
                   ),
                 );
               }
-              return const RepaintBoundary(
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
+              if (state is TrailRuleError) {
+                log(state.message);
+              }
+              return const Center(
+                child: Text("Error Occured"),
               );
             },
           ),

@@ -45,6 +45,8 @@ dependencies:
   auto_size_text: ^3.0.0
   qr_flutter: ^4.0.0
   flutter_native_splash: ^2.2.4
+  dio: ^4.0.6
+  flutter_dotenv: ^5.0.2
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +65,8 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/splash/
+
+    - .env
 
 
 flutter_native_splash:

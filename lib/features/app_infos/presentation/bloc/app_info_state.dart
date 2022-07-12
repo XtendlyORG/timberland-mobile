@@ -10,6 +10,10 @@ abstract class AppInfoState extends Equatable {
 
 class AppInfoInitial extends AppInfoState {}
 
+class LoadingTrailRules extends AppInfoState {
+  const LoadingTrailRules();
+}
+
 class TrailRulesLoaded extends AppInfoState {
   final List<TrailRule> trailRules;
   const TrailRulesLoaded({
@@ -17,4 +21,13 @@ class TrailRulesLoaded extends AppInfoState {
   });
   @override
   List<Object> get props => super.props..add(trailRules);
+}
+
+class TrailRuleError extends AppInfoState {
+  final String message;
+  const TrailRuleError({
+    required this.message,
+  });
+  @override
+  List<Object> get props => super.props..add(message);
 }
