@@ -23,45 +23,48 @@ class AuthPageContainer extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is Authenticated) {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: AutoSizeText(
-                state.message,
-                maxLines: 1,
+          ScaffoldMessenger.of(context)
+            ..clearSnackBars()
+            ..showSnackBar(
+              SnackBar(
+                content: AutoSizeText(
+                  state.message,
+                  maxLines: 1,
+                ),
               ),
-            ),
-          );
+            );
           context.goNamed(Routes.home.name);
         }
         if (state is AuthLoading) {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Row(
-                children: [
-                  const RepaintBoundary(
-                    child: CircularProgressIndicator(),
-                  ),
-                  AutoSizeText(
-                    state.loadingMessage,
-                    maxLines: 1,
-                  ),
-                ],
+          ScaffoldMessenger.of(context)
+            ..clearSnackBars()
+            ..showSnackBar(
+              SnackBar(
+                content: Row(
+                  children: [
+                    const RepaintBoundary(
+                      child: CircularProgressIndicator(),
+                    ),
+                    AutoSizeText(
+                      state.loadingMessage,
+                      maxLines: 1,
+                    ),
+                  ],
+                ),
               ),
-            ),
-          );
+            );
         }
         if (state is OtpSent) {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: AutoSizeText(
-                "OTP is sent to ${state.registerParameter.email}",
-                maxLines: 1,
+          ScaffoldMessenger.of(context)
+            ..clearSnackBars()
+            ..showSnackBar(
+              SnackBar(
+                content: AutoSizeText(
+                  "OTP is sent to ${state.registerParameter.email}",
+                  maxLines: 1,
+                ),
               ),
-            ),
-          );
+            );
         }
       },
       child: Stack(

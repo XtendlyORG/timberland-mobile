@@ -47,10 +47,17 @@ final appRouter = GoRouter(
       path: Routes.forgotPassword.path,
       name: Routes.forgotPassword.name,
       pageBuilder: (context, state) {
-        return MaterialPage(
+        return CustomTransitionPage(
           key: state.pageKey,
           restorationId: state.pageKey.value,
           child: const ForgotPasswordPage(),
+          transitionDuration: const Duration(milliseconds: 500),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
         );
       },
     ),
