@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import '../../../../core/themes/timberland_color.dart';
@@ -9,6 +11,7 @@ class TrailSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final searchCtrl = TextEditingController();
     return Row(
       children: [
         Expanded(
@@ -18,6 +21,12 @@ class TrailSearchBar extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: TextFormField(
+              controller: searchCtrl,
+              textInputAction: TextInputAction.go,
+              onFieldSubmitted: (val) {
+                //TODO: FETCH FILTERED TRAILS HERE
+                log("search $val");
+              },
               decoration: InputDecoration(
                 border: InputBorder.none,
                 focusedBorder: InputBorder.none,
@@ -29,7 +38,9 @@ class TrailSearchBar extends StatelessWidget {
                 ),
                 prefixIconColor: Theme.of(context).disabledColor,
                 suffixIcon: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    searchCtrl.clear();
+                  },
                   child: Stack(
                     alignment: Alignment.center,
                     children: const [
