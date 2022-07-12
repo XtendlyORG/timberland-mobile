@@ -2,8 +2,10 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/features/authentication/presentation/pages/forgot_password.dart';
 
 import '../../dashboard/presentation/pages/qr_code_page.dart';
+import '../../features/authentication/presentation/pages/otp_verification_page.dart';
 import '../../features/authentication/presentation/pages/pages.dart';
 import '../../main_page.dart';
 import '../presentation/widgets/timberland_scaffold.dart';
@@ -16,9 +18,10 @@ final appRouter = GoRouter(
   redirect: (routeState) {
     bool isAuthenticating = [
       Routes.login.path,
+      Routes.forgotPassword.path,
       Routes.register.path,
+      Routes.otpVerification.path,
     ].contains(routeState.location);
-
     if (Session().isLoggedIn && isAuthenticating) {
       // if logged in redirect to home page
       return Routes.home.path;
@@ -41,12 +44,49 @@ final appRouter = GoRouter(
       },
     ),
     GoRoute(
+      path: Routes.forgotPassword.path,
+      name: Routes.forgotPassword.name,
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          restorationId: state.pageKey.value,
+          child: const ForgotPasswordPage(),
+          transitionDuration: const Duration(milliseconds: 500),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+    ),
+    GoRoute(
       path: Routes.register.path,
       name: Routes.register.name,
       pageBuilder: (context, state) {
         return CustomTransitionPage(
           key: state.pageKey,
+          restorationId: state.pageKey.value,
           child: const RegistrationPage(),
+          transitionDuration: const Duration(milliseconds: 500),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+    ),
+    GoRoute(
+      path: Routes.otpVerification.path,
+      name: Routes.otpVerification.name,
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          restorationId: state.pageKey.value,
+          child: const OtpVerificationPage(),
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(

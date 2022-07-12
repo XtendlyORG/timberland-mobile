@@ -40,9 +40,16 @@ class RemoteAuthenticator implements Authenticator {
   }
 
   @override
-  Future<User> register(RegisterParameter registerParameter) {
+  Future<User> register(RegisterParameter registerParameter) async {
     // TODO: implement register
-    throw UnimplementedError();
+    return UserModel(
+      id: "test",
+      firstName: registerParameter.firstName,
+      lastName: registerParameter.lastName,
+      email: registerParameter.email,
+      age: 20,
+      accessCode: "Test Access Code",
+    );
   }
 
   @override
