@@ -25,10 +25,17 @@ class OtpVerificationPage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         foregroundColor: Theme.of(context).colorScheme.primary,
         elevation: 0,
-        leading: BackButton(
-          onPressed: () {
-            context.goNamed(Routes.register.name);
-          },
+        leading: Tooltip(
+          message: 'Back',
+          child: IconButton(
+            onPressed: () {
+              context.goNamed(Routes.register.name);
+            },
+            icon: const Icon(
+              Icons.arrow_back_rounded,
+              color: Colors.black,
+            ),
+          ),
         ),
       ),
       extendBodyBehindAppBar: true,

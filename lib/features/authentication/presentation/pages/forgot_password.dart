@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_container.dart';
 import 'package:timberland_biketrail/core/utils/email_validator.dart';
@@ -14,7 +15,18 @@ class ForgotPasswordPage extends StatelessWidget {
         elevation: 0,
         foregroundColor: Theme.of(context).primaryColor,
         backgroundColor: Colors.transparent,
-        // automaticallyImplyLeading: false,
+        leading: Tooltip(
+          message: 'Back',
+          child: IconButton(
+            onPressed: () {
+              context.pop();
+            },
+            icon: const Icon(
+              Icons.arrow_back_rounded,
+              color: Colors.black,
+            ),
+          ),
+        ),
       ),
       extendBodyBehindAppBar: true,
       body: TimberlandContainer(
