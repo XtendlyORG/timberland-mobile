@@ -98,10 +98,31 @@ class TrailRulesPage extends StatelessWidget {
                   );
                 }
                 if (state is TrailRuleError) {
-                  log(state.message);
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height -
+                        kToolbarHeight * 2 -
+                        kBottomNavigationBarHeight,
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.error),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(state.message),
+                        ],
+                      ),
+                    ),
+                  );
                 }
-                return const Center(
-                  child: Text("Error Occured"),
+                return SizedBox(
+                  height: MediaQuery.of(context).size.height -
+                      kToolbarHeight * 2 -
+                      kBottomNavigationBarHeight,
+                  child: const Center(
+                    child: Text("Error Occured"),
+                  ),
                 );
               },
             ),

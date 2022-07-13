@@ -15,19 +15,29 @@ class TimberlandRemoteDatasource implements RemoteDatasource {
     required this.environmentConfig,
   });
   final Dio _dio = Dio();
+
   @override
   Future<List<TrailRule>> fetchTrailRules() async {
     try {
-      final response = await _dio.get('${environmentConfig.apihost}/rules');
-
-      return response.data != null
-          ? response.data!
-              .map<TrailRuleModel>(
-                (data) => TrailRuleModel.fromMap(data),
-              )
-              .toList()
-          : [];
+      final response = await _dio.get('${environmentConfig.apihost}/rules',
+          options: Options(
+            validateStatus: (status) => true,
+          ));
+      if (response.statusCode == 200) {
+        return response.data != null
+            ? response.data!
+                .map<TrailRuleModel>(
+                  (data) => TrailRuleModel.fromMap(data),
+                )
+                .toList()
+            : [];
+      }
+      throw const AppInfoException(message: "Server Error");
+    } on AppInfoException catch (e) {
+      log(e.toString());
+      rethrow;
     } catch (e) {
+      log(e.toString());
       throw AppInfoException(message: e.toString());
     }
   }
