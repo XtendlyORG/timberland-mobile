@@ -32,6 +32,7 @@ class TimberlandRemoteDatasource implements RemoteDatasource {
                 .toList()
             : [];
       }
+      log("status code: ${response.statusCode}");
       throw const AppInfoException(message: "Server Error");
     } on AppInfoException catch (e) {
       log(e.toString());

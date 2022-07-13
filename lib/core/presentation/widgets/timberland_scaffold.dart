@@ -23,11 +23,18 @@ class TimberlandScaffold extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         extendBodyBehindAppBar: true,
-        appBar: const PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight),
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(kToolbarHeight),
           child: TimberlandAppbar(
-            backButton: BackButton(
-              color: Colors.black,
+            backButton: Tooltip(
+              message: 'Back',
+              child: IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.arrow_back_rounded,
+                  color: Colors.black,
+                ),
+              ),
             ),
           ),
         ),

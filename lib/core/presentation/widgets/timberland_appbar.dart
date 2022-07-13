@@ -21,7 +21,10 @@ class TimberlandAppbar extends StatelessWidget {
       leading: backButton,
       actions: [
         if (actions != null) ...actions!,
-        const DrawerIconButton(),
+        const Tooltip(
+          message: 'Dashboard',
+          child: DrawerIconButton(),
+        ),
       ],
     );
   }
