@@ -25,10 +25,17 @@ class RegistrationPage extends StatelessWidget {
             backgroundColor: Colors.transparent,
             foregroundColor: Theme.of(context).colorScheme.primary,
             elevation: 0,
-            leading: BackButton(
-              onPressed: () {
-                context.goNamed(Routes.login.name);
-              },
+            leading: Tooltip(
+              message: 'Back',
+              child: IconButton(
+                onPressed: () {
+                  context.goNamed(Routes.login.name);
+                },
+                icon: const Icon(
+                  Icons.arrow_back_rounded,
+                  color: Colors.black,
+                ),
+              ),
             ),
           ),
           extendBodyBehindAppBar: true,
