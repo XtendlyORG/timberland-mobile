@@ -29,7 +29,9 @@ class TimberlandScaffold extends StatelessWidget {
             backButton: Tooltip(
               message: 'Back',
               child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.pop();
+                },
                 icon: const Icon(
                   Icons.arrow_back_rounded,
                   color: Colors.black,
