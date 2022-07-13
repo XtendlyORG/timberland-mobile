@@ -15,7 +15,7 @@ class QrCodePage extends StatelessWidget {
     final state = BlocProvider.of<AuthBloc>(context).state as Authenticated;
     return SafeArea(
       child: TimberlandScaffold(
-        titleText: 'My Qr Code',
+        titleText: 'My QR Code',
         body: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 37, vertical: 40),

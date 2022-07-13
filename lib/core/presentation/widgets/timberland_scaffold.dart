@@ -26,7 +26,9 @@ class TimberlandScaffold extends StatelessWidget {
         appBar: const PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight),
           child: TimberlandAppbar(
-            backButton: BackButton(),
+            backButton: BackButton(
+              color: Colors.black,
+            ),
           ),
         ),
         endDrawer: const Dashboard(),

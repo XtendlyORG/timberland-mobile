@@ -1,5 +1,8 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/core/themes/timberland_color.dart';
+
 import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard_header.dart';
 
 import '../../../core/router/router.dart';
@@ -41,75 +44,68 @@ class Dashboard extends StatelessWidget {
                         color: Theme.of(context).backgroundColor,
                       ),
                     ),
-                    ListTile(
+                    DashBoardListTile(
                       onTap: () {
                         context.goNamed(Routes.trails.name);
                         Navigator.pop(context);
                       },
-                      minLeadingWidth: 20,
                       leading: const Icon(Icons.map_outlined),
-                      title: const Text('Trail Directory'),
+                      titleText: 'Trail Directory',
                     ),
-                    ListTile(
+                    DashBoardListTile(
                       onTap: () {
                         context.goNamed(Routes.profile.name);
                         Navigator.pop(context);
                       },
-                      minLeadingWidth: 20,
                       leading: const Image(
                         image: AssetImage('assets/icons/profile-icon.png'),
                         height: 24,
                         width: 24,
                       ),
-                      title: const Text('My Profile'),
+                      titleText: 'My Profile',
                     ),
-                    ListTile(
+                    DashBoardListTile(
                       onTap: () {},
-                      minLeadingWidth: 20,
                       leading: const Image(
                         image: AssetImage('assets/icons/booking-icon.png'),
                         height: 24,
                         width: 24,
                       ),
-                      title: const Text('Booking'),
+                      titleText: 'Booking',
                     ),
-                    ListTile(
+                    DashBoardListTile(
                       onTap: () {
                         context.pushNamed(Routes.qr.name);
                         Navigator.pop(context);
                       },
-                      minLeadingWidth: 20,
                       leading: const Icon(Icons.qr_code),
-                      title: const Text('QR Generator'),
+                      titleText: 'QR Generator',
                     ),
-                    ListTile(
+                    DashBoardListTile(
                       onTap: () {
                         context.goNamed(Routes.rules.name);
                         Navigator.pop(context);
                       },
-                      minLeadingWidth: 20,
                       leading: const Image(
                         image: AssetImage('assets/icons/rules-icon.png'),
                         height: 24,
                         width: 24,
                       ),
-                      title: const Text('Rules'),
+                      titleText: 'Rules',
                     ),
-                    ListTile(
+                    DashBoardListTile(
                       onTap: () {},
-                      minLeadingWidth: 20,
                       leading: const Icon(Icons.phone_outlined),
-                      title: const Text('Contact Us'),
+                      titleText: 'Contact Us',
                     ),
-                    ListTile(
+                    DashBoardListTile(
                       onTap: () {},
-                      minLeadingWidth: 20,
                       leading: const Image(
                         image: AssetImage('assets/icons/emergency-icon.png'),
                         height: 24,
                         width: 24,
                       ),
-                      title: const Text('Emergency'),
+                      titleText: 'Emergency',
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -117,13 +113,21 @@ class Dashboard extends StatelessWidget {
                         color: Theme.of(context).backgroundColor,
                       ),
                     ),
-                    ListTile(
+                    DashBoardListTile(
+                      onTap: () {},
+                      leading: const Image(
+                        image: AssetImage('assets/icons/faqs-icon.png'),
+                        height: 24,
+                        width: 24,
+                      ),
+                      titleText: 'FAQs',
+                    ),
+                    DashBoardListTile(
                       onTap: () {
                         Session().logout();
                       },
-                      minLeadingWidth: 20,
                       leading: const Icon(Icons.logout),
-                      title: const Text('Logout'),
+                      titleText: 'Logout',
                     ),
                   ],
                 ),
@@ -131,6 +135,34 @@ class Dashboard extends StatelessWidget {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class DashBoardListTile extends StatelessWidget {
+  final VoidCallback onTap;
+  final Widget? leading;
+  final String titleText;
+  const DashBoardListTile({
+    Key? key,
+    required this.onTap,
+    this.leading,
+    required this.titleText,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: onTap,
+      minLeadingWidth: 20,
+      leading: leading,
+      title: Text(
+        titleText,
+        style: Theme.of(context)
+            .textTheme
+            .titleMedium!
+            .copyWith(color: TimberlandColor.background),
       ),
     );
   }
