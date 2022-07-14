@@ -13,3 +13,10 @@ class AppInfoFailure implements Failure {
     required this.message,
   });
 }
+
+class TrailFailure implements Failure {
+  final String message;
+  const TrailFailure({
+    required this.message,
+  });
+}

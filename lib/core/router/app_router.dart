@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/pages/forgot_password.dart';
+import 'package:timberland_biketrail/features/trail/domain/entities/trail.dart';
+import 'package:timberland_biketrail/features/trail/presentation/pages/trail_details.dart';
 
 import '../../dashboard/presentation/pages/qr_code_page.dart';
 import '../../features/authentication/presentation/pages/otp_verification_page.dart';
@@ -131,12 +133,9 @@ final appRouter = GoRouter(
               path: Routes.specificTrail.path,
               name: Routes.specificTrail.name,
               pageBuilder: (context, routeState) {
-                log('specificTrail');
                 return CustomTransitionPage(
-                  child: TimberlandScaffold(
-                    body: Center(
-                      child: Text(routeState.params['id']!),
-                    ),
+                  child: TrailDetails(
+                    trail: (routeState.extra as Trail),
                   ),
                   transitionDuration: const Duration(milliseconds: 500),
                   transitionsBuilder:
