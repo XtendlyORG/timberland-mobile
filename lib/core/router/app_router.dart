@@ -1,7 +1,10 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/features/app_infos/presentation/bloc/app_info_bloc.dart';
+import 'package:timberland_biketrail/features/app_infos/presentation/pages/faqs_page.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/pages/forgot_password.dart';
 import 'package:timberland_biketrail/features/trail/domain/entities/trail.dart';
 import 'package:timberland_biketrail/features/trail/presentation/pages/trail_details.dart';
@@ -154,7 +157,12 @@ final appRouter = GoRouter(
           path: Routes.rules.asSubPath(),
           name: Routes.rules.name,
           pageBuilder: (context, routeState) {
-            log('rules');
+            final appinfoBloc = BlocProvider.of<AppInfoBloc>(context);
+            if (appinfoBloc.state is! TrailRulesState) {
+              appinfoBloc.add(
+                const FetchTrailRulesEvent(),
+              );
+            }
             return const MaterialPage(
               child: MainPage(
                 selectedTabIndex: 1,
@@ -182,6 +190,30 @@ final appRouter = GoRouter(
       pageBuilder: (context, routeState) {
         return CustomTransitionPage(
           child: const QrCodePage(),
+          // key: routeState.pageKey,
+          // restorationId: routeState.pageKey.value,
+          transitionDuration: const Duration(milliseconds: 500),
+          transitionsBuilder: (context, animation, secondaryAnim, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+    ),
+    GoRoute(
+      path: Routes.faqs.path,
+      name: Routes.faqs.name,
+      pageBuilder: (context, routeState) {
+        final appinfoBloc = BlocProvider.of<AppInfoBloc>(context);
+        if (appinfoBloc.state is! FAQState) {
+          appinfoBloc.add(
+            const FetchFAQSEvent(),
+          );
+        }
+        return CustomTransitionPage(
+          child: const FAQsPage(),
           // key: routeState.pageKey,
           // restorationId: routeState.pageKey.value,
           transitionDuration: const Duration(milliseconds: 500),

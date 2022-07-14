@@ -1,12 +1,13 @@
 part of 'app_info_bloc.dart';
 
-abstract class AppInfoEvent extends Equatable {
+abstract class AppInfoEvent {
   const AppInfoEvent();
-
-  @override
-  List<Object> get props => [];
 }
 
 class FetchTrailRulesEvent extends AppInfoEvent {
   const FetchTrailRulesEvent();
+}
+
+class FetchFAQSEvent extends AppInfoEvent {
+  const FetchFAQSEvent();
 }

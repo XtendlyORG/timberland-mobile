@@ -14,69 +14,73 @@ class QrCodePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = BlocProvider.of<AuthBloc>(context).state as Authenticated;
+    final mediaQuery = MediaQuery.of(context);
     return SafeArea(
       child: TimberlandScaffold(
         titleText: 'My QR Code',
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 37, vertical: 40),
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Container(
-                alignment: Alignment.center,
+        body: SizedBox(
+          height: mediaQuery.size.longestSide - kToolbarHeight * 4,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 37, vertical: 40),
+              child: SizedBox(
                 height: 400,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  gradient: LinearGradient(
-                    colors: [
-                      Theme.of(context).primaryColor.withOpacity(.05),
-                      Colors.white.withOpacity(.04),
-                      Colors.white.withOpacity(.8)
-                    ],
-                    stops: const [.6, .8, 1],
-                  ),
-                ),
                 child: Stack(
                   children: [
                     Container(
                       alignment: Alignment.center,
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const SizedBox(
-                            height: kVerticalPadding * 2,
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Column(
-                              children: [
-                                AutoSizeText(
-                                  "${state.user.firstName} ${state.user.lastName}",
-                                  maxLines: 2,
-                                  minFontSize: 14,
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(context).textTheme.titleLarge,
-                                ),
-                                const Text("Manila"),
-                              ],
+                      height: 400,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        gradient: LinearGradient(
+                          colors: [
+                            Theme.of(context).primaryColor.withOpacity(.05),
+                            Colors.white.withOpacity(.04),
+                            Colors.white.withOpacity(.8)
+                          ],
+                          stops: const [.6, .8, 1],
+                        ),
+                      ),
+                      child: Container(
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const SizedBox(
+                              height: kVerticalPadding * 2,
                             ),
-                          ),
-                          // const Spacer(),
-                          // const Spacer(),
-                          Expanded(
-                            flex: 3,
-                            child: SizedBox(
-                              width: 200,
-                              child: QrImage(data: state.user.accessCode),
+                            Expanded(
+                              flex: 1,
+                              child: Column(
+                                children: [
+                                  AutoSizeText(
+                                    "${state.user.firstName} ${state.user.lastName}",
+                                    maxLines: 2,
+                                    minFontSize: 14,
+                                    textAlign: TextAlign.center,
+                                    overflow: TextOverflow.ellipsis,
+                                    style:
+                                        Theme.of(context).textTheme.titleLarge,
+                                  ),
+                                  const Text("Manila"),
+                                ],
+                              ),
                             ),
-                          ),
-                          // const Spacer(),
-                          // const Spacer(),
-                        ],
+                            // const Spacer(),
+                            // const Spacer(),
+                            Expanded(
+                              flex: 3,
+                              child: SizedBox(
+                                width: 200,
+                                child: QrImage(data: state.user.accessCode),
+                              ),
+                            ),
+                            // const Spacer(),
+                            // const Spacer(),
+                          ],
+                        ),
                       ),
                     ),
                     const Align(

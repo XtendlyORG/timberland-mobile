@@ -2,7 +2,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:timberland_biketrail/core/constants/navbar_configs.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/bottom_navbar.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_appbar.dart';
@@ -12,10 +11,14 @@ import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard.da
 class TimberlandScaffold extends StatelessWidget {
   final Widget body;
   final String? titleText;
+  final bool extendBodyBehindAppbar;
+  final ScrollPhysics? physics;
   const TimberlandScaffold({
     Key? key,
     required this.body,
     this.titleText,
+    this.extendBodyBehindAppbar = false,
+    this.physics,
   }) : super(key: key);
 
   @override
@@ -49,32 +52,23 @@ class TimberlandScaffold extends StatelessWidget {
           },
         ),
         body: TimberlandContainer(
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxHeight: constraints.maxHeight > constraints.maxWidth
-                        ? constraints.maxHeight
-                        : constraints.maxWidth,
+          child: SizedBox.expand(
+            child: ListView(
+              padding: extendBodyBehindAppbar ? EdgeInsets.zero : null,
+              // mainAxisAlignment: MainAxisAlignment.center,
+              // shrinkWrap: true,
+              physics: physics,
+              children: [
+                if (titleText != null)
+                  Center(
+                    child: AutoSizeText(
+                      titleText!,
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (titleText != null)
-                        Padding(
-                          padding: const EdgeInsets.only(top: kToolbarHeight),
-                          child: AutoSizeText(
-                            titleText!,
-                            style: Theme.of(context).textTheme.headlineSmall,
-                          ),
-                        ),
-                      Expanded(child: body),
-                    ],
-                  ),
-                ),
-              );
-            },
+                body,
+              ],
+            ),
           ),
         ),
       ),
