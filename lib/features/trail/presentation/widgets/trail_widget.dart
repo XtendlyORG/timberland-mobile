@@ -37,21 +37,28 @@ class TrailWidget extends StatelessWidget {
                   fit: BoxFit.fitWidth),
             ),
           ),
-          Text.rich(TextSpan(children: [
-            TextSpan(
-                text: '${trail.difficulty.name}\n',
-                style: TextStyle(
-                  color: trail.difficulty.textColor,
-                )),
-            TextSpan(
-              text: '${trail.trailName}\n',
-              style: Theme.of(context).textTheme.titleMedium,
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(
+                      text: '${trail.difficulty.name}\n',
+                      style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                            color: trail.difficulty.textColor,
+                          )),
+                  TextSpan(
+                    text: '${trail.trailName}\n',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  TextSpan(
+                    text: trail.location,
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                ],
+              ),
             ),
-            TextSpan(
-              text: trail.location,
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
-          ])),
+          ),
           TrailSpecs(trail: trail)
         ],
       ),
