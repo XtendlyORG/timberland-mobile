@@ -33,8 +33,8 @@ class TrailWidget extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               image: DecorationImage(
-                image: NetworkImage(trail.featureImageUrl),
-              ),
+                  image: NetworkImage(trail.featureImageUrl),
+                  fit: BoxFit.fitWidth),
             ),
           ),
           Text.rich(TextSpan(children: [
