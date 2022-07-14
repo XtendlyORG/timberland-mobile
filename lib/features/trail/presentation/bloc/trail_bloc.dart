@@ -1,40 +1,31 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+
 import 'package:timberland_biketrail/features/trail/domain/entities/trail.dart';
-import 'package:timberland_biketrail/features/trail/domain/usecases/fetch_trails.dart';
+import 'package:timberland_biketrail/features/trail/domain/params/fetch_trails.dart';
+import 'package:timberland_biketrail/features/trail/domain/repositories/trail_repository.dart';
 
 part 'trail_event.dart';
 part 'trail_state.dart';
 
 class TrailBloc extends Bloc<TrailEvent, TrailState> {
-  TrailBloc() : super(TrailInitial()) {
+  final TrailRepository repository;
+  TrailBloc({
+    required this.repository,
+  }) : super(TrailInitial()) {
     on<TrailEvent>((event, emit) {
       // TODO: implement event handler
     });
 
-    on<FetchTrailsEvent>((event, emit) {
-      emit(const TrailsLoaded(trails: [
-        Trail(
-          trailId: "trail-id",
-          trailName: 'Trail Name 1',
-          difficulty: 'Easy',
-        ),
-        Trail(
-          trailId: "trail-id-2",
-          trailName: 'Trail Name 2',
-          difficulty: 'Moderate',
-        ),
-        Trail(
-          trailId: "trail-id-3",
-          trailName: 'Trail Name 4',
-          difficulty: 'Hard',
-        ),
-        Trail(
-          trailId: "trail-id-4",
-          trailName: 'Trail Name 4',
-          difficulty: 'Moderate',
-        ),
-      ]));
+    on<FetchTrailsEvent>((event, emit) async {
+      emit(const LoadingTrails());
+      final result = await repository.fetchTrails(event.fetchTrailsParams);
+
+      result.fold(
+        (failure) => emit(TrailError(message: failure.message)),
+        (trails) => emit(TrailsLoaded(trails: trails)),
+      );
     });
   }
 }

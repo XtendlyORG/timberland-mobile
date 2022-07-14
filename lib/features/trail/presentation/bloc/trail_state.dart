@@ -18,3 +18,16 @@ class TrailsLoaded extends TrailState {
   @override
   List<Object> get props => super.props..add(trails);
 }
+
+class LoadingTrails extends TrailState {
+  const LoadingTrails();
+}
+
+class TrailError extends TrailState {
+  final String message;
+  const TrailError({
+    required this.message,
+  });
+  @override
+  List<Object> get props => super.props..add(message);
+}

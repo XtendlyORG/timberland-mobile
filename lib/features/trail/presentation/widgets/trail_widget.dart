@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/features/trail/domain/entities/trail.dart';
 
@@ -20,6 +21,7 @@ class TrailWidget extends StatelessWidget {
           params: {
             'id': trail.trailId,
           },
+          extra: trail,
         );
       },
       child: Column(
@@ -30,78 +32,95 @@ class TrailWidget extends StatelessWidget {
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              // image: const DecorationImage(
-              //   image: NetworkImage(''),
-              // ),
+              image: DecorationImage(
+                image: NetworkImage(trail.featureImageUrl),
+              ),
             ),
-            child: const Placeholder(),
           ),
           Text.rich(TextSpan(children: [
             TextSpan(
-              text: '${trail.difficulty}\n',
-            ),
+                text: '${trail.difficulty.name}\n',
+                style: TextStyle(
+                  color: trail.difficulty.difficultyColor,
+                )),
             TextSpan(
-              text: trail.trailName,
+              text: '${trail.trailName}\n',
               style: Theme.of(context).textTheme.titleMedium,
             ),
             TextSpan(
-              text: '\nSan Mateo, Quezon, Philippines',
+              text: trail.location,
               style: Theme.of(context).textTheme.titleSmall,
             ),
           ])),
-          ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 400),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          TrailSpecs(trail: trail)
+        ],
+      ),
+    );
+  }
+}
+
+class TrailSpecs extends StatelessWidget {
+  const TrailSpecs({
+    Key? key,
+    required this.trail,
+    this.maxWidth = 400,
+  }) : super(key: key);
+
+  final Trail trail;
+  final double maxWidth;
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 400),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text.rich(
+            TextSpan(
               children: [
-                Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'Length\n',
-                        style: Theme.of(context).textTheme.caption,
-                      ),
-                      TextSpan(
-                        text: '2.9 mi',
-                        style: Theme.of(context).textTheme.subtitle2,
-                      ),
-                    ],
-                  ),
-                  textAlign: TextAlign.start,
+                TextSpan(
+                  text: 'Length\n',
+                  style: Theme.of(context).textTheme.caption,
                 ),
-                Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'Elevation Gain\n',
-                        style: Theme.of(context).textTheme.caption,
-                      ),
-                      TextSpan(
-                        text: '459 ft',
-                        style: Theme.of(context).textTheme.subtitle2,
-                      ),
-                    ],
-                  ),
-                  textAlign: TextAlign.start,
-                ),
-                Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'Route Type\n',
-                        style: Theme.of(context).textTheme.caption,
-                      ),
-                      TextSpan(
-                        text: 'Loop',
-                        style: Theme.of(context).textTheme.subtitle2,
-                      ),
-                    ],
-                  ),
-                  textAlign: TextAlign.start,
+                TextSpan(
+                  text: '${trail.length} mi',
+                  style: Theme.of(context).textTheme.subtitle2,
                 ),
               ],
             ),
-          )
+            textAlign: TextAlign.start,
+          ),
+          Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: 'Elevation Gain\n',
+                  style: Theme.of(context).textTheme.caption,
+                ),
+                TextSpan(
+                  text: '${trail.length} ft',
+                  style: Theme.of(context).textTheme.subtitle2,
+                ),
+              ],
+            ),
+            textAlign: TextAlign.start,
+          ),
+          Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: 'Route Type\n',
+                  style: Theme.of(context).textTheme.caption,
+                ),
+                TextSpan(
+                  text: trail.routeType,
+                  style: Theme.of(context).textTheme.subtitle2,
+                ),
+              ],
+            ),
+            textAlign: TextAlign.start,
+          ),
         ],
       ),
     );
