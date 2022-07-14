@@ -40,7 +40,7 @@ class TimberlandRemoteDatasource implements RemoteDatasource {
       rethrow;
     } catch (e) {
       log(e.toString());
-      throw AppInfoException(message: e.toString());
+      throw const AppInfoException(message: "An Error Occurred");
     }
   }
 }

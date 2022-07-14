@@ -42,7 +42,7 @@ class TrailRemoteDatasource implements RemoteDatasource {
       rethrow;
     } catch (e) {
       log(e.toString());
-      throw TrailException(message: e.toString());
+      throw const TrailException(message: "An Error Occurred");
     }
   }
 }
