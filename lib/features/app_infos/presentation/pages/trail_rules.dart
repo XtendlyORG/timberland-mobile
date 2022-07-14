@@ -27,7 +27,8 @@ class TrailRulesPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: kToolbarHeight),
+              padding: const EdgeInsets.only(
+                  top: kToolbarHeight, bottom: kToolbarHeight / 2),
               child: AutoSizeText(
                 'Trail Rules',
                 style: Theme.of(context).textTheme.headlineSmall,

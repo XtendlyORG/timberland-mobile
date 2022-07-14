@@ -27,6 +27,7 @@ class TrailRuleWidget extends StatelessWidget {
           ),
         ],
       ),
+      style: Theme.of(context).textTheme.titleSmall,
     );
   }
 }
