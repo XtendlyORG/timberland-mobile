@@ -98,7 +98,7 @@ class TrailRulesPage extends StatelessWidget {
                     ),
                   );
                 }
-                if (state is TrailRuleError) {
+                if (state is TrailRulesError) {
                   return SizedBox(
                     height: MediaQuery.of(context).size.height -
                         kToolbarHeight * 2 -

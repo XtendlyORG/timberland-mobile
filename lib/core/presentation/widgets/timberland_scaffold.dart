@@ -52,6 +52,7 @@ class TimberlandScaffold extends StatelessWidget {
           child: LayoutBuilder(
             builder: (context, constraints) {
               return SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     maxHeight: constraints.maxHeight > constraints.maxWidth

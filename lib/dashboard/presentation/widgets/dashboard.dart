@@ -114,7 +114,10 @@ class Dashboard extends StatelessWidget {
                       ),
                     ),
                     DashBoardListTile(
-                      onTap: () {},
+                      onTap: () {
+                        context.pushNamed(Routes.faqs.name);
+                        Navigator.pop(context);
+                      },
                       leading: const Image(
                         image: AssetImage('assets/icons/faqs-icon.png'),
                         height: 24,
