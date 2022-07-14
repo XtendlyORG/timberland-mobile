@@ -1,13 +1,16 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 
 class DifficultyLevel {
   final String name;
-  final Color difficultyColor;
+  final Color textColor;
+  final Color backgroundColor;
   const DifficultyLevel({
     required this.name,
-    required this.difficultyColor,
+    required this.textColor,
+    required this.backgroundColor,
   });
 
   factory DifficultyLevel.fromString(String name) {
@@ -28,10 +31,19 @@ class DifficultyLevel {
 
 abstract class Difficulties {
   static const DifficultyLevel easy = DifficultyLevel(
-      name: 'Easy', difficultyColor: TimberlandColor.accentColor);
+    name: 'Easy',
+    textColor: TimberlandColor.accentColor,
+    backgroundColor: TimberlandColor.lighGreen,
+  );
   static const DifficultyLevel moderate = DifficultyLevel(
-      name: 'Moderate', difficultyColor: TimberlandColor.primary);
+    name: 'Moderate',
+    textColor: TimberlandColor.primary,
+    backgroundColor: TimberlandColor.lightBlue,
+  );
 
   static const DifficultyLevel hard = DifficultyLevel(
-      name: 'Hard', difficultyColor: TimberlandColor.secondaryColor);
+    name: 'Hard',
+    textColor: TimberlandColor.secondaryColor,
+    backgroundColor: TimberlandColor.lightRed,
+  );
 }

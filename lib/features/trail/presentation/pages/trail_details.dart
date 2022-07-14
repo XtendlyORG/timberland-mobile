@@ -32,7 +32,7 @@ class TrailDetails extends StatelessWidget {
                   image: NetworkImage(trail.mapImageUrl),
                   fit: BoxFit.fill,
                   colorFilter: ColorFilter.mode(
-                      Colors.black.withOpacity(.2), BlendMode.darken),
+                      Colors.black.withOpacity(.5), BlendMode.darken),
                 ),
               ),
               padding: EdgeInsets.symmetric(
@@ -43,10 +43,38 @@ class TrailDetails extends StatelessWidget {
                 alignment: Alignment.bottomLeft,
                 child: ListView(
                   shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
                   children: [
                     Text(
                       trail.trailName,
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            color: Theme.of(context).backgroundColor,
+                          ),
+                    ),
+                    const SizedBox(
+                      height: kVerticalPadding,
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 2.5),
+                          decoration: BoxDecoration(
+                              color: trail.difficulty.backgroundColor,
+                              borderRadius: BorderRadius.circular(5)),
+                          child: Text(
+                            trail.difficulty.name,
+                          ),
+                        ),
+                        const Spacer(),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: kVerticalPadding,
+                    ),
+                    Text(
+                      trail.location,
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
                             color: Theme.of(context).backgroundColor,
                           ),
                     ),
@@ -60,7 +88,7 @@ class TrailDetails extends StatelessWidget {
             child: ClipRRect(
               clipBehavior: Clip.hardEdge,
               child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                 child: Container(
                   height: mediaQuery.orientation == Orientation.portrait
                       ? mediaQuery.size.longestSide - 300 - kToolbarHeight
