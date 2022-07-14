@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../domain/usecases/fetch_trails.dart';
+import '../../domain/params/fetch_trails.dart';
 import '../bloc/trail_bloc.dart';
 import 'trail_widget.dart';
 
@@ -17,6 +17,18 @@ class TrailList extends StatelessWidget {
         if (state is TrailInitial) {
           BlocProvider.of<TrailBloc>(context)
               .add(FetchTrailsEvent(fetchTrailsParams: FetchTrailsParams()));
+        }
+        if (state is LoadingTrails) {
+          return SizedBox(
+            height: MediaQuery.of(context).size.height -
+                kToolbarHeight * 2 -
+                kBottomNavigationBarHeight,
+            child: const RepaintBoundary(
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          );
         }
         if (state is TrailsLoaded) {
           return Container(
@@ -49,9 +61,31 @@ class TrailList extends StatelessWidget {
             ),
           );
         }
-        return const RepaintBoundary(
-          child: Center(
-            child: CircularProgressIndicator(),
+        if (state is TrailError) {
+          return SizedBox(
+            height: MediaQuery.of(context).size.height -
+                kToolbarHeight * 2 -
+                kBottomNavigationBarHeight,
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.error),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(state.message),
+                ],
+              ),
+            ),
+          );
+        }
+        return SizedBox(
+          height: MediaQuery.of(context).size.height -
+              kToolbarHeight * 2 -
+              kBottomNavigationBarHeight,
+          child: const Center(
+            child: Text("Error Occured"),
           ),
         );
       },

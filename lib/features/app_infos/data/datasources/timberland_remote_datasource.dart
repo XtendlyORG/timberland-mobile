@@ -11,15 +11,16 @@ import 'package:timberland_biketrail/features/app_infos/domain/entities/trail_ru
 
 class TimberlandRemoteDatasource implements RemoteDatasource {
   final EnvironmentConfig environmentConfig;
+  final Dio dioClient;
   TimberlandRemoteDatasource({
     required this.environmentConfig,
+    required this.dioClient,
   });
-  final Dio _dio = Dio();
 
   @override
   Future<List<TrailRule>> fetchTrailRules() async {
     try {
-      final response = await _dio.get('${environmentConfig.apihost}/rules',
+      final response = await dioClient.get('${environmentConfig.apihost}/rules',
           options: Options(
             validateStatus: (status) => true,
           ));

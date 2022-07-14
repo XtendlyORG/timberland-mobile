@@ -3,23 +3,23 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:timberland_biketrail/features/app_infos/domain/entities/trail_rule.dart';
-import 'package:timberland_biketrail/features/app_infos/domain/usecases/fetch_trail_rules.dart';
+import 'package:timberland_biketrail/features/app_infos/domain/repositories/app_infos_repository.dart';
 
 part 'app_info_event.dart';
 part 'app_info_state.dart';
 
 class AppInfoBloc extends Bloc<AppInfoEvent, AppInfoState> {
-  final FetchTrailRules fetchTrailRules;
+  final AppInfoRepository repository;
 
   AppInfoBloc({
-    required this.fetchTrailRules,
+    required this.repository,
   }) : super(AppInfoInitial()) {
     on<AppInfoEvent>((event, emit) {
       // TODO: implement event handler
     });
     on<FetchTrailRulesEvent>((event, emit) async {
       emit(const LoadingTrailRules());
-      final result = await fetchTrailRules(null);
+      final result = await repository.fetchTrailRules();
       result.fold(
         (failure) {
           emit(TrailRuleError(message: failure.message));

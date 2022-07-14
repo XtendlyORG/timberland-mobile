@@ -6,10 +6,16 @@ class AuthException implements Exception {
   });
 }
 
-class AppInfoException implements AuthException {
-  @override
+class AppInfoException implements Exception {
   final String? message;
   const AppInfoException({
+    this.message,
+  });
+}
+
+class TrailException implements Exception {
+  final String? message;
+  const TrailException({
     this.message,
   });
 }
