@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 
@@ -45,31 +46,43 @@ class QrCodePage extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Spacer(),
-                          const Spacer(),
-                          AutoSizeText(
-                            "${state.user.firstName} ${state.user.lastName}",
-                            maxLines: 2,
-                            minFontSize: 14,
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.titleLarge,
+                          const SizedBox(
+                            height: kVerticalPadding * 2,
                           ),
-                          const Text("Manila"),
-                          const Spacer(),
-                          SizedBox(
-                            width: 200,
-                            child: QrImage(data: state.user.accessCode),
+                          Expanded(
+                            flex: 1,
+                            child: Column(
+                              children: [
+                                AutoSizeText(
+                                  "${state.user.firstName} ${state.user.lastName}",
+                                  maxLines: 2,
+                                  minFontSize: 14,
+                                  textAlign: TextAlign.center,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                ),
+                                const Text("Manila"),
+                              ],
+                            ),
                           ),
-                          const Spacer(),
-                          const Spacer(),
+                          // const Spacer(),
+                          // const Spacer(),
+                          Expanded(
+                            flex: 3,
+                            child: SizedBox(
+                              width: 200,
+                              child: QrImage(data: state.user.accessCode),
+                            ),
+                          ),
+                          // const Spacer(),
+                          // const Spacer(),
                         ],
                       ),
                     ),
                     const Align(
-                      alignment: Alignment(0, -1.15),
+                      alignment: Alignment(0, -1.25),
                       child: CircleAvatar(
-                        radius: 27,
+                        radius: 40,
                       ),
                     ),
                   ],

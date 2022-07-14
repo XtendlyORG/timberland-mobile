@@ -31,7 +31,7 @@ class TrailBloc extends Bloc<TrailEvent, TrailState> {
               length: 90,
               elevationGain: 123,
               featureImageUrl:
-                  'https://live.staticflickr.com/7300/9151350000_8c94e1511a_b.jpg',
+                  'https://gttp.imgix.net/328721/x/0/17-best-biking-spots-in-manila-and-nearby-bike-trails-scenic-routes-beginner-friendly-9.jpg?auto=compress%2Cformat&ch=Width%2CDPR&dpr=1&ixlib=php-3.3.0&w=883',
               mapImageUrl:
                   'https://live.staticflickr.com/7300/9151350000_8c94e1511a_b.jpg',
               routeType: "Loop",
@@ -42,44 +42,34 @@ class TrailBloc extends Bloc<TrailEvent, TrailState> {
               location: 'San Mateo, Quezon, Philippines',
             ),
             Trail(
-              trailId: "trail-id-2",
+              trailId: "trail-id",
               length: 90,
               elevationGain: 123,
               featureImageUrl:
-                  'https://live.staticflickr.com/7300/9151350000_8c94e1511a_b.jpg',
+                  'https://gttp.imgix.net/328721/x/0/17-best-biking-spots-in-manila-and-nearby-bike-trails-scenic-routes-beginner-friendly-9.jpg?auto=compress%2Cformat&ch=Width%2CDPR&dpr=1&ixlib=php-3.3.0&w=883',
               mapImageUrl:
                   'https://live.staticflickr.com/7300/9151350000_8c94e1511a_b.jpg',
               routeType: "Loop",
-              trailName: 'Trail Name 2',
+              trailName: 'Timberland Blue Trail to Nursery Loop',
               difficulty: Difficulties.moderate,
-              description: '',
-              location: '',
+              description:
+                  'Qui ut eiusmod consequat minim. Magna sit do dolor tempor culpa do sint duis esse irure cupidatat Lorem. Eu ad mollit sint cupidatat labore culpa nostrud consectetur cillum incididunt. Reprehenderit exercitation fugiat sit in ea enim qui nisi ipsum irure eiusmod nulla sit.',
+              location: 'San Mateo, Quezon, Philippines',
             ),
             Trail(
-              trailId: "trail-id-3",
+              trailId: "trail-id",
               length: 90,
               elevationGain: 123,
               featureImageUrl:
-                  'https://live.staticflickr.com/7300/9151350000_8c94e1511a_b.jpg',
+                  'https://gttp.imgix.net/328721/x/0/17-best-biking-spots-in-manila-and-nearby-bike-trails-scenic-routes-beginner-friendly-9.jpg?auto=compress%2Cformat&ch=Width%2CDPR&dpr=1&ixlib=php-3.3.0&w=883',
               mapImageUrl:
                   'https://live.staticflickr.com/7300/9151350000_8c94e1511a_b.jpg',
               routeType: "Loop",
-              trailName: 'Trail Name 4',
+              trailName: 'Timberland Blue Trail to Nursery Loop',
               difficulty: Difficulties.hard,
-              description: '',
-              location: '',
-            ),
-            Trail(
-              trailId: "trail-id-4",
-              length: 90,
-              elevationGain: 123,
-              featureImageUrl: 'asd',
-              mapImageUrl: 'asd',
-              routeType: "Loop",
-              trailName: 'Trail Name 4',
-              difficulty: Difficulties.easy,
-              description: '',
-              location: '',
+              description:
+                  'Qui ut eiusmod consequat minim. Magna sit do dolor tempor culpa do sint duis esse irure cupidatat Lorem. Eu ad mollit sint cupidatat labore culpa nostrud consectetur cillum incididunt. Reprehenderit exercitation fugiat sit in ea enim qui nisi ipsum irure eiusmod nulla sit.',
+              location: 'San Mateo, Quezon, Philippines',
             ),
           ]),
         ),

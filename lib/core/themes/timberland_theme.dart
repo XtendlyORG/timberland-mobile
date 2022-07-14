@@ -35,16 +35,16 @@ class TimberlandTheme {
         textTheme: TextTheme(
           titleSmall: const TextStyle(
             color: TimberlandColor.text,
-            fontSize: 14,
+            fontSize: 16,
           ),
           titleMedium: const TextStyle(
             color: TimberlandColor.text,
-            fontSize: 16,
+            fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
           titleLarge: const TextStyle(
             color: TimberlandColor.text,
-            fontSize: 18,
+            fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
           headlineSmall: TextStyle(
@@ -53,6 +53,7 @@ class TimberlandTheme {
             fontWeight: FontWeight.bold,
             fontFamily: GoogleFonts.barlow().fontFamily,
           ),
+          // bodyText1: TextStyle()
         ),
         listTileTheme: const ListTileThemeData(
           minLeadingWidth: 20,

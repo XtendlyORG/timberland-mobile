@@ -20,7 +20,9 @@ class DashBoardHeader extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const CircleAvatar(),
+            const CircleAvatar(
+              radius: 35,
+            ),
             const SizedBox(
               width: 10,
             ),
