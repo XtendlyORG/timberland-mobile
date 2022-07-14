@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/refreshable_scrollview.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_scaffold.dart';
 import 'package:timberland_biketrail/features/app_infos/presentation/bloc/app_info_bloc.dart';
@@ -42,10 +43,10 @@ class FAQsPage extends StatelessWidget {
                 if (state is FAQsLoaded) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
+                      horizontal: kHorizontalPadding,
+                      vertical: kVerticalPadding * 3,
                     ),
-                    child: ListView(
-                      physics: const NeverScrollableScrollPhysics(),
+                    child: Column(
                       children: state.faqs
                           .map<Widget>(
                             (faq) => Padding(

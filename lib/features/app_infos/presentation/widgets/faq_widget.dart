@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:math';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 
@@ -49,12 +50,17 @@ class _FAQWidgetState extends State<FAQWidget> with TickerProviderStateMixin {
         onExpansionChanged: (isExpanded) {
           isExpanded ? _controller.forward() : _controller.reverse();
         },
-        title: Text(widget.faq.question),
+        title: AutoSizeText(
+          widget.faq.question,
+          maxLines: 2,
+          minFontSize: 14,
+          style: Theme.of(context).textTheme.titleSmall,
+        ),
         trailing: FAQTrailing(
           angle: _angle,
         ),
         childrenPadding: const EdgeInsets.only(
-          left: kHorizontalPadding,
+          left: kVerticalPadding,
           right: kVerticalPadding,
           bottom: kVerticalPadding,
         ),

@@ -38,24 +38,34 @@ class AppInfoBloc extends Bloc<AppInfoEvent, AppInfoState> {
       );
     });
 
-    on<FetchFAQSEvent>((event, emit) {
-      emit(
-        const FAQsLoaded(
-          faqs: [
-            FAQ(
-              faqId: "faq-id-1",
-              question: "Question 1",
-              answer:
-                  "Reprehenderit nulla incididunt cillum ea occaecat cupidatat. Elit laboris duis aliqua nulla ut anim proident duis reprehenderit qui. Laboris dolor sit minim enim eu occaecat sit laboris fugiat officia id officia non velit. Velit labore nostrud pariatur pariatur eiusmod proident veniam magna fugiat pariatur in. Proident incididunt minim elit veniam occaecat ullamco cupidatat voluptate est dolore officia nostrud. Non pariatur nostrud minim sit proident. In nisi sint voluptate quis ut officia anim aute anim et ea reprehenderit.",
+    on<FetchFAQSEvent>((event, emit) async {
+      emit(const LoadingFAQs());
+      final result = await repository.fetchFAQs();
+      result.fold(
+        (failure) {
+          emit(FAQError(message: failure.message));
+          emit(
+            const FAQsLoaded(
+              faqs: [
+                FAQ(
+                  faqId: "faq-id-1",
+                  question: "Question 1",
+                  answer:
+                      "Reprehenderit nulla incididunt cillum ea occaecat cupidatat. Elit laboris duis aliqua nulla ut anim proident duis reprehenderit qui. Laboris dolor sit minim enim eu occaecat sit laboris fugiat officia id officia non velit. Velit labore nostrud pariatur pariatur eiusmod proident veniam magna fugiat pariatur in. Proident incididunt minim elit veniam occaecat ullamco cupidatat voluptate est dolore officia nostrud. Non pariatur nostrud minim sit proident. In nisi sint voluptate quis ut officia anim aute anim et ea reprehenderit.",
+                ),
+                FAQ(
+                  faqId: "faq-id-2",
+                  question: "Question 2",
+                  answer:
+                      "Reprehenderit nulla incididunt cillum ea occaecat cupidatat. Elit laboris duis aliqua nulla ut anim proident duis reprehenderit qui. Laboris dolor sit minim enim eu occaecat sit laboris fugiat officia id officia non velit. Velit labore nostrud pariatur pariatur eiusmod proident veniam magna fugiat pariatur in. Proident incididunt minim elit veniam occaecat ullamco cupidatat voluptate est dolore officia nostrud. Non pariatur nostrud minim sit proident. In nisi sint voluptate quis ut officia anim aute anim et ea reprehenderit.",
+                ),
+              ],
             ),
-            FAQ(
-              faqId: "faq-id-2",
-              question: "Question 2",
-              answer:
-                  "Reprehenderit nulla incididunt cillum ea occaecat cupidatat. Elit laboris duis aliqua nulla ut anim proident duis reprehenderit qui. Laboris dolor sit minim enim eu occaecat sit laboris fugiat officia id officia non velit. Velit labore nostrud pariatur pariatur eiusmod proident veniam magna fugiat pariatur in. Proident incididunt minim elit veniam occaecat ullamco cupidatat voluptate est dolore officia nostrud. Non pariatur nostrud minim sit proident. In nisi sint voluptate quis ut officia anim aute anim et ea reprehenderit.",
-            ),
-          ],
-        ),
+          );
+        },
+        (faqs) {
+          emit(FAQsLoaded(faqs: faqs));
+        },
       );
     });
   }

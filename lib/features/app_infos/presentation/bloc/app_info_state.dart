@@ -37,7 +37,7 @@ class LoadingFAQs extends FAQState {
   const LoadingFAQs();
 }
 
-class FAQsLoaded extends AppInfoState {
+class FAQsLoaded extends FAQState {
   final List<FAQ> faqs;
   const FAQsLoaded({
     required this.faqs,
