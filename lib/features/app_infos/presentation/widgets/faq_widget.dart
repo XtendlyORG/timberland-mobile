@@ -21,6 +21,7 @@ class FAQWidget extends StatefulWidget {
 class _FAQWidgetState extends State<FAQWidget> with TickerProviderStateMixin {
   late AnimationController _controller;
   double _angle = 0;
+  late bool _isExpanded;
 
   @override
   void initState() {
@@ -29,6 +30,7 @@ class _FAQWidgetState extends State<FAQWidget> with TickerProviderStateMixin {
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
+    _isExpanded = false;
     _controller.addListener(() {
       setState(() {
         _angle = _controller.value * 45 / 360 * pi * 2;
@@ -49,11 +51,15 @@ class _FAQWidgetState extends State<FAQWidget> with TickerProviderStateMixin {
       child: ExpansionTile(
         onExpansionChanged: (isExpanded) {
           isExpanded ? _controller.forward() : _controller.reverse();
+          setState(() {
+            _isExpanded = isExpanded;
+          });
         },
         title: AutoSizeText(
           widget.faq.question,
-          maxLines: 2,
-          minFontSize: 14,
+          maxLines: _isExpanded ? 10 : 2,
+          minFontSize: Theme.of(context).textTheme.titleSmall!.fontSize!,
+          overflow: TextOverflow.ellipsis,
           style: Theme.of(context).textTheme.titleSmall,
         ),
         trailing: FAQTrailing(
