@@ -12,6 +12,7 @@ class FAQsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget? latestWidget;
     return SafeArea(
       child: RefreshIndicator(
         onRefresh: () async {
@@ -26,7 +27,7 @@ class FAQsPage extends StatelessWidget {
             child: BlocBuilder<AppInfoBloc, AppInfoState>(
               builder: (context, state) {
                 if (state is LoadingFAQs) {
-                  return SizedBox(
+                  return latestWidget = SizedBox(
                     height: MediaQuery.of(context).size.height -
                         kToolbarHeight * 2 -
                         kBottomNavigationBarHeight,
@@ -38,7 +39,7 @@ class FAQsPage extends StatelessWidget {
                   );
                 }
                 if (state is FAQsLoaded) {
-                  return Padding(
+                  return latestWidget = Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: kHorizontalPadding,
                       vertical: kVerticalPadding * 3,
@@ -56,7 +57,7 @@ class FAQsPage extends StatelessWidget {
                   );
                 }
                 if (state is FAQError) {
-                  return SizedBox(
+                  return latestWidget = SizedBox(
                     height: MediaQuery.of(context).size.height -
                         kToolbarHeight * 2 -
                         kBottomNavigationBarHeight,
@@ -74,15 +75,7 @@ class FAQsPage extends StatelessWidget {
                     ),
                   );
                 }
-                log(state.toString());
-                return SizedBox(
-                  height: MediaQuery.of(context).size.height -
-                      kToolbarHeight * 2 -
-                      kBottomNavigationBarHeight,
-                  child: const Center(
-                    child: Text("Error Occured"),
-                  ),
-                );
+                return latestWidget ?? const SizedBox();
               },
             ),
           ),
