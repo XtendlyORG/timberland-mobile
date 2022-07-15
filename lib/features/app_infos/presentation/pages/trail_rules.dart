@@ -14,6 +14,7 @@ class TrailRulesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget? latestWidget;
     return RefreshableScrollView(
       onRefresh: () async {
         log('refresh trail rules');
@@ -36,13 +37,8 @@ class TrailRulesPage extends StatelessWidget {
             ),
             BlocBuilder<AppInfoBloc, AppInfoState>(
               builder: (context, state) {
-                if (state is AppInfoInitial) {
-                  BlocProvider.of<AppInfoBloc>(context).add(
-                    const FetchTrailRulesEvent(),
-                  );
-                }
                 if (state is LoadingTrailRules) {
-                  return SizedBox(
+                  return latestWidget = SizedBox(
                     height: MediaQuery.of(context).size.height -
                         kToolbarHeight * 2 -
                         kBottomNavigationBarHeight,
@@ -54,7 +50,7 @@ class TrailRulesPage extends StatelessWidget {
                   );
                 }
                 if (state is TrailRulesLoaded) {
-                  return Padding(
+                  return latestWidget = Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 20,
                       vertical: 10,
@@ -99,7 +95,7 @@ class TrailRulesPage extends StatelessWidget {
                   );
                 }
                 if (state is TrailRulesError) {
-                  return SizedBox(
+                  return latestWidget = SizedBox(
                     height: MediaQuery.of(context).size.height -
                         kToolbarHeight * 2 -
                         kBottomNavigationBarHeight,
@@ -117,14 +113,7 @@ class TrailRulesPage extends StatelessWidget {
                     ),
                   );
                 }
-                return SizedBox(
-                  height: MediaQuery.of(context).size.height -
-                      kToolbarHeight * 2 -
-                      kBottomNavigationBarHeight,
-                  child: const Center(
-                    child: Text("Error Occured"),
-                  ),
-                );
+                return latestWidget ?? const SizedBox();
               },
             ),
           ],
