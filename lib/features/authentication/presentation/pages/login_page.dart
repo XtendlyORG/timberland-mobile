@@ -4,18 +4,43 @@ import 'dart:developer';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:local_auth/local_auth.dart';
 
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
+import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/widgets/widgets.dart';
 
 class LoginPage extends StatelessWidget {
+  final bool signInWithFingerprint;
   const LoginPage({
     Key? key,
+    this.signInWithFingerprint = false,
   }) : super(key: key);
+
+  void authtenticateWithFingerPrint() async {
+    final LocalAuthentication auth = LocalAuthentication();
+
+    final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
+    final bool canAuthenticate =
+        canAuthenticateWithBiometrics || await auth.isDeviceSupported();
+
+    if (canAuthenticate & canAuthenticateWithBiometrics) {
+      final bool didAuthenticate = await auth.authenticate(
+        localizedReason: "Authenticate with your fingerprint to continue.",
+      );
+      if (didAuthenticate) {
+        Session().fingerprintAuthenticated();
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    log(signInWithFingerprint.toString());
+    if (signInWithFingerprint) {
+      authtenticateWithFingerPrint();
+    }
     return SafeArea(
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),

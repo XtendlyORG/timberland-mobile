@@ -3,6 +3,8 @@ part 'route.dart';
 abstract class Routes {
   // Authentiaction
   static const login = _Route(path: '/login', name: 'login');
+  static const loginFingerprint =
+      _Route(path: '/fingerprint', name: 'login-fingerprint');
   static const forgotPassword =
       _Route(path: '/forgot-password', name: 'forgot-password');
   static const register = _Route(path: '/register', name: 'register');
@@ -21,7 +23,7 @@ abstract class Routes {
   // profile - tab
   static const profile = _Route(path: '/profile', name: 'profile');
   static const updateProfile =
-      _Route(path: '/profile/update', name: 'update-profile');
+      _Route(path: '/update-profile', name: 'update-profile');
   static const booking = _Route(path: '/booking', name: 'booking');
   static const qr = _Route(path: '/qr', name: 'qr');
   static const rules = _Route(path: '/rules', name: 'rules');

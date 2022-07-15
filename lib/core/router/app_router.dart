@@ -20,20 +20,27 @@ import '../utils/session.dart';
 import 'routes/routes.dart';
 
 final appRouter = GoRouter(
-  initialLocation: Routes.login.path,
+  initialLocation: Routes.home.path,
   refreshListenable: Session(),
   redirect: (routeState) {
     bool isAuthenticating = [
       Routes.login.path,
+      "${Routes.login.path}${Routes.loginFingerprint.path}",
       Routes.forgotPassword.path,
       Routes.register.path,
       Routes.otpVerification.path,
     ].contains(routeState.location);
+
     if (Session().isLoggedIn && isAuthenticating) {
       // if logged in redirect to home page
       return Routes.home.path;
     } else if (!Session().isLoggedIn && !isAuthenticating) {
       //if not logged in redirect to login page
+      if (Session().currentUID != null) {
+        //if there is a saved user in cache, authenticate with finger print
+        log("here");
+        return "${Routes.login.path}${Routes.loginFingerprint.path}";
+      }
       return Routes.login.path;
     }
     return null;
@@ -49,6 +56,21 @@ final appRouter = GoRouter(
           child: const LoginPage(),
         );
       },
+      routes: [
+        GoRoute(
+          path: Routes.loginFingerprint.asSubPath(),
+          name: Routes.loginFingerprint.name,
+          pageBuilder: (context, state) {
+            return MaterialPage(
+              key: state.pageKey,
+              restorationId: state.pageKey.value,
+              child: const LoginPage(
+                signInWithFingerprint: true,
+              ),
+            );
+          },
+        ),
+      ],
     ),
     GoRoute(
       path: Routes.forgotPassword.path,
@@ -267,12 +289,13 @@ final appRouter = GoRouter(
     ),
   ],
   errorPageBuilder: (context, state) {
-    // TODO: Return Error Page
+    log(state.location);
+    log(state.path.toString());
     return MaterialPage(
       key: state.pageKey,
-      child: const Scaffold(
+      child: Scaffold(
         body: Center(
-          child: Text('404 Page Not Found.'),
+          child: Text('404 Page Not Found. ${state.location} as'),
         ),
       ),
     );

@@ -16,7 +16,7 @@ class Session extends ChangeNotifier {
 
   Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
-    _isLoggedIn = _prefs.getBool(_PrefKeys.isLoggedIn) ?? false;
+    _isLoggedIn = false;
     _currentUID = _prefs.getString(_PrefKeys.uid);
   }
 
@@ -33,6 +33,11 @@ class Session extends ChangeNotifier {
     _isLoggedIn = false;
     _prefs.remove(_PrefKeys.uid);
     _currentUID = null;
+    notifyListeners();
+  }
+
+  void fingerprintAuthenticated() {
+    _isLoggedIn = true;
     notifyListeners();
   }
 }
