@@ -65,7 +65,10 @@ class Dashboard extends StatelessWidget {
                       titleText: 'My Profile',
                     ),
                     DashBoardListTile(
-                      onTap: () {},
+                      onTap: () {
+                        context.pushNamed(Routes.booking.name);
+                        Navigator.pop(context);
+                      },
                       leading: const Image(
                         image: AssetImage('assets/icons/booking-icon.png'),
                         height: 24,

@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/features/app_infos/presentation/bloc/app_info_bloc.dart';
 import 'package:timberland_biketrail/features/app_infos/presentation/pages/faqs_page.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/pages/forgot_password.dart';
+import 'package:timberland_biketrail/features/booking/presentation/pages/booking_page.dart';
 import 'package:timberland_biketrail/features/trail/domain/entities/trail.dart';
 import 'package:timberland_biketrail/features/trail/presentation/pages/trail_details.dart';
 
@@ -216,6 +217,22 @@ final appRouter = GoRouter(
           child: const FAQsPage(),
           // key: routeState.pageKey,
           // restorationId: routeState.pageKey.value,
+          transitionDuration: const Duration(milliseconds: 500),
+          transitionsBuilder: (context, animation, secondaryAnim, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+    ),
+    GoRoute(
+      path: Routes.booking.path,
+      name: Routes.booking.name,
+      pageBuilder: (context, routeState) {
+        return CustomTransitionPage(
+          child: const BookingPage(),
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnim, child) {
             return FadeTransition(
