@@ -9,7 +9,7 @@ class BookingPage extends StatelessWidget {
     return TimberlandScaffold(
       titleText: "Booking Form",
       body: Column(
-        children: [],
+        children: const [],
       ),
     );
   }
