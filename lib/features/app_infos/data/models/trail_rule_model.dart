@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:timberland_biketrail/features/app_infos/domain/entities/trail_rule.dart';
 

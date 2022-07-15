@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:timberland_biketrail/features/app_infos/domain/entities/faq.dart';
 
 import 'package:timberland_biketrail/features/app_infos/domain/entities/trail_rule.dart';

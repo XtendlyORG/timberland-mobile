@@ -21,7 +21,7 @@ class FirstTimeUserPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("First time user page"),
+              const Text("First time user page"),
               TextButton(
                 onPressed: () {
                   BlocProvider.of<AuthBloc>(context)

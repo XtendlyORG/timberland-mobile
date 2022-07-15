@@ -5,7 +5,6 @@ import 'package:timberland_biketrail/core/errors/failures.dart';
 import 'package:timberland_biketrail/core/utils/usecase.dart';
 import 'package:timberland_biketrail/features/app_infos/domain/entities/trail_rule.dart';
 import 'package:timberland_biketrail/features/app_infos/domain/repositories/app_infos_repository.dart';
-import 'package:timberland_biketrail/features/trail/domain/entities/trail.dart';
 
 class FetchTrailRules implements Usecase<List<TrailRule>, void> {
   @override
