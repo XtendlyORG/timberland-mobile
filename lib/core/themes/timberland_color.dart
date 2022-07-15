@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 
 abstract class TimberlandColor {
+  static final linearGradient = LinearGradient(
+    colors: [
+      primary.withOpacity(.05),
+      Colors.white.withOpacity(.04),
+      Colors.white.withOpacity(.8)
+    ],
+    stops: const [.6, .8, 1],
+  );
+
   static const int _primary = 0xff00698F;
   static const MaterialColor primary = MaterialColor(_primary, <int, Color>{
     50: Color(0xFFE0EDF2),

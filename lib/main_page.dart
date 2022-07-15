@@ -6,6 +6,7 @@ import 'package:timberland_biketrail/core/constants/navbar_configs.dart';
 import 'package:timberland_biketrail/core/presentation/pages/firsttime_user_page.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_container.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
+import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/dashboard/presentation/pages/profile_page.dart';
 import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard.dart';
@@ -67,7 +68,12 @@ class _MainPageState extends State<MainPage> {
                   actions: currentIndex == 3
                       ? [
                           CircularIconButton(
-                            onTap: () {},
+                            onTap: () {
+                              context.pushNamed(
+                                Routes.updateProfile.name,
+                                extra: state.user,
+                              );
+                            },
                             icon: Icon(
                               Icons.settings,
                               color: Theme.of(context).backgroundColor,

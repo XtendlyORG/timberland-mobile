@@ -2,6 +2,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:timberland_biketrail/core/constants/navbar_configs.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/bottom_navbar.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_appbar.dart';
@@ -13,12 +14,14 @@ class TimberlandScaffold extends StatelessWidget {
   final String? titleText;
   final bool extendBodyBehindAppbar;
   final ScrollPhysics? physics;
+  final List<Widget>? actions;
   const TimberlandScaffold({
     Key? key,
     required this.body,
     this.titleText,
     this.extendBodyBehindAppbar = false,
     this.physics,
+    this.actions,
   }) : super(key: key);
 
   @override
@@ -29,6 +32,7 @@ class TimberlandScaffold extends StatelessWidget {
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(kToolbarHeight),
           child: TimberlandAppbar(
+            actions: actions,
             backButton: Tooltip(
               message: 'Back',
               child: IconButton(

@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/dashboard/presentation/widgets/update_profile_page.dart';
 import 'package:timberland_biketrail/features/app_infos/presentation/bloc/app_info_bloc.dart';
 import 'package:timberland_biketrail/features/app_infos/presentation/pages/faqs_page.dart';
+import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/pages/forgot_password.dart';
 import 'package:timberland_biketrail/features/booking/presentation/pages/booking_page.dart';
 import 'package:timberland_biketrail/features/trail/domain/entities/trail.dart';
@@ -14,7 +16,6 @@ import '../../dashboard/presentation/pages/qr_code_page.dart';
 import '../../features/authentication/presentation/pages/otp_verification_page.dart';
 import '../../features/authentication/presentation/pages/pages.dart';
 import '../../main_page.dart';
-import '../presentation/widgets/timberland_scaffold.dart';
 import '../utils/session.dart';
 import 'routes/routes.dart';
 
@@ -182,6 +183,27 @@ final appRouter = GoRouter(
               ),
             );
           },
+          routes: [
+            GoRoute(
+              path: Routes.updateProfile.asSubPath(),
+              name: Routes.updateProfile.name,
+              pageBuilder: (context, routeState) {
+                return CustomTransitionPage(
+                  child: UpdateProfilePage(
+                    user: (routeState.extra as User),
+                  ),
+                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    );
+                  },
+                );
+              },
+            ),
+          ],
         ),
       ],
     ),
