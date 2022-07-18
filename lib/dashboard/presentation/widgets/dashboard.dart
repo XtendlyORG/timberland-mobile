@@ -46,14 +46,6 @@ class Dashboard extends StatelessWidget {
                     ),
                     DashBoardListTile(
                       onTap: () {
-                        context.goNamed(Routes.trails.name);
-                        Navigator.pop(context);
-                      },
-                      leading: const Icon(Icons.map_outlined),
-                      titleText: 'Trail Directory',
-                    ),
-                    DashBoardListTile(
-                      onTap: () {
                         context.goNamed(Routes.profile.name);
                         Navigator.pop(context);
                       },
@@ -63,6 +55,14 @@ class Dashboard extends StatelessWidget {
                         width: 24,
                       ),
                       titleText: 'My Profile',
+                    ),
+                    DashBoardListTile(
+                      onTap: () {
+                        context.goNamed(Routes.trails.name);
+                        Navigator.pop(context);
+                      },
+                      leading: const Icon(Icons.map_outlined),
+                      titleText: 'Trail Directory',
                     ),
                     DashBoardListTile(
                       onTap: () {
@@ -78,11 +78,11 @@ class Dashboard extends StatelessWidget {
                     ),
                     DashBoardListTile(
                       onTap: () {
-                        context.pushNamed(Routes.qr.name);
+                        context.pushNamed(Routes.contacts.name);
                         Navigator.pop(context);
                       },
-                      leading: const Icon(Icons.qr_code),
-                      titleText: 'QR Generator',
+                      leading: const Icon(Icons.phone_outlined),
+                      titleText: 'Contact Us',
                     ),
                     DashBoardListTile(
                       onTap: () {
@@ -95,14 +95,6 @@ class Dashboard extends StatelessWidget {
                         width: 24,
                       ),
                       titleText: 'Rules',
-                    ),
-                    DashBoardListTile(
-                      onTap: () {
-                        context.pushNamed(Routes.contacts.name);
-                        Navigator.pop(context);
-                      },
-                      leading: const Icon(Icons.phone_outlined),
-                      titleText: 'Contact Us',
                     ),
                     DashBoardListTile(
                       onTap: () {},
