@@ -57,7 +57,9 @@ class _MyAppState extends State<MyApp> {
       } else if (state is Authenticated) {
         session.login(state.user.id);
       } else if (state is UnAuthenticated) {
-        session.logout();
+        if (!state.keepCurrentUser) {
+          session.logout();
+        }
       }
     });
   }

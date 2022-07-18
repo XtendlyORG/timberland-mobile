@@ -3,12 +3,15 @@ import 'dart:developer';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
 
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
+import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/widgets/widgets.dart';
 
 class LoginPage extends StatefulWidget {
@@ -32,7 +35,10 @@ class _LoginPageState extends State<LoginPage> {
     displayFingerPrintDialog = signInWithFingerprint;
   }
 
-  void authtenticateWithFingerPrint() async {
+  void authtenticateWithFingerPrint({
+    required VoidCallback onLockedOut,
+    required VoidCallback onPermanentlyLockedOut,
+  }) async {
     final LocalAuthentication auth = LocalAuthentication();
 
     final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
@@ -45,10 +51,19 @@ class _LoginPageState extends State<LoginPage> {
           localizedReason: "Authenticate with your fingerprint to continue.",
           options: const AuthenticationOptions(
             biometricOnly: true,
+            stickyAuth: true,
           ),
         );
         if (didAuthenticate) {
           Session().fingerprintAuthenticated();
+        }
+      } on PlatformException catch (e) {
+        log(e.code);
+        if (e.code == "LockedOut") {
+          onLockedOut();
+        }
+        if (e.code == "PermanentlyLockedOut") {
+          onPermanentlyLockedOut();
         }
       } catch (e) {
         log(e.toString());
@@ -61,10 +76,23 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    log(signInWithFingerprint.toString());
     if (displayFingerPrintDialog) {
-      authtenticateWithFingerPrint();
+      if (Session().lockAuthUntil == null) {
+        authtenticateWithFingerPrint(
+          onLockedOut: () {
+            BlocProvider.of<AuthBloc>(context).add(
+              const LockAuthEvent(),
+            );
+          },
+          onPermanentlyLockedOut: () {},
+        );
+      } else {
+        BlocProvider.of<AuthBloc>(context).add(
+          const LockAuthEvent(),
+        );
+      }
     }
+
     return SafeArea(
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
@@ -101,7 +129,22 @@ class _LoginPageState extends State<LoginPage> {
                     height: kVerticalPadding,
                   ),
                   IconButton(
-                    onPressed: authtenticateWithFingerPrint,
+                    onPressed: () {
+                      if (Session().lockAuthUntil == null) {
+                        authtenticateWithFingerPrint(
+                          onLockedOut: () {
+                            BlocProvider.of<AuthBloc>(context).add(
+                              const LockAuthEvent(),
+                            );
+                          },
+                          onPermanentlyLockedOut: () {},
+                        );
+                      } else {
+                        BlocProvider.of<AuthBloc>(context).add(
+                          const LockAuthEvent(),
+                        );
+                      }
+                    },
                     icon: const Icon(
                       Icons.fingerprint_rounded,
                       size: 32,

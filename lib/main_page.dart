@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -51,6 +53,7 @@ class _MainPageState extends State<MainPage> {
 
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
+        log("State is: $state");
         if (state is UnAuthenticated) {
           BlocProvider.of<AuthBloc>(context).add(
             FetchUserEvent(uid: Session().currentUID!),
@@ -134,9 +137,15 @@ class _MainPageState extends State<MainPage> {
             ),
           );
         }
-        return const Center(
-          child: RepaintBoundary(
-            child: CircularProgressIndicator(),
+        return const SafeArea(
+          child: Scaffold(
+            body: TimberlandContainer(
+              child: Center(
+                child: RepaintBoundary(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            ),
           ),
         );
       },

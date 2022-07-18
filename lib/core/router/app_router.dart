@@ -30,16 +30,15 @@ final appRouter = GoRouter(
       Routes.register.path,
       Routes.otpVerification.path,
     ].contains(routeState.location);
-    if (routeState.location == Routes.contacts.path) {
-      return null;
-    }
-
+    log(routeState.location);
     if (Session().isLoggedIn && isAuthenticating) {
       // if logged in redirect to home page
       return Routes.home.path;
     } else if (!Session().isLoggedIn && !isAuthenticating) {
       //if not logged in redirect to login page
       return Routes.login.path;
+    } else if (routeState.location == Routes.contacts.path) {
+      return null;
     }
     return null;
   },

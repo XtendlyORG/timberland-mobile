@@ -61,3 +61,11 @@ class FinishUserGuideEvent extends AuthEvent {
 class LogoutEvent extends AuthEvent {
   const LogoutEvent();
 }
+
+class LockAuthEvent extends AuthEvent {
+  const LockAuthEvent();
+}
+
+class UnlockAuthEvent extends AuthEvent {
+  const UnlockAuthEvent();
+}
