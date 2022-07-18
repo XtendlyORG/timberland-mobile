@@ -15,6 +15,7 @@ class TimberlandScaffold extends StatelessWidget {
   final bool extendBodyBehindAppbar;
   final ScrollPhysics? physics;
   final List<Widget>? actions;
+  final bool showNavbar;
   const TimberlandScaffold({
     Key? key,
     required this.body,
@@ -22,6 +23,7 @@ class TimberlandScaffold extends StatelessWidget {
     this.extendBodyBehindAppbar = false,
     this.physics,
     this.actions,
+    this.showNavbar = true,
   }) : super(key: key);
 
   @override
@@ -32,6 +34,7 @@ class TimberlandScaffold extends StatelessWidget {
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(kToolbarHeight),
           child: TimberlandAppbar(
+            showEndDrawerButton: showNavbar,
             actions: actions,
             backButton: Tooltip(
               message: 'Back',
@@ -47,14 +50,16 @@ class TimberlandScaffold extends StatelessWidget {
             ),
           ),
         ),
-        endDrawer: const Dashboard(),
-        bottomNavigationBar: BottomNavBar(
-          index: 0,
-          configs: navbarConfigs,
-          onTap: (index) {
-            context.goNamed(navbarConfigs[index].routeName);
-          },
-        ),
+        endDrawer: showNavbar ? const Dashboard() : null,
+        bottomNavigationBar: showNavbar
+            ? BottomNavBar(
+                index: 0,
+                configs: navbarConfigs,
+                onTap: (index) {
+                  context.goNamed(navbarConfigs[index].routeName);
+                },
+              )
+            : null,
         body: TimberlandContainer(
           child: SizedBox.expand(
             child: ListView(

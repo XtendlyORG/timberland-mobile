@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/dashboard/presentation/widgets/update_profile_page.dart';
 import 'package:timberland_biketrail/features/app_infos/presentation/bloc/app_info_bloc.dart';
+import 'package:timberland_biketrail/features/app_infos/presentation/pages/contacts_page.dart';
 import 'package:timberland_biketrail/features/app_infos/presentation/pages/faqs_page.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/pages/forgot_password.dart';
@@ -20,7 +21,7 @@ import '../utils/session.dart';
 import 'routes/routes.dart';
 
 final appRouter = GoRouter(
-  initialLocation: Routes.login.path,
+  initialLocation: Routes.home.path,
   refreshListenable: Session(),
   redirect: (routeState) {
     bool isAuthenticating = [
@@ -29,6 +30,10 @@ final appRouter = GoRouter(
       Routes.register.path,
       Routes.otpVerification.path,
     ].contains(routeState.location);
+    if (routeState.location == Routes.contacts.path) {
+      return null;
+    }
+
     if (Session().isLoggedIn && isAuthenticating) {
       // if logged in redirect to home page
       return Routes.home.path;
@@ -44,7 +49,7 @@ final appRouter = GoRouter(
       name: Routes.login.name,
       pageBuilder: (context, state) {
         return MaterialPage(
-          key: state.pageKey,
+          // key: state.pageKey,
           restorationId: state.pageKey.value,
           child: const LoginPage(),
         );
@@ -265,14 +270,33 @@ final appRouter = GoRouter(
         );
       },
     ),
+    GoRoute(
+      path: Routes.contacts.path,
+      name: Routes.contacts.name,
+      pageBuilder: (context, routeState) {
+        return CustomTransitionPage(
+          key: routeState.pageKey,
+          restorationId: routeState.pageKey.value,
+          child: const ContactsPage(),
+          transitionDuration: const Duration(milliseconds: 500),
+          transitionsBuilder: (context, animation, secondaryAnim, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+    ),
   ],
   errorPageBuilder: (context, state) {
-    // TODO: Return Error Page
+    log(state.location);
+    log(state.path.toString());
     return MaterialPage(
       key: state.pageKey,
-      child: const Scaffold(
+      child: Scaffold(
         body: Center(
-          child: Text('404 Page Not Found.'),
+          child: Text('404 Page Not Found. ${state.location} as'),
         ),
       ),
     );

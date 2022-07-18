@@ -4,18 +4,67 @@ import 'dart:developer';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:local_auth/local_auth.dart';
 
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
+import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/widgets/widgets.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  // final bool signInWithFingerprint;
   const LoginPage({
     Key? key,
+    // this.signInWithFingerprint = false,
   }) : super(key: key);
 
   @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  late bool displayFingerPrintDialog;
+  late final bool signInWithFingerprint;
+  @override
+  void initState() {
+    super.initState();
+    signInWithFingerprint = Session().currentUID != null;
+    displayFingerPrintDialog = signInWithFingerprint;
+  }
+
+  void authtenticateWithFingerPrint() async {
+    final LocalAuthentication auth = LocalAuthentication();
+
+    final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
+    final bool canAuthenticate =
+        canAuthenticateWithBiometrics || await auth.isDeviceSupported();
+
+    if (canAuthenticate & canAuthenticateWithBiometrics) {
+      try {
+        final bool didAuthenticate = await auth.authenticate(
+          localizedReason: "Authenticate with your fingerprint to continue.",
+          options: const AuthenticationOptions(
+            biometricOnly: true,
+          ),
+        );
+        if (didAuthenticate) {
+          Session().fingerprintAuthenticated();
+        }
+      } catch (e) {
+        log(e.toString());
+      }
+    }
+    setState(() {
+      displayFingerPrintDialog = false;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    log(signInWithFingerprint.toString());
+    if (displayFingerPrintDialog) {
+      authtenticateWithFingerPrint();
+    }
     return SafeArea(
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
@@ -45,6 +94,33 @@ class LoginPage extends StatelessWidget {
                           },
                       ),
                     ],
+                  ),
+                ),
+                if (signInWithFingerprint) ...[
+                  const SizedBox(
+                    height: kVerticalPadding,
+                  ),
+                  IconButton(
+                    onPressed: authtenticateWithFingerPrint,
+                    icon: const Icon(
+                      Icons.fingerprint_rounded,
+                      size: 32,
+                    ),
+                  ),
+                ],
+                const SizedBox(
+                  height: kVerticalPadding,
+                ),
+                Text.rich(
+                  TextSpan(
+                    text: 'Contact Us',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        context.pushNamed(Routes.contacts.name);
+                      },
                   ),
                 ),
               ],
