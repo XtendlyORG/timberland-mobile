@@ -12,10 +12,10 @@ import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/widgets/widgets.dart';
 
 class LoginPage extends StatelessWidget {
-  final bool signInWithFingerprint;
+  // final bool signInWithFingerprint;
   const LoginPage({
     Key? key,
-    this.signInWithFingerprint = false,
+    // this.signInWithFingerprint = false,
   }) : super(key: key);
 
   void authtenticateWithFingerPrint() async {
@@ -26,17 +26,25 @@ class LoginPage extends StatelessWidget {
         canAuthenticateWithBiometrics || await auth.isDeviceSupported();
 
     if (canAuthenticate & canAuthenticateWithBiometrics) {
-      final bool didAuthenticate = await auth.authenticate(
-        localizedReason: "Authenticate with your fingerprint to continue.",
-      );
-      if (didAuthenticate) {
-        Session().fingerprintAuthenticated();
+      try {
+        final bool didAuthenticate = await auth.authenticate(
+          localizedReason: "Authenticate with your fingerprint to continue.",
+          options: const AuthenticationOptions(
+            biometricOnly: true,
+          ),
+        );
+        if (didAuthenticate) {
+          Session().fingerprintAuthenticated();
+        }
+      } catch (e) {
+        log(e.toString());
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final bool signInWithFingerprint = Session().currentUID != null;
     log(signInWithFingerprint.toString());
     if (signInWithFingerprint) {
       authtenticateWithFingerPrint();
@@ -70,6 +78,30 @@ class LoginPage extends StatelessWidget {
                           },
                       ),
                     ],
+                  ),
+                ),
+                if (signInWithFingerprint) ...[
+                  const SizedBox(
+                    height: kVerticalPadding,
+                  ),
+                  IconButton(
+                    onPressed: authtenticateWithFingerPrint,
+                    icon: const Icon(
+                      Icons.fingerprint_rounded,
+                      size: 32,
+                    ),
+                  ),
+                ],
+                const SizedBox(
+                  height: kVerticalPadding,
+                ),
+                Text.rich(
+                  TextSpan(
+                    text: 'Contact Us',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                    recognizer: TapGestureRecognizer()..onTap = () {},
                   ),
                 ),
               ],

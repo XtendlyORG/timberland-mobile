@@ -25,7 +25,6 @@ final appRouter = GoRouter(
   redirect: (routeState) {
     bool isAuthenticating = [
       Routes.login.path,
-      "${Routes.login.path}${Routes.loginFingerprint.path}",
       Routes.forgotPassword.path,
       Routes.register.path,
       Routes.otpVerification.path,
@@ -36,11 +35,6 @@ final appRouter = GoRouter(
       return Routes.home.path;
     } else if (!Session().isLoggedIn && !isAuthenticating) {
       //if not logged in redirect to login page
-      if (Session().currentUID != null) {
-        //if there is a saved user in cache, authenticate with finger print
-        log("here");
-        return "${Routes.login.path}${Routes.loginFingerprint.path}";
-      }
       return Routes.login.path;
     }
     return null;
@@ -56,21 +50,6 @@ final appRouter = GoRouter(
           child: const LoginPage(),
         );
       },
-      routes: [
-        GoRoute(
-          path: Routes.loginFingerprint.asSubPath(),
-          name: Routes.loginFingerprint.name,
-          pageBuilder: (context, state) {
-            return MaterialPage(
-              key: state.pageKey,
-              restorationId: state.pageKey.value,
-              child: const LoginPage(
-                signInWithFingerprint: true,
-              ),
-            );
-          },
-        ),
-      ],
     ),
     GoRoute(
       path: Routes.forgotPassword.path,
