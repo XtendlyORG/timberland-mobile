@@ -30,6 +30,7 @@ class TimberlandTheme {
             borderSide: const BorderSide(color: TimberlandColor.primary),
             borderRadius: BorderRadius.circular(6),
           ),
+          hintStyle: const TextStyle(fontSize: 18),
         ),
         scaffoldBackgroundColor: TimberlandColor.background,
         textTheme: TextTheme(

@@ -157,9 +157,9 @@ class _LoginPageState extends State<LoginPage> {
                 Text.rich(
                   TextSpan(
                     text: 'Contact Us',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
                         context.pushNamed(Routes.contacts.name);
