@@ -1,8 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore: depend_on_referenced_packages
 
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
 import 'package:timberland_biketrail/features/authentication/domain/usecases/usecases.dart';
 
@@ -33,6 +36,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<FetchUserEvent>((event, emit) {
       emit(
+        const AuthLoading(loadingMessage: "Logging in to your account."),
+      );
+      emit(
         Authenticated(
           user: User(
             age: 19,
@@ -47,6 +53,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
     });
 
+    on<LockAuthEvent>((event, emit) {
+      log(state.toString());
+      if (Session().lockAuthUntil == null) {
+        Session().lockAuth(duration: const Duration(seconds: 60));
+      }
+      emit(
+        AuthLocked(
+          lockUntil: Session().lockAuthUntil!,
+        ),
+      );
+    });
+
+    on<UnlockAuthEvent>((event, emit) {
+      Session().unlockAuth();
+      emit(const UnAuthenticated(
+        keepCurrentUser: true,
+      ));
+    });
     on<LoginEvent>((event, emit) async {
       emit(
         const AuthLoading(loadingMessage: "Logging in to your account."),

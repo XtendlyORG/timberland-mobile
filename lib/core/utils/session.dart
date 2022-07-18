@@ -10,14 +10,24 @@ class Session extends ChangeNotifier {
 
   late bool _isLoggedIn;
   late String? _currentUID;
+  late DateTime? _lockAuthUntil;
 
   bool get isLoggedIn => _isLoggedIn;
   String? get currentUID => _currentUID;
+  DateTime? get lockAuthUntil => _lockAuthUntil;
 
   Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
     _isLoggedIn = false;
     _currentUID = _prefs.getString(_PrefKeys.uid);
+
+    final lockUntil =
+        DateTime.tryParse(_prefs.getString(_PrefKeys.lockAuthUntil) ?? '');
+
+    _lockAuthUntil =
+        (lockUntil?.difference(DateTime.now()).inSeconds ?? -1) <= 0
+            ? null
+            : lockUntil;
   }
 
   void login(String uid) {
@@ -40,9 +50,21 @@ class Session extends ChangeNotifier {
     _isLoggedIn = true;
     notifyListeners();
   }
+
+  void unlockAuth() {
+    _lockAuthUntil = null;
+    _prefs.remove(_PrefKeys.lockAuthUntil);
+  }
+
+  void lockAuth({required Duration duration}) async {
+    _lockAuthUntil = DateTime.now().add(duration);
+    await _prefs.setString(
+        _PrefKeys.lockAuthUntil, _lockAuthUntil!.toIso8601String());
+  }
 }
 
 abstract class _PrefKeys {
   static const isLoggedIn = 'isLoggedIn';
   static const uid = 'UID';
+  static const lockAuthUntil = 'lockAuthUntil';
 }

@@ -9,7 +9,12 @@ abstract class AuthState extends Equatable {
 }
 
 class UnAuthenticated extends AuthState {
-  const UnAuthenticated();
+  final bool keepCurrentUser;
+  const UnAuthenticated({
+    this.keepCurrentUser = false,
+  });
+  @override
+  List<Object> get props => super.props..add(keepCurrentUser);
 }
 
 class OtpSent extends AuthState {
@@ -41,6 +46,15 @@ class AuthError extends AuthState {
   });
   @override
   List<Object> get props => super.props..add(errorMessage);
+}
+
+class AuthLocked extends AuthState {
+  final DateTime lockUntil;
+  const AuthLocked({
+    required this.lockUntil,
+  });
+  @override
+  List<Object> get props => super.props..add(lockUntil);
 }
 
 class AuthLoading extends AuthState {

@@ -1,4 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +10,7 @@ import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_logo.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:timberland_biketrail/features/authentication/presentation/widgets/auth_locked_widget.dart';
 
 class AuthPageContainer extends StatelessWidget {
   final Widget child;
@@ -22,6 +26,23 @@ class AuthPageContainer extends StatelessWidget {
     final screen = MediaQuery.of(context);
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
+        if (state is AuthLocked) {
+          log('AuthState: $state');
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) {
+              return AuthLockedWidget(
+                duration: state.lockUntil.difference(DateTime.now()).inSeconds,
+              );
+            },
+          );
+        }
+        if (state is UnAuthenticated) {
+          if (state.keepCurrentUser) {
+            Navigator.pop(context);
+          }
+        }
         if (state is Authenticated) {
           ScaffoldMessenger.of(context)
             ..clearSnackBars()
