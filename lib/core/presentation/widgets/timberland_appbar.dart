@@ -6,10 +6,12 @@ import 'widgets.dart';
 class TimberlandAppbar extends StatelessWidget {
   final Widget? backButton;
   final List<Widget>? actions;
+  final bool showEndDrawerButton;
   const TimberlandAppbar({
     Key? key,
     this.backButton,
     this.actions,
+    this.showEndDrawerButton = true,
   }) : super(key: key);
 
   @override
@@ -19,13 +21,15 @@ class TimberlandAppbar extends StatelessWidget {
       backgroundColor: Colors.transparent,
       foregroundColor: Theme.of(context).colorScheme.primary,
       leading: backButton,
-      actions: [
-        if (actions != null) ...actions!,
-        const Tooltip(
-          message: 'Dashboard',
-          child: DrawerIconButton(),
-        ),
-      ],
+      actions: showEndDrawerButton
+          ? [
+              if (actions != null) ...actions!,
+              const Tooltip(
+                message: 'Dashboard',
+                child: DrawerIconButton(),
+              ),
+            ]
+          : null,
     );
   }
 }

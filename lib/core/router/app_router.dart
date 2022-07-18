@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/dashboard/presentation/widgets/update_profile_page.dart';
 import 'package:timberland_biketrail/features/app_infos/presentation/bloc/app_info_bloc.dart';
+import 'package:timberland_biketrail/features/app_infos/presentation/pages/contacts_page.dart';
 import 'package:timberland_biketrail/features/app_infos/presentation/pages/faqs_page.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/pages/forgot_password.dart';
@@ -29,6 +30,9 @@ final appRouter = GoRouter(
       Routes.register.path,
       Routes.otpVerification.path,
     ].contains(routeState.location);
+    if (routeState.location == Routes.contacts.path) {
+      return null;
+    }
 
     if (Session().isLoggedIn && isAuthenticating) {
       // if logged in redirect to home page
@@ -45,7 +49,7 @@ final appRouter = GoRouter(
       name: Routes.login.name,
       pageBuilder: (context, state) {
         return MaterialPage(
-          key: state.pageKey,
+          // key: state.pageKey,
           restorationId: state.pageKey.value,
           child: const LoginPage(),
         );
@@ -256,6 +260,24 @@ final appRouter = GoRouter(
       pageBuilder: (context, routeState) {
         return CustomTransitionPage(
           child: const BookingPage(),
+          transitionDuration: const Duration(milliseconds: 500),
+          transitionsBuilder: (context, animation, secondaryAnim, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+    ),
+    GoRoute(
+      path: Routes.contacts.path,
+      name: Routes.contacts.name,
+      pageBuilder: (context, routeState) {
+        return CustomTransitionPage(
+          key: routeState.pageKey,
+          restorationId: routeState.pageKey.value,
+          child: const ContactsPage(),
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnim, child) {
             return FadeTransition(

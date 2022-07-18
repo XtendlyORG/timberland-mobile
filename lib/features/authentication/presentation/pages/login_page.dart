@@ -101,7 +101,10 @@ class LoginPage extends StatelessWidget {
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
-                    recognizer: TapGestureRecognizer()..onTap = () {},
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        context.pushNamed(Routes.contacts.name);
+                      },
                   ),
                 ),
               ],
