@@ -97,7 +97,10 @@ class Dashboard extends StatelessWidget {
                       titleText: 'Rules',
                     ),
                     DashBoardListTile(
-                      onTap: () {},
+                      onTap: () {
+                        context.pushNamed(Routes.contacts.name);
+                        Navigator.pop(context);
+                      },
                       leading: const Icon(Icons.phone_outlined),
                       titleText: 'Contact Us',
                     ),
