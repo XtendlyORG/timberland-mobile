@@ -11,12 +11,26 @@ import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/widgets/widgets.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   // final bool signInWithFingerprint;
   const LoginPage({
     Key? key,
     // this.signInWithFingerprint = false,
   }) : super(key: key);
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  late bool displayFingerPrintDialog;
+  late final bool signInWithFingerprint;
+  @override
+  void initState() {
+    super.initState();
+    signInWithFingerprint = Session().currentUID != null;
+    displayFingerPrintDialog = signInWithFingerprint;
+  }
 
   void authtenticateWithFingerPrint() async {
     final LocalAuthentication auth = LocalAuthentication();
@@ -40,13 +54,15 @@ class LoginPage extends StatelessWidget {
         log(e.toString());
       }
     }
+    setState(() {
+      displayFingerPrintDialog = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final bool signInWithFingerprint = Session().currentUID != null;
     log(signInWithFingerprint.toString());
-    if (signInWithFingerprint) {
+    if (displayFingerPrintDialog) {
       authtenticateWithFingerPrint();
     }
     return SafeArea(
