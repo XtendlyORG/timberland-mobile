@@ -6,6 +6,8 @@ abstract class Routes {
   static const forgotPassword =
       _Route(path: '/forgot-password', name: 'forgot-password');
   static const register = _Route(path: '/register', name: 'register');
+  static const registerContinuation =
+      _Route(path: '/continuation', name: 'register-continuation');
   static const otpVerification = _Route(
     path: '/otp-verification',
     name: 'otp-verification',

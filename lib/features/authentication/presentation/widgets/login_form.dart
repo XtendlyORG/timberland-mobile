@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/email_validator.dart';
 
@@ -53,7 +54,7 @@ class LoginForm extends StatelessWidget {
           Container(
             width: double.infinity,
             margin: const EdgeInsets.only(bottom: kVerticalPadding),
-            child: TextButton(
+            child: FilledTextButton(
               onPressed: () {
                 if (formKey.currentState!.validate()) {
                   BlocProvider.of<AuthBloc>(context).add(

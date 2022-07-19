@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
 
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_scaffold.dart';
 import 'package:timberland_biketrail/core/utils/email_validator.dart';
@@ -76,7 +77,7 @@ class ContactsPageForm extends StatelessWidget {
           const SizedBox(height: kVerticalPadding),
           SizedBox(
             width: double.infinity,
-            child: TextButton(
+            child: FilledTextButton(
               onPressed: () {
                 if (formKey.currentState!.validate()) {
                   // TODO: Call contact us event here

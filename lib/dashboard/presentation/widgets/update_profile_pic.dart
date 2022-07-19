@@ -29,19 +29,9 @@ class _UpdateProfilePicState extends State<UpdateProfilePic> {
           backgroundColor: Theme.of(context).backgroundColor.withOpacity(.2),
           builder: (context) {
             return ImagePickerOptionBottomSheet(
-              fromCameraCallback: () async {
+              callback: ({required ImageSource source}) async {
                 XFile? image = await ImagePicker().pickImage(
-                  source: ImageSource.camera,
-                );
-                if (image != null) {
-                  setState(() {
-                    fileImage = File(image.path);
-                  });
-                }
-              },
-              fromGalleryCallback: () async {
-                XFile? image = await ImagePicker().pickImage(
-                  source: ImageSource.gallery,
+                  source: source,
                 );
                 if (image != null) {
                   setState(() {

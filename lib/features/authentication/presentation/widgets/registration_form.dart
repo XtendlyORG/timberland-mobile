@@ -4,11 +4,16 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
+import 'package:timberland_biketrail/core/constants/gender_dropdown_items.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/date_picker.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/features/authentication/domain/usecases/register.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/widgets/password_field.dart';
+import 'package:timberland_biketrail/features/authentication/presentation/widgets/terms_of_use.dart';
 
 class RegistrationForm extends StatelessWidget {
   const RegistrationForm({Key? key}) : super(key: key);
@@ -34,157 +39,171 @@ class RegistrationForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
-    final emailCtrl = TextEditingController();
     final firstNameCtrl = TextEditingController();
+    final middleNameCtrl = TextEditingController();
     final lastNameCtrl = TextEditingController();
-    final passwordCtrl = TextEditingController();
+    String? selectedGender;
+    final birthdayCtrl = TextEditingController();
+    DateTime? birthday;
+    final addressCtrl = TextEditingController();
+    final professionCtrl = TextEditingController();
+
     bool agreedToTermsOfUse = false;
-    return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) {
-        if (state is OtpSent) {
-          context.goNamed(Routes.otpVerification.name);
-        }
-      },
-      child: Form(
-        key: formKey,
-        child: Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.only(
-                bottom: kVerticalPadding,
+    return Form(
+      key: formKey,
+      child: Column(
+        children: [
+          Container(
+            margin: const EdgeInsets.only(
+              bottom: kVerticalPadding,
+            ),
+            child: TextFormField(
+              controller: firstNameCtrl,
+              validator: validateName,
+              decoration: const InputDecoration(
+                hintText: 'First Name',
               ),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(
+              bottom: kVerticalPadding,
+            ),
+            child: TextFormField(
+              controller: middleNameCtrl,
+              decoration: const InputDecoration(
+                hintText: 'Middle Name',
+              ),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(
+              bottom: kVerticalPadding,
+            ),
+            child: TextFormField(
+              controller: lastNameCtrl,
+              validator: validateName,
+              decoration: const InputDecoration(
+                hintText: 'Last Name',
+              ),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(
+              bottom: kVerticalPadding,
+            ),
+            child: DropdownButtonFormField<String>(
+              items: kGenderDropDownItems
+                  .map(
+                    (category) => DropdownMenuItem<String>(
+                      value: category,
+                      child: Text(category),
+                    ),
+                  )
+                  .toList(),
+              onChanged: (selected) {
+                selectedGender = selected ?? selectedGender;
+              },
+              value: selectedGender,
+              borderRadius: BorderRadius.circular(10),
+              hint: const Text('Gender'),
+              decoration: const InputDecoration(),
+              validator: (gender) {
+                if (gender == null) {
+                  return 'Please select a gender';
+                }
+                return null;
+              },
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(
+              bottom: kVerticalPadding,
+            ),
+            child: ExcludeFocus(
               child: TextFormField(
-                controller: firstNameCtrl,
-                validator: validateName,
-                decoration: const InputDecoration(
-                  hintText: 'First Name',
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(
-                bottom: kVerticalPadding,
-              ),
-              child: TextFormField(
-                controller: lastNameCtrl,
-                validator: validateName,
-                decoration: const InputDecoration(
-                  hintText: 'Last Name',
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(
-                bottom: kVerticalPadding,
-              ),
-              child: TextFormField(
-                controller: emailCtrl,
-                validator: validateEmail,
-                decoration: const InputDecoration(
-                  hintText: 'Email Address',
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(
-                bottom: kVerticalPadding,
-              ),
-              child: PasswordField(controller: passwordCtrl),
-            ),
-            Container(
-              width: double.infinity,
-              margin: const EdgeInsets.only(bottom: kVerticalPadding),
-              child: TextButton(
-                onPressed: () {
-                  if (formKey.currentState!.validate() & agreedToTermsOfUse) {
-                    BlocProvider.of<AuthBloc>(context).add(
-                      SendOtpEvent(
-                        registerParameter: RegisterParameter(
-                          firstName: firstNameCtrl.text,
-                          lastName: lastNameCtrl.text,
-                          email: emailCtrl.text,
-                          password: passwordCtrl.text,
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return Dialog(
+                        child: CustomDatePicker(
+                          onSumbit: (value) {
+                            if (value is DateTime) {
+                              birthday = value;
+                              log(birthday.toString());
+                              birthdayCtrl.text =
+                                  DateFormat.yMMMMd('en_US').format(value);
+                            }
+                          },
                         ),
-                      ),
-                    );
-                  }
-                  if (!agreedToTermsOfUse) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Terms of Use not accepted.'),
-                      ),
-                    );
-                  }
+                      );
+                    },
+                  );
                 },
-                child: const Text("Register"),
+                controller: birthdayCtrl,
+                validator: validateName,
+                decoration: const InputDecoration(
+                  hintText: 'Date of Birth',
+                ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RepaintBoundary(
-                  child: TermsOfUse(
-                    onChange: (val) {
-                      agreedToTermsOfUse = val;
-                      log(agreedToTermsOfUse.toString());
-                    },
-                  ),
-                ),
-                Text.rich(
-                  const TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'By signing up you agree to our',
-                        style: TextStyle(fontWeight: FontWeight.normal),
-                      ),
-                      TextSpan(
-                        text: '\nTerms of Use',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                  style: Theme.of(context).textTheme.titleSmall,
-                  textAlign: TextAlign.center,
-                ),
-              ],
+          ),
+          Container(
+            margin: const EdgeInsets.only(
+              bottom: kVerticalPadding,
             ),
-          ],
-        ),
+            child: TextFormField(
+              controller: addressCtrl,
+              validator: (val) {},
+              decoration: const InputDecoration(
+                hintText: 'Address',
+              ),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(
+              bottom: kVerticalPadding,
+            ),
+            child: TextFormField(
+              controller: professionCtrl,
+              validator: (val) {},
+              decoration: const InputDecoration(
+                hintText: 'Profession',
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                width: (MediaQuery.of(context).size.width / 2) -
+                    kHorizontalPadding,
+                margin: const EdgeInsets.only(bottom: kVerticalPadding),
+                child: FilledTextButton(
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      context.pushNamed(
+                        Routes.registerContinuation.name,
+                        extra: RegisterParameter(
+                          firstName: firstNameCtrl.text,
+                          middleName: middleNameCtrl.text,
+                          lastName: lastNameCtrl.text,
+                          gender: selectedGender!,
+                          birthDay: DateTime.now(),
+                          address: addressCtrl.text,
+                          profession: professionCtrl.text,
+                        ),
+                      );
+                    }
+                  },
+                  child: const Text("Next"),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
-    );
-  }
-}
-
-class TermsOfUse extends StatefulWidget {
-  final void Function(bool val) onChange;
-  const TermsOfUse({
-    Key? key,
-    required this.onChange,
-  }) : super(key: key);
-
-  @override
-  State<TermsOfUse> createState() => _TermsOfUseState();
-}
-
-class _TermsOfUseState extends State<TermsOfUse> {
-  late bool agreedToTermsOfUse;
-
-  @override
-  void initState() {
-    super.initState();
-    agreedToTermsOfUse = false;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Checkbox(
-      value: agreedToTermsOfUse,
-      onChanged: (val) {
-        setState(() {
-          agreedToTermsOfUse = !agreedToTermsOfUse;
-        });
-        widget.onChange(agreedToTermsOfUse);
-      },
     );
   }
 }

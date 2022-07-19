@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,6 @@ class AuthPageContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screen = MediaQuery.of(context);
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthLocked) {
@@ -105,32 +105,37 @@ class AuthPageContainer extends StatelessWidget {
             ),
           ),
           Align(
-            alignment: alignment,
-            child: SingleChildScrollView(
-              child: SizedBox(
-                height: (screen.orientation == Orientation.portrait
-                        ? screen.size.height
-                        : screen.size.width) -
-                    kToolbarHeight,
-                child: Padding(
+            alignment: Alignment.topCenter,
+            child: ListView(
+              shrinkWrap: true,
+              padding: EdgeInsets.zero,
+              children: [
+                const Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: kToolbarHeight / 2),
+                    child: TimberlandLogo(),
+                  ),
+                ),
+                Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: kHorizontalPadding,
-                    vertical: kVerticalPadding,
+                    // vertical: kVerticalPadding,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Align(
-                        alignment: Alignment.topCenter,
-                        child: TimberlandLogo(),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: kVerticalPadding * 2,
+                          bottom: kVerticalPadding,
+                        ),
+                        child: child,
                       ),
-                      const Spacer(),
-                      child,
-                      const Spacer(),
                     ],
                   ),
                 ),
-              ),
+              ],
             ),
           ),
         ],

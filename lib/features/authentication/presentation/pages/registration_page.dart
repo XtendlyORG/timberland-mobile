@@ -7,12 +7,13 @@ import 'package:go_router/go_router.dart';
 
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
-
 import 'package:timberland_biketrail/features/authentication/presentation/widgets/widgets.dart';
 
 class RegistrationPage extends StatelessWidget {
+  final Widget form;
   const RegistrationPage({
     Key? key,
+    required this.form,
   }) : super(key: key);
 
   @override
@@ -29,7 +30,11 @@ class RegistrationPage extends StatelessWidget {
               message: 'Back',
               child: IconButton(
                 onPressed: () {
-                  context.goNamed(Routes.login.name);
+                  if (form is RegistrationForm) {
+                    context.goNamed(Routes.login.name);
+                  } else {
+                    context.goNamed(Routes.register.name);
+                  }
                 },
                 icon: const Icon(
                   Icons.arrow_back_rounded,
@@ -42,7 +47,7 @@ class RegistrationPage extends StatelessWidget {
           body: AuthPageContainer(
             child: Column(
               children: [
-                const RegistrationForm(),
+                form,
                 const SizedBox(
                   height: kVerticalPadding,
                 ),
