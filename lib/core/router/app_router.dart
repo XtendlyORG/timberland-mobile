@@ -8,7 +8,10 @@ import 'package:timberland_biketrail/features/app_infos/presentation/bloc/app_in
 import 'package:timberland_biketrail/features/app_infos/presentation/pages/contacts_page.dart';
 import 'package:timberland_biketrail/features/app_infos/presentation/pages/faqs_page.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
+import 'package:timberland_biketrail/features/authentication/domain/usecases/register.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/pages/forgot_password.dart';
+import 'package:timberland_biketrail/features/authentication/presentation/widgets/registration_form.dart';
+import 'package:timberland_biketrail/features/authentication/presentation/widgets/registration_form_continuation.dart';
 import 'package:timberland_biketrail/features/booking/presentation/pages/booking_page.dart';
 import 'package:timberland_biketrail/features/trail/domain/entities/trail.dart';
 import 'package:timberland_biketrail/features/trail/presentation/pages/trail_details.dart';
@@ -28,8 +31,12 @@ final appRouter = GoRouter(
       Routes.login.path,
       Routes.forgotPassword.path,
       Routes.register.path,
-      Routes.otpVerification.path,
+      '${Routes.register.path}${Routes.registerContinuation.path}',
+      '${Routes.register.path}${Routes.otpVerification.path}',
     ].contains(routeState.location);
+    if (routeState.location == Routes.contacts.path) {
+      return null;
+    }
     log(routeState.location);
     if (Session().isLoggedIn && isAuthenticating) {
       // if logged in redirect to home page
@@ -79,7 +86,9 @@ final appRouter = GoRouter(
         return CustomTransitionPage(
           key: state.pageKey,
           restorationId: state.pageKey.value,
-          child: const RegistrationPage(),
+          child: const RegistrationPage(
+            form: RegistrationForm(),
+          ),
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
@@ -89,24 +98,50 @@ final appRouter = GoRouter(
           },
         );
       },
-    ),
-    GoRoute(
-      path: Routes.otpVerification.path,
-      name: Routes.otpVerification.name,
-      pageBuilder: (context, state) {
-        return CustomTransitionPage(
-          key: state.pageKey,
-          restorationId: state.pageKey.value,
-          child: const OtpVerificationPage(),
-          transitionDuration: const Duration(milliseconds: 500),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(
-              opacity: animation,
-              child: child,
+      routes: [
+        GoRoute(
+          path: Routes.registerContinuation.asSubPath(),
+          name: Routes.registerContinuation.name,
+          pageBuilder: (context, state) {
+            return CustomTransitionPage(
+              key: state.pageKey,
+              restorationId: state.pageKey.value,
+              child: RegistrationPage(
+                form: RegistrationContinuationForm(
+                  registerParameter: state.extra as RegisterParameter,
+                ),
+              ),
+              transitionDuration: const Duration(milliseconds: 500),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              },
             );
           },
-        );
-      },
+        ),
+        GoRoute(
+          path: Routes.otpVerification.asSubPath(),
+          name: Routes.otpVerification.name,
+          pageBuilder: (context, state) {
+            return CustomTransitionPage(
+              key: state.pageKey,
+              restorationId: state.pageKey.value,
+              child: const OtpVerificationPage(),
+              transitionDuration: const Duration(milliseconds: 500),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              },
+            );
+          },
+        ),
+      ],
     ),
     GoRoute(
       path: Routes.home.path,

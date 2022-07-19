@@ -11,8 +11,6 @@ class TimberlandTheme {
         fontFamily: GoogleFonts.openSans().fontFamily,
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
-            backgroundColor: TimberlandColor.primary,
-            primary: TimberlandColor.background,
             fixedSize: const Size(double.infinity, 50),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(6),
@@ -24,6 +22,8 @@ class TimberlandTheme {
             borderSide: const BorderSide(color: TimberlandColor.primary),
             borderRadius: BorderRadius.circular(6),
           ),
+          isDense: true,
+          isCollapsed: true,
           fillColor: TimberlandColor.background,
           filled: true,
           enabledBorder: OutlineInputBorder(

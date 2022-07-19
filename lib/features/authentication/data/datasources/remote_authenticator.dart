@@ -46,7 +46,7 @@ class RemoteAuthenticator implements Authenticator {
       id: "test",
       firstName: registerParameter.firstName,
       lastName: registerParameter.lastName,
-      email: registerParameter.email,
+      email: registerParameter.email!,
       age: 20,
       accessCode: "Test Access Code",
     );

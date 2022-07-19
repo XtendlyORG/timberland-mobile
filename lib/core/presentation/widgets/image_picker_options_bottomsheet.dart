@@ -1,16 +1,20 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
 import 'package:timberland_biketrail/core/constants/constants.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/outlined_text_button.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 
 class ImagePickerOptionBottomSheet extends StatelessWidget {
-  final VoidCallback fromCameraCallback;
-  final VoidCallback fromGalleryCallback;
+  final void Function({required ImageSource source}) callback;
+
   const ImagePickerOptionBottomSheet({
     Key? key,
-    required this.fromCameraCallback,
-    required this.fromGalleryCallback,
+    required this.callback,
   }) : super(key: key);
 
   @override
@@ -35,9 +39,15 @@ class ImagePickerOptionBottomSheet extends StatelessWidget {
               children: [
                 SizedBox(
                   width: double.infinity,
-                  child: CustomTextButton(
-                    onTap: fromCameraCallback,
-                    child: const Text("Take a Photo"),
+                  child: OutlinedTextButton(
+                    onPressed: () {
+                      callback(source: ImageSource.camera);
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "Take a Photo",
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -45,9 +55,15 @@ class ImagePickerOptionBottomSheet extends StatelessWidget {
                 ),
                 SizedBox(
                   width: double.infinity,
-                  child: CustomTextButton(
-                    onTap: fromGalleryCallback,
-                    child: const Text("Choose from Gallery"),
+                  child: OutlinedTextButton(
+                    onPressed: () {
+                      callback(source: ImageSource.gallery);
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "Choose from Gallery",
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -55,47 +71,22 @@ class ImagePickerOptionBottomSheet extends StatelessWidget {
                 ),
                 SizedBox(
                   width: double.infinity,
-                  child: TextButton(
+                  child: FilledTextButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: const Text('Cancel'),
+                    child: Text(
+                      'Cancel',
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                            color: Theme.of(context).backgroundColor,
+                          ),
+                    ),
                   ),
                 ),
               ],
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class CustomTextButton extends StatelessWidget {
-  final VoidCallback onTap;
-  final Widget child;
-  const CustomTextButton({
-    Key? key,
-    required this.onTap,
-    required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 60,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            style: BorderStyle.solid,
-            width: 2,
-            color: Theme.of(context).primaryColor,
-          ),
-        ),
-        child: child,
       ),
     );
   }
