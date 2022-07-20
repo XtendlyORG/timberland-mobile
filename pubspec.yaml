@@ -78,19 +78,19 @@ flutter_native_splash:
   background_image: "assets/splash/splash_background.png"
   image: "assets/splash/splash_center.png"
 
-  android_12:
-    # Please note that the splash screen will be clipped to a circle on the center of the screen.
-    # App icon with an icon background: This should be 960×960 pixels, and fit within a circle
-    # 640 pixels in diameter.
-    # App icon without an icon background: This should be 1152×1152 pixels, and fit within a circle
-    # 768 pixels in diameter.
-    image: assets/splash/splash-android-12.png
+  # android_12:
+  #   # Please note that the splash screen will be clipped to a circle on the center of the screen.
+  #   # App icon with an icon background: This should be 960×960 pixels, and fit within a circle
+  #   # 640 pixels in diameter.
+  #   # App icon without an icon background: This should be 1152×1152 pixels, and fit within a circle
+  #   # 768 pixels in diameter.
+  #   image: assets/splash/splash-android-12.png
 
-    # Splash screen background color.
-    color: "#101010"
+  #   # Splash screen background color.
+  #   color: "#101010"
 
-    # App icon background color.
-    #icon_background_color: "#111111"
+  #   # App icon background color.
+  #   icon_background_color: "#101010"
 
     # The image_dark parameter and icon_background_color_dark set the image and icon background
     # color when the device is in dark mode. If they are not specified, the app will use the
@@ -99,5 +99,6 @@ flutter_native_splash:
     #color_dark: "#042a49"
     #icon_background_color_dark: "#eeeeee"
 
+  android: true
   ios: false
   web: false
