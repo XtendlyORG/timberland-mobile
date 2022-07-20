@@ -1,12 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
-
 import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard_header.dart';
+import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 
 import '../../../core/router/router.dart';
-import '../../../core/utils/session.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -125,7 +125,8 @@ class Dashboard extends StatelessWidget {
                     ),
                     DashBoardListTile(
                       onTap: () {
-                        Session().logout();
+                        BlocProvider.of<AuthBloc>(context)
+                            .add(const LogoutEvent());
                       },
                       leading: const Icon(Icons.logout),
                       titleText: 'Logout',

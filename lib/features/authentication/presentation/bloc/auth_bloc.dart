@@ -131,17 +131,34 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       // TODO: implement event handler
     });
     on<FinishUserGuideEvent>((event, emit) {
+      // if (state is Authenticated) {
+      //   emit(
+      //     Authenticated(
+      //       message: "Finished Beginner's Guide",
+      //       user: (state as Authenticated).user,
+      //       firstTimeUser: false,
+      //     ),
+      //   );
+      // }
+      log(state.toString());
       emit(
-        Authenticated(
+        const Authenticated(
           message: "Finished Beginner's Guide",
-          user: (state as Authenticated).user,
+          user: User(
+              accessCode: 'test',
+              age: 20,
+              email: 'test@email.com',
+              firstName: 'John',
+              lastName: 'Smith',
+              id: 'test-id'),
           firstTimeUser: false,
         ),
       );
     });
 
     on<LogoutEvent>((event, emit) {
-      // TODO: implement event handler
+      Session().logout();
+      emit(const UnAuthenticated());
     });
   }
 }
