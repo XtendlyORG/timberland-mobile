@@ -3,22 +3,22 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timberland_biketrail/dashboard/presentation/widgets/update_profile_page.dart';
-import 'package:timberland_biketrail/features/app_infos/presentation/bloc/app_info_bloc.dart';
-import 'package:timberland_biketrail/features/app_infos/presentation/pages/contacts_page.dart';
-import 'package:timberland_biketrail/features/app_infos/presentation/pages/faqs_page.dart';
-import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
-import 'package:timberland_biketrail/features/authentication/domain/usecases/register.dart';
-import 'package:timberland_biketrail/features/authentication/presentation/pages/forgot_password.dart';
-import 'package:timberland_biketrail/features/authentication/presentation/widgets/registration_form.dart';
-import 'package:timberland_biketrail/features/authentication/presentation/widgets/registration_form_continuation.dart';
-import 'package:timberland_biketrail/features/booking/presentation/pages/booking_page.dart';
-import 'package:timberland_biketrail/features/trail/domain/entities/trail.dart';
-import 'package:timberland_biketrail/features/trail/presentation/pages/trail_details.dart';
 
 import '../../dashboard/presentation/pages/qr_code_page.dart';
+import '../../dashboard/presentation/widgets/update_profile_page.dart';
+import '../../features/app_infos/presentation/bloc/app_info_bloc.dart';
+import '../../features/app_infos/presentation/pages/contacts_page.dart';
+import '../../features/app_infos/presentation/pages/faqs_page.dart';
+import '../../features/authentication/domain/entities/user.dart';
+import '../../features/authentication/domain/usecases/register.dart';
+import '../../features/authentication/presentation/pages/forgot_password.dart';
 import '../../features/authentication/presentation/pages/otp_verification_page.dart';
 import '../../features/authentication/presentation/pages/pages.dart';
+import '../../features/authentication/presentation/widgets/registration_form.dart';
+import '../../features/authentication/presentation/widgets/registration_form_continuation.dart';
+import '../../features/booking/presentation/pages/booking_page.dart';
+import '../../features/trail/domain/entities/trail.dart';
+import '../../features/trail/presentation/pages/trail_details.dart';
 import '../../main_page.dart';
 import '../utils/session.dart';
 import 'routes/routes.dart';
@@ -55,7 +55,6 @@ final appRouter = GoRouter(
       name: Routes.login.name,
       pageBuilder: (context, state) {
         return MaterialPage(
-          // key: state.pageKey,
           restorationId: state.pageKey.value,
           child: const LoginPage(),
         );
@@ -292,8 +291,12 @@ final appRouter = GoRouter(
       path: Routes.booking.path,
       name: Routes.booking.name,
       pageBuilder: (context, routeState) {
+        final bool? disableBackbutton =
+            routeState.extra != null ? routeState.extra as bool : null;
         return CustomTransitionPage(
-          child: const BookingPage(),
+          child: BookingPage(
+            disableBackButton: disableBackbutton,
+          ),
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnim, child) {
             return FadeTransition(
