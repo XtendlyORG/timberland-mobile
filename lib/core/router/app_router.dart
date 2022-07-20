@@ -17,6 +17,8 @@ import '../../features/authentication/presentation/pages/pages.dart';
 import '../../features/authentication/presentation/widgets/registration_form.dart';
 import '../../features/authentication/presentation/widgets/registration_form_continuation.dart';
 import '../../features/booking/presentation/pages/booking_page.dart';
+import '../../features/history/presentation/pages/booking_history_page.dart';
+import '../../features/history/presentation/pages/payment_history_page.dart';
 import '../../features/trail/domain/entities/trail.dart';
 import '../../features/trail/presentation/pages/trail_details.dart';
 import '../../main_page.dart';
@@ -241,27 +243,66 @@ final appRouter = GoRouter(
                 );
               },
             ),
+            GoRoute(
+              path: Routes.qr.asSubPath(),
+              name: Routes.qr.name,
+              pageBuilder: (context, routeState) {
+                return CustomTransitionPage(
+                  child: const QrCodePage(),
+                  // key: routeState.pageKey,
+                  // restorationId: routeState.pageKey.value,
+                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnim, child) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    );
+                  },
+                );
+              },
+            ),
+            GoRoute(
+              path: Routes.paymentHistory.asSubPath(),
+              name: Routes.paymentHistory.name,
+              pageBuilder: (context, routeState) {
+                return CustomTransitionPage(
+                  child: const PaymentHistoryPage(),
+                  // key: routeState.pageKey,
+                  // restorationId: routeState.pageKey.value,
+                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnim, child) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    );
+                  },
+                );
+              },
+            ),
+            GoRoute(
+              path: Routes.bookingHistory.asSubPath(),
+              name: Routes.bookingHistory.name,
+              pageBuilder: (context, routeState) {
+                return CustomTransitionPage(
+                  child: const BookingHistoryPage(),
+                  // key: routeState.pageKey,
+                  // restorationId: routeState.pageKey.value,
+                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnim, child) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    );
+                  },
+                );
+              },
+            ),
           ],
         ),
       ],
-    ),
-    GoRoute(
-      path: Routes.qr.path,
-      name: Routes.qr.name,
-      pageBuilder: (context, routeState) {
-        return CustomTransitionPage(
-          child: const QrCodePage(),
-          // key: routeState.pageKey,
-          // restorationId: routeState.pageKey.value,
-          transitionDuration: const Duration(milliseconds: 500),
-          transitionsBuilder: (context, animation, secondaryAnim, child) {
-            return FadeTransition(
-              opacity: animation,
-              child: child,
-            );
-          },
-        );
-      },
     ),
     GoRoute(
       path: Routes.faqs.path,

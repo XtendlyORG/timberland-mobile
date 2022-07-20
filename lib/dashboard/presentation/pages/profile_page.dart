@@ -62,7 +62,9 @@ class ProfilePage extends StatelessWidget {
                   thickness: 2,
                 ),
                 ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    context.pushNamed(Routes.paymentHistory.name);
+                  },
                   title: const Text(
                     'Payment History',
                   ),
@@ -76,7 +78,9 @@ class ProfilePage extends StatelessWidget {
                   thickness: 2,
                 ),
                 ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    context.pushNamed(Routes.bookingHistory.name);
+                  },
                   title: const Text(
                     'Booking History',
                   ),
