@@ -8,6 +8,7 @@ import 'package:timberland_biketrail/features/trail/data/datasources/remote_data
 import 'package:timberland_biketrail/features/trail/data/models/trail_model.dart';
 import 'package:timberland_biketrail/features/trail/domain/entities/trail.dart';
 import 'package:timberland_biketrail/features/trail/domain/params/fetch_trails.dart';
+import 'package:timberland_biketrail/features/trail/domain/params/search_trails.dart';
 
 class TrailRemoteDatasource implements RemoteDatasource {
   final EnvironmentConfig environmentConfig;
@@ -26,6 +27,7 @@ class TrailRemoteDatasource implements RemoteDatasource {
         ),
       );
 
+      log("status code: ${response.statusCode}");
       if (response.statusCode == 200) {
         return response.data != null
             ? response.data!
@@ -35,7 +37,40 @@ class TrailRemoteDatasource implements RemoteDatasource {
                 .toList()
             : [];
       }
+
+      throw const TrailException(message: "Server Error");
+    } on AppInfoException catch (e) {
+      log(e.toString());
+      rethrow;
+    } catch (e) {
+      log(e.toString());
+      throw const TrailException(message: "An Error Occurred");
+    }
+  }
+
+  @override
+  Future<List<Trail>> searchTrails(SearchTrailsParams searchParams) async {
+    try {
+      log(searchParams.toMap().toString());
+      final response = await dioClient.get(
+        '${environmentConfig.apihost}/trails/search/filters?',
+        queryParameters: searchParams.toMap(),
+        options: Options(
+          validateStatus: (status) => true,
+        ),
+      );
+
       log("status code: ${response.statusCode}");
+      if (response.statusCode == 200) {
+        return response.data != null
+            ? response.data!
+                .map<TrailModel>(
+                  (data) => TrailModel.fromMap(data),
+                )
+                .toList()
+            : [];
+      }
+
       throw const TrailException(message: "Server Error");
     } on AppInfoException catch (e) {
       log(e.toString());

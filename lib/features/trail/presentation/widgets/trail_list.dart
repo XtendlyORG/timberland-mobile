@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timberland_biketrail/core/constants/constants.dart';
 
 import '../../domain/params/fetch_trails.dart';
 import '../bloc/trail_bloc.dart';
@@ -31,35 +34,56 @@ class TrailList extends StatelessWidget {
           );
         }
         if (state is TrailsLoaded) {
-          return Container(
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-              // color: Colors.black,
-              gradient: LinearGradient(
-                colors: [
-                  Theme.of(context).primaryColor.withOpacity(.05),
-                  Colors.white.withOpacity(.04),
-                  Colors.white.withOpacity(.8)
-                ],
-                stops: const [.6, .8, 1],
+          if (state.trails.isEmpty) {
+            return Center(
+              child: Text(
+                "No Trails to show.",
+                style: Theme.of(context).textTheme.titleLarge,
               ),
-            ),
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: state.trails.length,
-              padding: const EdgeInsets.all(15),
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 20.0),
-                  child: TrailWidget(
-                    trail: state.trails[index],
+            );
+          } else {
+            return Container(
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20)),
+                // color: Colors.black,
+                gradient: LinearGradient(
+                  colors: [
+                    Theme.of(context).primaryColor.withOpacity(.05),
+                    Colors.white.withOpacity(.04),
+                    Colors.white.withOpacity(.8)
+                  ],
+                  stops: const [.6, .8, 1],
+                ),
+              ),
+              child: Column(
+                children: [
+                  if (state is SearchResultsLoaded)
+                    Padding(
+                      padding: const EdgeInsets.only(top: kVerticalPadding),
+                      child: Text(
+                        "Trails with name: ${state.searchParams.name}",
+                      ),
+                    ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: state.trails.length,
+                    padding: const EdgeInsets.all(15),
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 20.0),
+                        child: TrailWidget(
+                          trail: state.trails[index],
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
-          );
+                ],
+              ),
+            );
+          }
         }
         if (state is TrailError) {
           return SizedBox(

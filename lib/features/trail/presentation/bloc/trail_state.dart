@@ -19,6 +19,12 @@ class TrailsLoaded extends TrailState {
   List<Object> get props => super.props..add(trails);
 }
 
+class AllTrailsLoaded extends TrailsLoaded {
+  const AllTrailsLoaded({
+    required super.trails,
+  });
+}
+
 class LoadingTrails extends TrailState {
   const LoadingTrails();
 }
@@ -30,4 +36,20 @@ class TrailError extends TrailState {
   });
   @override
   List<Object> get props => super.props..add(message);
+}
+
+abstract class SearchTrailState extends TrailState {
+  const SearchTrailState();
+}
+
+class SearchingTrails extends SearchTrailState {
+  const SearchingTrails();
+}
+
+class SearchResultsLoaded extends TrailsLoaded {
+  final SearchTrailsParams searchParams;
+  const SearchResultsLoaded({
+    required super.trails,
+    required this.searchParams,
+  });
 }

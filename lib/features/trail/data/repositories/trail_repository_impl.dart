@@ -7,6 +7,7 @@ import 'package:timberland_biketrail/features/trail/data/datasources/remote_data
 
 import 'package:timberland_biketrail/features/trail/domain/entities/trail.dart';
 import 'package:timberland_biketrail/features/trail/domain/params/fetch_trails.dart';
+import 'package:timberland_biketrail/features/trail/domain/params/search_trails.dart';
 import 'package:timberland_biketrail/features/trail/domain/repositories/trail_repository.dart';
 
 class TrailRepositoryImpl implements TrailRepository {
@@ -20,6 +21,16 @@ class TrailRepositoryImpl implements TrailRepository {
     try {
       return Right(await remoteDatasource.fetchTrails(params));
     } on TrailException catch (e) {
+      return Left(TrailFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<TrailFailure, List<Trail>>> searchTrails(
+      SearchTrailsParams params) async {
+    try {
+      return Right(await remoteDatasource.searchTrails(params));
+    } catch (e) {
       return Left(TrailFailure(message: e.toString()));
     }
   }
