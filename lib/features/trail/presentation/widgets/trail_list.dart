@@ -57,30 +57,19 @@ class TrailList extends StatelessWidget {
                   stops: const [.6, .8, 1],
                 ),
               ),
-              child: Column(
-                children: [
-                  if (state is SearchResultsLoaded)
-                    Padding(
-                      padding: const EdgeInsets.only(top: kVerticalPadding),
-                      child: Text(
-                        "Trails with name: ${state.searchParams.name}",
-                      ),
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: state.trails.length,
+                padding: const EdgeInsets.all(15),
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 20.0),
+                    child: TrailWidget(
+                      trail: state.trails[index],
                     ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: state.trails.length,
-                    padding: const EdgeInsets.all(15),
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 20.0),
-                        child: TrailWidget(
-                          trail: state.trails[index],
-                        ),
-                      );
-                    },
-                  ),
-                ],
+                  );
+                },
               ),
             );
           }
