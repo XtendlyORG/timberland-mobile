@@ -16,3 +16,10 @@ class FetchTrailsEvent extends TrailEvent {
   @override
   List<Object> get props => super.props..add(fetchTrailsParams);
 }
+
+class SearchTrailsEvent extends TrailEvent {
+  final SearchTrailsParams searchParams;
+  const SearchTrailsEvent({
+    required this.searchParams,
+  });
+}

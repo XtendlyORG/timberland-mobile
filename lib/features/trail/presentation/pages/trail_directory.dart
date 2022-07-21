@@ -1,11 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timberland_biketrail/features/trail/domain/params/fetch_trails.dart';
+import 'package:timberland_biketrail/features/trail/presentation/bloc/trail_bloc.dart';
 
 import '../../../../core/presentation/widgets/refreshable_scrollview.dart';
 import '../../../authentication/presentation/bloc/auth_bloc.dart';
 import '../widgets/trail_list.dart';
-import '../widgets/trail_search_bar.dart';
+import '../widgets/trail_search/trail_search_bar.dart';
 
 class TrailDirectory extends StatelessWidget {
   const TrailDirectory({Key? key}) : super(key: key);
@@ -15,7 +17,10 @@ class TrailDirectory extends StatelessWidget {
     final user =
         (BlocProvider.of<AuthBloc>(context).state as Authenticated).user;
     return RefreshableScrollView(
-      onRefresh: () async {},
+      onRefresh: () async {
+        BlocProvider.of<TrailBloc>(context)
+            .add(FetchTrailsEvent(fetchTrailsParams: FetchTrailsParams()));
+      },
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

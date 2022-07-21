@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 
 import 'package:timberland_biketrail/features/trail/domain/entities/difficulty.dart';
 import 'package:timberland_biketrail/features/trail/domain/entities/trail.dart';
+import 'package:timberland_biketrail/features/trail/domain/params/search_trails.dart';
 import 'package:timberland_biketrail/features/trail/domain/repositories/trail_repository.dart';
 import 'package:timberland_biketrail/features/trail/domain/params/fetch_trails.dart';
 
@@ -73,7 +74,24 @@ class TrailBloc extends Bloc<TrailEvent, TrailState> {
             ),
           ]),
         ),
-        (trails) => emit(TrailsLoaded(trails: trails)),
+        (trails) => emit(AllTrailsLoaded(trails: trails)),
+      );
+    });
+
+    on<SearchTrailsEvent>((event, emit) async {
+      emit(const SearchingTrails());
+      final result = await repository.searchTrails(event.searchParams);
+
+      result.fold(
+        (failure) {
+          emit(TrailError(message: failure.message));
+        },
+        (trails) {
+          emit(SearchResultsLoaded(
+            searchParams: event.searchParams,
+            trails: trails,
+          ));
+        },
       );
     });
   }
