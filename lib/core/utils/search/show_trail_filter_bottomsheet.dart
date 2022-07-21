@@ -5,7 +5,6 @@ showTrailFilterBottomSheet({
   required BuildContext context,
   required List<DifficultyChecklistConfig> difficultiesConfigs,
   required TextEditingController searchController,
-  bool popSearchDelegate = false,
 }) {
   showModalBottomSheet(
     context: context,
@@ -25,7 +24,6 @@ showTrailFilterBottomSheet({
         child: TrailDifficultyChecklist(
           difficulties: difficultiesConfigs,
           searchController: searchController,
-          popSearchDelegate: popSearchDelegate,
         ),
       );
     },

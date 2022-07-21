@@ -85,15 +85,15 @@ class TrailSearchBar extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(left: 10.0),
-          child: IconButton(
-            onPressed: () {
+          child: GestureDetector(
+            onTap: () {
               showTrailFilterBottomSheet(
                 context: context,
                 difficultiesConfigs: configs,
                 searchController: searchCtrl,
               );
             },
-            icon: Icon(
+            child: Icon(
               Icons.filter_alt_outlined,
               color: Theme.of(context).disabledColor,
             ),

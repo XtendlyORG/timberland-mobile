@@ -1,24 +1,19 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/utils/search/submit_search.dart';
 import 'package:timberland_biketrail/features/trail/domain/entities/difficulty.dart';
-import 'package:timberland_biketrail/features/trail/domain/params/search_trails.dart';
-import 'package:timberland_biketrail/features/trail/presentation/bloc/trail_bloc.dart';
 
 class TrailDifficultyChecklist extends StatefulWidget {
   final List<DifficultyChecklistConfig> difficulties;
   final TextEditingController searchController;
-  final bool popSearchDelegate;
+
   const TrailDifficultyChecklist({
     Key? key,
     required this.difficulties,
     required this.searchController,
-    this.popSearchDelegate = false,
   }) : super(key: key);
 
   @override
@@ -115,9 +110,6 @@ class _TrailDifficultyChecklistState extends State<TrailDifficultyChecklist> {
                             difficultyConfigs: widget.difficulties,
                           );
                           Navigator.pop(context);
-                          widget.popSearchDelegate
-                              ? Navigator.pop(context)
-                              : null;
                         },
                         style: TextButton.styleFrom(
                           backgroundColor: Theme.of(context).backgroundColor,
