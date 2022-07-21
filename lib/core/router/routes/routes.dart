@@ -19,6 +19,7 @@ abstract class Routes {
   static const trails = _Route(path: '/trails', name: 'trails');
   static const specificTrail =
       _Route(path: 'home/trails/:id', name: 'specific-trail');
+  static const trailMap = _Route(path: '/trail-map', name: 'trail-map');
 
   // profile - tab
   static const profile = _Route(path: '/profile', name: 'profile');

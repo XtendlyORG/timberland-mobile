@@ -2,6 +2,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:timberland_biketrail/core/constants/navbar_configs.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/bottom_navbar.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_appbar.dart';
@@ -16,6 +17,7 @@ class TimberlandScaffold extends StatelessWidget {
   final List<Widget>? actions;
   final bool showNavbar;
   final bool disableBackButton;
+  final PreferredSizeWidget? appBar;
   const TimberlandScaffold({
     Key? key,
     required this.body,
@@ -25,6 +27,7 @@ class TimberlandScaffold extends StatelessWidget {
     this.actions,
     this.showNavbar = true,
     this.disableBackButton = false,
+    this.appBar,
   }) : super(key: key);
 
   @override
@@ -32,27 +35,28 @@ class TimberlandScaffold extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         extendBodyBehindAppBar: true,
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(kToolbarHeight),
-          child: TimberlandAppbar(
-            showEndDrawerButton: showNavbar,
-            actions: actions,
-            backButton: disableBackButton
-                ? null
-                : Tooltip(
-                    message: 'Back',
-                    child: IconButton(
-                      onPressed: () {
-                        context.pop();
-                      },
-                      icon: const Icon(
-                        Icons.arrow_back_rounded,
-                        color: Colors.black,
+        appBar: appBar ??
+            PreferredSize(
+              preferredSize: const Size.fromHeight(kToolbarHeight),
+              child: TimberlandAppbar(
+                showEndDrawerButton: showNavbar,
+                actions: actions,
+                backButton: disableBackButton
+                    ? null
+                    : Tooltip(
+                        message: 'Back',
+                        child: IconButton(
+                          onPressed: () {
+                            context.pop();
+                          },
+                          icon: const Icon(
+                            Icons.arrow_back_rounded,
+                            color: Colors.black,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-          ),
-        ),
+              ),
+            ),
         endDrawer: showNavbar ? const Dashboard() : null,
         bottomNavigationBar: showNavbar
             ? BottomNavBar(
