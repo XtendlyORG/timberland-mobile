@@ -15,12 +15,16 @@ class DifficultyLevel {
 
   factory DifficultyLevel.fromString(String name) {
     switch (name.toLowerCase()) {
+      case 'easiest':
+        return Difficulties.easy;
       case 'easy':
         return Difficulties.easy;
-      case 'moderate':
-        return Difficulties.moderate;
-      case 'hard':
-        return Difficulties.hard;
+      case 'intermediate':
+        return Difficulties.intermediate;
+      case 'advance':
+        return Difficulties.advance;
+      case 'expert':
+        return Difficulties.expert;
       default:
         throw Exception(
           "Difficulty $name is not valid, append it to 'Difficulties' abstract object",
@@ -30,20 +34,37 @@ class DifficultyLevel {
 }
 
 abstract class Difficulties {
+  static List<DifficultyLevel> all = [
+    easy,
+  ];
+
+  static const DifficultyLevel easiest = DifficultyLevel(
+    name: 'Easiest',
+    textColor: TimberlandColor.accentColor,
+    backgroundColor: TimberlandColor.lighGreen,
+  );
+
   static const DifficultyLevel easy = DifficultyLevel(
     name: 'Easy',
     textColor: TimberlandColor.accentColor,
     backgroundColor: TimberlandColor.lighGreen,
   );
-  static const DifficultyLevel moderate = DifficultyLevel(
-    name: 'Moderate',
+
+  static const DifficultyLevel intermediate = DifficultyLevel(
+    name: 'Intermediate',
     textColor: TimberlandColor.primary,
     backgroundColor: TimberlandColor.lightBlue,
   );
 
-  static const DifficultyLevel hard = DifficultyLevel(
-    name: 'Hard',
+  static const DifficultyLevel advance = DifficultyLevel(
+    name: 'Advance',
     textColor: TimberlandColor.secondaryColor,
     backgroundColor: TimberlandColor.lightRed,
+  );
+
+  static const DifficultyLevel expert = DifficultyLevel(
+    name: 'Expert',
+    textColor: TimberlandColor.background,
+    backgroundColor: TimberlandColor.text,
   );
 }

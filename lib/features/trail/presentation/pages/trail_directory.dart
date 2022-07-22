@@ -22,20 +22,15 @@ class TrailDirectory extends StatelessWidget {
 
     final searchCtrl = TextEditingController();
 
-    final List<DifficultyChecklistConfig> configs = [
-      DifficultyChecklistConfig(
-        difficultyLevel: Difficulties.easy,
-        value: false,
-      ),
-      DifficultyChecklistConfig(
-        difficultyLevel: Difficulties.moderate,
-        value: false,
-      ),
-      DifficultyChecklistConfig(
-        difficultyLevel: Difficulties.hard,
-        value: false,
-      ),
-    ];
+    final List<DifficultyChecklistConfig> configs = Difficulties.all
+        .map(
+          (diff) => DifficultyChecklistConfig(
+            difficultyLevel: diff,
+            value: false,
+          ),
+        )
+        .toList();
+
     return Scaffold(
       key: key,
       endDrawer: Drawer(

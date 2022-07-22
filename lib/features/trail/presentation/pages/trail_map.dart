@@ -66,12 +66,7 @@ class TrailMap extends StatelessWidget {
                   ),
                   onSelected: (val) {},
                   itemBuilder: (context) {
-                    final List<DifficultyLevel> difficulties = [
-                      Difficulties.easy,
-                      Difficulties.moderate,
-                      Difficulties.hard,
-                    ];
-                    return difficulties
+                    return Difficulties.all
                         .map(
                           (element) => PopupMenuItem(
                             child: Text(element.name),
