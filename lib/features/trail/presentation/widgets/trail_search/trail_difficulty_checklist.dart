@@ -30,7 +30,7 @@ class _TrailDifficultyChecklistState extends State<TrailDifficultyChecklist> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 400,
+      // height: 400,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: kVerticalPadding),
         child: SingleChildScrollView(
@@ -83,45 +83,48 @@ class _TrailDifficultyChecklistState extends State<TrailDifficultyChecklist> {
               const SizedBox(
                 height: kVerticalPadding,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          "Cancel",
-                          style: TextStyle(
-                              color: Theme.of(context).backgroundColor),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            "Cancel",
+                            style: TextStyle(
+                                color: Theme.of(context).backgroundColor),
+                          ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: TextButton(
-                        onPressed: () {
-                          submitSearch(
-                            context: context,
-                            name: widget.searchController.text,
-                            difficultyConfigs: widget.difficulties,
-                          );
-                          Navigator.pop(context);
-                        },
-                        style: TextButton.styleFrom(
-                          backgroundColor: Theme.of(context).backgroundColor,
-                          textStyle:
-                              Theme.of(context).textTheme.button?.copyWith(
-                                    color: Theme.of(context).primaryColor,
-                                  ),
+                      Expanded(
+                        flex: 3,
+                        child: TextButton(
+                          onPressed: () {
+                            submitSearch(
+                              context: context,
+                              name: widget.searchController.text,
+                              difficultyConfigs: widget.difficulties,
+                            );
+                            Navigator.pop(context);
+                          },
+                          style: TextButton.styleFrom(
+                            backgroundColor: Theme.of(context).backgroundColor,
+                            textStyle:
+                                Theme.of(context).textTheme.button?.copyWith(
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                          ),
+                          child: const Text("See 20 Trails"),
                         ),
-                        child: const Text("See 20 Trails"),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               )
             ],
