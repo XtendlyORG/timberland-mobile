@@ -2,16 +2,21 @@
 
 import 'package:equatable/equatable.dart';
 
+// TODO: CHANGE THIS MODEL
 class TrailRule extends Equatable {
-  final String ruleId;
-  final String rule;
+  // final String ruleId;
+  // final String rule;
   final String note;
   const TrailRule({
-    required this.ruleId,
-    required this.rule,
+    // required this.ruleId,
+    // required this.rule,
     required this.note,
   });
 
   @override
-  List<Object> get props => [ruleId, rule, note];
+  List<Object> get props => [
+        // ruleId,
+        // rule,
+        note,
+      ];
 }

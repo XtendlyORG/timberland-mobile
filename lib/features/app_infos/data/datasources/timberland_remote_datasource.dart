@@ -2,7 +2,6 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-
 import 'package:timberland_biketrail/core/configs/base_config.dart';
 import 'package:timberland_biketrail/core/errors/exceptions.dart';
 import 'package:timberland_biketrail/features/app_infos/data/datasources/remote_datasource.dart';
@@ -30,7 +29,7 @@ class TimberlandRemoteDatasource implements RemoteDatasource {
         return response.data != null
             ? response.data!
                 .map<TrailRuleModel>(
-                  (data) => TrailRuleModel.fromMap(data),
+                  (data) => TrailRuleModel(note: data.toString()),
                 )
                 .toList()
             : [];
