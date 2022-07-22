@@ -2,38 +2,25 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:timberland_biketrail/core/utils/search/show_trail_filter_bottomsheet.dart';
 import 'package:timberland_biketrail/core/utils/search/submit_search.dart';
-import 'package:timberland_biketrail/features/trail/domain/entities/difficulty.dart';
 
 import 'package:timberland_biketrail/features/trail/presentation/widgets/trail_search/trail_difficulty_checklist.dart';
 
 import '../../../../../core/themes/timberland_color.dart';
 
 class TrailSearchBar extends StatelessWidget {
+  final TextEditingController searchCtrl;
+  final List<DifficultyChecklistConfig> configs;
+  final VoidCallback onOpenEndDrawer;
   const TrailSearchBar({
     Key? key,
+    required this.searchCtrl,
+    required this.configs,
+    required this.onOpenEndDrawer,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final searchCtrl = TextEditingController();
-
-    final List<DifficultyChecklistConfig> configs = [
-      DifficultyChecklistConfig(
-        difficultyLevel: Difficulties.easy,
-        value: false,
-      ),
-      DifficultyChecklistConfig(
-        difficultyLevel: Difficulties.moderate,
-        value: false,
-      ),
-      DifficultyChecklistConfig(
-        difficultyLevel: Difficulties.hard,
-        value: false,
-      ),
-    ];
-
     return Row(
       children: [
         Expanded(
@@ -86,13 +73,7 @@ class TrailSearchBar extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 10.0),
           child: GestureDetector(
-            onTap: () {
-              showTrailFilterBottomSheet(
-                context: context,
-                difficultiesConfigs: configs,
-                searchController: searchCtrl,
-              );
-            },
+            onTap: onOpenEndDrawer,
             child: Icon(
               Icons.filter_alt_outlined,
               color: Theme.of(context).disabledColor,
