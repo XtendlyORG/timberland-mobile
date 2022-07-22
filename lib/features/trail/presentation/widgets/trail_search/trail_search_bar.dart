@@ -13,12 +13,12 @@ import '../../../../../core/themes/timberland_color.dart';
 class TrailSearchBar extends StatelessWidget {
   final TextEditingController searchCtrl;
   final List<DifficultyChecklistConfig> configs;
-  final VoidCallback onOpenEndDrawer;
+  final VoidCallback showDifficultyFilter;
   const TrailSearchBar({
     Key? key,
     required this.searchCtrl,
     required this.configs,
-    required this.onOpenEndDrawer,
+    required this.showDifficultyFilter,
   }) : super(key: key);
 
   @override
@@ -35,7 +35,6 @@ class TrailSearchBar extends StatelessWidget {
               controller: searchCtrl,
               textInputAction: TextInputAction.go,
               onFieldSubmitted: (val) {
-                //TODO: FETCH FILTERED TRAILS HERE
                 submitSearch(
                   context: context,
                   name: searchCtrl.text,
@@ -75,7 +74,7 @@ class TrailSearchBar extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 10.0),
           child: GestureDetector(
-            onTap: onOpenEndDrawer,
+            onTap: showDifficultyFilter,
             child: Icon(
               Icons.filter_alt_outlined,
               color: Theme.of(context).disabledColor,

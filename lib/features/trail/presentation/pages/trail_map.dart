@@ -49,32 +49,7 @@ class TrailMap extends StatelessWidget {
                 const SizedBox(
                   width: 10,
                 ),
-                PopupMenuButton(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: Text(
-                      "Difficulty",
-                      style: TextStyle(
-                        color: Theme.of(context).backgroundColor,
-                      ),
-                    ),
-                  ),
-                  onSelected: (val) {},
-                  itemBuilder: (context) {
-                    return Difficulties.all
-                        .map(
-                          (element) => PopupMenuItem(
-                            child: Text(element.name),
-                          ),
-                        )
-                        .toList();
-                  },
-                ),
+                DifficultyPopUpMenu(),
               ],
             ),
           ),
@@ -95,6 +70,41 @@ class TrailMap extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class DifficultyPopUpMenu extends StatelessWidget {
+  const DifficultyPopUpMenu({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        child: Text(
+          "Difficulty",
+          style: TextStyle(
+            color: Theme.of(context).backgroundColor,
+          ),
+        ),
+      ),
+      onSelected: (val) {},
+      itemBuilder: (context) {
+        return Difficulties.all
+            .map(
+              (element) => PopupMenuItem(
+                child: Text(element.name),
+              ),
+            )
+            .toList();
+      },
     );
   }
 }

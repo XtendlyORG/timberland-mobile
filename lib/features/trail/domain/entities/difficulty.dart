@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 
 class DifficultyLevel {
+  final int id;
   final String name;
   final Color textColor;
   final Color backgroundColor;
   const DifficultyLevel({
+    required this.id,
     required this.name,
     required this.textColor,
     required this.backgroundColor,
@@ -35,34 +37,43 @@ class DifficultyLevel {
 
 abstract class Difficulties {
   static List<DifficultyLevel> all = [
+    easiest,
     easy,
+    intermediate,
+    advance,
+    expert,
   ];
 
   static const DifficultyLevel easiest = DifficultyLevel(
+    id: 1,
     name: 'Easiest',
     textColor: TimberlandColor.accentColor,
     backgroundColor: TimberlandColor.lighGreen,
   );
 
   static const DifficultyLevel easy = DifficultyLevel(
+    id: 2,
     name: 'Easy',
     textColor: TimberlandColor.accentColor,
     backgroundColor: TimberlandColor.lighGreen,
   );
 
   static const DifficultyLevel intermediate = DifficultyLevel(
+    id: 3,
     name: 'Intermediate',
     textColor: TimberlandColor.primary,
     backgroundColor: TimberlandColor.lightBlue,
   );
 
   static const DifficultyLevel advance = DifficultyLevel(
+    id: 4,
     name: 'Advance',
     textColor: TimberlandColor.secondaryColor,
     backgroundColor: TimberlandColor.lightRed,
   );
 
   static const DifficultyLevel expert = DifficultyLevel(
+    id: 5,
     name: 'Expert',
     textColor: TimberlandColor.background,
     backgroundColor: TimberlandColor.text,

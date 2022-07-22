@@ -53,6 +53,9 @@ class TrailDetailTop extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5)),
                 child: Text(
                   trail.difficulty.name,
+                  style: TextStyle(
+                    color: trail.difficulty.textColor,
+                  ),
                 ),
               ),
               const Spacer(),
