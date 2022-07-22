@@ -42,7 +42,7 @@ abstract class SearchTrailState extends TrailState {
   const SearchTrailState();
 }
 
-class SearchingTrails extends SearchTrailState {
+class SearchingTrails extends LoadingTrails {
   const SearchingTrails();
 }
 

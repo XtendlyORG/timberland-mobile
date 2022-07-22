@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/features/trail/presentation/pages/trail_map.dart';
 
 import '../../dashboard/presentation/pages/qr_code_page.dart';
 import '../../dashboard/presentation/widgets/update_profile_page.dart';
@@ -180,6 +181,23 @@ final appRouter = GoRouter(
                   child: TrailDetails(
                     trail: (routeState.extra as Trail),
                   ),
+                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    );
+                  },
+                );
+              },
+            ),
+            GoRoute(
+              path: Routes.trailMap.asSubPath(),
+              name: Routes.trailMap.name,
+              pageBuilder: (context, routeState) {
+                return CustomTransitionPage(
+                  child: const TrailMap(),
                   transitionDuration: const Duration(milliseconds: 500),
                   transitionsBuilder:
                       (context, animation, secondaryAnimation, child) {

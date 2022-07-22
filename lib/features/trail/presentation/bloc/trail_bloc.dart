@@ -52,7 +52,7 @@ class TrailBloc extends Bloc<TrailEvent, TrailState> {
                   'https://live.staticflickr.com/7300/9151350000_8c94e1511a_b.jpg',
               routeType: "Loop",
               trailName: 'Timberland Blue Trail to Nursery Loop',
-              difficulty: Difficulties.moderate,
+              difficulty: Difficulties.intermediate,
               description:
                   'Qui ut eiusmod consequat minim. Magna sit do dolor tempor culpa do sint duis esse irure cupidatat Lorem. Eu ad mollit sint cupidatat labore culpa nostrud consectetur cillum incididunt. Reprehenderit exercitation fugiat sit in ea enim qui nisi ipsum irure eiusmod nulla sit.',
               location: 'San Mateo, Quezon, Philippines',
@@ -67,7 +67,7 @@ class TrailBloc extends Bloc<TrailEvent, TrailState> {
                   'https://live.staticflickr.com/7300/9151350000_8c94e1511a_b.jpg',
               routeType: "Loop",
               trailName: 'Timberland Blue Trail to Nursery Loop',
-              difficulty: Difficulties.hard,
+              difficulty: Difficulties.expert,
               description:
                   'Qui ut eiusmod consequat minim. Magna sit do dolor tempor culpa do sint duis esse irure cupidatat Lorem. Eu ad mollit sint cupidatat labore culpa nostrud consectetur cillum incididunt. Reprehenderit exercitation fugiat sit in ea enim qui nisi ipsum irure eiusmod nulla sit.',
               location: 'San Mateo, Quezon, Philippines',

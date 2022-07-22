@@ -1,8 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timberland_biketrail/core/utils/search/show_trail_filter_bottomsheet.dart';
+import 'package:timberland_biketrail/features/trail/domain/entities/difficulty.dart';
 import 'package:timberland_biketrail/features/trail/domain/params/fetch_trails.dart';
 import 'package:timberland_biketrail/features/trail/presentation/bloc/trail_bloc.dart';
+import 'package:timberland_biketrail/features/trail/presentation/widgets/trail_search/trail_difficulty_checklist.dart';
 
 import '../../../../core/presentation/widgets/refreshable_scrollview.dart';
 import '../../../authentication/presentation/bloc/auth_bloc.dart';
@@ -16,6 +19,18 @@ class TrailDirectory extends StatelessWidget {
   Widget build(BuildContext context) {
     final user =
         (BlocProvider.of<AuthBloc>(context).state as Authenticated).user;
+
+    final searchCtrl = TextEditingController();
+
+    final List<DifficultyChecklistConfig> configs = Difficulties.all
+        .map(
+          (diff) => DifficultyChecklistConfig(
+            difficultyLevel: diff,
+            value: false,
+          ),
+        )
+        .toList();
+
     return RefreshableScrollView(
       onRefresh: () async {
         BlocProvider.of<TrailBloc>(context)
@@ -45,9 +60,20 @@ class TrailDirectory extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15),
-            child: TrailSearchBar(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: TrailSearchBar(
+              searchCtrl: searchCtrl,
+              configs: configs,
+              showDifficultyFilter: () {
+                showTrailFilterBottomSheet(
+                  context: context,
+                  difficultiesConfigs: configs,
+                  searchController: searchCtrl,
+                );
+                // key.currentState!.openEndDrawer();
+              },
+            ),
           ),
           const SizedBox(
             height: 30,
