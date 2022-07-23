@@ -51,104 +51,109 @@ class _MainPageState extends State<MainPage> {
       );
     }
 
-    return BlocBuilder<AuthBloc, AuthState>(
-      builder: (context, state) {
-        log("State is: $state");
-        if (state is UnAuthenticated) {
-          BlocProvider.of<AuthBloc>(context).add(
-            FetchUserEvent(uid: Session().currentUID!),
-          );
-        } else if (state is Authenticated) {
-          if (state.firstTimeUser) {
-            return const FirstTimeUserPage();
-          }
-          return SafeArea(
-            child: Scaffold(
-              endDrawer: const Dashboard(),
-              appBar: PreferredSize(
-                preferredSize: const Size.fromHeight(kToolbarHeight),
-                child: TimberlandAppbar(
-                  actions: currentIndex == 3
-                      ? [
-                          CircularIconButton(
-                            onTap: () {
-                              context.pushNamed(
-                                Routes.updateProfile.name,
-                                extra: state.user,
+    return WillPopScope(
+      onWillPop: ()async {
+        return false;
+      },
+      child: BlocBuilder<AuthBloc, AuthState>(
+        builder: (context, state) {
+          log("State is: $state");
+          if (state is UnAuthenticated) {
+            BlocProvider.of<AuthBloc>(context).add(
+              FetchUserEvent(uid: Session().currentUID!),
+            );
+          } else if (state is Authenticated) {
+            if (state.firstTimeUser) {
+              return const FirstTimeUserPage();
+            }
+            return SafeArea(
+              child: Scaffold(
+                endDrawer: const Dashboard(),
+                appBar: PreferredSize(
+                  preferredSize: const Size.fromHeight(kToolbarHeight),
+                  child: TimberlandAppbar(
+                    actions: currentIndex == 3
+                        ? [
+                            CircularIconButton(
+                              onTap: () {
+                                context.pushNamed(
+                                  Routes.updateProfile.name,
+                                  extra: state.user,
+                                );
+                              },
+                              icon: Icon(
+                                Icons.settings,
+                                color: Theme.of(context).backgroundColor,
+                                size: 18,
+                              ),
+                              size: 24,
+                            ),
+                          ]
+                        : null,
+                  ),
+                ),
+                extendBodyBehindAppBar: true,
+                bottomNavigationBar: BottomNavBar(
+                  index: currentIndex,
+                  configs: navbarConfigs,
+                  onTap: (index) {
+                    pageController.jumpToPage(
+                      index < 2 ? index : index - 1,
+                    );
+                  },
+                ),
+                body: TimberlandContainer(
+                  child: RepaintBoundary(
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        return SizedBox(
+                          height: constraints.maxHeight,
+                          child: PageView(
+                            controller: pageController,
+                            onPageChanged: (index) {
+                              // dismis keyboard
+                              WidgetsBinding.instance.focusManager.primaryFocus
+                                  ?.unfocus();
+    
+                              currentIndex = index < 2 ? index : index + 1;
+    
+                              context.goNamed(
+                                navbarConfigs[currentIndex].routeName,
                               );
                             },
-                            icon: Icon(
-                              Icons.settings,
-                              color: Theme.of(context).backgroundColor,
-                              size: 18,
-                            ),
-                            size: 24,
+                            children: const [
+                              RepaintBoundary(
+                                child: TrailDirectory(),
+                              ),
+                              RepaintBoundary(
+                                child: TrailRulesPage(),
+                              ),
+                              RepaintBoundary(
+                                child: ProfilePage(),
+                              ),
+                            ],
                           ),
-                        ]
-                      : null,
+                        );
+                      },
+                    ),
+                  ),
                 ),
               ),
-              extendBodyBehindAppBar: true,
-              bottomNavigationBar: BottomNavBar(
-                index: currentIndex,
-                configs: navbarConfigs,
-                onTap: (index) {
-                  pageController.jumpToPage(
-                    index < 2 ? index : index - 1,
-                  );
-                },
-              ),
+            );
+          }
+          return const SafeArea(
+            child: Scaffold(
               body: TimberlandContainer(
-                child: RepaintBoundary(
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      return SizedBox(
-                        height: constraints.maxHeight,
-                        child: PageView(
-                          controller: pageController,
-                          onPageChanged: (index) {
-                            // dismis keyboard
-                            WidgetsBinding.instance.focusManager.primaryFocus
-                                ?.unfocus();
-
-                            currentIndex = index < 2 ? index : index + 1;
-
-                            context.goNamed(
-                              navbarConfigs[currentIndex].routeName,
-                            );
-                          },
-                          children: const [
-                            RepaintBoundary(
-                              child: TrailDirectory(),
-                            ),
-                            RepaintBoundary(
-                              child: TrailRulesPage(),
-                            ),
-                            RepaintBoundary(
-                              child: ProfilePage(),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
+                child: Center(
+                  child: RepaintBoundary(
+                    child: CircularProgressIndicator(),
                   ),
                 ),
               ),
             ),
           );
-        }
-        return const SafeArea(
-          child: Scaffold(
-            body: TimberlandContainer(
-              child: Center(
-                child: RepaintBoundary(
-                  child: CircularProgressIndicator(),
-                ),
-              ),
-            ),
-          ),
-        );
-      },
+        },
+      ),
     );
   }
 }
