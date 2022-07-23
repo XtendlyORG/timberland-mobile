@@ -63,9 +63,16 @@ class AuthPageContainer extends StatelessWidget {
               SnackBar(
                 content: Row(
                   children: [
-                    const RepaintBoundary(
-                      child: CircularProgressIndicator(),
+                    const SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: RepaintBoundary(
+                        child: CircularProgressIndicator(
+                          
+                        ),
+                      ),
                     ),
+                    const SizedBox(width: kVerticalPadding),
                     AutoSizeText(
                       state.loadingMessage,
                       maxLines: 1,
