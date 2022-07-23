@@ -83,12 +83,8 @@ class ContactsPageForm extends StatelessWidget {
                   // TODO: Call contact us event here
                 }
               },
-              child: Text(
+              child: const Text(
                 'Contact Us',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: Theme.of(context).backgroundColor,
-                      fontWeight: FontWeight.normal,
-                    ),
               ),
             ),
           )

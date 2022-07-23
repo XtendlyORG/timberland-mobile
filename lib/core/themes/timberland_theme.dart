@@ -15,6 +15,7 @@ class TimberlandTheme {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(6),
             ),
+            textStyle: const TextStyle(fontSize: 18),
           ),
         ),
         inputDecorationTheme: InputDecorationTheme(
