@@ -30,6 +30,11 @@ class CustomDatePicker extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(kVerticalPadding),
         child: SfDateRangePicker(
+          maxDate: DateTime(
+            DateTime.now().year - 18,
+            DateTime.now().month,
+            DateTime.now().day,
+          ),
           enablePastDates: enablePastDates,
           showTodayButton: showTodayButton,
           toggleDaySelection: true,

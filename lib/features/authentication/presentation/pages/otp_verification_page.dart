@@ -66,6 +66,7 @@ class OtpVerificationPage extends StatelessWidget {
                     key: formKey,
                     child: TextFormField(
                       controller: otpCtrl,
+                      maxLength: 6,
                       validator: (val) {
                         if (val == null || val.isEmpty) {
                           return 'OTP can not be empty.';

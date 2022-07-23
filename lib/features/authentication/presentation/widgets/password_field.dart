@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:timberland_biketrail/core/utils/validators/validators.dart';
 
 class PasswordField extends StatefulWidget {
   const PasswordField({
@@ -25,12 +26,7 @@ class _PasswordFieldState extends State<PasswordField> {
     return TextFormField(
       controller: widget.controller,
       obscureText: hidePassword,
-      validator: (password) {
-        if (password == null || password.isEmpty) {
-          return 'Password cannot be empty';
-        }
-        return null;
-      },
+      validator: validatePassword,
       decoration: InputDecoration(
         hintText: 'Password',
         suffixIcon: IconButton(
