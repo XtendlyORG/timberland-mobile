@@ -30,7 +30,7 @@ abstract class TimberlandColor {
 
   static const secondaryColor = Color(0xffF60505);
   static const lightRed = Color(0xffDF544B);
-  static const accentColor = Color(0xff374905);
+  static const accentColor = Color(0xff00A551);
   static const lighGreen = Color(0xffA6CE39);
   static const lightBlue = Color(0xffADD8E6);
 }
