@@ -11,7 +11,7 @@ import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/image_picker_options_bottomsheet.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
-import 'package:timberland_biketrail/core/utils/email_validator.dart';
+import 'package:timberland_biketrail/core/utils/validators/email_validator.dart';
 import 'package:timberland_biketrail/features/authentication/domain/usecases/register.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/widgets/password_field.dart';

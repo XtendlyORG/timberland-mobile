@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_container.dart';
-import 'package:timberland_biketrail/core/utils/email_validator.dart';
+import 'package:timberland_biketrail/core/utils/validators/email_validator.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);

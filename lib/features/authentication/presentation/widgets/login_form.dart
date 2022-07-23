@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
-import 'package:timberland_biketrail/core/utils/email_validator.dart';
+import 'package:timberland_biketrail/core/utils/validators/email_validator.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../domain/usecases/login.dart';
