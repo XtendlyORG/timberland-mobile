@@ -13,6 +13,9 @@ class TrailList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TrailBloc, TrailState>(
+      buildWhen: (previous, current) {
+        return current is! TrailMapState;
+      },
       builder: (context, state) {
         if (state is TrailInitial) {
           BlocProvider.of<TrailBloc>(context)
