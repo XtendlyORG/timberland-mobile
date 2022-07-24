@@ -96,16 +96,16 @@ class _UserGuideVideoState extends State<UserGuideVideo> {
                           return FirstBookingDialog(
                             onClose: _videoPlayerController.play,
                             onSubmit: () async {
-                              await Future.delayed(
-                                  const Duration(milliseconds: 200), () {
+                              // await Future.delayed(
+                                  // const Duration(milliseconds: 200), () {
                                 BlocProvider.of<AuthBloc>(context).add(
                                   const FinishUserGuideEvent(),
                                 );
-                                context.goNamed(
-                                  Routes.booking.name,
-                                  extra: true,
-                                );
-                              });
+                                // context.goNamed(
+                                //   Routes.booking.name,
+                                //   extra: true,
+                                // );
+                              // });
                             },
                           );
                         },

@@ -12,6 +12,7 @@ import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/dashboard/presentation/pages/profile_page.dart';
 import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard.dart';
+import 'package:timberland_biketrail/features/app_infos/presentation/bloc/app_info_bloc.dart';
 import 'package:timberland_biketrail/features/app_infos/presentation/pages/trail_rules.dart';
 
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
@@ -52,10 +53,16 @@ class _MainPageState extends State<MainPage> {
     }
 
     return WillPopScope(
-      onWillPop: ()async {
+      onWillPop: () async {
         return false;
       },
       child: BlocBuilder<AuthBloc, AuthState>(
+        buildWhen: (previous, current) {
+          if (current is UserGuideFinished) {
+            context.goNamed(Routes.booking.name);
+          }
+          return current is! UserGuideFinished;
+        },
         builder: (context, state) {
           log("State is: $state");
           if (state is UnAuthenticated) {
@@ -114,9 +121,9 @@ class _MainPageState extends State<MainPage> {
                               // dismis keyboard
                               WidgetsBinding.instance.focusManager.primaryFocus
                                   ?.unfocus();
-    
+
                               currentIndex = index < 2 ? index : index + 1;
-    
+
                               context.goNamed(
                                 navbarConfigs[currentIndex].routeName,
                               );

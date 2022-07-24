@@ -6,6 +6,7 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
+import 'package:timberland_biketrail/features/app_infos/presentation/bloc/app_info_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
 import 'package:timberland_biketrail/features/authentication/domain/usecases/usecases.dart';
 
@@ -131,29 +132,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       // TODO: implement event handler
     });
     on<FinishUserGuideEvent>((event, emit) {
-      // if (state is Authenticated) {
-      //   emit(
-      //     Authenticated(
-      //       message: "Finished Beginner's Guide",
-      //       user: (state as Authenticated).user,
-      //       firstTimeUser: false,
-      //     ),
-      //   );
-      // }
+      final _state = (state as Authenticated);
       log(state.toString());
       emit(
-        const Authenticated(
-          message: "Finished Beginner's Guide",
-          user: User(
-              accessCode: 'test',
-              age: 20,
-              email: 'test@email.com',
-              firstName: 'John',
-              lastName: 'Smith',
-              id: 'test-id'),
-          firstTimeUser: false,
-        ),
+        _state.copyWith(firstTimeUser: false),
       );
+      emit(UserGuideFinished(
+        message: 'User Guide Completed',
+        user: _state.user,
+      ));
     });
 
     on<LogoutEvent>((event, emit) {

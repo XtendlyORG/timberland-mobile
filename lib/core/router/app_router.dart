@@ -309,12 +309,8 @@ final appRouter = GoRouter(
       path: Routes.booking.path,
       name: Routes.booking.name,
       pageBuilder: (context, routeState) {
-        final bool? disableBackbutton =
-            routeState.extra != null ? routeState.extra as bool : null;
         return CustomTransitionPage(
-          child: BookingPage(
-            disableBackButton: disableBackbutton,
-          ),
+          child: const BookingPage(),
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnim, child) {
             return FadeTransition(

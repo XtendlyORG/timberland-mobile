@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_logo.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
+import 'package:timberland_biketrail/features/app_infos/presentation/bloc/app_info_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/widgets/auth_locked_widget.dart';
 
@@ -93,6 +94,9 @@ class AuthPageContainer extends StatelessWidget {
                 ),
               ),
             );
+        }
+        if(state is UserGuideFinished){
+          context.goNamed(Routes.booking.name);
         }
       },
       child: Stack(
