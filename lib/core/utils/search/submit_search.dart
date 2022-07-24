@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:timberland_biketrail/features/trail/domain/entities/difficulty.dart';
-import 'package:timberland_biketrail/features/trail/domain/params/search_trails.dart';
-import 'package:timberland_biketrail/features/trail/presentation/bloc/trail_bloc.dart';
-import 'package:timberland_biketrail/features/trail/presentation/widgets/trail_search/trail_difficulty_checklist.dart';
+
+import '../../../features/trail/domain/entities/difficulty.dart';
+import '../../../features/trail/domain/params/search_trails.dart';
+import '../../../features/trail/presentation/bloc/trail_bloc.dart';
+import '../../../features/trail/presentation/widgets/trail_search/trail_difficulty_checklist.dart';
 
 void submitSearch({
   required BuildContext context,

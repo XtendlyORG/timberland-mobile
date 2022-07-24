@@ -2,9 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/firstime_user_guide.dart/user_guide_video.dart';
-
-import '../widgets/timberland_container.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
 
 class FirstTimeUserPage extends StatelessWidget {
   const FirstTimeUserPage({Key? key}) : super(key: key);

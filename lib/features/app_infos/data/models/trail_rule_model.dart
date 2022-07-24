@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:timberland_biketrail/features/app_infos/domain/entities/trail_rule.dart';
+import '../../domain/entities/trail_rule.dart';
 
 class TrailRuleModel extends TrailRule {
   const TrailRuleModel({

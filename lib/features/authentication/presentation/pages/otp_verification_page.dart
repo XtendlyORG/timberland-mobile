@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timberland_biketrail/core/constants/constants.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
-import 'package:timberland_biketrail/core/router/router.dart';
-import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
-import 'package:timberland_biketrail/features/authentication/presentation/widgets/otp_resend_button.dart';
 
+import '../../../../core/constants/constants.dart';
+import '../../../../core/presentation/widgets/filled_text_button.dart';
+import '../../../../core/router/router.dart';
+import '../bloc/auth_bloc.dart';
 import '../widgets/auth_page_container.dart';
+import '../widgets/otp_resend_button.dart';
 
 class OtpVerificationPage extends StatelessWidget {
   const OtpVerificationPage({Key? key}) : super(key: key);

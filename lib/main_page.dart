@@ -5,16 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/constants/navbar_configs.dart';
-import 'package:timberland_biketrail/core/presentation/pages/firsttime_user_page.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/timberland_container.dart';
+import 'package:timberland_biketrail/core/presentation/pages/first_time_user_page.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/dashboard/presentation/pages/profile_page.dart';
 import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard.dart';
-import 'package:timberland_biketrail/features/app_infos/presentation/bloc/app_info_bloc.dart';
 import 'package:timberland_biketrail/features/app_infos/presentation/pages/trail_rules.dart';
-
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:timberland_biketrail/features/trail/presentation/pages/trail_directory.dart';
 

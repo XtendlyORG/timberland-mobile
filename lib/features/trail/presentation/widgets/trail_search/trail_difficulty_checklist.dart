@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:flutter/material.dart';
-
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/utils/search/submit_search.dart';
 import 'package:timberland_biketrail/features/trail/domain/entities/difficulty.dart';

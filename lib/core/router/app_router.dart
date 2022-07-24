@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timberland_biketrail/features/trail/presentation/pages/trail_map.dart';
 
 import '../../dashboard/presentation/pages/qr_code_page.dart';
 import '../../dashboard/presentation/widgets/update_profile_page.dart';
@@ -20,6 +19,7 @@ import '../../features/authentication/presentation/widgets/registration_form_con
 import '../../features/booking/presentation/pages/booking_page.dart';
 import '../../features/trail/domain/entities/trail.dart';
 import '../../features/trail/presentation/pages/trail_details.dart';
+import '../../features/trail/presentation/pages/trail_map.dart';
 import '../../main_page.dart';
 import '../utils/session.dart';
 import 'routes/routes.dart';

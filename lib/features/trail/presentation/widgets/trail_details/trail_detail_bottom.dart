@@ -2,10 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
-import 'package:timberland_biketrail/core/router/router.dart';
 
 import '../../../../../core/constants/constants.dart';
+import '../../../../../core/presentation/widgets/filled_text_button.dart';
+import '../../../../../core/router/router.dart';
 import '../../../domain/entities/trail.dart';
 import '../trail_specs.dart';
 
