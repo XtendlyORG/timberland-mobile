@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'widgets.dart';
 
-class TimberlandAppbar extends StatelessWidget {
+class TimberlandAppbar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? backButton;
   final List<Widget>? actions;
   final bool showEndDrawerButton;
@@ -32,4 +32,7 @@ class TimberlandAppbar extends StatelessWidget {
           : null,
     );
   }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

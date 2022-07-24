@@ -73,28 +73,25 @@ class _MainPageState extends State<MainPage> {
             return SafeArea(
               child: Scaffold(
                 endDrawer: const Dashboard(),
-                appBar: PreferredSize(
-                  preferredSize: const Size.fromHeight(kToolbarHeight),
-                  child: TimberlandAppbar(
-                    actions: currentIndex == 3
-                        ? [
-                            CircularIconButton(
-                              onTap: () {
-                                context.pushNamed(
-                                  Routes.updateProfile.name,
-                                  extra: state.user,
-                                );
-                              },
-                              icon: Icon(
-                                Icons.settings,
-                                color: Theme.of(context).backgroundColor,
-                                size: 18,
-                              ),
-                              size: 24,
+                appBar: TimberlandAppbar(
+                  actions: currentIndex == 3
+                      ? [
+                          CircularIconButton(
+                            onTap: () {
+                              context.pushNamed(
+                                Routes.updateProfile.name,
+                                extra: state.user,
+                              );
+                            },
+                            icon: Icon(
+                              Icons.settings,
+                              color: Theme.of(context).backgroundColor,
+                              size: 18,
                             ),
-                          ]
-                        : null,
-                  ),
+                            size: 24,
+                          ),
+                        ]
+                      : null,
                 ),
                 extendBodyBehindAppBar: true,
                 bottomNavigationBar: BottomNavBar(

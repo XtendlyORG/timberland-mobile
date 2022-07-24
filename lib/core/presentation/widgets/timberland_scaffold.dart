@@ -36,26 +36,23 @@ class TimberlandScaffold extends StatelessWidget {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         appBar: appBar ??
-            PreferredSize(
-              preferredSize: const Size.fromHeight(kToolbarHeight),
-              child: TimberlandAppbar(
-                showEndDrawerButton: showNavbar,
-                actions: actions,
-                backButton: disableBackButton
-                    ? null
-                    : Tooltip(
-                        message: 'Back',
-                        child: IconButton(
-                          onPressed: () {
-                            context.pop();
-                          },
-                          icon: Icon(
-                            Icons.arrow_back_rounded,
-                            color: backButtonColor ?? Colors.black,
-                          ),
+            TimberlandAppbar(
+              showEndDrawerButton: showNavbar,
+              actions: actions,
+              backButton: disableBackButton
+                  ? null
+                  : Tooltip(
+                      message: 'Back',
+                      child: IconButton(
+                        onPressed: () {
+                          context.pop();
+                        },
+                        icon: Icon(
+                          Icons.arrow_back_rounded,
+                          color: backButtonColor ?? Colors.black,
                         ),
                       ),
-              ),
+                    ),
             ),
         endDrawer: showNavbar ? const Dashboard() : null,
         bottomNavigationBar: showNavbar
