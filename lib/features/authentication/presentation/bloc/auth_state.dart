@@ -37,6 +37,25 @@ class Authenticated extends AuthState {
   });
   @override
   List<Object> get props => super.props..addAll([user, message, firstTimeUser]);
+
+  Authenticated copyWith({
+    String? message,
+    bool? firstTimeUser,
+    User? user,
+  }) {
+    return Authenticated(
+      message: message ?? this.message,
+      firstTimeUser: firstTimeUser ?? this.firstTimeUser,
+      user: user ?? this.user,
+    );
+  }
+}
+
+class UserGuideFinished extends Authenticated {
+  const UserGuideFinished({
+    required super.message,
+    required super.user,
+  });
 }
 
 class AuthError extends AuthState {

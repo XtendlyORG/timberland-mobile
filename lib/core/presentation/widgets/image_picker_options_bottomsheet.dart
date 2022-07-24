@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/outlined_text_button.dart';

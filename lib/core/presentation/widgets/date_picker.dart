@@ -1,8 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-
 import 'package:timberland_biketrail/core/constants/constants.dart';
 
 class CustomDatePicker extends StatelessWidget {

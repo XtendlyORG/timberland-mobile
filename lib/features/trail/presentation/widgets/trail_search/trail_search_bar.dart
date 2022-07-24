@@ -3,9 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
-
 import 'package:timberland_biketrail/core/utils/search/submit_search.dart';
-
 import 'package:timberland_biketrail/features/trail/presentation/widgets/trail_search/trail_difficulty_checklist.dart';
 
 import '../../../../../core/themes/timberland_color.dart';

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:timberland_biketrail/features/trail/presentation/widgets/trail_search/trail_difficulty_checklist.dart';
+
+import '../../../features/trail/presentation/widgets/trail_search/trail_difficulty_checklist.dart';
 
 showTrailFilterBottomSheet({
   required BuildContext context,

@@ -1,8 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../core/constants/constants.dart';
+import '../../../../../core/presentation/widgets/filled_text_button.dart';
+import '../../../../../core/router/router.dart';
 import '../../../domain/entities/trail.dart';
 import '../trail_specs.dart';
 
@@ -33,6 +36,7 @@ class TrailDetailBottom extends StatelessWidget {
               horizontal: kHorizontalPadding,
             ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(trail.description),
                 const SizedBox(
@@ -45,6 +49,25 @@ class TrailDetailBottom extends StatelessWidget {
                   height: kVerticalPadding,
                 ),
                 TrailSpecs(trail: trail),
+                const SizedBox(
+                  height: kVerticalPadding,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: FilledTextButton(
+                        onPressed: () {
+                          context.pushNamed(
+                            Routes.booking.name,
+                            extra: trail,
+                          );
+                        },
+                        child: const Text("Book Now"),
+                      ),
+                    ),
+                    const Spacer(),
+                  ],
+                ),
               ],
             ),
           ),

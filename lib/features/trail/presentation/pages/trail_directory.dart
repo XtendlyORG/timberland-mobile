@@ -1,15 +1,15 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:timberland_biketrail/core/utils/search/show_trail_filter_bottomsheet.dart';
-import 'package:timberland_biketrail/features/trail/domain/entities/difficulty.dart';
-import 'package:timberland_biketrail/features/trail/domain/params/fetch_trails.dart';
-import 'package:timberland_biketrail/features/trail/presentation/bloc/trail_bloc.dart';
-import 'package:timberland_biketrail/features/trail/presentation/widgets/trail_search/trail_difficulty_checklist.dart';
 
 import '../../../../core/presentation/widgets/refreshable_scrollview.dart';
+import '../../../../core/utils/search/show_trail_filter_bottomsheet.dart';
 import '../../../authentication/presentation/bloc/auth_bloc.dart';
+import '../../domain/entities/difficulty.dart';
+import '../../domain/params/fetch_trails.dart';
+import '../bloc/trail_bloc.dart';
 import '../widgets/trail_list.dart';
+import '../widgets/trail_search/trail_difficulty_checklist.dart';
 import '../widgets/trail_search/trail_search_bar.dart';
 
 class TrailDirectory extends StatelessWidget {

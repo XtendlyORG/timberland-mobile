@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../../features/authentication/presentation/bloc/auth_bloc.dart';
-import '../../../router/router.dart';
 import 'custom_video_player.dart';
 import 'first_booking_dialog.dart';
 import 'fullscreen_video_player.dart';
@@ -96,16 +94,9 @@ class _UserGuideVideoState extends State<UserGuideVideo> {
                           return FirstBookingDialog(
                             onClose: _videoPlayerController.play,
                             onSubmit: () async {
-                              await Future.delayed(
-                                  const Duration(milliseconds: 200), () {
-                                BlocProvider.of<AuthBloc>(context).add(
-                                  const FinishUserGuideEvent(),
-                                );
-                                context.goNamed(
-                                  Routes.booking.name,
-                                  extra: true,
-                                );
-                              });
+                              BlocProvider.of<AuthBloc>(context).add(
+                                const FinishUserGuideEvent(),
+                              );
                             },
                           );
                         },

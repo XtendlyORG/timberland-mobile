@@ -5,13 +5,13 @@ import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 class DifficultyLevel {
   final int id;
   final String name;
-  final Color textColor;
-  final Color backgroundColor;
+  final Color primaryColor;
+  final Color secondaryColor;
   const DifficultyLevel({
     required this.id,
     required this.name,
-    required this.textColor,
-    required this.backgroundColor,
+    required this.primaryColor,
+    required this.secondaryColor,
   });
 
   factory DifficultyLevel.fromString(String name) {
@@ -46,35 +46,35 @@ abstract class Difficulties {
   static const DifficultyLevel easiest = DifficultyLevel(
     id: 1,
     name: 'Easiest',
-    textColor: TimberlandColor.accentColor,
-    backgroundColor: TimberlandColor.lighGreen,
+    primaryColor: TimberlandColor.accentColor,
+    secondaryColor: TimberlandColor.background,
   );
 
   static const DifficultyLevel easy = DifficultyLevel(
     id: 2,
     name: 'Easy',
-    textColor: TimberlandColor.accentColor,
-    backgroundColor: TimberlandColor.lighGreen,
+    primaryColor: TimberlandColor.accentColor,
+    secondaryColor: TimberlandColor.background,
   );
 
   static const DifficultyLevel intermediate = DifficultyLevel(
     id: 3,
     name: 'Intermediate',
-    textColor: TimberlandColor.primary,
-    backgroundColor: TimberlandColor.lightBlue,
+    primaryColor: TimberlandColor.primary,
+    secondaryColor: TimberlandColor.lightBlue,
   );
 
   static const DifficultyLevel advance = DifficultyLevel(
     id: 4,
     name: 'Advance',
-    textColor: TimberlandColor.secondaryColor,
-    backgroundColor: TimberlandColor.lightRed,
+    primaryColor: TimberlandColor.secondaryColor,
+    secondaryColor: TimberlandColor.lightRed,
   );
 
   static const DifficultyLevel expert = DifficultyLevel(
     id: 5,
     name: 'Expert',
-    textColor: TimberlandColor.background,
-    backgroundColor: TimberlandColor.text,
+    primaryColor: TimberlandColor.text,
+    secondaryColor: TimberlandColor.background,
   );
 }

@@ -1,4 +1,4 @@
-import 'package:timberland_biketrail/features/app_infos/domain/entities/faq.dart';
+import '../../domain/entities/faq.dart';
 
 class FAQModel extends FAQ {
   const FAQModel({

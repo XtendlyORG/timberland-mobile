@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:timberland_biketrail/core/constants/constants.dart';
-import 'package:timberland_biketrail/dashboard/presentation/widgets/update_profile_pic.dart';
-import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
+
+import '../../../core/constants/constants.dart';
+import '../../../features/authentication/domain/entities/user.dart';
+import 'update_profile_pic.dart';
 
 class UpdateProfileForm extends StatelessWidget {
   final User user;
