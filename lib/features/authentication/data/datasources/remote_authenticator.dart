@@ -22,7 +22,7 @@ class RemoteAuthenticator implements Authenticator {
   @override
   Future<User> login(LoginParameter loginParameter) async {
     // TODO: implement login
-    return UserModel(
+    return const UserModel(
       id: "test",
       firstName: "FirstName",
       lastName: "LastName",

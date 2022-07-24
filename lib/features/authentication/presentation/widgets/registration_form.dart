@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
-import 'package:timberland_biketrail/core/constants/gender_dropdown_items.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/date_picker.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
@@ -44,7 +43,6 @@ class RegistrationForm extends StatelessWidget {
     final addressCtrl = TextEditingController();
     final professionCtrl = TextEditingController();
 
-    bool agreedToTermsOfUse = false;
     return Form(
       key: formKey,
       child: Column(
