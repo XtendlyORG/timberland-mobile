@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:timberland_biketrail/core/constants/constants.dart';
-import 'package:timberland_biketrail/features/booking/domain/entities/booking.dart';
-import 'package:timberland_biketrail/features/history/domain/entities/booking_history.dart';
-import 'package:timberland_biketrail/features/history/presentation/widgets/booking_history_widget.dart';
-import 'package:timberland_biketrail/features/trail/domain/entities/difficulty.dart';
-import 'package:timberland_biketrail/features/trail/domain/entities/trail.dart';
 
+import '../../../../core/constants/constants.dart';
 import '../../../../core/presentation/widgets/widgets.dart';
+import '../../../booking/domain/entities/booking.dart';
+import '../../../trail/domain/entities/difficulty.dart';
+import '../../../trail/domain/entities/trail.dart';
+import '../../domain/entities/booking_history.dart';
+import '../widgets/booking_history_widget.dart';
 
 class BookingHistoryPage extends StatelessWidget {
   const BookingHistoryPage({Key? key}) : super(key: key);
