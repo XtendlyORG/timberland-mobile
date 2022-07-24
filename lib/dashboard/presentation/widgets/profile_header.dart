@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:timberland_biketrail/core/themes/timberland_color.dart';
+
+import '../../../core/themes/timberland_color.dart';
 
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader({

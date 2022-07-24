@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:timberland_biketrail/core/constants/constants.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/timberland_scaffold.dart';
-import 'package:timberland_biketrail/features/app_infos/presentation/bloc/app_info_bloc.dart';
-import 'package:timberland_biketrail/features/app_infos/presentation/widgets/faq_widget.dart';
+
+import '../../../../core/constants/constants.dart';
+import '../../../../core/presentation/widgets/timberland_scaffold.dart';
+import '../bloc/app_info_bloc.dart';
+import '../widgets/faq_widget.dart';
 
 class FAQsPage extends StatelessWidget {
   const FAQsPage({Key? key}) : super(key: key);

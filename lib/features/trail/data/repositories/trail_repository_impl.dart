@@ -1,10 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:dartz/dartz.dart';
 import 'package:timberland_biketrail/core/errors/exceptions.dart';
-
 import 'package:timberland_biketrail/core/errors/failures.dart';
 import 'package:timberland_biketrail/features/trail/data/datasources/remote_datasource.dart';
-
 import 'package:timberland_biketrail/features/trail/domain/entities/trail.dart';
 import 'package:timberland_biketrail/features/trail/domain/params/fetch_trails.dart';
 import 'package:timberland_biketrail/features/trail/domain/params/search_trails.dart';

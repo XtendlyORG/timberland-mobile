@@ -49,12 +49,12 @@ class TrailDetailTop extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 2.5),
                 decoration: BoxDecoration(
-                    color: trail.difficulty.backgroundColor,
+                    color: trail.difficulty.primaryColor,
                     borderRadius: BorderRadius.circular(5)),
                 child: Text(
                   trail.difficulty.name,
                   style: TextStyle(
-                    color: trail.difficulty.textColor,
+                    color: trail.difficulty.secondaryColor,
                   ),
                 ),
               ),

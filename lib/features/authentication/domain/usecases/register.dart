@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-
 import 'package:timberland_biketrail/core/errors/failures.dart';
 import 'package:timberland_biketrail/core/utils/usecase.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';

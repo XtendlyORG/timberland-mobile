@@ -1,4 +1,4 @@
-import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
+import '../../domain/entities/user.dart';
 
 class UserModel extends User {
   const UserModel({

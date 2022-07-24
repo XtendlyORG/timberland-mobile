@@ -2,11 +2,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:timberland_biketrail/core/constants/navbar_configs.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/bottom_navbar.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/timberland_appbar.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/timberland_container.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
 import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard.dart';
 
 class TimberlandScaffold extends StatelessWidget {

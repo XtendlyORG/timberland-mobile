@@ -2,7 +2,6 @@
 // ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:timberland_biketrail/features/app_infos/domain/entities/faq.dart';
-
 import 'package:timberland_biketrail/features/app_infos/domain/entities/trail_rule.dart';
 import 'package:timberland_biketrail/features/app_infos/domain/repositories/app_infos_repository.dart';
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:timberland_biketrail/core/utils/validators/validators.dart';
+
+import '../../../../core/utils/validators/validators.dart';
 
 class PasswordField extends StatefulWidget {
   const PasswordField({

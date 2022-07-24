@@ -3,10 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
-
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_scaffold.dart';
-import 'package:timberland_biketrail/core/utils/validators/email_validator.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
+import 'package:timberland_biketrail/core/utils/validators/email_validator.dart';
 
 class ContactsPage extends StatelessWidget {
   const ContactsPage({

@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
-
 import 'package:timberland_biketrail/features/app_infos/domain/entities/faq.dart';
 
 class FAQWidget extends StatefulWidget {

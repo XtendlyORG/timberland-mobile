@@ -45,7 +45,7 @@ class TrailWidget extends StatelessWidget {
                   TextSpan(
                       text: '${trail.difficulty.name}\n',
                       style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                            color: trail.difficulty.backgroundColor,
+                            color: trail.difficulty.primaryColor,
                           )),
                   TextSpan(
                     text: '${trail.trailName}\n',

@@ -5,15 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/constants/navbar_configs.dart';
-import 'package:timberland_biketrail/core/presentation/pages/firsttime_user_page.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/timberland_container.dart';
+import 'package:timberland_biketrail/core/presentation/pages/first_time_user_page.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/dashboard/presentation/pages/profile_page.dart';
 import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard.dart';
 import 'package:timberland_biketrail/features/app_infos/presentation/pages/trail_rules.dart';
-
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:timberland_biketrail/features/trail/presentation/pages/trail_directory.dart';
 
@@ -52,10 +50,16 @@ class _MainPageState extends State<MainPage> {
     }
 
     return WillPopScope(
-      onWillPop: ()async {
+      onWillPop: () async {
         return false;
       },
       child: BlocBuilder<AuthBloc, AuthState>(
+        buildWhen: (previous, current) {
+          if (current is UserGuideFinished) {
+            context.goNamed(Routes.booking.name);
+          }
+          return current is! UserGuideFinished;
+        },
         builder: (context, state) {
           log("State is: $state");
           if (state is UnAuthenticated) {
@@ -114,9 +118,9 @@ class _MainPageState extends State<MainPage> {
                               // dismis keyboard
                               WidgetsBinding.instance.focusManager.primaryFocus
                                   ?.unfocus();
-    
+
                               currentIndex = index < 2 ? index : index + 1;
-    
+
                               context.goNamed(
                                 navbarConfigs[currentIndex].routeName,
                               );

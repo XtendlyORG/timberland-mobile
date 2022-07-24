@@ -1,12 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-
 import 'package:timberland_biketrail/features/trail/domain/entities/difficulty.dart';
 import 'package:timberland_biketrail/features/trail/domain/entities/trail.dart';
+import 'package:timberland_biketrail/features/trail/domain/params/fetch_trails.dart';
 import 'package:timberland_biketrail/features/trail/domain/params/search_trails.dart';
 import 'package:timberland_biketrail/features/trail/domain/repositories/trail_repository.dart';
-import 'package:timberland_biketrail/features/trail/domain/params/fetch_trails.dart';
 
 part 'trail_event.dart';
 part 'trail_state.dart';

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/circular_icon_button.dart';
+
+import 'circular_icon_button.dart';
 
 class DrawerIconButton extends StatelessWidget {
   const DrawerIconButton({
