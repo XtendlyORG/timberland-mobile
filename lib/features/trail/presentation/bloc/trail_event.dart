@@ -23,3 +23,10 @@ class SearchTrailsEvent extends TrailEvent {
     required this.searchParams,
   });
 }
+
+class SearchTrailMapEvent extends TrailEvent {
+  final SearchTrailsParams searchTrailsParams;
+  const SearchTrailMapEvent({
+    required this.searchTrailsParams,
+  });
+}

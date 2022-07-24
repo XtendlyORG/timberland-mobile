@@ -1,9 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_scaffold.dart';
 import 'package:timberland_biketrail/core/utils/search/submit_search.dart';
 import 'package:timberland_biketrail/features/trail/domain/entities/difficulty.dart';
+import 'package:timberland_biketrail/features/trail/domain/params/search_trails.dart';
+import 'package:timberland_biketrail/features/trail/presentation/bloc/trail_bloc.dart';
 import 'package:timberland_biketrail/features/trail/presentation/widgets/trail_search/trail_difficulty_checklist.dart';
 
 class TrailMap extends StatelessWidget {
@@ -31,18 +34,18 @@ class TrailMap extends StatelessWidget {
                     controller: searchCtrl,
                     textInputAction: TextInputAction.go,
                     onFieldSubmitted: (val) {
-                      submitSearch(
-                        context: context,
-                        name: searchCtrl.text,
-                        difficultyConfigs: [
-                          if (difficultyCtrl.text.isNotEmpty)
-                            DifficultyChecklistConfig(
-                              difficultyLevel: DifficultyLevel.fromString(
-                                difficultyCtrl.text,
-                              ),
-                              value: true,
-                            ),
-                        ],
+                      BlocProvider.of<TrailBloc>(context).add(
+                        SearchTrailMapEvent(
+                          searchTrailsParams: SearchTrailsParams(
+                            name: searchCtrl.text,
+                            difficulties: [
+                              if (difficultyCtrl.text.isNotEmpty)
+                                DifficultyLevel.fromString(
+                                  difficultyCtrl.text,
+                                ),
+                            ],
+                          ),
+                        ),
                       );
                     },
                     decoration: InputDecoration(
@@ -56,18 +59,18 @@ class TrailMap extends StatelessWidget {
                       prefixIcon: const BackButton(),
                       suffixIcon: IconButton(
                         onPressed: () {
-                          submitSearch(
-                            context: context,
-                            name: searchCtrl.text,
-                            difficultyConfigs: [
-                              if (difficultyCtrl.text.isNotEmpty)
-                                DifficultyChecklistConfig(
-                                  difficultyLevel: DifficultyLevel.fromString(
-                                    difficultyCtrl.text,
-                                  ),
-                                  value: true,
-                                ),
-                            ],
+                          BlocProvider.of<TrailBloc>(context).add(
+                            SearchTrailMapEvent(
+                              searchTrailsParams: SearchTrailsParams(
+                                name: searchCtrl.text,
+                                difficulties: [
+                                  if (difficultyCtrl.text.isNotEmpty)
+                                    DifficultyLevel.fromString(
+                                      difficultyCtrl.text,
+                                    ),
+                                ],
+                              ),
+                            ),
                           );
                         },
                         icon: const Icon(Icons.search_rounded),

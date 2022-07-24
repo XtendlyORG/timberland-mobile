@@ -93,5 +93,9 @@ class TrailBloc extends Bloc<TrailEvent, TrailState> {
         },
       );
     });
+
+    on<SearchTrailMapEvent>((event, emit) async{
+      emit(TrailMapLoaded());
+    });
   }
 }

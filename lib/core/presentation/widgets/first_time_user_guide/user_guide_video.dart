@@ -93,7 +93,7 @@ class _UserGuideVideoState extends State<UserGuideVideo> {
                         builder: (ctx) {
                           return FirstBookingDialog(
                             onClose: _videoPlayerController.play,
-                            onSubmit: () async {
+                            onSubmit: () {
                               BlocProvider.of<AuthBloc>(context).add(
                                 const FinishUserGuideEvent(),
                               );

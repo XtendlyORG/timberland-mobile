@@ -36,7 +36,7 @@ class FirstBookingDialog extends StatelessWidget {
               padding:
                   const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
               child: FilledTextButton(
-                onPressed: () async {
+                onPressed: () {
                   Navigator.of(context, rootNavigator: true).pop();
                   onSubmit();
                 },

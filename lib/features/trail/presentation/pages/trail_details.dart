@@ -18,6 +18,7 @@ class TrailDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return TimberlandScaffold(
       extendBodyBehindAppbar: true,
+      backButtonColor: Theme.of(context).backgroundColor,
       body: Stack(
         children: [
           Align(
