@@ -40,7 +40,12 @@ class FirstBookingDialog extends StatelessWidget {
                   Navigator.of(context, rootNavigator: true).pop();
                   onSubmit();
                 },
-                child: const Text("Book Now"),
+                child: const Text(
+                  "Book Now",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
             Align(
