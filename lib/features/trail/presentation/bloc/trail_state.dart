@@ -53,3 +53,9 @@ class SearchResultsLoaded extends TrailsLoaded {
     required this.searchParams,
   });
 }
+
+abstract class TrailMapState extends TrailState {
+  const TrailMapState();
+}
+
+class TrailMapLoaded extends TrailMapState {}
