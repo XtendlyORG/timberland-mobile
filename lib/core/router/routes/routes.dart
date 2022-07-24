@@ -25,8 +25,14 @@ abstract class Routes {
   static const profile = _Route(path: '/profile', name: 'profile');
   static const updateProfile =
       _Route(path: '/update-profile', name: 'update-profile');
+  static const qr = _Route(path: '/my-qr', name: 'qr');
+  static const bookingHistory =
+      _Route(path: '/booking-history', name: 'booking-history');
+  static const paymentHistory =
+      _Route(path: '/payment-history', name: 'payment-history');
+
   static const booking = _Route(path: '/booking', name: 'booking');
-  static const qr = _Route(path: '/qr', name: 'qr');
+
   static const rules = _Route(path: '/rules', name: 'rules');
   static const contacts = _Route(path: '/contacts', name: 'contacts');
   static const faqs = _Route(path: '/faqs', name: 'faqs');
