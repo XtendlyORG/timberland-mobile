@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/presentation/widgets/filled_text_button.dart';
+import '../../../../../core/presentation/widgets/inherited_widgets/inherited_trail.dart';
 import '../../../../../core/router/router.dart';
 import '../../../domain/entities/trail.dart';
 import '../trail_specs.dart';
@@ -12,13 +13,11 @@ import '../trail_specs.dart';
 class TrailDetailBottom extends StatelessWidget {
   const TrailDetailBottom({
     Key? key,
-    required this.trail,
   }) : super(key: key);
-
-  final Trail trail;
 
   @override
   Widget build(BuildContext context) {
+    final Trail trail = InheritedTrail.of(context).trail!;
     return ClipRRect(
       clipBehavior: Clip.hardEdge,
       child: BackdropFilter(

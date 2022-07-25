@@ -23,6 +23,7 @@ import '../../features/trail/domain/entities/trail.dart';
 import '../../features/trail/presentation/pages/trail_details.dart';
 import '../../features/trail/presentation/pages/trail_map.dart';
 import '../../main_page.dart';
+import '../presentation/widgets/inherited_widgets/inherited_trail.dart';
 import '../utils/session.dart';
 import 'routes/routes.dart';
 
@@ -180,8 +181,9 @@ final appRouter = GoRouter(
               name: Routes.specificTrail.name,
               pageBuilder: (context, routeState) {
                 return CustomTransitionPage(
-                  child: TrailDetails(
+                  child: InheritedTrail(
                     trail: (routeState.extra as Trail),
+                    child: const TrailDetails(),
                   ),
                   transitionDuration: const Duration(milliseconds: 500),
                   transitionsBuilder:
@@ -350,8 +352,13 @@ final appRouter = GoRouter(
       path: Routes.booking.path,
       name: Routes.booking.name,
       pageBuilder: (context, routeState) {
+        final Trail? trail =
+            routeState.extra != null ? routeState.extra as Trail : null;
         return CustomTransitionPage(
-          child: const BookingPage(),
+          child: InheritedTrail(
+            trail: trail,
+            child: const BookingPage(),
+          ),
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnim, child) {
             return FadeTransition(

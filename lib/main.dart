@@ -9,6 +9,7 @@ import 'package:timberland_biketrail/dependency_injection/dependency_injection.d
     as di;
 import 'package:timberland_biketrail/features/app_infos/presentation/bloc/app_info_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:timberland_biketrail/features/booking/presentation/bloc/booking_bloc.dart';
 import 'package:timberland_biketrail/features/trail/presentation/bloc/trail_bloc.dart';
 
 import 'core/configs/dev_config.dart';
@@ -32,6 +33,9 @@ Future main() async {
       ),
       BlocProvider<TrailBloc>(
         create: (context) => di.serviceLocator<TrailBloc>(),
+      ),
+      BlocProvider<BookingBloc>(
+        create: (context) => di.serviceLocator<BookingBloc>(),
       ),
     ],
     child: const MyApp(),

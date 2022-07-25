@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/constants/constants.dart';
+import '../../../../../core/presentation/widgets/inherited_widgets/inherited_trail.dart';
 import '../../../domain/entities/trail.dart';
 
 class TrailDetailTop extends StatelessWidget {
   const TrailDetailTop({
     Key? key,
-    required this.trail,
   }) : super(key: key);
-
-  final Trail trail;
 
   @override
   Widget build(BuildContext context) {
+    final Trail trail = InheritedTrail.of(context).trail!;
     return Container(
       height: 300,
       decoration: BoxDecoration(
