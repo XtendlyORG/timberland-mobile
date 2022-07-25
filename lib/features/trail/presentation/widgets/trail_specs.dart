@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/constants/constants.dart';
 import '../../domain/entities/trail.dart';
 
 class TrailSpecs extends StatelessWidget {
@@ -17,52 +18,47 @@ class TrailSpecs extends StatelessWidget {
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 400),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Text.rich(
-            TextSpan(
-              children: [
-                TextSpan(
-                  text: 'Length\n',
-                  style: Theme.of(context).textTheme.caption,
-                ),
-                TextSpan(
-                  text: '${trail.length} mi',
-                  style: Theme.of(context).textTheme.subtitle2,
-                ),
-              ],
+          Expanded(
+            child: Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'Length\n',
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                  TextSpan(
+                    text: '${trail.distance} mi',
+                    style: Theme.of(context).textTheme.subtitle2,
+                  ),
+                ],
+              ),
+              textAlign: TextAlign.start,
             ),
-            textAlign: TextAlign.start,
           ),
-          Text.rich(
-            TextSpan(
-              children: [
-                TextSpan(
-                  text: 'Elevation Gain\n',
-                  style: Theme.of(context).textTheme.caption,
-                ),
-                TextSpan(
-                  text: '${trail.length} ft',
-                  style: Theme.of(context).textTheme.subtitle2,
-                ),
-              ],
-            ),
-            textAlign: TextAlign.start,
+          const SizedBox(
+            width: kVerticalPadding,
           ),
-          Text.rich(
-            TextSpan(
-              children: [
-                TextSpan(
-                  text: 'Route Type\n',
-                  style: Theme.of(context).textTheme.caption,
-                ),
-                TextSpan(
-                  text: trail.routeType,
-                  style: Theme.of(context).textTheme.subtitle2,
-                ),
-              ],
+          Expanded(
+            child: Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'Route Type\n',
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                  TextSpan(
+                    text: trail.routeType,
+                    style: Theme.of(context).textTheme.subtitle2,
+                  ),
+                ],
+              ),
+              textAlign: TextAlign.start,
             ),
-            textAlign: TextAlign.start,
+          ),
+          const Spacer(
+            flex: 2,
           ),
         ],
       ),

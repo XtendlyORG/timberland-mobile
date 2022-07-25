@@ -60,15 +60,7 @@ class TrailDetailTop extends StatelessWidget {
               const Spacer(),
             ],
           ),
-          const SizedBox(
-            height: kVerticalPadding,
-          ),
-          Text(
-            trail.location,
-            style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  color: Theme.of(context).backgroundColor,
-                ),
-          ),
+          
         ],
       ),
     );
