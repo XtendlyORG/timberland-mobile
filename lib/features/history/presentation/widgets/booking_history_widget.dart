@@ -55,7 +55,7 @@ class BookingHistoryWidget extends StatelessWidget {
                 maxLines: 3,
               ),
               Text(
-                '${bookingHistory.trail.length} mi',
+                '${bookingHistory.trail.distance} mi',
               ),
               AutoSizeText.rich(
                 TextSpan(

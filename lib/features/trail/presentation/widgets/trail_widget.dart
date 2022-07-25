@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
@@ -32,9 +33,23 @@ class TrailWidget extends StatelessWidget {
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              image: DecorationImage(
-                  image: NetworkImage(trail.featureImageUrl),
-                  fit: BoxFit.fitWidth),
+            ),
+            child: CachedNetworkImage(
+              imageUrl: trail.featureImageUrl,
+              fit: BoxFit.fitWidth,
+              placeholder: (context, url) {
+                return const Center(
+                  child: RepaintBoundary(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              },
+              
+              errorWidget: (context, url, error) {
+                return const Center(
+                  child: Icon(Icons.error_outline_rounded),
+                );
+              },
             ),
           ),
           Padding(
@@ -48,12 +63,8 @@ class TrailWidget extends StatelessWidget {
                             color: trail.difficulty.primaryColor,
                           )),
                   TextSpan(
-                    text: '${trail.trailName}\n',
+                    text: trail.trailName,
                     style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  TextSpan(
-                    text: trail.location,
-                    style: Theme.of(context).textTheme.titleSmall,
                   ),
                 ],
               ),
