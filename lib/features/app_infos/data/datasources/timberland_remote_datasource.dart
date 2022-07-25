@@ -29,7 +29,7 @@ class TimberlandRemoteDatasource implements RemoteDatasource {
         return response.data != null
             ? response.data!
                 .map<TrailRuleModel>(
-                  (data) => TrailRuleModel.fromMap(data),
+                  (data) => TrailRuleModel(note: data.toString()),
                 )
                 .toList()
             : [];

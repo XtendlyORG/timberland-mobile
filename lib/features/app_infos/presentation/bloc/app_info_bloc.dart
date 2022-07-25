@@ -25,8 +25,8 @@ class AppInfoBloc extends Bloc<AppInfoEvent, AppInfoState> {
           emit(TrailRulesError(message: failure.message));
           emit(const TrailRulesLoaded(trailRules: [
             TrailRule(
-                ruleId: 'ruleId',
-                rule: 'Trail Rule 1',
+                // ruleId: 'ruleId',
+                // rule: 'Trail Rule 1',
                 note:
                     'Sint velit commodo adipisicing cupidatat consectetur Lorem eiusmod magna reprehenderit quis veniam officia sunt. Cillum cupidatat reprehenderit laboris sint ad occaecat dolor voluptate consectetur. Cupidatat dolor labore nostrud amet deserunt. Aute officia velit quis aliquip. Veniam exercitation culpa sint adipisicing in fugiat ad commodo commodo. Ipsum ex sint sint aliqua ut excepteur ullamco excepteur adipisicing enim cupidatat exercitation ea.'),
           ]));
