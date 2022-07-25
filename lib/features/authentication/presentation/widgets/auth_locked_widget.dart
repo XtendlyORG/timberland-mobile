@@ -52,30 +52,26 @@ class _AuthLockedWidgetState extends State<AuthLockedWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      content: ConstrainedBox(
-        constraints: const BoxConstraints(maxHeight: 200),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Icon(
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxHeight: 200),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Expanded(
+            flex: 2,
+            child: Icon(
               Icons.lock,
               color: Theme.of(context).primaryColor,
               size: 48,
             ),
-            const Spacer(),
-            const AutoSizeText(
-              "Authentication is locked. Due to 5 consecutive failed tries.",
-              maxLines: 2,
-            ),
-            const Spacer(),
-            AutoSizeText(
-              'You can try again in: ${widget.duration - _timer!.tick} seconds',
+          ),
+          Expanded(
+            child: AutoSizeText(
+              'Try again in: ${widget.duration - _timer!.tick} seconds',
               maxLines: 1,
             ),
-            const Spacer(),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -30,8 +30,10 @@ class AuthPageContainer extends StatelessWidget {
             context: context,
             barrierDismissible: false,
             builder: (context) {
-              return AuthLockedWidget(
-                duration: state.lockUntil.difference(DateTime.now()).inSeconds,
+              return Dialog(
+                child: AuthLockedWidget(
+                  duration: state.lockUntil.difference(DateTime.now()).inSeconds,
+                ),
               );
             },
           );
