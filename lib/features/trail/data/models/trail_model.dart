@@ -22,7 +22,7 @@ class TrailModel extends Trail {
       trailName: map['name'] as String,
       difficulty: DifficultyLevel.fromInt((map['difficulty'] as num).toInt()),
       description: map['description'] as String,
-      distance: (map['distance'] as num).toDouble(),
+      distance: double.tryParse((map['distance'] as String?) ?? '') ?? 0,
       routeType: map['route_type'] as String,
       featureImageUrl: map['featured_image'] as String,
       mapImageUrl: map['map_image'] as String,
