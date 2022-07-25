@@ -12,15 +12,23 @@ class PaymentHistoryPage extends StatelessWidget {
     return TimberlandScaffold(
       titleText: 'Payment History',
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal:kVerticalPadding,vertical: kHorizontalPadding),
+        padding: const EdgeInsets.symmetric(
+            horizontal: kVerticalPadding, vertical: kHorizontalPadding),
         child: Column(
           children: [
+            const Padding(
+              padding: EdgeInsets.only(bottom: kVerticalPadding),
+              child: PaymentHistoryWidget(
+                bankName: 'INDUSTRIAL AND COMMERCIAL BANK OF CHINA LIMITED - MANILA BRA',
+              ),
+            ),
             ...List.generate(
               5,
               (index) => const Padding(
-                padding: EdgeInsets.only(bottom: kVerticalPadding),
-                child: PaymentHistoryWidget()
-              ),
+                  padding: EdgeInsets.only(bottom: kVerticalPadding),
+                  child: PaymentHistoryWidget(
+                    bankName: 'BDO Unibank, Inc.',
+                  )),
             ),
           ],
         ),

@@ -1,10 +1,15 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/constants/constants.dart';
 
 class PaymentHistoryWidget extends StatelessWidget {
-  const PaymentHistoryWidget({Key? key}) : super(key: key);
+  final String bankName;
+  const PaymentHistoryWidget({
+    Key? key,
+    required this.bankName,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,17 +37,19 @@ class PaymentHistoryWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                AutoSizeText(
+                  bankName,
+                  style: Theme.of(context).textTheme.titleMedium,
+                  maxLines: 2,
+                  minFontSize: 12,
+                ),
                 AutoSizeText.rich(
                   TextSpan(
-                    children: [
+                    children: const [
                       TextSpan(
-                        text: 'BDO Unibank, Inc.\n',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      const TextSpan(
                         text: 'John Doe\n',
                       ),
-                      const TextSpan(
+                      TextSpan(
                         text: '****2945',
                       ),
                     ],
