@@ -9,6 +9,7 @@ class CustomDatePicker extends StatelessWidget {
   final List<DateTime>? blackoutDates;
   final bool enablePastDates;
   final DateTime? minDate;
+  final DateTime? maxDate;
   final DateTime? initialSelectedDate;
   const CustomDatePicker({
     Key? key,
@@ -17,6 +18,7 @@ class CustomDatePicker extends StatelessWidget {
     this.blackoutDates,
     this.enablePastDates = true,
     this.minDate,
+    this.maxDate,
     this.initialSelectedDate,
   }) : super(key: key);
 
@@ -28,11 +30,7 @@ class CustomDatePicker extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(kVerticalPadding),
         child: SfDateRangePicker(
-          maxDate: DateTime(
-            DateTime.now().year - 18,
-            DateTime.now().month,
-            DateTime.now().day,
-          ),
+          maxDate: maxDate,
           enablePastDates: enablePastDates,
           showTodayButton: showTodayButton,
           toggleDaySelection: true,

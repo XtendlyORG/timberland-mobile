@@ -122,6 +122,11 @@ class RegistrationForm extends StatelessWidget {
                     builder: (context) {
                       return Dialog(
                         child: CustomDatePicker(
+                          maxDate: DateTime(
+                            DateTime.now().year - 18,
+                            DateTime.now().month,
+                            DateTime.now().day,
+                          ),
                           onSumbit: (value) {
                             if (value is DateTime) {
                               birthday = value;

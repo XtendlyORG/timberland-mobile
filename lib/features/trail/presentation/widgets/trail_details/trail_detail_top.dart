@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/inherited_widgets/inherited_trail.dart';
 
 import '../../../../../core/constants/constants.dart';
+import '../../../../../core/presentation/widgets/inherited_widgets/inherited_trail.dart';
 import '../../../domain/entities/trail.dart';
 
 class TrailDetailTop extends StatelessWidget {

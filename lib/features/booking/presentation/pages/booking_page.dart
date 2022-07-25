@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/inherited_widgets/inherited_trail.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_scaffold.dart';
-import 'package:timberland_biketrail/features/trail/domain/entities/trail.dart';
+import 'package:timberland_biketrail/features/booking/presentation/widgets/booking_form.dart';
 
 class BookingPage extends StatelessWidget {
   const BookingPage({
@@ -13,7 +13,6 @@ class BookingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return TimberlandScaffold(
       disableBackButton: !Navigator.canPop(context),
       titleText: "Booking Form",
@@ -21,12 +20,11 @@ class BookingPage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
         child: Column(
           children: [
-            const SizedBox(
-              height: kVerticalPadding,
-            ),
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+              padding: const EdgeInsets.symmetric(
+                horizontal: kHorizontalPadding,
+                vertical: kVerticalPadding,
+              ),
               child: AutoSizeText(
                 'Please fill the required identity and booking detail below.',
                 style: Theme.of(context).textTheme.labelLarge,
@@ -34,30 +32,11 @@ class BookingPage extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            
-            const BookingForm(),
+            BookingForm(
+              trail: InheritedTrail.of(context).trail,
+            ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class BookingForm extends StatelessWidget {
-  const BookingForm({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final Trail? trail = InheritedTrail.of(context).trail;
-    final GlobalKey formKey = GlobalKey<FormState>();
-    return Form(
-      key: formKey,
-      child: Column(
-        children: [
-          Text(trail?.trailName??"No trail passed"),
-        ],
       ),
     );
   }
