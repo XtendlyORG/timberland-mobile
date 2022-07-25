@@ -85,8 +85,8 @@ abstract class Difficulties {
   static const DifficultyLevel advance = DifficultyLevel(
     id: 4,
     name: 'Advance',
-    primaryColor: TimberlandColor.secondaryColor,
-    secondaryColor: TimberlandColor.lightRed,
+    primaryColor: Color(0xff34459b),
+    secondaryColor: TimberlandColor.background,
   );
 
   static const DifficultyLevel expert = DifficultyLevel(
