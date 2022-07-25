@@ -17,17 +17,15 @@ class TrailDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     Trail? trail = InheritedTrail.of(context).trail;
     trail ??= const Trail(
-        trailId: '',
-        trailName: '',
-        difficulty: Difficulties.advance,
-        description: '',
-        location: '',
-        length: 1,
-        elevationGain: 2,
-        routeType: '',
-        featureImageUrl: '',
-        mapImageUrl: '',
-      );
+      trailId: '',
+      trailName: '',
+      difficulty: Difficulties.advance,
+      description: '',
+      distance: 1,
+      routeType: '',
+      featureImageUrl: '',
+      mapImageUrl: '',
+    );
     return TimberlandScaffold(
       extendBodyBehindAppbar: true,
       backButtonColor: Theme.of(context).backgroundColor,

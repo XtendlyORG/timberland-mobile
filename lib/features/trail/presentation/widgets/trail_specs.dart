@@ -18,7 +18,7 @@ class TrailSpecs extends StatelessWidget {
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 400),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Expanded(
             child: Text.rich(
@@ -57,9 +57,7 @@ class TrailSpecs extends StatelessWidget {
               textAlign: TextAlign.start,
             ),
           ),
-          const Spacer(
-            flex: 2,
-          ),
+          
         ],
       ),
     );
