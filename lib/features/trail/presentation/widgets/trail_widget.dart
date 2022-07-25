@@ -48,12 +48,8 @@ class TrailWidget extends StatelessWidget {
                             color: trail.difficulty.primaryColor,
                           )),
                   TextSpan(
-                    text: '${trail.trailName}\n',
+                    text: trail.trailName,
                     style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  TextSpan(
-                    text: trail.location,
-                    style: Theme.of(context).textTheme.titleSmall,
                   ),
                 ],
               ),

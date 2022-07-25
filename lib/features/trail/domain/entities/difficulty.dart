@@ -32,6 +32,24 @@ class DifficultyLevel {
         );
     }
   }
+  factory DifficultyLevel.fromInt(int difficultyLevel) {
+    switch (difficultyLevel) {
+      case 1:
+        return Difficulties.easy;
+      case 2:
+        return Difficulties.easy;
+      case 3:
+        return Difficulties.intermediate;
+      case 4:
+        return Difficulties.advance;
+      case 5:
+        return Difficulties.expert;
+      default:
+        throw Exception(
+          "Difficulty $difficultyLevel is not valid, append it to 'Difficulties' abstract object",
+        );
+    }
+  }
 }
 
 abstract class Difficulties {

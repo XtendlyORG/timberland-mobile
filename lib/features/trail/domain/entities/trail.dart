@@ -8,9 +8,7 @@ class Trail extends Equatable {
   final String trailName;
   final DifficultyLevel difficulty;
   final String description;
-  final String location;
-  final double length;
-  final double elevationGain;
+  final double distance;
   final String routeType;
   final String featureImageUrl;
   final String mapImageUrl;
@@ -20,9 +18,7 @@ class Trail extends Equatable {
     required this.trailName,
     required this.difficulty,
     required this.description,
-    required this.location,
-    required this.length,
-    required this.elevationGain,
+    required this.distance,
     required this.routeType,
     required this.featureImageUrl,
     required this.mapImageUrl,
@@ -35,9 +31,7 @@ class Trail extends Equatable {
       trailName,
       difficulty,
       description,
-      location,
-      length,
-      elevationGain,
+      distance,
       routeType,
       featureImageUrl,
       mapImageUrl,

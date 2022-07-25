@@ -28,8 +28,7 @@ class TrailBloc extends Bloc<TrailEvent, TrailState> {
           const TrailsLoaded(trails: [
             Trail(
               trailId: "trail-id",
-              length: 90,
-              elevationGain: 123,
+              distance: 90,
               featureImageUrl:
                   'https://gttp.imgix.net/328721/x/0/17-best-biking-spots-in-manila-and-nearby-bike-trails-scenic-routes-beginner-friendly-9.jpg?auto=compress%2Cformat&ch=Width%2CDPR&dpr=1&ixlib=php-3.3.0&w=883',
               mapImageUrl:
@@ -39,12 +38,10 @@ class TrailBloc extends Bloc<TrailEvent, TrailState> {
               difficulty: Difficulties.easy,
               description:
                   'Qui ut eiusmod consequat minim. Magna sit do dolor tempor culpa do sint duis esse irure cupidatat Lorem. Eu ad mollit sint cupidatat labore culpa nostrud consectetur cillum incididunt. Reprehenderit exercitation fugiat sit in ea enim qui nisi ipsum irure eiusmod nulla sit.',
-              location: 'San Mateo, Quezon, Philippines',
             ),
             Trail(
               trailId: "trail-id",
-              length: 90,
-              elevationGain: 123,
+              distance: 90,
               featureImageUrl:
                   'https://gttp.imgix.net/328721/x/0/17-best-biking-spots-in-manila-and-nearby-bike-trails-scenic-routes-beginner-friendly-9.jpg?auto=compress%2Cformat&ch=Width%2CDPR&dpr=1&ixlib=php-3.3.0&w=883',
               mapImageUrl:
@@ -54,12 +51,10 @@ class TrailBloc extends Bloc<TrailEvent, TrailState> {
               difficulty: Difficulties.intermediate,
               description:
                   'Qui ut eiusmod consequat minim. Magna sit do dolor tempor culpa do sint duis esse irure cupidatat Lorem. Eu ad mollit sint cupidatat labore culpa nostrud consectetur cillum incididunt. Reprehenderit exercitation fugiat sit in ea enim qui nisi ipsum irure eiusmod nulla sit.',
-              location: 'San Mateo, Quezon, Philippines',
             ),
             Trail(
               trailId: "trail-id",
-              length: 90,
-              elevationGain: 123,
+              distance: 90,
               featureImageUrl:
                   'https://gttp.imgix.net/328721/x/0/17-best-biking-spots-in-manila-and-nearby-bike-trails-scenic-routes-beginner-friendly-9.jpg?auto=compress%2Cformat&ch=Width%2CDPR&dpr=1&ixlib=php-3.3.0&w=883',
               mapImageUrl:
@@ -69,7 +64,6 @@ class TrailBloc extends Bloc<TrailEvent, TrailState> {
               difficulty: Difficulties.expert,
               description:
                   'Qui ut eiusmod consequat minim. Magna sit do dolor tempor culpa do sint duis esse irure cupidatat Lorem. Eu ad mollit sint cupidatat labore culpa nostrud consectetur cillum incididunt. Reprehenderit exercitation fugiat sit in ea enim qui nisi ipsum irure eiusmod nulla sit.',
-              location: 'San Mateo, Quezon, Philippines',
             ),
           ]),
         ),
@@ -94,7 +88,7 @@ class TrailBloc extends Bloc<TrailEvent, TrailState> {
       );
     });
 
-    on<SearchTrailMapEvent>((event, emit) async{
+    on<SearchTrailMapEvent>((event, emit) async {
       emit(TrailMapLoaded());
     });
   }
