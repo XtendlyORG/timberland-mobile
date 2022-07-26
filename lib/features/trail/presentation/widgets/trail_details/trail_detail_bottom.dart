@@ -41,6 +41,12 @@ class TrailDetailBottom extends StatelessWidget {
                 const SizedBox(
                   height: kVerticalPadding,
                 ),
+                if (trail.expectedDescription != null) ...[
+                  Text("WHAT TO EXPECT: ${trail.expectedDescription!}"),
+                  const SizedBox(
+                    height: kVerticalPadding,
+                  ),
+                ],
                 const Divider(
                   thickness: 2,
                 ),

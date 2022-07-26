@@ -36,6 +36,7 @@ class BookingHistoryPage extends StatelessWidget {
                       routeType: "Loop",
                       trailName: 'Timberland Blue Trail to Nursery Loop',
                       difficulty: Difficulties.easy,
+                      unit: 'm',
                       description:
                           'Qui ut eiusmod consequat minim. Magna sit do dolor tempor culpa do sint duis esse irure cupidatat Lorem. Eu ad mollit sint cupidatat labore culpa nostrud consectetur cillum incididunt. Reprehenderit exercitation fugiat sit in ea enim qui nisi ipsum irure eiusmod nulla sit.',
                     ),

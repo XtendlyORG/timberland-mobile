@@ -9,9 +9,11 @@ class Trail extends Equatable {
   final DifficultyLevel difficulty;
   final String description;
   final double distance;
+  final String unit;
   final String routeType;
   final String featureImageUrl;
   final String mapImageUrl;
+  final String? expectedDescription;
 
   const Trail({
     required this.trailId,
@@ -19,9 +21,11 @@ class Trail extends Equatable {
     required this.difficulty,
     required this.description,
     required this.distance,
+    required this.unit,
     required this.routeType,
     required this.featureImageUrl,
     required this.mapImageUrl,
+    this.expectedDescription,
   });
 
   @override
@@ -32,9 +36,11 @@ class Trail extends Equatable {
       difficulty,
       description,
       distance,
+      unit,
       routeType,
       featureImageUrl,
       mapImageUrl,
+      if (expectedDescription != null) expectedDescription!,
     ];
   }
 }
