@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/form_fields/email_field.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/presentation/widgets/widgets.dart';
@@ -8,7 +9,7 @@ import '../../../../core/router/router.dart';
 import '../../../../core/utils/validators/email_validator.dart';
 import '../../domain/usecases/login.dart';
 import '../bloc/auth_bloc.dart';
-import 'password_field.dart';
+import '../../../../core/presentation/widgets/form_fields/password_field.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -34,12 +35,8 @@ class LoginForm extends StatelessWidget {
             margin: const EdgeInsets.only(
               bottom: kVerticalPadding,
             ),
-            child: TextFormField(
+            child: EmailField(
               controller: emailCtrl,
-              validator: validateEmail,
-              decoration: const InputDecoration(
-                hintText: 'Email Address',
-              ),
             ),
           ),
           Container(

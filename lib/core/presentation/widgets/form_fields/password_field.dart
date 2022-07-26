@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/utils/validators/validators.dart';
+import '../../../utils/validators/validators.dart';
 
 class PasswordField extends StatefulWidget {
   const PasswordField({
