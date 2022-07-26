@@ -26,7 +26,8 @@ class RemoteAuthenticator implements Authenticator {
       id: "test",
       firstName: "FirstName",
       lastName: "LastName",
-      email: "Email",
+      email: "email@email.com",
+      mobileNumber: '9123456789',
       age: 20,
       accessCode: "Test Access Code",
     );
@@ -46,6 +47,7 @@ class RemoteAuthenticator implements Authenticator {
       firstName: registerParameter.firstName,
       lastName: registerParameter.lastName,
       email: registerParameter.email!,
+      mobileNumber: registerParameter.mobileNumber!,
       age: 20,
       accessCode: "Test Access Code",
     );

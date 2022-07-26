@@ -7,6 +7,7 @@ class User extends Equatable {
   final String firstName;
   final String lastName;
   final String email;
+  final String mobileNumber;
   final int age;
   final String accessCode;
   const User({
@@ -14,6 +15,7 @@ class User extends Equatable {
     required this.firstName,
     required this.lastName,
     required this.email,
+    required this.mobileNumber,
     required this.age,
     required this.accessCode,
   });
@@ -25,6 +27,7 @@ class User extends Equatable {
       firstName,
       lastName,
       email,
+      mobileNumber,
       age,
       accessCode,
     ];

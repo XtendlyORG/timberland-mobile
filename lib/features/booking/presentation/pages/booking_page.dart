@@ -1,9 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/inherited_widgets/inherited_trail.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_scaffold.dart';
+import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:timberland_biketrail/features/booking/presentation/widgets/booking_form.dart';
 
 class BookingPage extends StatelessWidget {
@@ -32,8 +34,16 @@ class BookingPage extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            BookingForm(
-              trail: InheritedTrail.of(context).trail,
+            BlocBuilder<AuthBloc, AuthState>(
+              buildWhen: (previous, current) {
+                return current is Authenticated;
+              },
+              builder: (context, state) {
+                return BookingForm(
+                  user: (state as Authenticated).user,
+                  trail: InheritedTrail.of(context).trail,
+                );
+              },
             ),
           ],
         ),

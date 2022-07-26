@@ -42,7 +42,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         Authenticated(
           user: User(
             age: 19,
-            email: 'test_email',
+            email: 'test_email@email.com',
+            mobileNumber: '9123456789',
             firstName: 'FirstName',
             lastName: 'LastName',
             id: event.uid,

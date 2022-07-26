@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/form_fields/email_field.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/form_fields/mobile_number_field.dart';
+import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
 import 'package:timberland_biketrail/features/booking/presentation/widgets/booking_date_picker.dart';
 import 'package:timberland_biketrail/features/booking/presentation/widgets/booking_time_picker.dart';
 
@@ -19,9 +20,11 @@ class BookingForm extends StatefulWidget {
   const BookingForm({
     Key? key,
     required this.trail,
+    required this.user,
   }) : super(key: key);
 
   final Trail? trail;
+  final User user;
   @override
   State<BookingForm> createState() => _BookingFormState();
 }
@@ -43,9 +46,15 @@ class _BookingFormState extends State<BookingForm> {
     chosenDate = null;
     dateCtrl = TextEditingController();
     timeRangeCtrl = TextEditingController();
-    mobileNumberCtrl = TextEditingController();
-    emailCtrl = TextEditingController();
-    fullNameCtrl = TextEditingController();
+    mobileNumberCtrl = TextEditingController(
+      text: widget.user.mobileNumber
+    );
+    emailCtrl = TextEditingController(
+      text: widget.user.email,
+    );
+    fullNameCtrl = TextEditingController(
+      text: '${widget.user.firstName} ${widget.user.lastName}',
+    );
 
     super.initState();
   }
@@ -127,9 +136,7 @@ class _BookingFormState extends State<BookingForm> {
                               child: BookingTimePicker(
                                 controller: timeRangeCtrl,
                                 enabled: selectedTrail != null,
-                                onSubmit: (value){
-
-                                },
+                                onSubmit: (value) {},
                               ),
                             ),
                           ],
