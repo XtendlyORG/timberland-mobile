@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/form_fields/email_field.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/form_fields/mobile_number_field.dart';
+import 'package:timberland_biketrail/features/booking/presentation/widgets/booking_date_picker.dart';
+import 'package:timberland_biketrail/features/booking/presentation/widgets/booking_time_picker.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/presentation/widgets/widgets.dart';
@@ -29,6 +31,7 @@ class _BookingFormState extends State<BookingForm> {
   late final GlobalKey<FormState> formKey;
   late DateTime? chosenDate;
   late TextEditingController dateCtrl;
+  late TextEditingController timeRangeCtrl;
   late TextEditingController mobileNumberCtrl;
   late TextEditingController emailCtrl;
   late TextEditingController fullNameCtrl;
@@ -39,6 +42,7 @@ class _BookingFormState extends State<BookingForm> {
     formKey = GlobalKey<FormState>();
     chosenDate = null;
     dateCtrl = TextEditingController();
+    timeRangeCtrl = TextEditingController();
     mobileNumberCtrl = TextEditingController();
     emailCtrl = TextEditingController();
     fullNameCtrl = TextEditingController();
@@ -119,7 +123,15 @@ class _BookingFormState extends State<BookingForm> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text('Time'),
-                            TextFormField(),
+                            ExcludeFocus(
+                              child: BookingTimePicker(
+                                controller: timeRangeCtrl,
+                                enabled: selectedTrail != null,
+                                onSubmit: (value){
+
+                                },
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -135,11 +147,9 @@ class _BookingFormState extends State<BookingForm> {
                     children: [
                       const Text("Full Name"),
                       TextFormField(
-                        controller: fullNameCtrl,
-                        decoration:const InputDecoration(
-                          hintText: "Full Name"
-                        )
-                      ),
+                          controller: fullNameCtrl,
+                          decoration:
+                              const InputDecoration(hintText: "Full Name")),
                     ],
                   ),
                 ),
@@ -192,52 +202,6 @@ class _BookingFormState extends State<BookingForm> {
           ),
         );
       },
-    );
-  }
-}
-
-class BookingDatePicker extends StatelessWidget {
-  const BookingDatePicker({
-    Key? key,
-    this.enabled = false,
-    required this.controller,
-    required this.onSubmit,
-  }) : super(key: key);
-
-  final bool enabled;
-  final TextEditingController controller;
-  final void Function(Object?) onSubmit;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      enabled: enabled,
-      onTap: () {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return Dialog(
-              child: CustomDatePicker(
-                enablePastDates: false,
-                minDate: DateTime(
-                  DateTime.now().year,
-                  DateTime.now().month,
-                  DateTime.now().day + 3,
-                ),
-                onSumbit: onSubmit,
-              ),
-            );
-          },
-        );
-      },
-      decoration: InputDecoration(
-        hintText: 'Choose Date',
-        prefixIcon: Icon(
-          Icons.calendar_today_outlined,
-          color: Theme.of(context).primaryColor,
-        ),
-      ),
     );
   }
 }
