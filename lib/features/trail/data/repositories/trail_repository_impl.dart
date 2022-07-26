@@ -19,7 +19,7 @@ class TrailRepositoryImpl implements TrailRepository {
     try {
       return Right(await remoteDatasource.fetchTrails(params));
     } on TrailException catch (e) {
-      return Left(TrailFailure(message: e.toString()));
+      return Left(TrailFailure(message: e.message ?? "Failed to load trails."));
     }
   }
 
@@ -28,8 +28,8 @@ class TrailRepositoryImpl implements TrailRepository {
       SearchTrailsParams params) async {
     try {
       return Right(await remoteDatasource.searchTrails(params));
-    } catch (e) {
-      return Left(TrailFailure(message: e.toString()));
+    } on TrailException catch (e) {
+      return Left(TrailFailure(message: e.message ?? "Trail Search Failed."));
     }
   }
 }

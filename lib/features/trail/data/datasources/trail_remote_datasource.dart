@@ -39,7 +39,7 @@ class TrailRemoteDatasource implements RemoteDatasource {
       }
 
       throw const TrailException(message: "Server Error");
-    } on AppInfoException catch (e) {
+    } on TrailException catch (e) {
       log(e.toString());
       rethrow;
     } catch (e) {
@@ -59,7 +59,6 @@ class TrailRemoteDatasource implements RemoteDatasource {
           validateStatus: (status) => true,
         ),
       );
-
       log("status code: ${response.statusCode}");
       if (response.statusCode == 200) {
         return response.data != null
@@ -71,8 +70,8 @@ class TrailRemoteDatasource implements RemoteDatasource {
             : [];
       }
 
-      throw const TrailException(message: "Server Error");
-    } on AppInfoException catch (e) {
+      throw TrailException(message: "Server Error ${response.statusCode}");
+    } on TrailException catch (e) {
       log(e.toString());
       rethrow;
     } catch (e) {
