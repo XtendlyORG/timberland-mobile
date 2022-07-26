@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '../../../../core/presentation/widgets/date_picker.dart';
@@ -29,11 +28,6 @@ class BookingDatePicker extends StatelessWidget {
             return Dialog(
               child: CustomDatePicker(
                 enablePastDates: false,
-                minDate: DateTime(
-                  DateTime.now().year,
-                  DateTime.now().month,
-                  DateTime.now().day + 3,
-                ),
                 onSumbit: onSubmit,
               ),
             );

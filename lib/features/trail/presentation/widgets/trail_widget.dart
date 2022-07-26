@@ -30,6 +30,7 @@ class TrailWidget extends StatelessWidget {
         children: [
           Container(
             height: 150,
+            width: double.infinity,
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),

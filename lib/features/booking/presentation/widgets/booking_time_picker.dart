@@ -100,13 +100,13 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
                                   GestureDetector(
                                     onTap: () {
                                       start = TimeOfDay(
-                                        hour: start.hour + 1,
+                                        hour: (start.hour + 1) % 24,
                                         minute: start.minute,
                                       );
                                       startCtrl.text = start.format(context);
                                       if (start.hour >= end.hour) {
                                         end = TimeOfDay(
-                                          hour: start.hour + 1,
+                                          hour: (start.hour + 1) % 24,
                                           minute: 0,
                                         );
                                         endCtrl.text = end.format(context);
@@ -119,7 +119,7 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
                                   GestureDetector(
                                     onTap: () {
                                       start = TimeOfDay(
-                                        hour: start.hour - 1,
+                                        hour: (start.hour - 1) % 24,
                                         minute: start.minute,
                                       );
                                       startCtrl.text = start.format(context);
@@ -163,7 +163,7 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
                                   GestureDetector(
                                     onTap: () {
                                       end = TimeOfDay(
-                                        hour: end.hour + 1,
+                                        hour: (end.hour + 1) % 24,
                                         minute: end.minute,
                                       );
                                       endCtrl.text = end.format(context);
@@ -175,13 +175,13 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
                                   GestureDetector(
                                     onTap: () {
                                       end = TimeOfDay(
-                                        hour: end.hour - 1,
+                                        hour: (end.hour - 1) % 24,
                                         minute: end.minute,
                                       );
                                       endCtrl.text = end.format(context);
                                       if (start.hour >= end.hour) {
                                         start = TimeOfDay(
-                                          hour: end.hour - 1,
+                                          hour: (end.hour - 1)%24,
                                           minute: 0,
                                         );
                                         startCtrl.text = start.format(context);
