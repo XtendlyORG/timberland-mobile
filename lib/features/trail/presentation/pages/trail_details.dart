@@ -25,6 +25,7 @@ class TrailDetails extends StatelessWidget {
       routeType: '',
       featureImageUrl: '',
       mapImageUrl: '',
+      unit: 'm',
     );
     return TimberlandScaffold(
       extendBodyBehindAppbar: true,
