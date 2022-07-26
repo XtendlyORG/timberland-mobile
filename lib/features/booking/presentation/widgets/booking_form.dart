@@ -46,9 +46,7 @@ class _BookingFormState extends State<BookingForm> {
     chosenDate = null;
     dateCtrl = TextEditingController();
     timeRangeCtrl = TextEditingController();
-    mobileNumberCtrl = TextEditingController(
-      text: widget.user.mobileNumber
-    );
+    mobileNumberCtrl = TextEditingController(text: widget.user.mobileNumber);
     emailCtrl = TextEditingController(
       text: widget.user.email,
     );
@@ -71,6 +69,10 @@ class _BookingFormState extends State<BookingForm> {
         return current is BookingAvailabilityLoaded;
       },
       builder: (context, state) {
+        if (state is! BookingAvailabilityLoaded) {
+          BlocProvider.of<BookingBloc>(context)
+              .add(FetchAllTrailsBookingEvent());
+        }
         if (state is BookingAvailabilityLoaded) {
           return Form(
             key: formKey,
