@@ -1,6 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
-
 import 'package:timberland_biketrail/features/trail/domain/entities/difficulty.dart';
 
 class SearchTrailsParams {
@@ -14,10 +12,12 @@ class SearchTrailsParams {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'name': name,
-      'difficulties': difficulties.map((x) {
-        log(x.toString());
-        return x;
-      }).toList(),
+      'difficulties': difficulties
+          .map((x) {
+            return x.id;
+          })
+          .toList()
+          .toString(),
     };
   }
 }

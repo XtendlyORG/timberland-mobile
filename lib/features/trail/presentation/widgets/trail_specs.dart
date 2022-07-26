@@ -29,7 +29,7 @@ class TrailSpecs extends StatelessWidget {
                     style: Theme.of(context).textTheme.caption,
                   ),
                   TextSpan(
-                    text: '${trail.distance} mi',
+                    text: '${trail.distance} ${trail.unit}',
                     style: Theme.of(context).textTheme.subtitle2,
                   ),
                 ],

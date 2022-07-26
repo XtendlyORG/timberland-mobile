@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/constants/constants.dart';
 import '../../../booking/presentation/bloc/booking_bloc.dart';
 import '../../domain/params/fetch_trails.dart';
 import '../bloc/trail_bloc.dart';
@@ -50,10 +51,7 @@ class TrailList extends StatelessWidget {
           } else {
             return Container(
               decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20)),
-                // color: Colors.black,
+                borderRadius: BorderRadius.circular(20),
                 gradient: LinearGradient(
                   colors: [
                     Theme.of(context).primaryColor.withOpacity(.05),
@@ -63,6 +61,7 @@ class TrailList extends StatelessWidget {
                   stops: const [.6, .8, 1],
                 ),
               ),
+              margin: const EdgeInsets.only(bottom: kVerticalPadding),
               child: ListView.builder(
                 shrinkWrap: true,
                 itemCount: state.trails.length,
