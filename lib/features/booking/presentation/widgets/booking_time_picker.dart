@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
@@ -101,7 +99,6 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      log(start.hour.toString());
                                       start = TimeOfDay(
                                         hour: (start.hour + 1) % 24,
                                         minute: start.minute,
@@ -177,7 +174,6 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      log(end.hour.toString());
                                       end = TimeOfDay(
                                         hour: (end.hour - 1) % 24,
                                         minute: end.minute,
