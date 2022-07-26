@@ -9,12 +9,14 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/form_fields/email_field.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/form_fields/mobile_number_field.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/image_picker_options_bottomsheet.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/validators/email_validator.dart';
 import 'package:timberland_biketrail/features/authentication/domain/usecases/register.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
-import 'package:timberland_biketrail/features/authentication/presentation/widgets/password_field.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/form_fields/password_field.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/widgets/terms_of_use.dart';
 
 class RegistrationContinuationForm extends StatelessWidget {
@@ -66,12 +68,8 @@ class RegistrationContinuationForm extends StatelessWidget {
               margin: const EdgeInsets.only(
                 bottom: kVerticalPadding,
               ),
-              child: TextFormField(
+              child: EmailField(
                 controller: emailCtrl,
-                validator: validateEmail,
-                decoration: const InputDecoration(
-                  hintText: 'Email Address',
-                ),
               ),
             ),
             Container(
@@ -86,12 +84,8 @@ class RegistrationContinuationForm extends StatelessWidget {
               margin: const EdgeInsets.only(
                 bottom: kVerticalPadding,
               ),
-              child: TextFormField(
+              child: MobileNumberField(
                 controller: mobileNumberCtrl,
-                validator: (val) {},
-                decoration: const InputDecoration(
-                  hintText: 'Mobile Number',
-                ),
               ),
             ),
             Container(

@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/form_fields/email_field.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/presentation/widgets/filled_text_button.dart';
@@ -70,12 +71,8 @@ class ForgotPasswordForm extends StatelessWidget {
         key: formKey,
         child: Column(
           children: [
-            TextFormField(
+            EmailField(
               controller: emailCtrl,
-              validator: validateEmail,
-              decoration: const InputDecoration(
-                hintText: 'Email Address',
-              ),
             ),
             const SizedBox(
               height: kVerticalPadding,
