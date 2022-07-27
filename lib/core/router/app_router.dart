@@ -89,9 +89,9 @@ final appRouter = GoRouter(
         return CustomTransitionPage(
           key: state.pageKey,
           restorationId: state.pageKey.value,
-          child: RegistrationPage(
-            form: Builder(builder: (ctx) {
-              return RegistrationForm(
+          child: Builder(builder: (ctx) {
+            return RegistrationPage(
+              form: RegistrationForm(
                 onSumbit: (
                   String firstName,
                   String? middleName,
@@ -114,9 +114,9 @@ final appRouter = GoRouter(
                     ),
                   );
                 },
-              );
-            }),
-          ),
+              ),
+            );
+          }),
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
