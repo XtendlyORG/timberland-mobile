@@ -8,7 +8,7 @@ import 'package:timberland_biketrail/features/trail/presentation/widgets/trail_s
 
 import '../../../../../core/themes/timberland_color.dart';
 
-class TrailSearchBar extends StatelessWidget {
+class TrailSearchBar extends StatefulWidget {
   final TextEditingController searchCtrl;
   final List<DifficultyChecklistConfig> configs;
   final VoidCallback showDifficultyFilter;
@@ -18,6 +18,26 @@ class TrailSearchBar extends StatelessWidget {
     required this.configs,
     required this.showDifficultyFilter,
   }) : super(key: key);
+
+  @override
+  State<TrailSearchBar> createState() => _TrailSearchBarState();
+}
+
+class _TrailSearchBarState extends State<TrailSearchBar> {
+  late bool showIconLabels;
+  late FocusNode searchFocusNode;
+  @override
+  void initState() {
+    super.initState();
+    searchFocusNode = FocusNode();
+    showIconLabels = true;
+  }
+
+  @override
+  void dispose() {
+    searchFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,20 +50,41 @@ class TrailSearchBar extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: TextFormField(
-              controller: searchCtrl,
+              focusNode: searchFocusNode,
+              controller: widget.searchCtrl,
               textInputAction: TextInputAction.go,
+              onTap: () {
+                setState(() {
+                  showIconLabels = false;
+                });
+              },
+              onChanged: (_) {
+                setState(() {
+                  showIconLabels = false;
+                });
+              },
+              onEditingComplete: () {
+                setState(() {
+                  showIconLabels = true;
+                });
+              },
               onFieldSubmitted: (val) {
                 submitSearch(
                   context: context,
-                  name: searchCtrl.text,
-                  difficultyConfigs: configs,
+                  name: widget.searchCtrl.text,
+                  difficultyConfigs: widget.configs,
                 );
+                if (searchFocusNode.hasFocus) {
+                  searchFocusNode.unfocus();
+                }
               },
               decoration: InputDecoration(
                 border: InputBorder.none,
                 focusedBorder: InputBorder.none,
                 enabledBorder: InputBorder.none,
                 fillColor: TimberlandColor.primary.withOpacity(.05),
+                contentPadding:
+                    const EdgeInsets.only(top: 12), //align icons to hint text
                 hintText: 'Trail Name',
                 prefixIcon: const Icon(
                   Icons.search,
@@ -51,16 +92,23 @@ class TrailSearchBar extends StatelessWidget {
                 prefixIconColor: Theme.of(context).disabledColor,
                 suffixIcon: GestureDetector(
                   onTap: () {
-                    searchCtrl.clear();
+                    widget.searchCtrl.clear();
+                    searchFocusNode.unfocus();
+                    setState(() {
+                      showIconLabels = true;
+                    });
                   },
                   child: Stack(
                     alignment: Alignment.center,
-                    children: const [
-                      Icon(Icons.circle),
+                    children: [
                       Icon(
+                        Icons.circle,
+                        color: Theme.of(context).disabledColor,
+                      ),
+                      const Icon(
                         Icons.close,
                         size: 16,
-                        color: TimberlandColor.text,
+                        color: TimberlandColor.subtext,
                       ),
                     ],
                   ),
@@ -72,10 +120,20 @@ class TrailSearchBar extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 10.0),
           child: GestureDetector(
-            onTap: showDifficultyFilter,
-            child: Icon(
-              Icons.filter_alt_outlined,
-              color: Theme.of(context).disabledColor,
+            onTap: () {
+              setState(() {
+                showIconLabels = true;
+              });
+              widget.showDifficultyFilter();
+            },
+            child: Row(
+              children: [
+                if (showIconLabels) const Text('Filter'),
+                Icon(
+                  Icons.filter_alt_outlined,
+                  color: Theme.of(context).disabledColor,
+                ),
+              ],
             ),
           ),
         ),
@@ -83,11 +141,19 @@ class TrailSearchBar extends StatelessWidget {
           padding: const EdgeInsets.only(left: 10.0),
           child: GestureDetector(
             onTap: () {
+              setState(() {
+                showIconLabels = true;
+              });
               context.pushNamed(Routes.trailMap.name);
             },
-            child: Icon(
-              Icons.map_outlined,
-              color: Theme.of(context).disabledColor,
+            child: Row(
+              children: [
+                if (showIconLabels) const Text('Trail Map'),
+                Icon(
+                  Icons.map_outlined,
+                  color: Theme.of(context).disabledColor,
+                ),
+              ],
             ),
           ),
         ),
