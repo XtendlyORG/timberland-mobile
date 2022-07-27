@@ -77,6 +77,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                 decoration: const InputDecoration(
                   hintText: 'Blood Type',
                 ),
+                textInputAction: TextInputAction.next,
               ),
             ),
             Container(
@@ -93,6 +94,7 @@ class RegistrationContinuationForm extends StatelessWidget {
               ),
               child: PasswordField(
                 controller: passwordCtrl,
+                textInputAction: TextInputAction.next,
               ),
             ),
             Container(
@@ -101,6 +103,7 @@ class RegistrationContinuationForm extends StatelessWidget {
               ),
               child: MobileNumberField(
                 controller: mobileNumberCtrl,
+                textInputAction: TextInputAction.next,
               ),
             ),
             Container(
@@ -113,6 +116,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                 decoration: const InputDecoration(
                   hintText: 'Emergency contact information',
                 ),
+                textInputAction: TextInputAction.next,
               ),
             ),
             if (user == null)
@@ -174,6 +178,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                 decoration: const InputDecoration(
                   hintText: 'Bike(model)',
                 ),
+                textInputAction: TextInputAction.next,
               ),
             ),
             SizedBox(
@@ -189,6 +194,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                         decoration: const InputDecoration(
                           hintText: 'Bike(year)',
                         ),
+                        textInputAction: TextInputAction.next,
                       ),
                     ),
                   ),
@@ -205,6 +211,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                         decoration: const InputDecoration(
                           hintText: 'Bike(color)',
                         ),
+                        textInputAction: TextInputAction.done,
                       ),
                     ),
                   ),

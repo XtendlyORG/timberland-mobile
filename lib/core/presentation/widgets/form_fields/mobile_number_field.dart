@@ -1,9 +1,13 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:timberland_biketrail/core/constants/constants.dart';
+
+import '../../../constants/constants.dart';
 
 class MobileNumberField extends StatelessWidget {
+  final TextInputAction? textInputAction;
   const MobileNumberField({
     Key? key,
+    this.textInputAction,
     required this.controller,
   }) : super(key: key);
 
@@ -13,14 +17,16 @@ class MobileNumberField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        SizedBox(
-          width: 60,
-          child: TextFormField(
-            enabled: false,
-            controller: TextEditingController(text: '+63'),
-            decoration: InputDecoration(
-              disabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Theme.of(context).primaryColor),
+        ExcludeFocus(
+          child: SizedBox(
+            width: 60,
+            child: TextFormField(
+              enabled: false,
+              controller: TextEditingController(text: '+63'),
+              decoration: InputDecoration(
+                disabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
+                ),
               ),
             ),
           ),
@@ -38,6 +44,7 @@ class MobileNumberField extends StatelessWidget {
             ),
             maxLength: 10,
             keyboardType: TextInputType.phone,
+            textInputAction: textInputAction,
           ),
         ),
       ],

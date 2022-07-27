@@ -1,10 +1,13 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 import '../../../utils/validators/validators.dart';
 
 class PasswordField extends StatefulWidget {
+  final TextInputAction? textInputAction;
   const PasswordField({
     Key? key,
+    this.textInputAction,
     required this.controller,
   }) : super(key: key);
 
@@ -28,16 +31,20 @@ class _PasswordFieldState extends State<PasswordField> {
       controller: widget.controller,
       obscureText: hidePassword,
       validator: validatePassword,
+      keyboardType: TextInputType.visiblePassword,
+      textInputAction: widget.textInputAction,
       decoration: InputDecoration(
         hintText: 'Password',
-        suffixIcon: IconButton(
-          onPressed: () {
-            setState(() {
-              hidePassword = !hidePassword;
-            });
-          },
-          icon: Icon(
-            hidePassword ? Icons.visibility_off : Icons.visibility,
+        suffixIcon: ExcludeFocus(
+          child: IconButton(
+            onPressed: () {
+              setState(() {
+                hidePassword = !hidePassword;
+              });
+            },
+            icon: Icon(
+              hidePassword ? Icons.visibility_off : Icons.visibility,
+            ),
           ),
         ),
       ),

@@ -47,9 +47,9 @@ class RegistrationForm extends StatelessWidget {
     final firstNameCtrl = TextEditingController();
     final middleNameCtrl = TextEditingController();
     final lastNameCtrl = TextEditingController();
-    String? _selectedGender;
+    String? selectedGender;
     final birthdayCtrl = TextEditingController();
-    DateTime? _birthday;
+    DateTime? birthday;
     final addressCtrl = TextEditingController();
     final professionCtrl = TextEditingController();
 
@@ -57,9 +57,9 @@ class RegistrationForm extends StatelessWidget {
       firstNameCtrl.text = user!.firstName;
       lastNameCtrl.text = user!.lastName;
       middleNameCtrl.text = user!.middleName ?? '';
-      _selectedGender = user!.gender;
-      _birthday = user!.birthday;
-      birthdayCtrl.text = DateFormat.yMMMMd('en_US').format(_birthday);
+      selectedGender = user!.gender;
+      birthday = user!.birthday;
+      birthdayCtrl.text = DateFormat.yMMMMd('en_US').format(birthday);
       addressCtrl.text = user!.address;
       professionCtrl.text = user!.profession;
     }
@@ -78,6 +78,7 @@ class RegistrationForm extends StatelessWidget {
               decoration: const InputDecoration(
                 hintText: 'First Name',
               ),
+              textInputAction: TextInputAction.next,
             ),
           ),
           Container(
@@ -89,6 +90,7 @@ class RegistrationForm extends StatelessWidget {
               decoration: const InputDecoration(
                 hintText: 'Middle Name',
               ),
+              textInputAction: TextInputAction.next,
             ),
           ),
           Container(
@@ -101,6 +103,7 @@ class RegistrationForm extends StatelessWidget {
               decoration: const InputDecoration(
                 hintText: 'Last Name',
               ),
+              textInputAction: TextInputAction.next,
             ),
           ),
           Container(
@@ -117,9 +120,9 @@ class RegistrationForm extends StatelessWidget {
                   )
                   .toList(),
               onChanged: (selected) {
-                _selectedGender = selected ?? _selectedGender;
+                selectedGender = selected ?? selectedGender;
               },
-              value: _selectedGender,
+              value: selectedGender,
               borderRadius: BorderRadius.circular(10),
               hint: const Text('Gender'),
               decoration: const InputDecoration(),
@@ -150,8 +153,8 @@ class RegistrationForm extends StatelessWidget {
                           ),
                           onSumbit: (value) {
                             if (value is DateTime) {
-                              _birthday = value;
-                              log(_birthday.toString());
+                              birthday = value;
+                              log(birthday.toString());
                               birthdayCtrl.text =
                                   DateFormat.yMMMMd('en_US').format(value);
                             }
@@ -179,6 +182,7 @@ class RegistrationForm extends StatelessWidget {
               decoration: const InputDecoration(
                 hintText: 'Address',
               ),
+              textInputAction: TextInputAction.next,
             ),
           ),
           Container(
@@ -191,6 +195,7 @@ class RegistrationForm extends StatelessWidget {
               decoration: const InputDecoration(
                 hintText: 'Profession',
               ),
+              textInputAction: TextInputAction.next,
             ),
           ),
           Row(
@@ -207,8 +212,8 @@ class RegistrationForm extends StatelessWidget {
                         firstNameCtrl.text,
                         middleNameCtrl.text,
                         lastNameCtrl.text,
-                        _selectedGender!,
-                        _birthday!,
+                        selectedGender!,
+                        birthday!,
                         addressCtrl.text,
                         professionCtrl.text,
                       );
