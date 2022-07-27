@@ -7,6 +7,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
+import 'package:timberland_biketrail/features/authentication/domain/repositories/auth_repository.dart';
 import 'package:timberland_biketrail/features/authentication/domain/usecases/usecases.dart';
 
 part 'auth_event.dart';
@@ -34,20 +35,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       // TODO: implement event handler
     });
 
-    on<FetchUserEvent>((event, emit) {
+    on<FetchUserEvent>((event, emit) async {
       emit(
         const AuthLoading(loadingMessage: "Logging in to your account."),
       );
       emit(
         Authenticated(
           user: User(
-            age: 19,
-            email: 'test_email@email.com',
+            id: 'user-id',
+            firstName: 'John',
+            lastName: 'Smith',
+            gender: 'Male',
+            birthday: DateTime(2002, 5, 8),
+            address: '123 Fake Address',
+            profession: 'Fake Profession',
+            email: 'johnSmith@email.com',
             mobileNumber: '9123456789',
-            firstName: 'FirstName',
-            lastName: 'LastName',
-            id: event.uid,
-            accessCode: "Test Access Code",
+            age: 20,
+            accessCode: 'access-code',
           ),
           message: 'Logged In',
         ),

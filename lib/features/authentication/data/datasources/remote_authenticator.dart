@@ -6,6 +6,20 @@ import '../../domain/usecases/reset_password.dart';
 import '../models/user_model.dart';
 import 'authenticator.dart';
 
+final UserModel fakeUser = UserModel(
+  id: 'user-id',
+  firstName: 'John',
+  lastName: 'Smith',
+  gender: 'Male',
+  birthday: DateTime(2002,5,8),
+  address: '123 Fake Address',
+  profession: 'Fake Profession',
+  email: 'johnSmith@email.com',
+  mobileNumber: '9123456789',
+  age: 20,
+  accessCode: 'access-code',
+);
+
 class RemoteAuthenticator implements Authenticator {
   @override
   Future<User> facebookAuth() {
@@ -22,15 +36,7 @@ class RemoteAuthenticator implements Authenticator {
   @override
   Future<User> login(LoginParameter loginParameter) async {
     // TODO: implement login
-    return const UserModel(
-      id: "test",
-      firstName: "FirstName",
-      lastName: "LastName",
-      email: "email@email.com",
-      mobileNumber: '9123456789',
-      age: 20,
-      accessCode: "Test Access Code",
-    );
+    return fakeUser;
   }
 
   @override
@@ -42,14 +48,13 @@ class RemoteAuthenticator implements Authenticator {
   @override
   Future<User> register(RegisterParameter registerParameter) async {
     // TODO: implement register
-    return UserModel(
-      id: "test",
+    return fakeUser.copyWith(
       firstName: registerParameter.firstName,
+      middleName: registerParameter.middleName,
       lastName: registerParameter.lastName,
-      email: registerParameter.email!,
-      mobileNumber: registerParameter.mobileNumber!,
-      age: 20,
-      accessCode: "Test Access Code",
+      gender: registerParameter.gender,
+      birthday: registerParameter.birthDay,
+      email: registerParameter.email,
     );
   }
 
