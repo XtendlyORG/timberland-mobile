@@ -78,6 +78,7 @@ class TrailRulesPage extends StatelessWidget {
                               vertical: 10,
                             ),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: state.trailRules
                                   .map<Widget>(
                                     (rule) => Padding(

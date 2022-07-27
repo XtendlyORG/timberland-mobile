@@ -11,22 +11,16 @@ class TrailRuleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final rule = trailRule.rule.trimRight().endsWith('.')
-    //     ? '${trailRule.rule} '
-    //     : '${trailRule.rule}. ';
     return Text.rich(
       TextSpan(
         children: [
-          // TextSpan(
-          //   text: rule,
-          //   style: const TextStyle(fontWeight: FontWeight.bold),
-          // ),
           TextSpan(
-            text: trailRule.note,
+            text: trailRule.note.trim(),
           ),
         ],
       ),
       style: Theme.of(context).textTheme.titleSmall,
+      textAlign: TextAlign.justify,
     );
   }
 }
