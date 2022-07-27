@@ -23,21 +23,26 @@ class _UpdateProfilePicState extends State<UpdateProfilePic> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        showBottomSheet(
+        showModalBottomSheet(
           context: context,
-          backgroundColor: Theme.of(context).backgroundColor.withOpacity(.2),
+          backgroundColor: Theme.of(context).backgroundColor.withOpacity(.5),
+          barrierColor: Colors.transparent,
+          clipBehavior: Clip.hardEdge,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
           builder: (context) {
+            void chooseFrom({required ImageSource source}) async {
+              XFile? image = await ImagePicker().pickImage(
+                source: source,
+              );
+              if (image != null) {
+                fileImage = File(image.path);
+              }
+            }
+
             return ImagePickerOptionBottomSheet(
-              callback: ({required ImageSource source}) async {
-                XFile? image = await ImagePicker().pickImage(
-                  source: source,
-                );
-                if (image != null) {
-                  setState(() {
-                    fileImage = File(image.path);
-                  });
-                }
-              },
+              callback: chooseFrom,
             );
           },
         );

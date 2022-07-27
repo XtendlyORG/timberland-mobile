@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../dashboard/presentation/pages/qr_code_page.dart';
-import '../../dashboard/presentation/widgets/update_profile_page.dart';
+import '../../dashboard/presentation/pages/update_profile_page.dart';
 import '../../features/app_infos/presentation/bloc/app_info_bloc.dart';
 import '../../features/app_infos/presentation/pages/contacts_page.dart';
 import '../../features/app_infos/presentation/pages/faqs_page.dart';
@@ -89,8 +89,33 @@ final appRouter = GoRouter(
         return CustomTransitionPage(
           key: state.pageKey,
           restorationId: state.pageKey.value,
-          child: const RegistrationPage(
-            form: RegistrationForm(),
+          child: RegistrationPage(
+            form: Builder(builder: (ctx) {
+              return RegistrationForm(
+                onSumbit: (
+                  String firstName,
+                  String? middleName,
+                  String lastName,
+                  String selectedGender,
+                  DateTime birthday,
+                  String? address,
+                  String? profession,
+                ) {
+                  ctx.pushNamed(
+                    Routes.registerContinuation.name,
+                    extra: RegisterParameter(
+                      firstName: firstName,
+                      middleName: firstName,
+                      lastName: lastName,
+                      gender: selectedGender,
+                      birthDay: birthday,
+                      address: address ?? 'Address',
+                      profession: profession ?? 'Profession',
+                    ),
+                  );
+                },
+              );
+            }),
           ),
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {

@@ -11,19 +11,22 @@ import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/form_fields/email_field.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/form_fields/mobile_number_field.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/form_fields/password_field.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/image_picker_options_bottomsheet.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
-import 'package:timberland_biketrail/core/utils/validators/email_validator.dart';
+import 'package:timberland_biketrail/dashboard/presentation/bloc/profile_bloc.dart';
+import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
 import 'package:timberland_biketrail/features/authentication/domain/usecases/register.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/form_fields/password_field.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/widgets/terms_of_use.dart';
 
 class RegistrationContinuationForm extends StatelessWidget {
   final RegisterParameter registerParameter;
+  final User? user; // user will not be null when update profile
   const RegistrationContinuationForm({
     Key? key,
     required this.registerParameter,
+    this.user,
   }) : super(key: key);
 
   @override
@@ -42,6 +45,18 @@ class RegistrationContinuationForm extends StatelessWidget {
     Color? bikeColor;
 
     bool agreedToTermsOfUse = false;
+
+    if (user != null) {
+      // auto fill fields with current user's informations
+      bloodTypeCtrl.text = user!.bloodType ?? '';
+      emailCtrl.text = user!.email;
+      mobileNumberCtrl.text = user!.mobileNumber;
+      bikeModelCtrl.text = user!.bikeModel ?? '';
+      bikeYearCtrl.text = user!.bikeYear ?? '';
+      bikeColorCtrl.text = user!.bikeColor ?? '';
+      agreedToTermsOfUse = true;
+    }
+
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is OtpSent) {
@@ -100,54 +115,55 @@ class RegistrationContinuationForm extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              margin: const EdgeInsets.only(
-                bottom: kVerticalPadding,
-              ),
-              child: ExcludeFocus(
-                child: TextFormField(
-                  onTap: () async {
-                    showModalBottomSheet(
-                      context: context,
-                      backgroundColor: Colors.transparent,
-                      barrierColor: Colors.transparent,
-                      clipBehavior: Clip.hardEdge,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(20)),
-                      ),
-                      builder: (context) {
-                        void chooseFrom({required ImageSource source}) async {
-                          XFile? image = await ImagePicker().pickImage(
-                            source: source,
-                          );
-                          if (image != null) {
-                            imageCtrl.text =
-                                'profile_pic${image.name.substring(image.name.lastIndexOf('.'))}';
-                            imageFile = File(image.path);
+            if (user == null)
+              Container(
+                margin: const EdgeInsets.only(
+                  bottom: kVerticalPadding,
+                ),
+                child: ExcludeFocus(
+                  child: TextFormField(
+                    onTap: () async {
+                      showModalBottomSheet(
+                        context: context,
+                        backgroundColor: Colors.transparent,
+                        barrierColor: Colors.transparent,
+                        clipBehavior: Clip.hardEdge,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(20)),
+                        ),
+                        builder: (context) {
+                          void chooseFrom({required ImageSource source}) async {
+                            XFile? image = await ImagePicker().pickImage(
+                              source: source,
+                            );
+                            if (image != null) {
+                              imageCtrl.text =
+                                  'profile_pic${image.name.substring(image.name.lastIndexOf('.'))}';
+                              imageFile = File(image.path);
+                            }
                           }
-                        }
 
-                        return ImagePickerOptionBottomSheet(
-                          callback: chooseFrom,
-                        );
-                      },
-                    );
-                  },
-                  controller: imageCtrl,
-                  validator: (val) {},
-                  decoration: InputDecoration(
-                    hintText: 'Take a selfie',
-                    suffixIcon: const Icon(Icons.ios_share_rounded),
-                    prefixIcon: Image.asset(
-                      'assets/icons/selfie_icon.png',
-                      scale: 1.5,
-                      height: 24,
+                          return ImagePickerOptionBottomSheet(
+                            callback: chooseFrom,
+                          );
+                        },
+                      );
+                    },
+                    controller: imageCtrl,
+                    validator: (val) {},
+                    decoration: InputDecoration(
+                      hintText: 'Take a selfie',
+                      suffixIcon: const Icon(Icons.ios_share_rounded),
+                      prefixIcon: Image.asset(
+                        'assets/icons/selfie_icon.png',
+                        scale: 1.5,
+                        height: 24,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
             Container(
               margin: const EdgeInsets.only(
                 bottom: kVerticalPadding,
@@ -201,21 +217,27 @@ class RegistrationContinuationForm extends StatelessWidget {
               child: FilledTextButton(
                 onPressed: () {
                   if (formKey.currentState!.validate() && agreedToTermsOfUse) {
-                    BlocProvider.of<AuthBloc>(context).add(
-                      SendOtpEvent(
-                        registerParameter: registerParameter.copyWith(
-                          bloodType: bloodTypeCtrl.text,
-                          email: emailCtrl.text,
-                          password: passwordCtrl.text,
-                          mobileNumber: mobileNumberCtrl.text,
-                          emergencyContactInfo: emergencyContactsCtrl.text,
-                          bikeModel: bikeModelCtrl.text,
-                          bikeYear: bikeYearCtrl.text,
-                          bikeColor: bikeColor,
-                          profilePic: imageFile,
+                    if (user == null) {
+                      BlocProvider.of<AuthBloc>(context).add(
+                        SendOtpEvent(
+                          registerParameter: registerParameter.copyWith(
+                            bloodType: bloodTypeCtrl.text,
+                            email: emailCtrl.text,
+                            password: passwordCtrl.text,
+                            mobileNumber: mobileNumberCtrl.text,
+                            emergencyContactInfo: emergencyContactsCtrl.text,
+                            bikeModel: bikeModelCtrl.text,
+                            bikeYear: bikeYearCtrl.text,
+                            bikeColor: bikeColor,
+                            profilePic: imageFile,
+                          ),
                         ),
-                      ),
-                    );
+                      );
+                    } else {
+                      log('Profile Updated');
+                      BlocProvider.of<ProfileBloc>(context)
+                          .add(SubmitUpdateRequestEvent());
+                    }
                   }
                   if (!agreedToTermsOfUse) {
                     ScaffoldMessenger.of(context).clearSnackBars();
@@ -232,35 +254,36 @@ class RegistrationContinuationForm extends StatelessWidget {
                 child: const Text("Register"),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RepaintBoundary(
-                  child: TermsOfUse(
-                    onChange: (val) {
-                      agreedToTermsOfUse = val;
-                      log(agreedToTermsOfUse.toString());
-                    },
+            if (user == null)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RepaintBoundary(
+                    child: TermsOfUse(
+                      onChange: (val) {
+                        agreedToTermsOfUse = val;
+                        log(agreedToTermsOfUse.toString());
+                      },
+                    ),
                   ),
-                ),
-                Text.rich(
-                  const TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'By signing up you agree to our',
-                        style: TextStyle(fontWeight: FontWeight.normal),
-                      ),
-                      TextSpan(
-                        text: '\nTerms of Use',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ],
+                  Text.rich(
+                    const TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'By signing up you agree to our',
+                          style: TextStyle(fontWeight: FontWeight.normal),
+                        ),
+                        TextSpan(
+                          text: '\nTerms of Use',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    style: Theme.of(context).textTheme.titleSmall,
+                    textAlign: TextAlign.center,
                   ),
-                  style: Theme.of(context).textTheme.titleSmall,
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
+                ],
+              ),
           ],
         ),
       ),

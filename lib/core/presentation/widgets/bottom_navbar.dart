@@ -24,7 +24,6 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
-    log('Navbar Rebuilt: ${widget.index}');
     return BottomNavigationBar(
       items: widget.configs
           .map(

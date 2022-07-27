@@ -2,27 +2,37 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/date_picker.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
-import 'package:timberland_biketrail/core/router/router.dart';
-import 'package:timberland_biketrail/features/authentication/domain/usecases/register.dart';
+import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
 
 class RegistrationForm extends StatelessWidget {
-  const RegistrationForm({Key? key}) : super(key: key);
+  const RegistrationForm({
+    Key? key,
+    this.user,
+    required this.onSumbit,
+  }) : super(key: key);
 
-  String? validateEmail(String? email) {
-    final regex = RegExp(
-        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-    if (email == null || email.isEmpty) {
-      return 'Email cannot be empty';
-    } else if (!regex.hasMatch(email)) {
-      return 'Invalid email address.';
-    }
-    return null;
-  }
+  final void Function(
+    String firstName,
+    String? middleName,
+    String lastName,
+    String selectedGender,
+    DateTime birthday,
+    String? address,
+    String? profession,
+  ) onSumbit;
+  // final TextEditingController? firstNameController;
+  // final TextEditingController? middleNameController;
+  // final TextEditingController? lastNameController;
+  // final String? selectedGender;
+  // final TextEditingController? birthdayController;
+  // final DateTime? birthday;
+  // final TextEditingController? addressController;
+  // final TextEditingController? professionController;
+  final User? user;
 
   String? validateName(String? name) {
     if (name == null || name.isEmpty) {
@@ -37,11 +47,22 @@ class RegistrationForm extends StatelessWidget {
     final firstNameCtrl = TextEditingController();
     final middleNameCtrl = TextEditingController();
     final lastNameCtrl = TextEditingController();
-    String? selectedGender;
+    String? _selectedGender;
     final birthdayCtrl = TextEditingController();
-    DateTime? birthday;
+    DateTime? _birthday;
     final addressCtrl = TextEditingController();
     final professionCtrl = TextEditingController();
+
+    if (user != null) {
+      firstNameCtrl.text = user!.firstName;
+      lastNameCtrl.text = user!.lastName;
+      middleNameCtrl.text = user!.middleName ?? '';
+      _selectedGender = user!.gender;
+      _birthday = user!.birthday;
+      birthdayCtrl.text = DateFormat.yMMMMd('en_US').format(_birthday);
+      addressCtrl.text = user!.address;
+      professionCtrl.text = user!.profession;
+    }
 
     return Form(
       key: formKey,
@@ -96,9 +117,9 @@ class RegistrationForm extends StatelessWidget {
                   )
                   .toList(),
               onChanged: (selected) {
-                selectedGender = selected ?? selectedGender;
+                _selectedGender = selected ?? _selectedGender;
               },
-              value: selectedGender,
+              value: _selectedGender,
               borderRadius: BorderRadius.circular(10),
               hint: const Text('Gender'),
               decoration: const InputDecoration(),
@@ -129,8 +150,8 @@ class RegistrationForm extends StatelessWidget {
                           ),
                           onSumbit: (value) {
                             if (value is DateTime) {
-                              birthday = value;
-                              log(birthday.toString());
+                              _birthday = value;
+                              log(_birthday.toString());
                               birthdayCtrl.text =
                                   DateFormat.yMMMMd('en_US').format(value);
                             }
@@ -182,17 +203,14 @@ class RegistrationForm extends StatelessWidget {
                 child: FilledTextButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
-                      context.pushNamed(
-                        Routes.registerContinuation.name,
-                        extra: RegisterParameter(
-                          firstName: firstNameCtrl.text,
-                          middleName: middleNameCtrl.text,
-                          lastName: lastNameCtrl.text,
-                          gender: selectedGender!,
-                          birthDay: DateTime.now(),
-                          address: addressCtrl.text,
-                          profession: professionCtrl.text,
-                        ),
+                      onSumbit(
+                        firstNameCtrl.text,
+                        middleNameCtrl.text,
+                        lastNameCtrl.text,
+                        _selectedGender!,
+                        _birthday!,
+                        addressCtrl.text,
+                        professionCtrl.text,
                       );
                     }
                   },
