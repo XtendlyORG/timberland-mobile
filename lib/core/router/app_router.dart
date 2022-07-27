@@ -105,7 +105,7 @@ final appRouter = GoRouter(
                     Routes.registerContinuation.name,
                     extra: RegisterParameter(
                       firstName: firstName,
-                      middleName: firstName,
+                      middleName: middleName,
                       lastName: lastName,
                       gender: selectedGender,
                       birthDay: birthday,
