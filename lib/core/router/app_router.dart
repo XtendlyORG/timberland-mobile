@@ -17,6 +17,7 @@ import '../../features/authentication/presentation/pages/pages.dart';
 import '../../features/authentication/presentation/widgets/registration_form.dart';
 import '../../features/authentication/presentation/widgets/registration_form_continuation.dart';
 import '../../features/booking/presentation/pages/booking_page.dart';
+import '../../features/emergency/presentation/pages/emergency_page.dart';
 import '../../features/history/presentation/pages/booking_history_page.dart';
 import '../../features/history/presentation/pages/payment_history_page.dart';
 import '../../features/trail/domain/entities/trail.dart';
@@ -402,6 +403,24 @@ final appRouter = GoRouter(
           key: routeState.pageKey,
           restorationId: routeState.pageKey.value,
           child: const ContactsPage(),
+          transitionDuration: const Duration(milliseconds: 500),
+          transitionsBuilder: (context, animation, secondaryAnim, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+    ),
+    GoRoute(
+      path: Routes.emergency.path,
+      name: Routes.emergency.name,
+      pageBuilder: (context, routeState) {
+        return CustomTransitionPage(
+          key: routeState.pageKey,
+          restorationId: routeState.pageKey.value,
+          child: const EmergencyPage(),
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnim, child) {
             return FadeTransition(
