@@ -97,7 +97,10 @@ class Dashboard extends StatelessWidget {
                       titleText: 'Rules',
                     ),
                     DashBoardListTile(
-                      onTap: () {},
+                      onTap: () {
+                        context.pushNamed(Routes.emergency.name);
+                        Navigator.pop(context);
+                      },
                       leading: const Image(
                         image: AssetImage('assets/icons/emergency-icon.png'),
                         height: 24,
