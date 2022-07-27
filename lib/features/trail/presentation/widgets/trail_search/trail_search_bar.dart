@@ -32,6 +32,7 @@ class TrailSearchBar extends StatelessWidget {
             child: TextFormField(
               controller: searchCtrl,
               textInputAction: TextInputAction.go,
+              
               onFieldSubmitted: (val) {
                 submitSearch(
                   context: context,
@@ -44,6 +45,7 @@ class TrailSearchBar extends StatelessWidget {
                 focusedBorder: InputBorder.none,
                 enabledBorder: InputBorder.none,
                 fillColor: TimberlandColor.primary.withOpacity(.05),
+                contentPadding: const EdgeInsets.only(top: 12),//align icons to hint text
                 hintText: 'Trail Name',
                 prefixIcon: const Icon(
                   Icons.search,
