@@ -73,9 +73,11 @@ class AuthPageContainer extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: kVerticalPadding),
-                    AutoSizeText(
-                      state.loadingMessage,
-                      maxLines: 1,
+                    Expanded(
+                      child: AutoSizeText(
+                        state.loadingMessage,
+                        maxLines: 1,
+                      ),
                     ),
                   ],
                 ),
