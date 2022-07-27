@@ -15,51 +15,43 @@ class TrailSpecs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 400),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Text.rich(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text.rich(
+          TextSpan(
+            children: [
               TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Length\n',
-                    style: Theme.of(context).textTheme.caption,
-                  ),
-                  TextSpan(
-                    text: '${trail.distance} ${trail.unit}',
-                    style: Theme.of(context).textTheme.subtitle2,
-                  ),
-                ],
+                text: 'Distance\n',
+                style: Theme.of(context).textTheme.caption,
               ),
-              textAlign: TextAlign.start,
-            ),
-          ),
-          const SizedBox(
-            width: kVerticalPadding,
-          ),
-          Expanded(
-            child: Text.rich(
               TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Route Type\n',
-                    style: Theme.of(context).textTheme.caption,
-                  ),
-                  TextSpan(
-                    text: trail.routeType,
-                    style: Theme.of(context).textTheme.subtitle2,
-                  ),
-                ],
+                text: '${trail.distance %1 == 0? trail.distance.toInt():trail.distance} ${trail.unit}',
+                style: Theme.of(context).textTheme.subtitle2,
               ),
-              textAlign: TextAlign.start,
-            ),
+            ],
           ),
-          
-        ],
-      ),
+          textAlign: TextAlign.start,
+        ),
+        const SizedBox(
+          width: kHorizontalPadding,
+        ),
+        Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(
+                text: 'Route Type\n',
+                style: Theme.of(context).textTheme.caption,
+              ),
+              TextSpan(
+                text: trail.routeType,
+                style: Theme.of(context).textTheme.subtitle2,
+              ),
+            ],
+          ),
+          textAlign: TextAlign.start,
+        ),
+      ],
     );
   }
 }
