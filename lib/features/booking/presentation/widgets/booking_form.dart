@@ -137,8 +137,7 @@ class _BookingFormState extends State<BookingForm> {
                             ExcludeFocus(
                               child: BookingTimePicker(
                                 controller: timeRangeCtrl,
-                                // enabled: selectedTrail != null,
-                                enabled: true,
+                                enabled: selectedTrail != null,
                                 onSubmit: (value) {},
                               ),
                             ),
