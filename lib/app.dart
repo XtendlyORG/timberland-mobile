@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
@@ -9,17 +10,22 @@ import 'core/router/app_router.dart';
 import 'core/themes/timberland_theme.dart';
 import 'core/utils/session.dart';
 import 'dashboard/presentation/bloc/profile_bloc.dart';
-import 'dependency_injection/app_info_depencency.dart' as di;
+import 'dependency_injection/dependency_injection.dart' as di;
 import 'features/app_infos/presentation/bloc/app_info_bloc.dart';
 import 'features/authentication/presentation/bloc/auth_bloc.dart';
 import 'features/booking/presentation/bloc/booking_bloc.dart';
 import 'features/trail/presentation/bloc/trail_bloc.dart';
 
-
-Future<void> run()async {
-  
+Future<void> run({
+  required String dotEnvFileName,
+}) async {
+  di.initializeDependencies();
   WidgetsFlutterBinding.ensureInitialized();
+
+  await dotenv.load(fileName: dotEnvFileName);
+
   await Session().init();
+
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider<AuthBloc>(
@@ -41,7 +47,6 @@ Future<void> run()async {
     child: const MyApp(),
   ));
 }
-
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);

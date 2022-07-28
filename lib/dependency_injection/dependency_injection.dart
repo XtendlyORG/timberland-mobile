@@ -5,16 +5,17 @@ import '../core/configs/base_config.dart';
 import 'app_info_depencency.dart' as app_info;
 import 'auth_dependency.dart' as auth;
 import 'booking_dependency.dart' as booking;
-import 'trail_dependency.dart' as trail;
 import 'profile_dependency.dart' as profile;
+import 'trail_dependency.dart' as trail;
 
 final serviceLocator = GetIt.instance;
 
-void init(EnvironmentConfig environmentConfig) {
+void initializeDependencies() {
   serviceLocator.registerLazySingleton<Dio>(() => Dio());
+  serviceLocator.registerLazySingleton<EnvironmentConfig>(()=>EnvironmentConfig());
   auth.init();
-  app_info.init(environmentConfig);
-  trail.init(environmentConfig);
+  app_info.init();
+  trail.init();
   booking.init();
   profile.init();
 }
