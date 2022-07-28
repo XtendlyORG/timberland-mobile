@@ -2,15 +2,42 @@
 
 ## About The Project
 
- - Laboris velit culpa excepteur deserunt in deserunt reprehenderit duis.
-
-### Built With
-
-- [Flutter ](https://flutter.dev/)
+ - Timerland Bike Park Booking App
 
 <!-- GETTING STARTED -->
-
 ## Getting Started
+
+### Installation
+Follow flutter's official docs [here](https://docs.flutter.dev/get-started/install).
+
+
+###### Clone the repository
+```bash
+git clone https://github.com/XtendlyORG/timberland-mobile.git
+```
+
+###### cd to the project folder
+```bash
+cd timberland-mobile
+```
+
+###### Setup the .env files for dev, staging and prod.
+- check the .env.example inside the root folder for the structure of .env files
+
+###### Run the app in different environments (dev, staging, prod)
+ - run in dev
+ ```bash
+flutter run -t lib/main.dart
+ ```
+- run in staging
+ ```bash
+flutter run -t lib/main_staging.dart
+ ```
+ - run in prod
+ ```bash
+flutter run -t lib/main_prod.dart
+ ```
+
 
 ## Project folder structure
 - This project follows feature first folder structure.
