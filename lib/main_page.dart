@@ -62,7 +62,7 @@ class _MainPageState extends State<MainPage> {
         },
         builder: (context, state) {
           log("State is: $state");
-          if (state is UnAuthenticated) {
+          if (state is UnAuthenticated && Session().isLoggedIn) {
             BlocProvider.of<AuthBloc>(context).add(
               FetchUserEvent(uid: Session().currentUID!),
             );
