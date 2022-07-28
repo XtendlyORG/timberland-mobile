@@ -1,8 +1,10 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/404_page.dart';
 
 import '../../dashboard/presentation/pages/qr_code_page.dart';
 import '../../dashboard/presentation/pages/update_profile_page.dart';
@@ -194,11 +196,18 @@ final appRouter = GoRouter(
           path: Routes.trails.asSubPath(),
           name: Routes.trails.name,
           pageBuilder: (context, routeState) {
-            log('trail list');
-            return const MaterialPage(
-              child: MainPage(
+            return CustomTransitionPage(
+              child: const MainPage(
                 selectedTabIndex: 0,
               ),
+              transitionDuration: const Duration(milliseconds: 500),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              },
             );
           },
           routes: [
@@ -251,10 +260,18 @@ final appRouter = GoRouter(
                 const FetchTrailRulesEvent(),
               );
             }
-            return const MaterialPage(
-              child: MainPage(
+            return CustomTransitionPage(
+              child: const MainPage(
                 selectedTabIndex: 1,
               ),
+              transitionDuration: const Duration(milliseconds: 500),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              },
             );
           },
         ),
@@ -262,11 +279,18 @@ final appRouter = GoRouter(
           path: Routes.profile.asSubPath(),
           name: Routes.profile.name,
           pageBuilder: (context, routeState) {
-            log('profile');
-            return const MaterialPage(
-              child: MainPage(
+            return CustomTransitionPage(
+              child: const MainPage(
                 selectedTabIndex: 3,
               ),
+              transitionDuration: const Duration(milliseconds: 500),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              },
             );
           },
           routes: [
@@ -437,10 +461,8 @@ final appRouter = GoRouter(
     log(state.path.toString());
     return MaterialPage(
       key: state.pageKey,
-      child: Scaffold(
-        body: Center(
-          child: Text('404 Page Not Found. ${state.location} as'),
-        ),
+      child: RouteNotFoundPage(
+        location: state.location,
       ),
     );
   },
