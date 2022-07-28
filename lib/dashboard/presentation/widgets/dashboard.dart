@@ -98,7 +98,7 @@ class Dashboard extends StatelessWidget {
                     ),
                     DashBoardListTile(
                       onTap: () {
-                        context.pushNamed(Routes.emergency.name);
+                        context.goNamed(Routes.emergency.name);
                         Navigator.pop(context);
                       },
                       leading: const Image(
