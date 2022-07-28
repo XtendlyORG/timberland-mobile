@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import '../../../../core/constants/constants.dart';
@@ -33,6 +35,7 @@ class _EmergencyPageState extends State<EmergencyPage>
   Widget build(BuildContext context) {
     return TimberlandScaffold(
       titleText: "Emergency",
+      disableBackButton: true,
       body: Padding(
         padding: const EdgeInsets.all(kHorizontalPadding),
         child: Column(

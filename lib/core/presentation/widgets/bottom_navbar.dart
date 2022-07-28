@@ -48,7 +48,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         if (widget.configs[index].routeName != Routes.emergency.name) {
           widget.onTap(index);
         } else {
-          context.pushNamed(Routes.emergency.name);
+          context.goNamed(Routes.emergency.name);
         }
       },
     );
