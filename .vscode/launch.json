@@ -5,22 +5,9 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "dev",
+            "name": "timberland_mobile",
             "request": "launch",
-            "type": "dart",
-            "args": ["-t","lib/main.dart"]
-        },
-        {
-            "name": "staging",
-            "request": "launch",
-            "type": "dart",
-            "args": ["-t","lib/main_staging.dart"]
-        },
-        {
-            "name": "prod",
-            "request": "launch",
-            "type": "dart",
-            "args": ["-t","lib/main_prod.dart"]
+            "type": "dart"
         },
         {
             "name": "timberland_mobile (profile mode)",
