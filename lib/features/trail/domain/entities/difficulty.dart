@@ -35,7 +35,7 @@ class DifficultyLevel {
   factory DifficultyLevel.fromInt(int difficultyLevel) {
     switch (difficultyLevel) {
       case 1:
-        return Difficulties.easy;
+        return Difficulties.easiest;
       case 2:
         return Difficulties.easy;
       case 3:
