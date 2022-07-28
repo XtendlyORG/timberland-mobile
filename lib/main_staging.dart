@@ -1,6 +1,5 @@
-import 'app.dart';
+import 'app.dart' as app;
 
-
-Future main() async {
-  await run(dotEnvFileName: '.env.staging');
+Future<void> main() async {
+  await app.run(dotEnvFileName: ".env.staging");
 }
