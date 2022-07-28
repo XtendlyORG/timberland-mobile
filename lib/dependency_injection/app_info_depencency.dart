@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
 import '../core/configs/base_config.dart';
@@ -7,7 +8,7 @@ import '../features/app_infos/domain/repositories/app_infos_repository.dart';
 import '../features/app_infos/presentation/bloc/app_info_bloc.dart';
 
 final serviceLocator = GetIt.instance;
-void init(EnvironmentConfig environmentConfig) {
+void init() {
   serviceLocator.registerFactory<AppInfoBloc>(
     () => AppInfoBloc(repository: serviceLocator()),
   );
@@ -15,9 +16,10 @@ void init(EnvironmentConfig environmentConfig) {
   serviceLocator.registerLazySingleton<AppInfoRepository>(
     () => AppInfoRepositoryImpl(
       remoteDatasource: TimberlandRemoteDatasource(
-        environmentConfig: environmentConfig,
-        dioClient: serviceLocator(),
+        environmentConfig: serviceLocator<EnvironmentConfig>(),
+        dioClient: serviceLocator<Dio>(),
       ),
     ),
   );
 }
+

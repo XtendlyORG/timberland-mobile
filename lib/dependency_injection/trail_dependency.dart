@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
 import '../core/configs/base_config.dart';
@@ -7,7 +8,7 @@ import '../features/trail/domain/repositories/trail_repository.dart';
 import '../features/trail/presentation/bloc/trail_bloc.dart';
 
 final serviceLocator = GetIt.instance;
-void init(EnvironmentConfig environmentConfig) {
+void init() {
   serviceLocator.registerFactory<TrailBloc>(
     () => TrailBloc(
       repository: serviceLocator(),
@@ -17,8 +18,8 @@ void init(EnvironmentConfig environmentConfig) {
   serviceLocator.registerLazySingleton<TrailRepository>(
     () => TrailRepositoryImpl(
       remoteDatasource: TrailRemoteDatasource(
-        environmentConfig: environmentConfig,
-        dioClient: serviceLocator(),
+        environmentConfig: serviceLocator<EnvironmentConfig>(),
+        dioClient: serviceLocator<Dio>(),
       ),
     ),
   );
