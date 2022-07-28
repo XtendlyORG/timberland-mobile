@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:timberland_biketrail/dashboard/presentation/bloc/profile_bloc.dart';
 import 'package:timberland_biketrail/dependency_injection/dependency_injection.dart'
     as di;
 import 'package:timberland_biketrail/features/app_infos/presentation/bloc/app_info_bloc.dart';
@@ -36,6 +37,9 @@ Future main() async {
       ),
       BlocProvider<BookingBloc>(
         create: (context) => di.serviceLocator<BookingBloc>(),
+      ),
+      BlocProvider<ProfileBloc>(
+        create: (context) => di.serviceLocator<ProfileBloc>(),
       ),
     ],
     child: const MyApp(),

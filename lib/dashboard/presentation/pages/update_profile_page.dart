@@ -18,36 +18,29 @@ class UpdateProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ProfileBloc(),
-      child: Builder(
-        builder: (context) {
-          return BlocBuilder<ProfileBloc, ProfileState>(
-            buildWhen: (previous, current) {
-              if (current is ProfileUpdated) {
-                context.goNamed(Routes.profile.name);
-              }
-              return current is! ProfileUpdated;
-            },
-            builder: (context, state) {
-              return TimberlandScaffold(
-                appBar: (state is UpdatingProfile && state.pageNum == 2)
-                    ? TimberlandAppbar(
-                        backButton: BackButton(
-                          onPressed: () {
-                            BlocProvider.of<ProfileBloc>(context)
-                                .add(UpdateProfileEvent(user: state.user));
-                          },
-                        ),
-                      )
-                    : null,
-                titleText: 'Edit Profile',
-                body: UpdateProfileForm(user: user),
-              );
-            },
-          );
-        },
-      ),
+    return BlocBuilder<ProfileBloc, ProfileState>(
+      buildWhen: (previous, current) {
+        if (current is ProfileUpdated) {
+          context.goNamed(Routes.profile.name);
+        }
+        return current is! ProfileUpdated;
+      },
+      builder: (context, state) {
+        return TimberlandScaffold(
+          appBar: (state is UpdatingProfile && state.pageNum == 2)
+              ? TimberlandAppbar(
+                  backButton: BackButton(
+                    onPressed: () {
+                      BlocProvider.of<ProfileBloc>(context)
+                          .add(UpdateProfileEvent(user: state.user));
+                    },
+                  ),
+                )
+              : null,
+          titleText: 'Edit Profile',
+          body: UpdateProfileForm(user: user),
+        );
+      },
     );
   }
 }
