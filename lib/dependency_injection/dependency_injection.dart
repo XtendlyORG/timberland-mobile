@@ -6,6 +6,7 @@ import 'app_info_depencency.dart' as app_info;
 import 'auth_dependency.dart' as auth;
 import 'booking_dependency.dart' as booking;
 import 'trail_dependency.dart' as trail;
+import 'profile_dependency.dart' as profile;
 
 final serviceLocator = GetIt.instance;
 
@@ -14,5 +15,6 @@ void init(EnvironmentConfig environmentConfig) {
   auth.init();
   app_info.init(environmentConfig);
   trail.init(environmentConfig);
-  booking.init(environmentConfig);
+  booking.init();
+  profile.init();
 }
