@@ -3,10 +3,10 @@ import 'package:timberland_biketrail/dependency_injection/dependency_injection.d
     as di;
 
 import 'app.dart';
-import 'core/configs/dev_config.dart';
+import 'core/configs/staging_config.dart';
 
 Future main() async {
-  di.init(DevEnvironmentConfig());
-  await dotenv.load(fileName: ".env");
+  di.init(StagingEnvironmentConfig());
+  await dotenv.load(fileName: ".env.staging");
   await run();
 }

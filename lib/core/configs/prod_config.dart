@@ -2,7 +2,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'base_config.dart';
 
-class DevEnvironmentConfig implements EnvironmentConfig {
+class ProdEnvironmentConfig implements EnvironmentConfig {
   @override
   String get apihost {
     if (dotenv.env['API_URL'] == null) {
