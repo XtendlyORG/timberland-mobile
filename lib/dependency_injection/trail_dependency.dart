@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
-import '../core/configs/base_config.dart';
+import '../core/configs/environment_configs.dart';
 import '../features/trail/data/datasources/trail_remote_datasource.dart';
 import '../features/trail/data/repositories/trail_repository_impl.dart';
 import '../features/trail/domain/repositories/trail_repository.dart';

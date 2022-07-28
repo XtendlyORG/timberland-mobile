@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
-import '../core/configs/base_config.dart';
+import '../core/configs/environment_configs.dart';
 import '../features/app_infos/data/datasources/timberland_remote_datasource.dart';
 import '../features/app_infos/data/repositories/app_infos_repository_impl.dart';
 import '../features/app_infos/domain/repositories/app_infos_repository.dart';

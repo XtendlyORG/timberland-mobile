@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:dio/dio.dart';
-import 'package:timberland_biketrail/core/configs/base_config.dart';
+import 'package:timberland_biketrail/core/configs/environment_configs.dart';
 import 'package:timberland_biketrail/core/errors/exceptions.dart';
 import 'package:timberland_biketrail/features/app_infos/data/datasources/remote_datasource.dart';
 import 'package:timberland_biketrail/features/app_infos/data/models/faq_model.dart';

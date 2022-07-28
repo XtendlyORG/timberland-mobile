@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
-import '../core/configs/base_config.dart';
+import '../core/configs/environment_configs.dart';
 import 'app_info_depencency.dart' as app_info;
 import 'auth_dependency.dart' as auth;
 import 'booking_dependency.dart' as booking;

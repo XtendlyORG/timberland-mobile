@@ -2,7 +2,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:timberland_biketrail/core/configs/base_config.dart';
+import 'package:timberland_biketrail/core/configs/environment_configs.dart';
 import 'package:timberland_biketrail/core/errors/exceptions.dart';
 import 'package:timberland_biketrail/features/trail/data/datasources/remote_datasource.dart';
 import 'package:timberland_biketrail/features/trail/data/models/trail_model.dart';
