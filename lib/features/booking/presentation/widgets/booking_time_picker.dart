@@ -1,5 +1,9 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/time_picker.dart';
 
 import '../../../../core/constants/constants.dart';
 
@@ -51,159 +55,76 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
       style: Theme.of(context).textTheme.bodyText1,
       onTap: () {
         showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('CANCEL'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    widget.controller.text =
-                        '${start.format(context)} - ${end.format(context)}';
-                    Navigator.pop(context);
-                  },
-                  child: const Text('DONE'),
-                ),
-              ],
-              contentPadding: const EdgeInsets.only(
-                left: kVerticalPadding,
-                right: kVerticalPadding,
-                top: kVerticalPadding,
-              ),
-              content: Row(
-                children: [
-                  Expanded(
-                    child: ExcludeFocus(
-                      child: TextFormField(
-                        controller: startCtrl,
-                        enableInteractiveSelection: false,
-                        style: Theme.of(context).textTheme.bodyText1,
-                        decoration: InputDecoration(
-                          suffixIconConstraints: const BoxConstraints(
-                            maxWidth: 20,
-                          ),
-                          fillColor: Colors.white,
-                          contentPadding: const EdgeInsets.only(left: 8),
-                          suffixIcon: SizedBox(
-                            height: 50,
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      start = TimeOfDay(
-                                        hour: (start.hour + 1) % 24,
-                                        minute: start.minute,
-                                      );
-                                      startCtrl.text = start.format(context);
-                                      if (start.hour >= end.hour) {
-                                        end = TimeOfDay(
-                                          hour: (start.hour + 1) % 24,
-                                          minute: 0,
-                                        );
-                                        endCtrl.text = end.format(context);
-                                      }
-                                    },
-                                    child: const Icon(
-                                      Icons.keyboard_arrow_up_rounded,
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      start = TimeOfDay(
-                                        hour: (start.hour - 1) % 24,
-                                        minute: start.minute,
-                                      );
-                                      startCtrl.text = start.format(context);
-                                    },
-                                    child: const Icon(
-                                      Icons.keyboard_arrow_down_rounded,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+            context: context,
+            builder: (ctx) {
+              final TextStyle _style = Theme.of(ctx)
+                  .textTheme
+                  .bodySmall!
+                  .copyWith(fontWeight: FontWeight.bold);
+
+              return AlertDialog(
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('CANCEL'),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: kVerticalPadding),
-                    child: Text('to'),
-                  ),
-                  Expanded(
-                    child: ExcludeFocus(
-                      child: TextFormField(
-                        controller: endCtrl,
-                        enableInteractiveSelection: false,
-                        style: Theme.of(context).textTheme.bodyText1,
-                        decoration: InputDecoration(
-                          suffixIconConstraints: const BoxConstraints(
-                            maxWidth: 20,
-                          ),
-                          fillColor: Colors.white,
-                          contentPadding: const EdgeInsets.only(left: 8),
-                          suffixIcon: SizedBox(
-                            height: 50,
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      end = TimeOfDay(
-                                        hour: (end.hour + 1) % 24,
-                                        minute: end.minute,
-                                      );
-                                      endCtrl.text = end.format(context);
-                                    },
-                                    child: const Icon(
-                                      Icons.keyboard_arrow_up_rounded,
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      end = TimeOfDay(
-                                        hour: (end.hour - 1) % 24,
-                                        minute: end.minute,
-                                      );
-                                      endCtrl.text = end.format(context);
-                                      if (start.hour >= end.hour) {
-                                        start = TimeOfDay(
-                                          hour: (end.hour - 1)%24,
-                                          minute: 0,
-                                        );
-                                        startCtrl.text = start.format(context);
-                                      }
-                                    },
-                                    child: const Icon(
-                                      Icons.keyboard_arrow_down_rounded,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                  TextButton(
+                    onPressed: () {
+                      widget.controller.text =
+                          '${start.format(context)} - ${end.format(context)}';
+                      Navigator.pop(context);
+                    },
+                    child: const Text('DONE'),
                   ),
                 ],
-              ),
-            );
-          },
-        );
+                contentPadding: const EdgeInsets.only(
+                  left: kVerticalPadding,
+                  right: kVerticalPadding,
+                  top: kVerticalPadding,
+                ),
+                content: SizedBox(
+                  width: double.infinity,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: ExcludeFocus(
+                          child: TimePickerSpinner(
+                            initialTime: TimeOfDay.now(),
+                            textStyle: _style,
+                            onChange: (time) {
+                              start = time;
+                              log('start :${start.format(context)}');
+                            },
+                          ),
+                        ),
+                      ),
+                      const Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: kVerticalPadding),
+                        child: Text('to'),
+                      ),
+                      Expanded(
+                        child: ExcludeFocus(
+                          child: TimePickerSpinner(
+                            initialTime: TimeOfDay(
+                              hour: TimeOfDay.now().hour + 1,
+                              minute: TimeOfDay.now().minute,
+                            ),
+                            textStyle: _style,
+                            onChange: (time) {
+                              end = time;
+                              log('end :${end.format(context)}');
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            });
       },
       decoration: InputDecoration(
         hintText: 'Choose Time',
