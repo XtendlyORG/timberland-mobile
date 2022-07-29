@@ -59,14 +59,17 @@ class _MainPageState extends State<MainPage> {
       },
       child: BlocBuilder<AuthBloc, AuthState>(
         buildWhen: (previous, current) {
-          return current is! UserGuideFinished;
+          if (current is UnAuthenticated && Session().isLoggedIn) {
+            Future.delayed(Duration.zero, () {
+              BlocProvider.of<AuthBloc>(context).add(
+                FetchUserEvent(uid: Session().currentUID!),
+              );
+            });
+          }
+          return current is! UserGuideFinished && current is! UnAuthenticated;
         },
         builder: (context, state) {
-          if (state is UnAuthenticated && Session().isLoggedIn) {
-            BlocProvider.of<AuthBloc>(context).add(
-              FetchUserEvent(uid: Session().currentUID!),
-            );
-          } else if (state is Authenticated) {
+          if (state is Authenticated) {
             if (state.firstTimeUser) {
               return const FirstTimeUserPage();
             }
