@@ -65,12 +65,24 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
               },
             ),
           ),
+          SizedBox(
+            child: Text(
+              ':',
+              style: widget.textStyle.copyWith(
+                fontWeight: FontWeight.bold,
+                fontSize: widget.textStyle.fontSize != null
+                    ? widget.textStyle.fontSize! * 1.75
+                    : null,
+              ),
+            ),
+          ),
           Expanded(
             child: SpinnerWheel(
               textStyle: widget.textStyle,
               count: 60,
               startFromZero: true,
               initialValue: minute,
+              fix2Digits: true,
               onChange: (val) {
                 minute = val;
                 getTime();
@@ -127,6 +139,7 @@ class SpinnerWheel extends StatelessWidget {
     this.startFromZero = false,
     required this.onChange,
     this.height = 90,
+    this.fix2Digits = false,
   }) : super(key: key);
   final int initialValue;
   final TextStyle textStyle;
@@ -134,6 +147,7 @@ class SpinnerWheel extends StatelessWidget {
   final bool startFromZero;
   final void Function(int val) onChange;
   final double height;
+  final bool fix2Digits;
 
   @override
   Widget build(BuildContext context) {
@@ -150,14 +164,18 @@ class SpinnerWheel extends StatelessWidget {
       childDelegate: ListWheelChildLoopingListDelegate(
         children: List<Widget>.generate(
           count,
-          (index) => Container(
-            height: height / 3,
-            alignment: Alignment.center,
-            child: Text(
-              startFromZero ? '$index' : '${index + 1}',
-              style: textStyle,
-            ),
-          ),
+          (index) {
+            String text = startFromZero ? '$index' : '${index + 1}';
+            text = fix2Digits && text.length < 2 ? '0$text' : text;
+            return Container(
+              height: height / 3,
+              alignment: Alignment.center,
+              child: Text(
+                text,
+                style: textStyle,
+              ),
+            );
+          },
         ),
       ),
     );

@@ -42,6 +42,18 @@ class MobileNumberField extends StatelessWidget {
               hintText: '9** *** ****',
               counterText: '', // hide the counter text at the bottom
             ),
+            validator: (number){
+              if(number == null || number.isEmpty){
+                return 'Field can not be empty';
+              }
+              if(number.length < 10){
+                return 'Must be a 10 digit number';
+              }
+              if(!number.startsWith('9')){
+                return "Should start with '9'";
+              }
+              return null;
+            },
             maxLength: 10,
             keyboardType: TextInputType.phone,
             textInputAction: textInputAction,

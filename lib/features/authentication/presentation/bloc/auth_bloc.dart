@@ -3,11 +3,11 @@
 
 import 'dart:developer';
 
+// ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
-import 'package:timberland_biketrail/features/authentication/domain/repositories/auth_repository.dart';
 import 'package:timberland_biketrail/features/authentication/domain/usecases/usecases.dart';
 
 part 'auth_event.dart';
