@@ -52,16 +52,13 @@ class Authenticated extends AuthState {
 }
 
 class UserGuideFinished extends Authenticated {
-  final bool finishedFirstBooking;
   const UserGuideFinished({
-    required this.finishedFirstBooking,
     required super.message,
     required super.user,
   });
   @override
   List<Object> get props => super.props
     ..addAll([
-      finishedFirstBooking,
       message,
       user,
     ]);

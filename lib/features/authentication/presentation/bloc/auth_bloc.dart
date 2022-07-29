@@ -137,34 +137,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       // TODO: implement event handler
     });
     on<FinishUserGuideEvent>((event, emit) {
-      // Authenticated _state = (state as Authenticated);
-      // log(state.toString());
+      Authenticated _state = (state as Authenticated);
 
-      // _state = _state.copyWith(firstTimeUser: false);
+      _state = _state.copyWith(firstTimeUser: false);
 
-      // emit(UserGuideFinished(
-      //   message: 'User Guide Completed',
-      //   user: _state.user,
-      // ));
-      emit(
-        UserGuideFinished(
-          finishedFirstBooking: event.finishedFirstBooking,
-          message: 'test',
-          user: User(
-            id: '',
-            firstName: 'asd',
-            lastName: 'asd',
-            gender: 'asd',
-            birthday: DateTime.now(),
-            address: 'asd',
-            profession: 'asd',
-            email: 'asd',
-            mobileNumber: 'asd',
-            age: 2,
-            accessCode: 'asdasd',
-          ),
-        ),
-      );
+      emit(UserGuideFinished(
+        message: 'User Guide Completed',
+        user: _state.user,
+      ));
     });
 
     on<LogoutEvent>((event, emit) {
