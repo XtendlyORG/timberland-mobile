@@ -25,9 +25,11 @@ class _UserGuideVideoState extends State<UserGuideVideo> {
     _videoPlayerController = VideoPlayerController.network(
       'https://player.vimeo.com/external/517369411.sd.mp4?s=871d54da6489f8d9caa57295ebb733d1e4119e6b&profile_id=164&oauth2_token_id=57447761',
     )..initialize().then((_) {
-        setState(() {
-          _videoPlayerController.play();
-        });
+        if (mounted) {
+          setState(() {
+            _videoPlayerController.play();
+          });
+        }
       });
     _videoPlayerController.setLooping(true);
   }
@@ -36,6 +38,7 @@ class _UserGuideVideoState extends State<UserGuideVideo> {
   void dispose() {
     _videoPlayerController.pause();
     _videoPlayerController.dispose();
+
     super.dispose();
   }
 
@@ -91,16 +94,19 @@ class _UserGuideVideoState extends State<UserGuideVideo> {
                         context: context,
                         barrierDismissible: false,
                         builder: (ctx) {
-                          return FirstBookingDialog(
-                            onClose: _videoPlayerController.play,
-                            onSubmit: () {
-                              BlocProvider.of<AuthBloc>(context).add(
-                                const FinishUserGuideEvent(),
-                              );
-                            },
-                          );
+                          return const FirstBookingDialog();
                         },
-                      );
+                      ).then((didSubmit) {
+                        if (didSubmit is bool) {
+                          if (didSubmit) {
+                            BlocProvider.of<AuthBloc>(context).add(
+                              const FinishUserGuideEvent(),
+                            );
+                          } else {
+                            _videoPlayerController.play();
+                          }
+                        }
+                      });
                     },
                     icon: Icon(
                       Icons.close,

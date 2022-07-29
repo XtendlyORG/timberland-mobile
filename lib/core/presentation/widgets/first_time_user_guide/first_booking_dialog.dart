@@ -5,12 +5,8 @@ import '../../../constants/constants.dart';
 import '../filled_text_button.dart';
 
 class FirstBookingDialog extends StatelessWidget {
-  final VoidCallback onClose;
-  final VoidCallback onSubmit;
   const FirstBookingDialog({
     Key? key,
-    required this.onClose,
-    required this.onSubmit,
   }) : super(key: key);
 
   @override
@@ -37,8 +33,7 @@ class FirstBookingDialog extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
               child: FilledTextButton(
                 onPressed: () {
-                  Navigator.of(context, rootNavigator: true).pop();
-                  onSubmit();
+                  Navigator.pop(context,true);
                 },
                 child: const Text(
                   "Book Now",
@@ -52,8 +47,7 @@ class FirstBookingDialog extends StatelessWidget {
               alignment: Alignment.topRight,
               child: IconButton(
                 onPressed: () {
-                  onClose();
-                  Navigator.pop(context);
+                  Navigator.pop(context, false);
                 },
                 icon: Icon(
                   Icons.cancel_outlined,

@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
@@ -14,6 +13,7 @@ import 'package:timberland_biketrail/core/presentation/widgets/form_fields/mobil
 import 'package:timberland_biketrail/core/presentation/widgets/form_fields/password_field.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/image_picker_options_bottomsheet.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
+import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
 import 'package:timberland_biketrail/dashboard/presentation/bloc/profile_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
 import 'package:timberland_biketrail/features/authentication/domain/usecases/register.dart';
@@ -73,7 +73,7 @@ class RegistrationContinuationForm extends StatelessWidget {
               ),
               child: TextFormField(
                 controller: bloodTypeCtrl,
-                validator: (val) {},
+                validator: nonEmptyValidator,
                 decoration: const InputDecoration(
                   hintText: 'Blood Type',
                 ),
@@ -110,12 +110,8 @@ class RegistrationContinuationForm extends StatelessWidget {
               margin: const EdgeInsets.only(
                 bottom: kVerticalPadding,
               ),
-              child: TextFormField(
+              child: MobileNumberField(
                 controller: emergencyContactsCtrl,
-                validator: (val) {},
-                decoration: const InputDecoration(
-                  hintText: 'Emergency contact information',
-                ),
                 textInputAction: TextInputAction.next,
               ),
             ),
@@ -155,7 +151,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                       );
                     },
                     controller: imageCtrl,
-                    validator: (val) {},
+                    validator: nonEmptyValidator,
                     decoration: InputDecoration(
                       hintText: 'Take a selfie',
                       suffixIcon: const Icon(Icons.ios_share_rounded),
@@ -174,7 +170,7 @@ class RegistrationContinuationForm extends StatelessWidget {
               ),
               child: TextFormField(
                 controller: bikeModelCtrl,
-                validator: (val) {},
+                validator: nonEmptyValidator,
                 decoration: const InputDecoration(
                   hintText: 'Bike(model)',
                 ),
@@ -190,7 +186,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                       margin: const EdgeInsets.only(bottom: kVerticalPadding),
                       child: TextFormField(
                         controller: bikeYearCtrl,
-                        validator: (val) {},
+                        validator: nonEmptyValidator,
                         decoration: const InputDecoration(
                           hintText: 'Bike(year)',
                         ),
@@ -207,7 +203,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                       margin: const EdgeInsets.only(bottom: kVerticalPadding),
                       child: TextFormField(
                         controller: bikeColorCtrl,
-                        validator: (val) {},
+                        validator: nonEmptyValidator,
                         decoration: const InputDecoration(
                           hintText: 'Bike(color)',
                         ),
@@ -241,7 +237,6 @@ class RegistrationContinuationForm extends StatelessWidget {
                         ),
                       );
                     } else {
-                      log('Profile Updated');
                       BlocProvider.of<ProfileBloc>(context)
                           .add(SubmitUpdateRequestEvent());
                     }
@@ -269,7 +264,6 @@ class RegistrationContinuationForm extends StatelessWidget {
                     child: TermsOfUse(
                       onChange: (val) {
                         agreedToTermsOfUse = val;
-                        log(agreedToTermsOfUse.toString());
                       },
                     ),
                   ),

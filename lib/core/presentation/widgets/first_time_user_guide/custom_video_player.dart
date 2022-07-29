@@ -29,15 +29,19 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer>
     )..forward();
     _visible = true;
     _timer = Timer.periodic(const Duration(seconds: 2), (_) {
-      setState(() {
-        _visible = false;
-      });
-      _timer.cancel();
+      if (mounted) {
+        setState(() {
+          _visible = false;
+        });
+        _timer.cancel();
+      }
     });
   }
 
   @override
   void dispose() {
+    _timer.cancel();
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -58,10 +62,12 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer>
           widget.videoPlayerController.play();
 
           _timer = Timer.periodic(const Duration(seconds: 2), (_) {
-            setState(() {
-              _visible = false;
-            });
-            _timer.cancel();
+            if (mounted) {
+              setState(() {
+                _visible = false;
+              });
+              _timer.cancel();
+            }
           });
         }
       },

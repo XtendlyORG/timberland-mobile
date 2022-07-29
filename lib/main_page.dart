@@ -1,6 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -41,6 +39,12 @@ class _MainPageState extends State<MainPage> {
   }
 
   @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (currentIndex != widget.selectedTabIndex) {
       currentIndex = widget.selectedTabIndex;
@@ -55,20 +59,27 @@ class _MainPageState extends State<MainPage> {
       },
       child: BlocBuilder<AuthBloc, AuthState>(
         buildWhen: (previous, current) {
-          if (current is UserGuideFinished) {
-            context.goNamed(Routes.booking.name);
+          if (current is UnAuthenticated && Session().isLoggedIn) {
+            Future.delayed(Duration.zero, () {
+              BlocProvider.of<AuthBloc>(context).add(
+                FetchUserEvent(uid: Session().currentUID!),
+              );
+            });
           }
-          return current is! UserGuideFinished;
+          return current is! UserGuideFinished && current is! UnAuthenticated;
         },
         builder: (context, state) {
-          log("State is: $state");
-          if (state is UnAuthenticated && Session().isLoggedIn) {
-            BlocProvider.of<AuthBloc>(context).add(
-              FetchUserEvent(uid: Session().currentUID!),
-            );
-          } else if (state is Authenticated) {
+          if (state is Authenticated) {
             if (state.firstTimeUser) {
               return const FirstTimeUserPage();
+            }
+            if (state is UserGuideFinished && !state.finishedFirstBooking) {
+              Future.delayed(Duration.zero, () {
+                context.goNamed(Routes.booking.name);
+                BlocProvider.of<AuthBloc>(context).add(
+                  const FinishUserGuideEvent(finishedFirstBooking: true),
+                );
+              });
             }
             return SafeArea(
               child: Scaffold(
