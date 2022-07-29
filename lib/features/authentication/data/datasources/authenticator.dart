@@ -7,7 +7,6 @@ import '../../domain/usecases/reset_password.dart';
 abstract class Authenticator {
   Future<User> fingerPrintAuth();
   Future<User> login(LoginParameter loginParameter);
-  Future<void> sendOtp(RegisterParameter registerParameter);
   Future<User> register(RegisterParameter registerParameter);
   Future<User> googleAuth();
   Future<User> facebookAuth();
