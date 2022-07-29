@@ -33,7 +33,9 @@ class FirstBookingDialog extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
               child: FilledTextButton(
                 onPressed: () {
-                  Navigator.of(context).pop(true);
+                  Navigator.of(context, rootNavigator: true).popUntil((route) {
+                    return route.isFirst;
+                  });
                 },
                 child: const Text(
                   "Book Now",
@@ -47,7 +49,7 @@ class FirstBookingDialog extends StatelessWidget {
               alignment: Alignment.topRight,
               child: IconButton(
                 onPressed: () {
-                  Navigator.pop(context, false);
+                  Navigator.of(context, rootNavigator: true).pop(false);
                 },
                 icon: Icon(
                   Icons.cancel_outlined,

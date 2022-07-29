@@ -123,7 +123,7 @@ class _UserGuideVideoState extends State<UserGuideVideo> {
     required VoidCallback onSubmit,
     required VoidCallback onClose,
   }) async {
-    final bool didSumbit = await showDialog(
+    final bool? didSumbit = await showDialog(
       context: context,
       barrierDismissible: false,
       builder: (ctx) {
@@ -131,7 +131,7 @@ class _UserGuideVideoState extends State<UserGuideVideo> {
       },
     );
 
-    if (didSumbit) {
+    if (didSumbit == null) {
       onSubmit();
     } else {
       onClose();
