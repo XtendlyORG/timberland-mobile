@@ -32,8 +32,7 @@ class AuthPageContainer extends StatelessWidget {
             builder: (context) {
               return Dialog(
                 child: AuthLockedWidget(
-                  duration:
-                      state.lockUntil.difference(DateTime.now()).inSeconds,
+                  duration: state.lockUntil.difference(DateTime.now()).inSeconds,
                 ),
               );
             },
@@ -68,7 +67,9 @@ class AuthPageContainer extends StatelessWidget {
                       height: 24,
                       width: 24,
                       child: RepaintBoundary(
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator(
+                          
+                        ),
                       ),
                     ),
                     const SizedBox(width: kVerticalPadding),
@@ -83,31 +84,19 @@ class AuthPageContainer extends StatelessWidget {
               ),
             );
         }
-        if (state is AuthError) {
-          ScaffoldMessenger.of(context)
-            ..clearSnackBars()
-            ..showSnackBar(
-              SnackBar(
-                content: AutoSizeText(
-                  state.errorMessage,
-                  maxLines: 1,
-                ),
-              ),
-            );
-        }
         if (state is OtpSent) {
           ScaffoldMessenger.of(context)
             ..clearSnackBars()
             ..showSnackBar(
               SnackBar(
                 content: AutoSizeText(
-                  state.message,
+                  "OTP is sent to ${state.registerParameter.email}",
                   maxLines: 1,
                 ),
               ),
             );
         }
-        if (state is UserGuideFinished) {
+        if(state is UserGuideFinished){
           context.goNamed(Routes.booking.name);
         }
       },
