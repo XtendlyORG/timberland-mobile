@@ -156,9 +156,17 @@ class _BookingFormState extends State<BookingForm> {
                     children: [
                       const Text("Full Name"),
                       TextFormField(
-                          controller: fullNameCtrl,
-                          decoration:
-                              const InputDecoration(hintText: "Full Name")),
+                        controller: fullNameCtrl,
+                        decoration: const InputDecoration(
+                          hintText: "Full Name",
+                        ),
+                        validator: (fullName){
+                          if(fullName == null || fullName.isEmpty){
+                            return 'Field can not be emtpy.';
+                          }
+                          return null;
+                        },
+                      ),
                     ],
                   ),
                 ),

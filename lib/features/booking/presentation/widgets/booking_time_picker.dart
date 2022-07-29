@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/time_picker.dart';
+import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
 
 import '../../../../core/constants/constants.dart';
 
@@ -53,14 +54,19 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
       enabled: widget.enabled,
       enableInteractiveSelection: false,
       style: Theme.of(context).textTheme.bodyText1,
+      validator: (val) {
+        return nonEmptyValidator(val, errorMessage: 'Select time range');
+      },
       onTap: () {
         showDialog(
             context: context,
             builder: (ctx) {
-              final TextStyle _style = Theme.of(ctx)
+              final TextStyle style = Theme.of(ctx)
                   .textTheme
                   .bodySmall!
-                  .copyWith(fontWeight: FontWeight.bold);
+                  .copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).primaryColor);
 
               return AlertDialog(
                 actions: [
@@ -89,35 +95,37 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
                   child: Row(
                     children: [
                       Expanded(
-                        child: ExcludeFocus(
-                          child: TimePickerSpinner(
-                            initialTime: TimeOfDay.now(),
-                            textStyle: _style,
-                            onChange: (time) {
-                              start = time;
-                              log('start :${start.format(context)}');
-                            },
-                          ),
+                        child: TimePickerSpinner(
+                          initialTime: start,
+                          textStyle: style,
+                          onChange: (time) {
+                            start = time;
+                            log('start :${start.format(context)}');
+                          },
                         ),
                       ),
-                      const Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: kVerticalPadding),
-                        child: Text('to'),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: kVerticalPadding),
+                        child: Text(
+                          'to',
+                          style: style.copyWith(
+                            fontWeight: FontWeight.w300,
+                            fontSize: style.fontSize != null
+                                ? style.fontSize! * 1.75
+                                : null,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                       Expanded(
-                        child: ExcludeFocus(
-                          child: TimePickerSpinner(
-                            initialTime: TimeOfDay(
-                              hour: TimeOfDay.now().hour + 1,
-                              minute: TimeOfDay.now().minute,
-                            ),
-                            textStyle: _style,
-                            onChange: (time) {
-                              end = time;
-                              log('end :${end.format(context)}');
-                            },
-                          ),
+                        child: TimePickerSpinner(
+                          initialTime: end,
+                          textStyle: style,
+                          onChange: (time) {
+                            end = time;
+                            log('end :${end.format(context)}');
+                          },
                         ),
                       ),
                     ],

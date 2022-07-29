@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
 
 import '../../../../core/presentation/widgets/date_picker.dart';
 
@@ -21,6 +22,9 @@ class BookingDatePicker extends StatelessWidget {
       enabled: enabled,
       enableInteractiveSelection: false,
       style: Theme.of(context).textTheme.bodyText1,
+      validator: (val){
+        return nonEmptyValidator(val,errorMessage: 'Select a date');
+      },
       onTap: () {
         showDialog(
           context: context,
