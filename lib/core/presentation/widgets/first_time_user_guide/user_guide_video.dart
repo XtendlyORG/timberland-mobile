@@ -37,7 +37,7 @@ class _UserGuideVideoState extends State<UserGuideVideo> {
   @override
   void dispose() {
     _videoPlayerController.pause();
-    _videoPlayerController.removeListener(() { });
+    _videoPlayerController.removeListener(() {});
     _videoPlayerController.dispose();
     super.dispose();
   }
@@ -90,25 +90,17 @@ class _UserGuideVideoState extends State<UserGuideVideo> {
                   child: IconButton(
                     onPressed: () {
                       _videoPlayerController.pause();
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (ctx) {
-                          return const FirstBookingDialog();
+                      showFirstBookingDialog(
+                        context,
+                        onSubmit: () {
+                          BlocProvider.of<AuthBloc>(context).add(
+                            const FinishUserGuideEvent(),
+                          );
                         },
-                      ).then((didSubmit) {
-                        if (didSubmit is bool) {
-                          if (didSubmit) {
-                            BlocProvider.of<AuthBloc>(context).add(
-                              const FinishUserGuideEvent(),
-                            );
-                            
-                          } else {
-                            _videoPlayerController.play();
-                          }
-                        }
-                        return;
-                      });
+                        onClose: () {
+                          _videoPlayerController.play();
+                        },
+                      );
                     },
                     icon: Icon(
                       Icons.close,
@@ -124,5 +116,25 @@ class _UserGuideVideoState extends State<UserGuideVideo> {
               ),
             ),
     );
+  }
+
+  Future<void> showFirstBookingDialog(
+    BuildContext context, {
+    required VoidCallback onSubmit,
+    required VoidCallback onClose,
+  }) async {
+    final bool didSumbit = await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) {
+        return const FirstBookingDialog();
+      },
+    );
+
+    if (didSumbit) {
+      onSubmit();
+    } else {
+      onClose();
+    }
   }
 }
