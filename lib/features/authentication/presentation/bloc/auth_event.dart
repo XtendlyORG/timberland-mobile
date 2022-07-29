@@ -55,10 +55,8 @@ class FacebookAuthEvent extends AuthEvent {
 }
 
 class FinishUserGuideEvent extends AuthEvent {
-  final bool finishedFirstBooking;
-  const FinishUserGuideEvent({
-    this.finishedFirstBooking = false,
-  });
+  
+  const FinishUserGuideEvent();
 }
 
 class LogoutEvent extends AuthEvent {
