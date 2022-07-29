@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/date_picker.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
+import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
 
 class RegistrationForm extends StatelessWidget {
@@ -24,22 +25,7 @@ class RegistrationForm extends StatelessWidget {
     String? address,
     String? profession,
   ) onSumbit;
-  // final TextEditingController? firstNameController;
-  // final TextEditingController? middleNameController;
-  // final TextEditingController? lastNameController;
-  // final String? selectedGender;
-  // final TextEditingController? birthdayController;
-  // final DateTime? birthday;
-  // final TextEditingController? addressController;
-  // final TextEditingController? professionController;
   final User? user;
-
-  String? validateName(String? name) {
-    if (name == null || name.isEmpty) {
-      return 'Field cannot be empty';
-    }
-    return null;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +60,7 @@ class RegistrationForm extends StatelessWidget {
             ),
             child: TextFormField(
               controller: firstNameCtrl,
-              validator: validateName,
+              validator: nonEmptyValidator,
               decoration: const InputDecoration(
                 hintText: 'First Name',
               ),
@@ -99,7 +85,7 @@ class RegistrationForm extends StatelessWidget {
             ),
             child: TextFormField(
               controller: lastNameCtrl,
-              validator: validateName,
+              validator: nonEmptyValidator,
               decoration: const InputDecoration(
                 hintText: 'Last Name',
               ),
@@ -127,10 +113,8 @@ class RegistrationForm extends StatelessWidget {
               hint: const Text('Gender'),
               decoration: const InputDecoration(),
               validator: (gender) {
-                if (gender == null) {
-                  return 'Please select a gender';
-                }
-                return null;
+                return nonEmptyValidator(gender,
+                    errorMessage: 'Please select a gender');
               },
             ),
           ),
@@ -165,7 +149,7 @@ class RegistrationForm extends StatelessWidget {
                   );
                 },
                 controller: birthdayCtrl,
-                validator: validateName,
+                validator: nonEmptyValidator,
                 decoration: const InputDecoration(
                   hintText: 'Date of Birth',
                 ),
@@ -178,7 +162,7 @@ class RegistrationForm extends StatelessWidget {
             ),
             child: TextFormField(
               controller: addressCtrl,
-              validator: (val) {},
+              validator: nonEmptyValidator,
               decoration: const InputDecoration(
                 hintText: 'Address',
               ),
@@ -191,7 +175,7 @@ class RegistrationForm extends StatelessWidget {
             ),
             child: TextFormField(
               controller: professionCtrl,
-              validator: (val) {},
+              validator: nonEmptyValidator,
               decoration: const InputDecoration(
                 hintText: 'Profession',
               ),
