@@ -24,6 +24,13 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<Either<AuthFailure, void>> sendOtp(RegisterParameter params) {
+    return authRequest<void>(
+      request: () => authenticator.sendOtp(params),
+    );
+  }
+
+  @override
   Future<Either<AuthFailure, User>> register(RegisterParameter params) {
     return authRequest<User>(
       request: () => authenticator.register(params),

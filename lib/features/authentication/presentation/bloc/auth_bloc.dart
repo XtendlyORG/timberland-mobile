@@ -8,28 +8,17 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
+import 'package:timberland_biketrail/features/authentication/domain/repositories/auth_repository.dart';
 import 'package:timberland_biketrail/features/authentication/domain/usecases/usecases.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final FacebookAuth facebookAuth;
-  final GoogleAuth googleAuth;
-  final Login login;
-  final Logout logout;
-  final Register register;
-  final ResetPassword resetPassword;
-  final ForgotPassword forgotPassword;
+  final AuthRepository repository;
 
   AuthBloc({
-    required this.facebookAuth,
-    required this.googleAuth,
-    required this.login,
-    required this.logout,
-    required this.register,
-    required this.resetPassword,
-    required this.forgotPassword,
+    required this.repository,
   }) : super(const UnAuthenticated()) {
     on<AuthEvent>((event, emit) {
       // TODO: implement event handler
@@ -81,7 +70,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(
         const AuthLoading(loadingMessage: "Logging in to your account."),
       );
-      final result = await login(event.loginParameter);
+      final result = await repository.login(event.loginParameter);
       result.fold(
         (failure) {
           emit(AuthError(errorMessage: failure.message));
@@ -103,9 +92,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           loadingMessage: 'Sending Otp to ${event.registerParameter.email}.',
         ),
       );
-      await Future.delayed(
-        const Duration(seconds: 1),
-        () => emit(OtpSent(registerParameter: event.registerParameter)),
+      final result = await repository.sendOtp(event.registerParameter);
+      result.fold(
+        (l) {
+          emit(
+            OtpSent(
+              registerParameter: event.registerParameter,
+              message: 'Failed to send OTP',
+            ),
+          );
+        },
+        (r) {
+          emit(OtpSent(
+            registerParameter: event.registerParameter,
+            message: "OTP is sent to ${event.registerParameter.email}",
+          ));
+        },
       );
     });
 
@@ -113,10 +115,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(
         const AuthLoading(loadingMessage: "Creating your timberland account."),
       );
-      final result = await register(event.registerParameter);
+      final result = await repository.register(event.registerParameter);
       result.fold(
         (failure) {
-          emit(AuthError(errorMessage: failure.message));
+          // emit(AuthError(errorMessage: failure.message));
+          emit(OtpSent(
+            registerParameter: event.registerParameter,
+            message: failure.message,
+          ));
         },
         (user) {
           emit(

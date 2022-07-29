@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:timberland_biketrail/core/errors/failures.dart';
@@ -109,5 +110,28 @@ class RegisterParameter extends Equatable {
       bikeColor: bikeColor ?? this.bikeColor,
       password: password ?? this.password,
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'firstName': firstName,
+      'middleName': middleName,
+      'lastName': lastName,
+      'gender': gender,
+      'birthDay': birthDay.millisecondsSinceEpoch,
+      'address': address,
+      'profession': profession,
+      'bloodType': bloodType,
+      'email': email,
+      'mobileNumber': mobileNumber,
+      'emergencyContactInfo': emergencyContactInfo,
+      'profilePic': MultipartFile.fromFile(
+        profilePic!.path,
+      ),
+      'bikeModel': bikeModel,
+      'bikeYear': bikeYear,
+      'bikeColor': bikeColor?.value,
+      'password': password,
+    };
   }
 }
