@@ -41,6 +41,8 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer>
   @override
   void dispose() {
     _timer.cancel();
+    _animationController.removeListener(() { });
+    _animationController.clearListeners();
     _animationController.dispose();
     super.dispose();
   }

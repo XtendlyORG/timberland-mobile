@@ -37,8 +37,8 @@ class _UserGuideVideoState extends State<UserGuideVideo> {
   @override
   void dispose() {
     _videoPlayerController.pause();
+    _videoPlayerController.removeListener(() { });
     _videoPlayerController.dispose();
-
     super.dispose();
   }
 
@@ -102,10 +102,12 @@ class _UserGuideVideoState extends State<UserGuideVideo> {
                             BlocProvider.of<AuthBloc>(context).add(
                               const FinishUserGuideEvent(),
                             );
+                            
                           } else {
                             _videoPlayerController.play();
                           }
                         }
+                        return;
                       });
                     },
                     icon: Icon(

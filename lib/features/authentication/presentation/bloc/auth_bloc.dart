@@ -141,6 +141,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       _state = _state.copyWith(firstTimeUser: false);
 
+      emit(_state);
       emit(UserGuideFinished(
         message: 'User Guide Completed',
         user: _state.user,
