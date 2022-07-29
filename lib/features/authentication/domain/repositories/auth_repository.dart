@@ -13,6 +13,8 @@ abstract class AuthRepository extends Repository {
 
   Future<Either<AuthFailure, User>> fingerPrintAuth();
 
+  Future<Either<AuthFailure, void>> sendOtp(RegisterParameter params);
+
   Future<Either<AuthFailure, User>> register(RegisterParameter params);
 
   Future<Either<AuthFailure, User>> googleAuth();
