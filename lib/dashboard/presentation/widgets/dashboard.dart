@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard_header.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
@@ -103,10 +104,12 @@ class Dashboard extends StatelessWidget {
                       },
                       leading: const Image(
                         image: AssetImage('assets/icons/emergency-icon.png'),
+                        color: TimberlandColor.secondaryColor,
                         height: 24,
                         width: 24,
                       ),
                       titleText: 'Emergency',
+                      titleTextColor: TimberlandColor.secondaryColor,
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -149,11 +152,13 @@ class DashBoardListTile extends StatelessWidget {
   final VoidCallback onTap;
   final Widget? leading;
   final String titleText;
+  final Color titleTextColor;
   const DashBoardListTile({
     Key? key,
     required this.onTap,
     this.leading,
     required this.titleText,
+    this.titleTextColor = TimberlandColor.background,
   }) : super(key: key);
 
   @override
@@ -164,10 +169,9 @@ class DashBoardListTile extends StatelessWidget {
       leading: leading,
       title: Text(
         titleText,
-        style: Theme.of(context)
-            .textTheme
-            .titleMedium!
-            .copyWith(color: TimberlandColor.background),
+        style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              color: titleTextColor,
+            ),
       ),
     );
   }

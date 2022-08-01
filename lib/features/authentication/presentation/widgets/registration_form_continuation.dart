@@ -103,6 +103,7 @@ class RegistrationContinuationForm extends StatelessWidget {
               ),
               child: MobileNumberField(
                 controller: mobileNumberCtrl,
+                hintText: 'Mobile Number',
                 textInputAction: TextInputAction.next,
               ),
             ),
@@ -112,6 +113,7 @@ class RegistrationContinuationForm extends StatelessWidget {
               ),
               child: MobileNumberField(
                 controller: emergencyContactsCtrl,
+                hintText: 'Emergency Contact Number',
                 textInputAction: TextInputAction.next,
               ),
             ),
