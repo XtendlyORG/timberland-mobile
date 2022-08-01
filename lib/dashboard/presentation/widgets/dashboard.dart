@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/emergency_dialog.dart';
 
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard_header.dart';
@@ -99,8 +100,12 @@ class Dashboard extends StatelessWidget {
                     ),
                     DashBoardListTile(
                       onTap: () {
-                        context.goNamed(Routes.emergency.name);
-                        Navigator.pop(context);
+                        showDialog(
+                          context: context,
+                          builder: (ctx) {
+                            return const EmergencyDialog();
+                          },
+                        );
                       },
                       leading: const Image(
                         image: AssetImage('assets/icons/emergency-icon.png'),
