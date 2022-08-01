@@ -13,7 +13,7 @@ class PaymentHistoryPage extends StatelessWidget {
       titleText: 'Payment History',
       body: Padding(
         padding: const EdgeInsets.symmetric(
-            horizontal: kVerticalPadding, vertical: kHorizontalPadding),
+            horizontal: kHorizontalPadding, vertical: kHorizontalPadding),
         child: Column(
           children: [
             const Padding(
