@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/custom_scroll_behavior.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
@@ -97,8 +98,12 @@ class _LoginPageState extends State<LoginPage> {
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
           body: AuthPageContainer(
+            scrollBehavior: const CustomScrollBehavior(),
             child: Column(
               children: [
+                const SizedBox(
+                  height: kHorizontalPadding,
+                ),
                 const LoginForm(),
                 const SizedBox(
                   height: kVerticalPadding,
