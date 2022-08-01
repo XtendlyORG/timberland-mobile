@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/emergency_dialog.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -48,7 +49,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
         if (widget.configs[index].routeName != Routes.emergency.name) {
           widget.onTap(index);
         } else {
-          context.goNamed(Routes.emergency.name);
+          showDialog(
+            context: context,
+            builder: (ctx) {
+              return const EmergencyDialog();
+            },
+          );
         }
       },
     );
