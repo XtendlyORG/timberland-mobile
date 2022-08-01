@@ -253,7 +253,9 @@ class RegistrationContinuationForm extends StatelessWidget {
                     );
                   }
                 },
-                child: const Text("Register"),
+                child: user == null
+                    ? const Text("Register")
+                    : const Text("Save"),
               ),
             ),
             if (user == null)

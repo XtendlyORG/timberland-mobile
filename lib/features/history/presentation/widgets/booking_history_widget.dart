@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
@@ -19,14 +20,15 @@ class BookingHistoryWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
-          height: 120,
           width: 120,
+          height: 120,
+          clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
             borderRadius: BorderRadius.circular(10),
-            image: DecorationImage(
-                image: NetworkImage(bookingHistory.trail.featureImageUrl),
-                fit: BoxFit.fitHeight),
+          ),
+          child: CachedNetworkImage(
+            imageUrl: bookingHistory.trail.featureImageUrl,
+            fit: BoxFit.fitHeight,
           ),
         ),
         const SizedBox(
@@ -82,7 +84,6 @@ class BookingHistoryWidget extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodyText1,
                     ),
                   ],
-                  
                 ),
               ),
             ],
