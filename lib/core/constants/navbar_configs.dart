@@ -37,4 +37,13 @@ final List<BottomNavBarConfigs> navbarConfigs = [
     label: 'Profile',
     routeName: Routes.profile.name,
   ),
+  BottomNavBarConfigs(
+    icon: const Image(
+      image: AssetImage('assets/icons/booking-icon.png'),
+      height: 24,
+      width: 24,
+    ),
+    label: 'Booking',
+    routeName: Routes.booking.name,
+  ),
 ];
