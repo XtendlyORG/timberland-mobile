@@ -372,6 +372,26 @@ final appRouter = GoRouter(
             ),
           ],
         ),
+        GoRoute(
+          path: Routes.booking.asSubPath(),
+          name: Routes.booking.name,
+          pageBuilder: (context, routeState) {
+            final Trail? trail =
+                routeState.extra != null ? routeState.extra as Trail : null;
+            return CustomTransitionPage(
+              child: const MainPage(
+                selectedTabIndex: 4,
+              ),
+              transitionDuration: const Duration(milliseconds: 500),
+              transitionsBuilder: (context, animation, secondaryAnim, child) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              },
+            );
+          },
+        ),
       ],
     ),
     GoRoute(
@@ -388,27 +408,6 @@ final appRouter = GoRouter(
           child: const FAQsPage(),
           // key: routeState.pageKey,
           // restorationId: routeState.pageKey.value,
-          transitionDuration: const Duration(milliseconds: 500),
-          transitionsBuilder: (context, animation, secondaryAnim, child) {
-            return FadeTransition(
-              opacity: animation,
-              child: child,
-            );
-          },
-        );
-      },
-    ),
-    GoRoute(
-      path: Routes.booking.path,
-      name: Routes.booking.name,
-      pageBuilder: (context, routeState) {
-        final Trail? trail =
-            routeState.extra != null ? routeState.extra as Trail : null;
-        return CustomTransitionPage(
-          child: InheritedTrail(
-            trail: trail,
-            child: const BookingPage(),
-          ),
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnim, child) {
             return FadeTransition(
