@@ -66,7 +66,7 @@ class _MyAppState extends State<MyApp> {
       if (state is AuthError) {
         log(state.toString());
       } else if (state is Authenticated) {
-        session.login(state.user.id);
+        session.login(state.user);
       } else if (state is UnAuthenticated) {
         if (!state.keepCurrentUser) {
           session.logout();

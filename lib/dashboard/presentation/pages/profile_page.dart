@@ -23,7 +23,9 @@ class ProfilePage extends StatelessWidget {
       },
       child: Column(
         children: [
-          const ProfileHeader(),
+          ProfileHeader(
+            user: authState.user,
+          ),
           const SizedBox(
             height: 37,
           ),

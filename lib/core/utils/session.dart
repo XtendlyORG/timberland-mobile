@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:timberland_biketrail/features/authentication/data/models/user_model.dart';
+import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
 
 class Session extends ChangeNotifier {
   static final Session _instance = Session._();
@@ -9,17 +13,21 @@ class Session extends ChangeNotifier {
   late SharedPreferences _prefs;
 
   late bool _isLoggedIn;
-  late String? _currentUID;
+  late User? _currentUser;
   late DateTime? _lockAuthUntil;
 
   bool get isLoggedIn => _isLoggedIn;
-  String? get currentUID => _currentUID;
+  User? get currentUser => _currentUser;
   DateTime? get lockAuthUntil => _lockAuthUntil;
 
   Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
     _isLoggedIn = false;
-    _currentUID = _prefs.getString(_PrefKeys.uid);
+    final userJson = _prefs.getString(_PrefKeys.uid);
+    _currentUser = null;
+    if (userJson != null) {
+      _currentUser = UserModel.fromMap(json.decode(userJson));
+    }
 
     final lockUntil =
         DateTime.tryParse(_prefs.getString(_PrefKeys.lockAuthUntil) ?? '');
@@ -30,11 +38,11 @@ class Session extends ChangeNotifier {
             : lockUntil;
   }
 
-  void login(String uid) {
+  void login(User user) {
     _prefs.setBool(_PrefKeys.isLoggedIn, true);
     _isLoggedIn = true;
-    _prefs.setString(_PrefKeys.uid, uid);
-    _currentUID = uid;
+    _prefs.setString(_PrefKeys.uid, user.toJson());
+    _currentUser = user;
     notifyListeners();
   }
 
@@ -42,7 +50,7 @@ class Session extends ChangeNotifier {
     _prefs.setBool(_PrefKeys.isLoggedIn, false);
     _isLoggedIn = false;
     _prefs.remove(_PrefKeys.uid);
-    _currentUID = null;
+    _currentUser = null;
     notifyListeners();
   }
 

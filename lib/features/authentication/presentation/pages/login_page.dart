@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    signInWithFingerprint = Session().currentUID != null;
+    signInWithFingerprint = Session().currentUser != null;
     displayFingerPrintDialog = signInWithFingerprint;
   }
 

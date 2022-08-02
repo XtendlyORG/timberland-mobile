@@ -1,5 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 
 class User extends Equatable {
   final String id;
@@ -96,4 +99,28 @@ class User extends Equatable {
       accessCode: accessCode ?? this.accessCode,
     );
   }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'user_id': int.parse(id),
+      'firstname': firstName,
+      'middlename': middleName,
+      'lastname': lastName,
+      'profile_pic': profilePicUrl,
+      'gender': gender,
+      'birth_date':
+          birthday != null ? DateFormat('yyyMMdd').format(birthday!) : null,
+      'address': address,
+      'profession': profession,
+      'blood_type': bloodType,
+      'email': email,
+      'mobile_number': mobileNumber,
+      'model': bikeModel,
+      'year': int.tryParse(bikeYear ?? ''),
+      'color': bikeColor,
+      'access_code': accessCode,
+    };
+  }
+
+  String toJson() => json.encode(toMap());
 }
