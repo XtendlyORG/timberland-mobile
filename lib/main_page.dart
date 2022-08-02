@@ -47,9 +47,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     if (currentIndex != widget.selectedTabIndex) {
-      currentIndex = widget.selectedTabIndex < 2
-          ? widget.selectedTabIndex
-          : widget.selectedTabIndex - 1;
+      currentIndex = widget.selectedTabIndex;
       pageController.jumpToPage(
         currentIndex,
       );
@@ -109,7 +107,7 @@ class _MainPageState extends State<MainPage> {
                   configs: navbarConfigs,
                   onTap: (index) {
                     pageController.jumpToPage(
-                      index < 2 ? index : index - 1,
+                      index,
                     );
                   },
                 ),
@@ -126,7 +124,7 @@ class _MainPageState extends State<MainPage> {
                               WidgetsBinding.instance.focusManager.primaryFocus
                                   ?.unfocus();
 
-                              currentIndex = index < 2 ? index : index + 1;
+                              currentIndex = index;
 
                               context.goNamed(
                                 navbarConfigs[currentIndex].routeName,
@@ -140,12 +138,12 @@ class _MainPageState extends State<MainPage> {
                                 child: TrailRulesPage(),
                               ),
                               RepaintBoundary(
-                                child: ProfilePage(),
-                              ),
-                              RepaintBoundary(
                                 child: InheritedTrail(
                                   child: BookingPage(),
                                 ),
+                              ),
+                              RepaintBoundary(
+                                child: ProfilePage(),
                               ),
                             ],
                           ),

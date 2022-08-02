@@ -380,7 +380,7 @@ final appRouter = GoRouter(
                 routeState.extra != null ? routeState.extra as Trail : null;
             return CustomTransitionPage(
               child: const MainPage(
-                selectedTabIndex: 4,
+                selectedTabIndex: 2,
               ),
               transitionDuration: const Duration(milliseconds: 500),
               transitionsBuilder: (context, animation, secondaryAnim, child) {
