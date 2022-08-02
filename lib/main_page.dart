@@ -138,9 +138,7 @@ class _MainPageState extends State<MainPage> {
                                 child: TrailRulesPage(),
                               ),
                               RepaintBoundary(
-                                child: InheritedTrail(
-                                  child: BookingPage(),
-                                ),
+                                child: BookingPage(),
                               ),
                               RepaintBoundary(
                                 child: ProfilePage(),

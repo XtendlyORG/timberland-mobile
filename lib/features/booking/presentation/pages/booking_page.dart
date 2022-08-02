@@ -41,6 +41,9 @@ class BookingPage extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
+            const SizedBox(
+              height: kVerticalPadding,
+            ),
             BlocBuilder<AuthBloc, AuthState>(
               buildWhen: (previous, current) {
                 return current is Authenticated;
@@ -48,7 +51,6 @@ class BookingPage extends StatelessWidget {
               builder: (context, state) {
                 return BookingForm(
                   user: (state as Authenticated).user,
-                  trail: InheritedTrail.of(context).trail,
                 );
               },
             ),
