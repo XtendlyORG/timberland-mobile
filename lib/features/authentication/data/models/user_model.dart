@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import '../../domain/entities/user.dart';
 
 class UserModel extends User {
@@ -6,6 +8,7 @@ class UserModel extends User {
     required super.firstName,
     super.middleName,
     required super.lastName,
+    required super.profilePicUrl,
     required super.gender,
     required super.birthday,
     required super.address,
@@ -16,28 +19,32 @@ class UserModel extends User {
     required super.bikeModel,
     required super.bikeYear,
     required super.bikeColor,
-    required super.age,
     required super.accessCode,
   });
   factory UserModel.fromMap(Map<String, dynamic> map) {
+    map.forEach(
+      (key, value) {
+        log('$key:${value.runtimeType}');
+      },
+    );
     return UserModel(
-      id: map['id'] as String,
-      firstName: map['firstName'] as String,
+      id: (map['user_id'] as num?).toString(),
+      firstName: map['firstname'] as String,
       middleName:
-          map['middleName'] != null ? map['middleName'] as String : null,
-      lastName: map['lastName'] as String,
+          map['middlename'] != null ? map['middlename'] as String : null,
+      lastName: map['lastname'] as String,
+      profilePicUrl: map['profile_pic'] as String? ?? '',
       gender: map['gender'] as String,
-      birthday: DateTime.fromMillisecondsSinceEpoch(map['birthday'] as int),
+      birthday: DateTime.parse(map['birth_date'] as String),
       address: map['address'] as String,
       profession: map['profession'] as String,
-      bloodType: map['bloodType'] != null ? map['bloodType'] as String : null,
+      bloodType: map['blood_type'] != null ? map['blood_type'] as String : null,
       email: map['email'] as String,
-      mobileNumber: map['mobileNumber'] as String,
-      bikeModel: map['bikeModel'] != null ? map['bikeModel'] as String : null,
-      bikeYear: map['bikeYear'] != null ? map['bikeYear'] as String : null,
-      bikeColor: map['bikeColor'] != null ? map['bikeColor'] as String : null,
-      age: map['age'] as int,
-      accessCode: map['accessCode'] as String,
+      mobileNumber: map['mobile_number'] as String,
+      bikeModel: map['model'] != null ? map['model'] as String : null,
+      bikeYear: map['year'] != null ? (map['year'] as num).toString() : null,
+      bikeColor: map['color'] != null ? map['color'] as String : null,
+      accessCode: map['access_code'] as String,
     );
   }
 }

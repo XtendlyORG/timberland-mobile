@@ -1,10 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
-import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:timberland_biketrail/core/errors/failures.dart';
 import 'package:timberland_biketrail/core/utils/usecase.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
@@ -27,10 +27,10 @@ class RegisterParameter extends Equatable {
   final String firstName;
   final String? middleName;
   final String lastName;
-  final String gender;
-  final DateTime birthDay;
-  final String address;
-  final String profession;
+  final String? gender;
+  final DateTime? birthDay;
+  final String? address;
+  final String? profession;
   final String? bloodType;
   final String? email;
   final String? mobileNumber;
@@ -38,17 +38,17 @@ class RegisterParameter extends Equatable {
   final File? profilePic;
   final String? bikeModel;
   final String? bikeYear;
-  final Color? bikeColor;
+  final String? bikeColor;
   final String? password;
   const RegisterParameter({
     this.otp,
     required this.firstName,
     this.middleName,
     required this.lastName,
-    required this.gender,
-    required this.birthDay,
-    required this.address,
-    required this.profession,
+    this.gender,
+    this.birthDay,
+    this.address,
+    this.profession,
     this.bloodType,
     this.email,
     this.mobileNumber,
@@ -65,10 +65,10 @@ class RegisterParameter extends Equatable {
     return [
       firstName,
       lastName,
-      gender,
-      birthDay,
-      address,
-      profession,
+      if (gender != null) gender!,
+      if (birthDay != null) birthDay!,
+      if (address != null) address!,
+      if (profession != null) profession!,
     ];
   }
 
@@ -88,7 +88,7 @@ class RegisterParameter extends Equatable {
     File? profilePic,
     String? bikeModel,
     String? bikeYear,
-    Color? bikeColor,
+    String? bikeColor,
     String? password,
   }) {
     return RegisterParameter(
@@ -114,23 +114,21 @@ class RegisterParameter extends Equatable {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'firstName': firstName,
-      'middleName': middleName,
-      'lastName': lastName,
+      'firstname': firstName,
+      'middlename': middleName,
+      'lastname': lastName,
       'gender': gender,
-      'birthDay': birthDay.millisecondsSinceEpoch,
+      'birth_date':
+          birthDay != null ? DateFormat('yyy-MM-dd').format(birthDay!) : null,
       'address': address,
       'profession': profession,
-      'bloodType': bloodType,
+      'blood_type': bloodType,
       'email': email,
-      'mobileNumber': mobileNumber,
-      'emergencyContactInfo': emergencyContactInfo,
-      'profilePic': MultipartFile.fromFile(
-        profilePic!.path,
-      ),
-      'bikeModel': bikeModel,
-      'bikeYear': bikeYear,
-      'bikeColor': bikeColor?.value,
+      'mobile_number': mobileNumber,
+      'emergency_number': emergencyContactInfo,
+      'bike_model': bikeModel,
+      'bike_year': bikeYear,
+      'bike_color': bikeColor,
       'password': password,
     };
   }

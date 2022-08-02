@@ -37,22 +37,35 @@ class RemoteAuthenticator implements Authenticator {
   Future<User> login(LoginParameter loginParameter) async {
     try {
       final response = await dioClient.post(
-        '${environmentConfig.apihost}/users/register',
-        data: json.encode({
+        '${environmentConfig.apihost}/users/login',
+        data: {
           'email': loginParameter.email,
           'password': loginParameter.password,
-        }),
+        },
       );
       if (response.statusCode == 200) {
-        if (response.data.runtimeType is! Map<String, dynamic>) {
-          throw AuthException(message: response.data);
-        }
+        log(response.data.toString());
         return UserModel.fromMap(response.data);
       }
-      log(response.data.toString());
+
       throw AuthException(message: "Server Error");
     } on AuthException {
       rethrow;
+    } on DioError catch (dioError) {
+      log(dioError.response?.statusCode?.toString() ?? "statuscode: null");
+      if ((dioError.response?.statusCode ?? -1) == 400) {
+        throw AuthException(
+          message: dioError.response?.data?.toString() ?? 'Login Failed',
+        );
+      } else if ((dioError.response?.statusCode ?? -1) == 502) {
+        throw AuthException(
+          message:
+              dioError.response?.data?.toString() ?? 'Internal Server Error',
+        );
+      }
+      throw AuthException(
+        message: "Error Occurred",
+      );
     } catch (e) {
       log(e.toString());
       throw AuthException(message: "An Error Occurred");
@@ -68,20 +81,37 @@ class RemoteAuthenticator implements Authenticator {
   @override
   Future<void> sendOtp(RegisterParameter registerParameter) async {
     try {
+      final profilePic = await MultipartFile.fromFile(
+        registerParameter.profilePic!.path,
+      );
       final response = await dioClient.post(
         '${environmentConfig.apihost}/users/register',
         data: FormData.fromMap(
-          registerParameter.toMap(),
+          registerParameter.toMap()
+            ..addEntries(
+              {'profile_pic': profilePic}.entries,
+            ),
         ),
       );
-      log(response.statusCode.toString());
       if (response.statusCode == 200) {
         log(response.data.toString());
+        return;
       }
-      log(response.data.toString());
-      throw AuthException(message: "Server Error");
-    } on AuthException {
-      rethrow;
+      throw Exception();
+    } on DioError catch (dioError) {
+      if ((dioError.response?.statusCode ?? -1) == 400) {
+        throw AuthException(
+          message: dioError.response?.data?.toString() ?? 'Failed to send OTP',
+        );
+      } else if ((dioError.response?.statusCode ?? -1) == 502) {
+        throw AuthException(
+          message:
+              dioError.response?.data?.toString() ?? 'Internal Server Error',
+        );
+      }
+      throw AuthException(
+        message: "Error Occurred",
+      );
     } catch (e) {
       log(e.toString());
       throw AuthException(message: "An Error Occurred");
@@ -92,7 +122,10 @@ class RemoteAuthenticator implements Authenticator {
   Future<User> register(RegisterParameter registerParameter) async {
     try {
       final body = json.encode(
-        {'otp': registerParameter.otp},
+        {
+          'otp': registerParameter.otp,
+          'email': registerParameter.email,
+        },
       );
       log(body);
       final response = await dioClient.post(
@@ -128,6 +161,22 @@ class RemoteAuthenticator implements Authenticator {
       throw AuthException(message: "Server Error");
     } on AuthException {
       rethrow;
+    } on DioError catch (dioError) {
+      log(dioError.response?.statusCode?.toString() ?? 'statuscode: -1');
+      log(dioError.response?.data ?? "no message");
+      if ((dioError.response?.statusCode ?? -1) == 400) {
+        throw AuthException(
+          message: dioError.response?.data?.toString() ?? 'Failed to send OTP',
+        );
+      } else if ((dioError.response?.statusCode ?? -1) == 502) {
+        throw AuthException(
+          message:
+              dioError.response?.data?.toString() ?? 'Internal Server Error',
+        );
+      }
+      throw AuthException(
+        message: "Error Occurred",
+      );
     } catch (e) {
       log(e.toString());
       throw AuthException(message: "An Error Occurred");

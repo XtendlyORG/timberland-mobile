@@ -42,7 +42,6 @@ class RegistrationContinuationForm extends StatelessWidget {
     final bikeModelCtrl = TextEditingController();
     final bikeYearCtrl = TextEditingController();
     final bikeColorCtrl = TextEditingController();
-    Color? bikeColor;
 
     bool agreedToTermsOfUse = false;
 
@@ -231,7 +230,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                             emergencyContactInfo: emergencyContactsCtrl.text,
                             bikeModel: bikeModelCtrl.text,
                             bikeYear: bikeYearCtrl.text,
-                            bikeColor: bikeColor,
+                            bikeColor: bikeColorCtrl.text,
                             profilePic: imageFile,
                           ),
                         ),

@@ -40,7 +40,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             profession: 'Fake Profession',
             email: 'johnSmith@email.com',
             mobileNumber: '9123456789',
-            age: 20,
+            profilePicUrl: 'https://static.vecteezy.com/system/resources/previews/002/534/006/non_2x/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg',
             accessCode: 'access-code',
           ),
           message: 'Logged In',
@@ -98,7 +98,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(
             OtpSent(
               registerParameter: event.registerParameter,
-              message: 'Failed to send OTP',
+              message: l.message,
             ),
           );
         },

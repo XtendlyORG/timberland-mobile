@@ -45,9 +45,15 @@ class RegistrationForm extends StatelessWidget {
       middleNameCtrl.text = user!.middleName ?? '';
       selectedGender = user!.gender;
       birthday = user!.birthday;
-      birthdayCtrl.text = DateFormat.yMMMMd('en_US').format(birthday);
-      addressCtrl.text = user!.address;
-      professionCtrl.text = user!.profession;
+      if (birthday != null) {
+        birthdayCtrl.text = DateFormat.yMMMMd('en_US').format(birthday);
+      }
+      if (user!.address != null) {
+        addressCtrl.text = user!.address!;
+      }
+      if (user!.profession != null) {
+        professionCtrl.text = user!.profession!;
+      }
     }
 
     return Form(
