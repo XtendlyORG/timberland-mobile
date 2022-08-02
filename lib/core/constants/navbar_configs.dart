@@ -29,7 +29,7 @@ final List<BottomNavBarConfigs> navbarConfigs = [
       width: 24,
       color: TimberlandColor.primary,
     ),
-    label: 'Booking',
+    label: 'Book Now',
     routeName: Routes.booking.name,
   ),
   BottomNavBarConfigs(
