@@ -7,18 +7,7 @@ abstract class BookingEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
-class FetchTrailAvailabilityEvent extends BookingEvent {
-  final Trail trail;
-  const FetchTrailAvailabilityEvent({
-    required this.trail,
-  });
-}
 
-class FetchAllTrailsBookingEvent extends BookingEvent {}
-
-class PopulateTrailsEvent extends BookingEvent {
-  final List<Trail> trails;
-  const PopulateTrailsEvent({
-    required this.trails,
-  });
+class FetchAvailabilityEvent extends BookingEvent {
+  const FetchAvailabilityEvent();
 }

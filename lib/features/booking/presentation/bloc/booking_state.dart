@@ -13,20 +13,5 @@ class BookingInitial extends BookingState {}
 class LoadingBookingAvailability extends BookingState {}
 
 class BookingAvailabilityLoaded extends BookingState {
-  final List<Trail> trails;
-  final Trail? chosenTrail;
-  const BookingAvailabilityLoaded({
-    required this.trails,
-    this.chosenTrail,
-  });
-
-  BookingAvailabilityLoaded copyWith({
-    List<Trail>? trails,
-    Trail? chosenTrail,
-  }) {
-    return BookingAvailabilityLoaded(
-      trails: trails ?? this.trails,
-      chosenTrail: chosenTrail ?? this.chosenTrail,
-    );
-  }
+  const BookingAvailabilityLoaded();
 }

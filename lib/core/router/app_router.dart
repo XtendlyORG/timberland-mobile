@@ -376,8 +376,6 @@ final appRouter = GoRouter(
           path: Routes.booking.asSubPath(),
           name: Routes.booking.name,
           pageBuilder: (context, routeState) {
-            final Trail? trail =
-                routeState.extra != null ? routeState.extra as Trail : null;
             return CustomTransitionPage(
               child: const MainPage(
                 selectedTabIndex: 2,

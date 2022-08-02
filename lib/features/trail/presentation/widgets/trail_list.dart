@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants/constants.dart';
-import '../../../booking/presentation/bloc/booking_bloc.dart';
 import '../../domain/params/fetch_trails.dart';
 import '../bloc/trail_bloc.dart';
 import 'trail_widget.dart';
@@ -36,11 +35,6 @@ class TrailList extends StatelessWidget {
           );
         }
         if (state is TrailsLoaded) {
-          if (BlocProvider.of<BookingBloc>(context).state is BookingInitial) {
-            // populate list of trails in booking form
-            BlocProvider.of<BookingBloc>(context)
-                .add(PopulateTrailsEvent(trails: state.trails));
-          }
           if (state.trails.isEmpty) {
             return Center(
               child: Text(
