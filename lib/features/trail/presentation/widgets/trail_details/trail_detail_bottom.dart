@@ -62,9 +62,8 @@ class TrailDetailBottom extends StatelessWidget {
                     Expanded(
                       child: FilledTextButton(
                         onPressed: () {
-                          context.pushNamed(
+                          context.goNamed(
                             Routes.booking.name,
-                            extra: trail,
                           );
                         },
                         child: const Text("Book Now"),
