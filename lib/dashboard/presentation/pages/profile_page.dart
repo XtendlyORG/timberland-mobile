@@ -27,7 +27,7 @@ class ProfilePage extends StatelessWidget {
             user: authState.user,
           ),
           const SizedBox(
-            height: 37,
+            height: 10,
           ),
           Container(
             alignment: Alignment.centerLeft,

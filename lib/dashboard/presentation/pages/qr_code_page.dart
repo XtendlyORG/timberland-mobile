@@ -2,9 +2,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/profile_avatar.dart';
 
 import '../../../core/constants/constants.dart';
+import '../../../core/presentation/widgets/profile_avatar.dart';
 import '../../../core/presentation/widgets/widgets.dart';
 import '../../../features/authentication/presentation/bloc/auth_bloc.dart';
 
