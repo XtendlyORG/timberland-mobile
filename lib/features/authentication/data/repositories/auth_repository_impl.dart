@@ -4,11 +4,8 @@ import 'package:timberland_biketrail/core/errors/exceptions.dart';
 import 'package:timberland_biketrail/core/errors/failures.dart';
 import 'package:timberland_biketrail/features/authentication/data/datasources/authenticator.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
+import 'package:timberland_biketrail/features/authentication/domain/params/params.dart';
 import 'package:timberland_biketrail/features/authentication/domain/repositories/auth_repository.dart';
-import 'package:timberland_biketrail/features/authentication/domain/usecases/forgot_password.dart';
-import 'package:timberland_biketrail/features/authentication/domain/usecases/login.dart';
-import 'package:timberland_biketrail/features/authentication/domain/usecases/register.dart';
-import 'package:timberland_biketrail/features/authentication/domain/usecases/reset_password.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final Authenticator authenticator;

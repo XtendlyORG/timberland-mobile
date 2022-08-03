@@ -1,8 +1,6 @@
+import 'package:timberland_biketrail/features/authentication/domain/params/params.dart';
+
 import '../../domain/entities/user.dart';
-import '../../domain/usecases/forgot_password.dart';
-import '../../domain/usecases/login.dart';
-import '../../domain/usecases/register.dart';
-import '../../domain/usecases/reset_password.dart';
 import '../models/user_model.dart';
 import 'authenticator.dart';
 
@@ -11,7 +9,7 @@ final UserModel fakeUser = UserModel(
   firstName: 'John',
   lastName: 'Smith',
   gender: 'Male',
-  birthday: DateTime(2002,5,8),
+  birthday: DateTime(2002, 5, 8),
   address: '123 Fake Address',
   profession: 'Fake Profession',
   email: 'johnSmith@email.com',

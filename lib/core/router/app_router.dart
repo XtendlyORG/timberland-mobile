@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/404_page.dart';
+import 'package:timberland_biketrail/features/authentication/domain/params/register.dart';
 
 import '../../dashboard/presentation/pages/qr_code_page.dart';
 import '../../dashboard/presentation/pages/update_profile_page.dart';
@@ -12,7 +13,6 @@ import '../../features/app_infos/presentation/bloc/app_info_bloc.dart';
 import '../../features/app_infos/presentation/pages/contacts_page.dart';
 import '../../features/app_infos/presentation/pages/faqs_page.dart';
 import '../../features/authentication/domain/entities/user.dart';
-import '../../features/authentication/domain/usecases/register.dart';
 import '../../features/authentication/presentation/pages/forgot_password.dart';
 import '../../features/authentication/presentation/pages/otp_verification_page.dart';
 import '../../features/authentication/presentation/pages/pages.dart';
@@ -99,10 +99,9 @@ final appRouter = GoRouter(
                   String firstName,
                   String? middleName,
                   String lastName,
-                  String selectedGender,
-                  DateTime birthday,
-                  String? address,
-                  String? profession,
+                  String email,
+                  String password,
+                  String mobileNumber,
                 ) {
                   ctx.pushNamed(
                     Routes.registerContinuation.name,
@@ -110,10 +109,9 @@ final appRouter = GoRouter(
                       firstName: firstName,
                       middleName: middleName,
                       lastName: lastName,
-                      gender: selectedGender,
-                      birthDay: birthday,
-                      address: address ?? 'Address',
-                      profession: profession ?? 'Profession',
+                      email: email,
+                      password: password,
+                      mobileNumber: mobileNumber,
                     ),
                   );
                 },
