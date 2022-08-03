@@ -1,12 +1,9 @@
 import 'package:dartz/dartz.dart';
+import 'package:timberland_biketrail/features/authentication/domain/params/params.dart';
 
 import '../../../../core/errors/failures.dart';
 import '../../../../core/utils/repository.dart';
 import '../entities/user.dart';
-import '../usecases/forgot_password.dart';
-import '../usecases/login.dart';
-import '../usecases/register.dart';
-import '../usecases/reset_password.dart';
 
 abstract class AuthRepository extends Repository {
   Future<Either<AuthFailure, User>> login(LoginParameter params);

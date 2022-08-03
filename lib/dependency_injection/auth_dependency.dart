@@ -1,7 +1,5 @@
-import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
-import '../core/configs/environment_configs.dart';
 import '../features/authentication/data/datasources/authenticator.dart';
 import '../features/authentication/data/datasources/remote_authenticator.dart';
 import '../features/authentication/data/repositories/auth_repository_impl.dart';
@@ -21,8 +19,8 @@ void init() {
   );
   serviceLocator.registerLazySingleton<Authenticator>(
     () => RemoteAuthenticator(
-      dioClient: serviceLocator<Dio>(),
-      environmentConfig: serviceLocator<EnvironmentConfig>(),
+      dioClient: serviceLocator(),
+      environmentConfig: serviceLocator(),
     ),
   );
 }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timberland_biketrail/features/authentication/domain/params/register.dart';
+import 'package:timberland_biketrail/features/authentication/domain/params/update_profile.dart';
 
 import '../../../core/constants/constants.dart';
 import '../../../features/authentication/domain/entities/user.dart';
-import '../../../features/authentication/domain/usecases/register.dart';
 import '../../../features/authentication/presentation/widgets/registration_form.dart';
 import '../../../features/authentication/presentation/widgets/registration_form_continuation.dart';
 import '../bloc/profile_bloc.dart';
@@ -21,8 +22,23 @@ class UpdateProfileForm extends StatelessWidget {
     return BlocBuilder<ProfileBloc, ProfileState>(
       builder: (context, state) {
         if (state is ProfileInitial) {
-          BlocProvider.of<ProfileBloc>(context)
-              .add(UpdateProfileEvent(user: user));
+          BlocProvider.of<ProfileBloc>(context).add(UpdateProfileEvent(
+            user: UpdateProfileParams(
+              firstName: user.firstName,
+              middleName: user.middleName,
+              lastName: user.lastName,
+              email: user.email,
+              mobileNumber: user.mobileNumber,
+              address: user.address,
+              gender: user.gender,
+              birthDay: user.birthday,
+              bloodType: user.bloodType,
+              profession: user.profession,
+              bikeColor: user.bikeColor,
+              bikeModel: user.bikeModel,
+              bikeYear: user.bikeYear,
+            ),
+          ));
         }
         if (state is UpdatingProfile && state.pageNum == 1) {
           return Padding(
@@ -38,26 +54,23 @@ class UpdateProfileForm extends StatelessWidget {
                 ),
                 Builder(builder: (ctx) {
                   return RegistrationForm(
-                    user: state.user,
+                    user: state.updatedUser,
                     onSumbit: (
                       String firstName,
                       String? middleName,
                       String lastName,
-                      String selectedGender,
-                      DateTime birthday,
-                      String? address,
-                      String? profession,
+                      String email,
+                      String password,
+                      String mobileNumber,
                     ) {
                       BlocProvider.of<ProfileBloc>(context).add(
                         NavigateToNextPage(
-                          user: state.user.copyWith(
+                          updatedUser: state.updatedUser.copyWith(
                             firstName: firstName,
                             lastName: lastName,
                             middleName: middleName,
-                            gender: selectedGender,
-                            birthday: birthday,
-                            address: address,
-                            profession: profession,
+                            email: email,
+                            mobileNumber: mobileNumber,
                           ),
                         ),
                       );
@@ -74,14 +87,14 @@ class UpdateProfileForm extends StatelessWidget {
                 left: kHorizontalPadding,
                 right: kHorizontalPadding),
             child: RegistrationContinuationForm(
-              user: state.user,
+              user: state.updatedUser,
               registerParameter: RegisterParameter(
-                firstName: state.user.firstName,
-                lastName: state.user.lastName,
-                gender: state.user.gender,
-                birthDay: state.user.birthday,
-                address: state.user.address,
-                profession: state.user.profession,
+                firstName: state.updatedUser.firstName,
+                middleName: state.updatedUser.middleName,
+                lastName: state.updatedUser.lastName,
+                email: state.updatedUser.email,
+                password: '',
+                mobileNumber: state.updatedUser.mobileNumber,
               ),
             ),
           );

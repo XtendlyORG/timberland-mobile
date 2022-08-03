@@ -78,8 +78,7 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
                   ),
                   TextButton(
                     onPressed: () {
-                      widget.controller.text =
-                          '${start.format(context)} - ${end.format(context)}';
+                      widget.controller.text = start.format(context);
                       Navigator.pop(context);
                     },
                     child: const Text('DONE'),
@@ -101,30 +100,6 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
                           onChange: (time) {
                             start = time;
                             log('start :${start.format(context)}');
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: kVerticalPadding),
-                        child: Text(
-                          'to',
-                          style: style.copyWith(
-                            fontWeight: FontWeight.w300,
-                            fontSize: style.fontSize != null
-                                ? style.fontSize! * 1.75
-                                : null,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      Expanded(
-                        child: TimePickerSpinner(
-                          initialTime: end,
-                          textStyle: style,
-                          onChange: (time) {
-                            end = time;
-                            log('end :${end.format(context)}');
                           },
                         ),
                       ),

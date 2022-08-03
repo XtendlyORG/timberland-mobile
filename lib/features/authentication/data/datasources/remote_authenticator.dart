@@ -1,25 +1,21 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:timberland_biketrail/core/configs/environment_configs.dart';
 import 'package:timberland_biketrail/core/errors/exceptions.dart';
+import 'package:timberland_biketrail/features/authentication/domain/params/params.dart';
 
 import '../../domain/entities/user.dart';
-import '../../domain/usecases/forgot_password.dart';
-import '../../domain/usecases/login.dart';
-import '../../domain/usecases/register.dart';
-import '../../domain/usecases/reset_password.dart';
 import '../models/user_model.dart';
 import 'authenticator.dart';
 
 class RemoteAuthenticator implements Authenticator {
-  final EnvironmentConfig environmentConfig;
   final Dio dioClient;
-  RemoteAuthenticator({
-    required this.environmentConfig,
+  final EnvironmentConfig environmentConfig;
+  const RemoteAuthenticator({
     required this.dioClient,
+    required this.environmentConfig,
   });
   @override
   Future<User> facebookAuth() {
@@ -93,12 +89,16 @@ class RemoteAuthenticator implements Authenticator {
             ),
         ),
       );
+      log(response.statusCode.toString());
       if (response.statusCode == 200) {
-        log(response.data.toString());
         return;
       }
-      throw Exception();
+      throw AuthException();
+    } on AuthException {
+      rethrow;
     } on DioError catch (dioError) {
+      log(dioError.response?.statusCode?.toString() ?? "statuscode: null");
+      log(dioError.response?.data.toString() ?? 'no data');
       if ((dioError.response?.statusCode ?? -1) == 400) {
         throw AuthException(
           message: dioError.response?.data?.toString() ?? 'Failed to send OTP',
@@ -134,7 +134,7 @@ class RemoteAuthenticator implements Authenticator {
       );
       log(response.statusCode.toString());
       if (response.statusCode == 200) {
-        log(response.data);
+        log(response.data.toString());
         if (response.data is Map<String, dynamic>) {
           return UserModel.fromMap(response.data);
           // return User(

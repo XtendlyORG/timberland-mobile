@@ -19,18 +19,15 @@ import 'trail_list_dropdown.dart';
 class BookingForm extends StatefulWidget {
   const BookingForm({
     Key? key,
-    required this.trail,
     required this.user,
   }) : super(key: key);
 
-  final Trail? trail;
   final User user;
   @override
   State<BookingForm> createState() => _BookingFormState();
 }
 
 class _BookingFormState extends State<BookingForm> {
-  late Trail? selectedTrail;
   late final GlobalKey<FormState> formKey;
   late DateTime? chosenDate;
   late TextEditingController dateCtrl;
@@ -41,7 +38,6 @@ class _BookingFormState extends State<BookingForm> {
 
   @override
   void initState() {
-    selectedTrail = widget.trail;
     formKey = GlobalKey<FormState>();
     chosenDate = null;
     dateCtrl = TextEditingController();
@@ -63,7 +59,7 @@ class _BookingFormState extends State<BookingForm> {
       buildWhen: (previous, current) {
         if (current is BookingInitial) {
           BlocProvider.of<BookingBloc>(context).add(
-            FetchAllTrailsBookingEvent(),
+            const FetchAvailabilityEvent(),
           );
         }
         return current is BookingAvailabilityLoaded;
@@ -71,33 +67,13 @@ class _BookingFormState extends State<BookingForm> {
       builder: (context, state) {
         if (state is! BookingAvailabilityLoaded) {
           BlocProvider.of<BookingBloc>(context)
-              .add(FetchAllTrailsBookingEvent());
+              .add(const FetchAvailabilityEvent());
         }
         if (state is BookingAvailabilityLoaded) {
           return Form(
             key: formKey,
             child: Column(
               children: [
-                Container(
-                  margin: const EdgeInsets.only(
-                    bottom: kVerticalPadding,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text("Trail"),
-                      TrailListDropDown(
-                        selectedTrail: selectedTrail,
-                        trails: state.trails,
-                        onChanged: (selected) {
-                          setState(() {
-                            selectedTrail = selected;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ),
                 Container(
                   margin: const EdgeInsets.only(
                     bottom: kVerticalPadding,
@@ -112,7 +88,7 @@ class _BookingFormState extends State<BookingForm> {
                             ExcludeFocus(
                               child: BookingDatePicker(
                                 controller: dateCtrl,
-                                enabled: selectedTrail != null,
+                                enabled: true,
                                 onSubmit: (value) {
                                   if (value is DateTime) {
                                     chosenDate = value;
@@ -133,11 +109,11 @@ class _BookingFormState extends State<BookingForm> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('Time'),
+                            const Text('Take Off Time'),
                             ExcludeFocus(
                               child: BookingTimePicker(
                                 controller: timeRangeCtrl,
-                                enabled: selectedTrail != null,
+                                enabled: true,
                                 onSubmit: (value) {},
                               ),
                             ),
@@ -160,8 +136,8 @@ class _BookingFormState extends State<BookingForm> {
                         decoration: const InputDecoration(
                           hintText: "Full Name",
                         ),
-                        validator: (fullName){
-                          if(fullName == null || fullName.isEmpty){
+                        validator: (fullName) {
+                          if (fullName == null || fullName.isEmpty) {
                             return 'Field can not be emtpy.';
                           }
                           return null;
@@ -203,7 +179,7 @@ class _BookingFormState extends State<BookingForm> {
                   child: FilledTextButton(
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        log('selected trail: ${selectedTrail?.difficulty.name}');
+                        log('Booked');
                       }
                     },
                     child: const Text("Submit"),

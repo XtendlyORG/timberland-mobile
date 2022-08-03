@@ -6,8 +6,11 @@ import 'package:intl/intl.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/date_picker.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/form_fields/email_field.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/form_fields/form_fields.dart';
 import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
+import 'package:timberland_biketrail/features/authentication/domain/params/update_profile.dart';
 
 class RegistrationForm extends StatelessWidget {
   const RegistrationForm({
@@ -20,12 +23,11 @@ class RegistrationForm extends StatelessWidget {
     String firstName,
     String? middleName,
     String lastName,
-    String selectedGender,
-    DateTime birthday,
-    String? address,
-    String? profession,
+    String email,
+    String password,
+    String mobileNumber,
   ) onSumbit;
-  final User? user;
+  final UpdateProfileParams? user;
 
   @override
   Widget build(BuildContext context) {
@@ -33,27 +35,16 @@ class RegistrationForm extends StatelessWidget {
     final firstNameCtrl = TextEditingController();
     final middleNameCtrl = TextEditingController();
     final lastNameCtrl = TextEditingController();
-    String? selectedGender;
-    final birthdayCtrl = TextEditingController();
-    DateTime? birthday;
-    final addressCtrl = TextEditingController();
-    final professionCtrl = TextEditingController();
+    final emailCtrl = TextEditingController();
+    final passwordCtrl = TextEditingController();
+    final mobileNumberCtrl = TextEditingController();
 
     if (user != null) {
       firstNameCtrl.text = user!.firstName;
       lastNameCtrl.text = user!.lastName;
       middleNameCtrl.text = user!.middleName ?? '';
-      selectedGender = user!.gender;
-      birthday = user!.birthday;
-      if (birthday != null) {
-        birthdayCtrl.text = DateFormat.yMMMMd('en_US').format(birthday);
-      }
-      if (user!.address != null) {
-        addressCtrl.text = user!.address!;
-      }
-      if (user!.profession != null) {
-        professionCtrl.text = user!.profession!;
-      }
+      emailCtrl.text = user!.email;
+      mobileNumberCtrl.text = user!.mobileNumber;
     }
 
     return Form(
@@ -102,89 +93,27 @@ class RegistrationForm extends StatelessWidget {
             margin: const EdgeInsets.only(
               bottom: kVerticalPadding,
             ),
-            child: DropdownButtonFormField<String>(
-              items: kGenderDropDownItems
-                  .map(
-                    (category) => DropdownMenuItem<String>(
-                      value: category,
-                      child: Text(category),
-                    ),
-                  )
-                  .toList(),
-              onChanged: (selected) {
-                selectedGender = selected ?? selectedGender;
-              },
-              value: selectedGender,
-              borderRadius: BorderRadius.circular(10),
-              hint: const Text('Gender'),
-              decoration: const InputDecoration(),
-              validator: (gender) {
-                return nonEmptyValidator(gender,
-                    errorMessage: 'Please select a gender');
-              },
+            child: EmailField(
+              controller: emailCtrl,
             ),
           ),
+          if (user == null)
+            Container(
+              margin: const EdgeInsets.only(
+                bottom: kVerticalPadding,
+              ),
+              child: PasswordField(
+                controller: passwordCtrl,
+                textInputAction: TextInputAction.next,
+              ),
+            ),
           Container(
             margin: const EdgeInsets.only(
               bottom: kVerticalPadding,
             ),
-            child: ExcludeFocus(
-              child: TextFormField(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return Dialog(
-                        child: CustomDatePicker(
-                          maxDate: DateTime(
-                            DateTime.now().year - 18,
-                            DateTime.now().month,
-                            DateTime.now().day,
-                          ),
-                          onSumbit: (value) {
-                            if (value is DateTime) {
-                              birthday = value;
-                              log(birthday.toString());
-                              birthdayCtrl.text =
-                                  DateFormat.yMMMMd('en_US').format(value);
-                            }
-                          },
-                        ),
-                      );
-                    },
-                  );
-                },
-                controller: birthdayCtrl,
-                validator: nonEmptyValidator,
-                decoration: const InputDecoration(
-                  hintText: 'Date of Birth',
-                ),
-              ),
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(
-              bottom: kVerticalPadding,
-            ),
-            child: TextFormField(
-              controller: addressCtrl,
-              validator: nonEmptyValidator,
-              decoration: const InputDecoration(
-                hintText: 'Address',
-              ),
-              textInputAction: TextInputAction.next,
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(
-              bottom: kVerticalPadding,
-            ),
-            child: TextFormField(
-              controller: professionCtrl,
-              validator: nonEmptyValidator,
-              decoration: const InputDecoration(
-                hintText: 'Profession',
-              ),
+            child: MobileNumberField(
+              controller: mobileNumberCtrl,
+              hintText: 'Mobile Number',
               textInputAction: TextInputAction.next,
             ),
           ),
@@ -202,10 +131,9 @@ class RegistrationForm extends StatelessWidget {
                         firstNameCtrl.text,
                         middleNameCtrl.text,
                         lastNameCtrl.text,
-                        selectedGender!,
-                        birthday!,
-                        addressCtrl.text,
-                        professionCtrl.text,
+                        emailCtrl.text,
+                        passwordCtrl.text,
+                        mobileNumberCtrl.text,
                       );
                     }
                   },

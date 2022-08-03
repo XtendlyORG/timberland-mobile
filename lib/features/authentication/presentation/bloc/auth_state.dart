@@ -25,7 +25,11 @@ class OtpSent extends AuthState {
     required this.message,
   });
   @override
-  List<Object> get props => super.props..addAll([registerParameter,message]);
+  List<Object> get props => super.props
+    ..addAll([
+      registerParameter,
+      message,
+    ]);
 }
 
 class Authenticated extends AuthState {

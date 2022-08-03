@@ -11,6 +11,7 @@ import 'package:timberland_biketrail/dashboard/presentation/pages/profile_page.d
 import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard.dart';
 import 'package:timberland_biketrail/features/app_infos/presentation/pages/trail_rules.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:timberland_biketrail/features/booking/presentation/pages/booking_page.dart';
 import 'package:timberland_biketrail/features/trail/presentation/pages/trail_directory.dart';
 
 class MainPage extends StatefulWidget {
@@ -106,7 +107,7 @@ class _MainPageState extends State<MainPage> {
                   configs: navbarConfigs,
                   onTap: (index) {
                     pageController.jumpToPage(
-                      index < 2 ? index : index - 1,
+                      index,
                     );
                   },
                 ),
@@ -123,7 +124,7 @@ class _MainPageState extends State<MainPage> {
                               WidgetsBinding.instance.focusManager.primaryFocus
                                   ?.unfocus();
 
-                              currentIndex = index < 2 ? index : index + 1;
+                              currentIndex = index;
 
                               context.goNamed(
                                 navbarConfigs[currentIndex].routeName,
@@ -135,6 +136,9 @@ class _MainPageState extends State<MainPage> {
                               ),
                               RepaintBoundary(
                                 child: TrailRulesPage(),
+                              ),
+                              RepaintBoundary(
+                                child: BookingPage(),
                               ),
                               RepaintBoundary(
                                 child: ProfilePage(),

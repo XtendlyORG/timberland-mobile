@@ -8,8 +8,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
+import 'package:timberland_biketrail/features/authentication/domain/params/params.dart';
 import 'package:timberland_biketrail/features/authentication/domain/repositories/auth_repository.dart';
-import 'package:timberland_biketrail/features/authentication/domain/usecases/usecases.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -34,24 +34,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           user: Session().currentUser!,
         ),
       );
-      // emit(
-      //   Authenticated(
-      //     user: User(
-      //       id: 'user-id',
-      //       firstName: 'John',
-      //       lastName: 'Smith',
-      //       gender: 'Male',
-      //       birthday: DateTime(2002, 5, 8),
-      //       address: '123 Fake Address',
-      //       profession: 'Fake Profession',
-      //       email: 'johnSmith@email.com',
-      //       mobileNumber: '9123456789',
-      //       profilePicUrl: 'https://static.vecteezy.com/system/resources/previews/002/534/006/non_2x/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg',
-      //       accessCode: 'access-code',
-      //     ),
-      //     message: 'Logged In',
-      //   ),
-      // );
     });
 
     on<LockAuthEvent>((event, emit) {
@@ -124,11 +106,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final result = await repository.register(event.registerParameter);
       result.fold(
         (failure) {
-          // emit(AuthError(errorMessage: failure.message));
-          emit(OtpSent(
-            registerParameter: event.registerParameter,
-            message: failure.message,
-          ));
+          emit(AuthError(errorMessage: failure.message));
         },
         (user) {
           emit(

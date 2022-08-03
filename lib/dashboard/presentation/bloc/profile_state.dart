@@ -12,15 +12,16 @@ class ProfileInitial extends ProfileState {}
 
 class UpdatingProfile extends ProfileState {
   final int pageNum;
-  final User user;
+  final UpdateProfileParams updatedUser;
+  
   const UpdatingProfile({
     required this.pageNum,
-    required this.user,
+    required this.updatedUser,
   });
 
   @override
   // TODO: implement props
-  List<Object> get props => super.props..addAll([pageNum, user]);
+  List<Object> get props => super.props..addAll([pageNum, updatedUser]);
 }
 
 class ProfileUpdated extends ProfileState {}

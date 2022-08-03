@@ -5,6 +5,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_logo.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
@@ -14,10 +15,12 @@ import 'package:timberland_biketrail/features/authentication/presentation/widget
 class AuthPageContainer extends StatelessWidget {
   final Widget child;
   final Alignment alignment;
+  final ScrollBehavior? scrollBehavior;
   const AuthPageContainer({
     Key? key,
     required this.child,
     this.alignment = Alignment.center,
+    this.scrollBehavior,
   }) : super(key: key);
 
   @override
@@ -32,8 +35,7 @@ class AuthPageContainer extends StatelessWidget {
             builder: (context) {
               return Dialog(
                 child: AuthLockedWidget(
-                  duration:
-                      state.lockUntil.difference(DateTime.now()).inSeconds,
+                  duration: state.lockUntil.difference(DateTime.now()).inSeconds,
                 ),
               );
             },
@@ -68,7 +70,9 @@ class AuthPageContainer extends StatelessWidget {
                       height: 24,
                       width: 24,
                       child: RepaintBoundary(
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator(
+                          
+                        ),
                       ),
                     ),
                     const SizedBox(width: kVerticalPadding),
@@ -79,18 +83,6 @@ class AuthPageContainer extends StatelessWidget {
                       ),
                     ),
                   ],
-                ),
-              ),
-            );
-        }
-        if (state is AuthError) {
-          ScaffoldMessenger.of(context)
-            ..clearSnackBars()
-            ..showSnackBar(
-              SnackBar(
-                content: AutoSizeText(
-                  state.errorMessage,
-                  maxLines: 1,
                 ),
               ),
             );
@@ -107,7 +99,7 @@ class AuthPageContainer extends StatelessWidget {
               ),
             );
         }
-        if (state is UserGuideFinished) {
+        if(state is UserGuideFinished){
           context.goNamed(Routes.booking.name);
         }
       },
@@ -129,36 +121,40 @@ class AuthPageContainer extends StatelessWidget {
           ),
           Align(
             alignment: Alignment.topCenter,
-            child: ListView(
-              shrinkWrap: true,
-              padding: EdgeInsets.zero,
-              children: [
-                const Align(
-                  alignment: Alignment.topCenter,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: kToolbarHeight / 2),
-                    child: TimberlandLogo(),
+            child: ScrollConfiguration(
+              behavior: scrollBehavior?? const ScrollBehavior(),
+              child: ListView(
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                
+                children: [
+                  const Align(
+                    alignment: Alignment.topCenter,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: kToolbarHeight / 2),
+                      child: TimberlandLogo(),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: kHorizontalPadding,
-                    // vertical: kVerticalPadding,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          top: kVerticalPadding * 2,
-                          bottom: kVerticalPadding,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: kHorizontalPadding,
+                      // vertical: kVerticalPadding,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: kVerticalPadding * 2,
+                            bottom: kVerticalPadding,
+                          ),
+                          child: child,
                         ),
-                        child: child,
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],

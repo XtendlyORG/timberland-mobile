@@ -40,8 +40,8 @@ class PaymentHistoryWidget extends StatelessWidget {
                 AutoSizeText(
                   bankName,
                   style: Theme.of(context).textTheme.titleMedium,
-                  maxLines: 2,
-                  minFontSize: 12,
+                  maxLines: 3,
+                  minFontSize: 16,
                 ),
                 AutoSizeText.rich(
                   TextSpan(

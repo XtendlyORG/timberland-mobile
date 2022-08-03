@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 
 import '../presentation/widgets/bottom_navbar.dart';
 import '../router/router.dart';
 
 final List<BottomNavBarConfigs> navbarConfigs = [
   BottomNavBarConfigs(
-    icon: const Icon(Icons.map_outlined),
+    icon: const Icon(
+      Icons.map_outlined,
+      color: TimberlandColor.background,
+    ),
     label: 'Trail',
     routeName: Routes.trails.name,
   ),
@@ -20,13 +24,13 @@ final List<BottomNavBarConfigs> navbarConfigs = [
   ),
   BottomNavBarConfigs(
     icon: const Image(
-      image: AssetImage('assets/icons/emergency-icon.png'),
+      image: AssetImage('assets/icons/booking-icon.png'),
       height: 24,
       width: 24,
-      color: Color(0xffF60505),
+      color: TimberlandColor.primary,
     ),
-    label: 'Emergency',
-    routeName: Routes.emergency.name,
+    label: 'Book Now',
+    routeName: Routes.booking.name,
   ),
   BottomNavBarConfigs(
     icon: const Image(
@@ -36,5 +40,15 @@ final List<BottomNavBarConfigs> navbarConfigs = [
     ),
     label: 'Profile',
     routeName: Routes.profile.name,
+  ),
+  BottomNavBarConfigs(
+    icon: const Image(
+      image: AssetImage('assets/icons/emergency-icon.png'),
+      height: 24,
+      width: 24,
+      color: Color(0xffF60505),
+    ),
+    label: 'Emergency',
+    routeName: Routes.emergency.name,
   ),
 ];

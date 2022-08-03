@@ -69,9 +69,12 @@ class _EmergencyPageState extends State<EmergencyPage>
                 },
               ),
             ),
-            const Text(
+            Text(
               'After pressing the emergency button, we will contact our nearest admin station to your current location.',
               textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.normal
+              ),
             ),
           ],
         ),

@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
@@ -6,23 +7,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/date_picker.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/form_fields/email_field.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/form_fields/form_fields.dart';
+
 import 'package:timberland_biketrail/core/presentation/widgets/form_fields/mobile_number_field.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/form_fields/password_field.dart';
+
 import 'package:timberland_biketrail/core/presentation/widgets/image_picker_options_bottomsheet.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
 import 'package:timberland_biketrail/dashboard/presentation/bloc/profile_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
-import 'package:timberland_biketrail/features/authentication/domain/usecases/register.dart';
+import 'package:timberland_biketrail/features/authentication/domain/params/register.dart';
+import 'package:timberland_biketrail/features/authentication/domain/params/update_profile.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/widgets/terms_of_use.dart';
 
 class RegistrationContinuationForm extends StatelessWidget {
   final RegisterParameter registerParameter;
-  final User? user; // user will not be null when update profile
+  final UpdateProfileParams? user; // user will not be null when update profile
   const RegistrationContinuationForm({
     Key? key,
     required this.registerParameter,
@@ -32,10 +37,14 @@ class RegistrationContinuationForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
-    final bloodTypeCtrl = TextEditingController();
-    final emailCtrl = TextEditingController();
     final passwordCtrl = TextEditingController();
-    final mobileNumberCtrl = TextEditingController();
+    final birthdayCtrl = TextEditingController();
+    DateTime? birthday;
+    String? selectedGender;
+    final addressCtrl = TextEditingController();
+    final professionCtrl = TextEditingController();
+    final bloodTypeCtrl = TextEditingController();
+
     final emergencyContactsCtrl = TextEditingController();
     final imageCtrl = TextEditingController();
     File? imageFile;
@@ -47,9 +56,13 @@ class RegistrationContinuationForm extends StatelessWidget {
 
     if (user != null) {
       // auto fill fields with current user's informations
+      selectedGender = user!.gender;
+      birthday = user!.birthDay;
+      birthdayCtrl.text =
+          birthday != null ? DateFormat.yMMMMd('en_US').format(birthday) : '';
       bloodTypeCtrl.text = user!.bloodType ?? '';
-      emailCtrl.text = user!.email;
-      mobileNumberCtrl.text = user!.mobileNumber;
+      addressCtrl.text = user!.address ?? '';
+      professionCtrl.text = user!.profession ?? '';
       bikeModelCtrl.text = user!.bikeModel ?? '';
       bikeYearCtrl.text = user!.bikeYear ?? '';
       bikeColorCtrl.text = user!.bikeColor ?? '';
@@ -71,6 +84,96 @@ class RegistrationContinuationForm extends StatelessWidget {
                 bottom: kVerticalPadding,
               ),
               child: TextFormField(
+                controller: professionCtrl,
+                validator: nonEmptyValidator,
+                decoration: const InputDecoration(
+                  hintText: 'Profession',
+                ),
+                textInputAction: TextInputAction.next,
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(
+                bottom: kVerticalPadding,
+              ),
+              child: DropdownButtonFormField<String>(
+                items: kGenderDropDownItems
+                    .map(
+                      (category) => DropdownMenuItem<String>(
+                        value: category,
+                        child: Text(category),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (selected) {
+                  selectedGender = selected ?? selectedGender;
+                },
+                value: selectedGender,
+                borderRadius: BorderRadius.circular(10),
+                hint: const Text('Gender'),
+                decoration: const InputDecoration(),
+                validator: (gender) {
+                  return nonEmptyValidator(gender,
+                      errorMessage: 'Please select a gender');
+                },
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(
+                bottom: kVerticalPadding,
+              ),
+              child: ExcludeFocus(
+                child: TextFormField(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return Dialog(
+                          child: CustomDatePicker(
+                            maxDate: DateTime(
+                              DateTime.now().year - 18,
+                              DateTime.now().month,
+                              DateTime.now().day,
+                            ),
+                            onSumbit: (value) {
+                              if (value is DateTime) {
+                                birthday = value;
+                                log(birthday.toString());
+                                birthdayCtrl.text =
+                                    DateFormat.yMMMMd('en_US').format(value);
+                              }
+                            },
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  controller: birthdayCtrl,
+                  validator: nonEmptyValidator,
+                  decoration: const InputDecoration(
+                    hintText: 'Date of Birth',
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(
+                bottom: kVerticalPadding,
+              ),
+              child: TextFormField(
+                controller: addressCtrl,
+                validator: nonEmptyValidator,
+                decoration: const InputDecoration(
+                  hintText: 'Address',
+                ),
+                textInputAction: TextInputAction.next,
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(
+                bottom: kVerticalPadding,
+              ),
+              child: TextFormField(
                 controller: bloodTypeCtrl,
                 validator: nonEmptyValidator,
                 decoration: const InputDecoration(
@@ -83,34 +186,9 @@ class RegistrationContinuationForm extends StatelessWidget {
               margin: const EdgeInsets.only(
                 bottom: kVerticalPadding,
               ),
-              child: EmailField(
-                controller: emailCtrl,
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(
-                bottom: kVerticalPadding,
-              ),
-              child: PasswordField(
-                controller: passwordCtrl,
-                textInputAction: TextInputAction.next,
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(
-                bottom: kVerticalPadding,
-              ),
-              child: MobileNumberField(
-                controller: mobileNumberCtrl,
-                textInputAction: TextInputAction.next,
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(
-                bottom: kVerticalPadding,
-              ),
               child: MobileNumberField(
                 controller: emergencyContactsCtrl,
+                hintText: 'Emergency Contact Number',
                 textInputAction: TextInputAction.next,
               ),
             ),
@@ -213,6 +291,16 @@ class RegistrationContinuationForm extends StatelessWidget {
                 ],
               ),
             ),
+            if (user != null)
+              Container(
+                margin: const EdgeInsets.only(
+                  bottom: kVerticalPadding,
+                ),
+                child: PasswordField(
+                  controller: passwordCtrl,
+                  textInputAction: TextInputAction.next,
+                ),
+              ),
             Container(
               margin: const EdgeInsets.only(bottom: kVerticalPadding),
               width: double.infinity,
@@ -223,10 +311,11 @@ class RegistrationContinuationForm extends StatelessWidget {
                       BlocProvider.of<AuthBloc>(context).add(
                         SendOtpEvent(
                           registerParameter: registerParameter.copyWith(
+                            profession: professionCtrl.text,
+                            gender: selectedGender,
+                            birthDay: birthday,
+                            address: addressCtrl.text,
                             bloodType: bloodTypeCtrl.text,
-                            email: emailCtrl.text,
-                            password: passwordCtrl.text,
-                            mobileNumber: mobileNumberCtrl.text,
                             emergencyContactInfo: emergencyContactsCtrl.text,
                             bikeModel: bikeModelCtrl.text,
                             bikeYear: bikeYearCtrl.text,
@@ -252,7 +341,8 @@ class RegistrationContinuationForm extends StatelessWidget {
                     );
                   }
                 },
-                child: const Text("Register"),
+                child:
+                    user == null ? const Text("Register") : const Text("Save"),
               ),
             ),
             if (user == null)
