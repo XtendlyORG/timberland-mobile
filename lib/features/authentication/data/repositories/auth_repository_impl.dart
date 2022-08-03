@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:timberland_biketrail/core/errors/exceptions.dart';
 import 'package:timberland_biketrail/core/errors/failures.dart';
@@ -18,6 +20,11 @@ class AuthRepositoryImpl implements AuthRepository {
     return authRequest<User>(
       request: () => authenticator.login(params),
     );
+  }
+
+  @override
+  Future<Either<AuthFailure, void>> sendOtp(RegisterParameter params) {
+    return authRequest(request: () => authenticator.sendOtp(params));
   }
 
   @override
@@ -76,6 +83,12 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(
         AuthFailure(
           message: exception.message ?? 'Server Failure.',
+        ),
+      );
+    } catch (e) {
+      return const Left(
+        AuthFailure(
+          message: 'Something went wrong.',
         ),
       );
     }

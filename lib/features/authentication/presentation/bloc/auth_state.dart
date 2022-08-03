@@ -19,11 +19,17 @@ class UnAuthenticated extends AuthState {
 
 class OtpSent extends AuthState {
   final RegisterParameter registerParameter;
+  final String message;
   const OtpSent({
     required this.registerParameter,
+    required this.message,
   });
   @override
-  List<Object> get props => super.props..add(registerParameter);
+  List<Object> get props => super.props
+    ..addAll([
+      registerParameter,
+      message,
+    ]);
 }
 
 class Authenticated extends AuthState {

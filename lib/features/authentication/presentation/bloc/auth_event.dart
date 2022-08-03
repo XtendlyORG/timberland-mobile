@@ -9,12 +9,7 @@ abstract class AuthEvent extends Equatable {
 }
 
 class FetchUserEvent extends AuthEvent {
-  final String uid;
-  const FetchUserEvent({
-    required this.uid,
-  });
-  @override
-  List<Object> get props => super.props..add(uid);
+  const FetchUserEvent();
 }
 
 class LoginEvent extends AuthEvent {
@@ -55,7 +50,6 @@ class FacebookAuthEvent extends AuthEvent {
 }
 
 class FinishUserGuideEvent extends AuthEvent {
-  
   const FinishUserGuideEvent();
 }
 

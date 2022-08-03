@@ -15,6 +15,10 @@ class UpdateProfileEvent extends ProfileEvent {
   });
 }
 
+class CancelUpdateRequest extends ProfileEvent {
+  const CancelUpdateRequest();
+}
+
 class NavigateToNextPage extends ProfileEvent {
   final UpdateProfileParams updatedUser;
 

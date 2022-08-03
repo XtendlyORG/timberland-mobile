@@ -1,24 +1,22 @@
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
+import 'package:timberland_biketrail/core/configs/environment_configs.dart';
+import 'package:timberland_biketrail/core/errors/exceptions.dart';
 import 'package:timberland_biketrail/features/authentication/domain/params/params.dart';
 
 import '../../domain/entities/user.dart';
 import '../models/user_model.dart';
 import 'authenticator.dart';
 
-final UserModel fakeUser = UserModel(
-  id: 'user-id',
-  firstName: 'John',
-  lastName: 'Smith',
-  gender: 'Male',
-  birthday: DateTime(2002, 5, 8),
-  address: '123 Fake Address',
-  profession: 'Fake Profession',
-  email: 'johnSmith@email.com',
-  mobileNumber: '9123456789',
-  age: 20,
-  accessCode: 'access-code',
-);
-
 class RemoteAuthenticator implements Authenticator {
+  final Dio dioClient;
+  final EnvironmentConfig environmentConfig;
+  const RemoteAuthenticator({
+    required this.dioClient,
+    required this.environmentConfig,
+  });
   @override
   Future<User> facebookAuth() {
     // TODO: implement facebookAuth
@@ -33,8 +31,41 @@ class RemoteAuthenticator implements Authenticator {
 
   @override
   Future<User> login(LoginParameter loginParameter) async {
-    // TODO: implement login
-    return fakeUser;
+    try {
+      final response = await dioClient.post(
+        '${environmentConfig.apihost}/users/login',
+        data: {
+          'email': loginParameter.email,
+          'password': loginParameter.password,
+        },
+      );
+      if (response.statusCode == 200) {
+        log(response.data.toString());
+        return UserModel.fromMap(response.data);
+      }
+
+      throw AuthException(message: "Server Error");
+    } on AuthException {
+      rethrow;
+    } on DioError catch (dioError) {
+      log(dioError.response?.statusCode?.toString() ?? "statuscode: null");
+      if ((dioError.response?.statusCode ?? -1) == 400) {
+        throw AuthException(
+          message: dioError.response?.data?.toString() ?? 'Login Failed',
+        );
+      } else if ((dioError.response?.statusCode ?? -1) == 502) {
+        throw AuthException(
+          message:
+              dioError.response?.data?.toString() ?? 'Internal Server Error',
+        );
+      }
+      throw AuthException(
+        message: "Error Occurred",
+      );
+    } catch (e) {
+      log(e.toString());
+      throw AuthException(message: "An Error Occurred");
+    }
   }
 
   @override
@@ -44,16 +75,98 @@ class RemoteAuthenticator implements Authenticator {
   }
 
   @override
+  Future<void> sendOtp(RegisterParameter registerParameter) async {
+    try {
+      MultipartFile? profilePic;
+      if (registerParameter.profilePic != null) {
+        profilePic = await MultipartFile.fromFile(
+          registerParameter.profilePic!.path,
+        );
+      }
+
+      final response = await dioClient.post(
+        '${environmentConfig.apihost}/users/register',
+        data: FormData.fromMap(
+          registerParameter.toMap()
+            ..addEntries(
+              {'profile_pic': profilePic}.entries,
+            ),
+        ),
+      );
+      log(response.statusCode.toString());
+      if (response.statusCode == 200) {
+        return;
+      }
+      throw AuthException();
+    } on AuthException {
+      rethrow;
+    } on DioError catch (dioError) {
+      log(dioError.response?.statusCode?.toString() ?? "statuscode: null");
+      log(dioError.response?.data.toString() ?? 'no data');
+      if ((dioError.response?.statusCode ?? -1) == 400) {
+        throw AuthException(
+          message: dioError.response?.data?.toString() ?? 'Failed to send OTP',
+        );
+      } else if ((dioError.response?.statusCode ?? -1) == 502) {
+        throw AuthException(
+          message:
+              dioError.response?.data?.toString() ?? 'Internal Server Error',
+        );
+      }
+      throw AuthException(
+        message: "Error Occurred",
+      );
+    } catch (e) {
+      log(e.toString());
+      throw AuthException(message: "An Error Occurred");
+    }
+  }
+
+  @override
   Future<User> register(RegisterParameter registerParameter) async {
-    // TODO: implement register
-    return fakeUser.copyWith(
-      firstName: registerParameter.firstName,
-      middleName: registerParameter.middleName,
-      lastName: registerParameter.lastName,
-      gender: registerParameter.gender,
-      birthday: registerParameter.birthDay,
-      email: registerParameter.email,
-    );
+    try {
+      final body = json.encode(
+        {
+          'otp': registerParameter.otp,
+          'email': registerParameter.email,
+        },
+      );
+      final response = await dioClient.post(
+        '${environmentConfig.apihost}/users/verify',
+        data: body,
+      );
+      log(response.statusCode.toString());
+      if (response.statusCode == 200) {
+        if (response.data is Map<String, dynamic>) {
+          return UserModel.fromMap(response.data);
+        } else {
+          throw AuthException(message: response.data);
+        }
+      }
+      log(response.data.toString());
+      throw AuthException(message: "Server Error");
+    } on AuthException {
+      rethrow;
+    } on DioError catch (dioError) {
+      log(dioError.response?.statusCode?.toString() ?? 'statuscode: -1');
+      log(dioError.response?.data ?? "no message");
+      if ((dioError.response?.statusCode ?? -1) == 400) {
+        throw AuthException(
+          message: dioError.response?.data?.toString() ?? 'Failed to send OTP',
+        );
+      } else if ((dioError.response?.statusCode ?? -1) == 502) {
+        throw AuthException(
+          message:
+              dioError.response?.data?.toString() ?? 'Internal Server Error',
+        );
+      }
+      throw AuthException(
+        message: "Error Occurred",
+      );
+    } catch (e) {
+      log(e.toString());
+      throw AuthException(message: "An Error Occurred");
+    }
   }
 
   @override

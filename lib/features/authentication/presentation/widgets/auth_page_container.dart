@@ -93,7 +93,7 @@ class AuthPageContainer extends StatelessWidget {
             ..showSnackBar(
               SnackBar(
                 content: AutoSizeText(
-                  "OTP is sent to ${state.registerParameter.email}",
+                  state.message,
                   maxLines: 1,
                 ),
               ),

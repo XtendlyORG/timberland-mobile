@@ -13,7 +13,7 @@ class ProfileInitial extends ProfileState {}
 class UpdatingProfile extends ProfileState {
   final int pageNum;
   final UpdateProfileParams updatedUser;
-  
+
   const UpdatingProfile({
     required this.pageNum,
     required this.updatedUser,

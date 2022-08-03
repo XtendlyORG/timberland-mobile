@@ -70,7 +70,7 @@ class _MainPageState extends State<MainPage> {
           if (state is UnAuthenticated && Session().isLoggedIn) {
             Future.delayed(Duration.zero, () {
               BlocProvider.of<AuthBloc>(context).add(
-                FetchUserEvent(uid: Session().currentUID!),
+                const FetchUserEvent(),
               );
             });
           }

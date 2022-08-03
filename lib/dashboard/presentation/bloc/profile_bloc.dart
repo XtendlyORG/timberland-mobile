@@ -1,11 +1,7 @@
-import 'dart:developer';
-
 // ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:timberland_biketrail/features/authentication/domain/params/update_profile.dart';
-
-import '../../../features/authentication/domain/entities/user.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';
@@ -48,5 +44,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         emit(ProfileUpdated());
       },
     );
+    on<CancelUpdateRequest>((event, emit) {
+      emit(ProfileInitial());
+    });
   }
 }

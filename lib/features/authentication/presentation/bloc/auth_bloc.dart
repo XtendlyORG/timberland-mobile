@@ -30,20 +30,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
       emit(
         Authenticated(
-          user: User(
-            id: 'user-id',
-            firstName: 'John',
-            lastName: 'Smith',
-            gender: 'Male',
-            birthday: DateTime(2002, 5, 8),
-            address: '123 Fake Address',
-            profession: 'Fake Profession',
-            email: 'johnSmith@email.com',
-            mobileNumber: '9123456789',
-            age: 20,
-            accessCode: 'access-code',
-          ),
           message: 'Logged In',
+          user: Session().currentUser!,
         ),
       );
     });
@@ -92,9 +80,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           loadingMessage: 'Sending Otp to ${event.registerParameter.email}.',
         ),
       );
-      await Future.delayed(
-        const Duration(seconds: 1),
-        () => emit(OtpSent(registerParameter: event.registerParameter)),
+      final result = await repository.sendOtp(event.registerParameter);
+      result.fold(
+        (l) {
+          emit(
+            OtpSent(
+              registerParameter: event.registerParameter,
+              message: l.message,
+            ),
+          );
+        },
+        (r) {
+          emit(OtpSent(
+            registerParameter: event.registerParameter,
+            message: "OTP is sent to ${event.registerParameter.email}",
+          ));
+        },
       );
     });
 

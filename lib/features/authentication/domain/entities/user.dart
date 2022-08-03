@@ -1,29 +1,32 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 
 class User extends Equatable {
-  //TODO: Fields may change
   final String id;
   final String firstName;
   final String? middleName;
   final String lastName;
-  final String gender;
-  final DateTime birthday;
-  final String address;
-  final String profession;
+  final String profilePicUrl;
+  final String? gender;
+  final DateTime? birthday;
+  final String? address;
+  final String? profession;
   final String? bloodType;
   final String email;
   final String mobileNumber;
   final String? bikeModel;
   final String? bikeYear;
   final String? bikeColor;
-  final int age;
   final String accessCode;
   const User({
     required this.id,
     required this.firstName,
     this.middleName,
     required this.lastName,
+    required this.profilePicUrl,
     required this.gender,
     required this.birthday,
     required this.address,
@@ -34,7 +37,6 @@ class User extends Equatable {
     this.bikeModel,
     this.bikeYear,
     this.bikeColor,
-    required this.age,
     required this.accessCode,
   });
 
@@ -43,21 +45,29 @@ class User extends Equatable {
     return [
       id,
       firstName,
+      if (middleName != null) middleName!,
       lastName,
+      profilePicUrl,
+      if (gender != null) gender!,
+      if (birthday != null) birthday!,
+      if (address != null) address!,
+      if (profession != null) profession!,
+      if (bloodType != null) bloodType!,
       email,
       mobileNumber,
-      age,
+      if (bikeModel != null) bikeModel!,
+      if (bikeYear != null) bikeYear!,
+      if (bikeColor != null) bikeColor!,
       accessCode,
     ];
   }
-
- 
 
   User copyWith({
     String? id,
     String? firstName,
     String? middleName,
     String? lastName,
+    String? profilePicUrl,
     String? gender,
     DateTime? birthday,
     String? address,
@@ -68,7 +78,6 @@ class User extends Equatable {
     String? bikeModel,
     String? bikeYear,
     String? bikeColor,
-    int? age,
     String? accessCode,
   }) {
     return User(
@@ -76,6 +85,7 @@ class User extends Equatable {
       firstName: firstName ?? this.firstName,
       middleName: middleName ?? this.middleName,
       lastName: lastName ?? this.lastName,
+      profilePicUrl: profilePicUrl ?? this.profilePicUrl,
       gender: gender ?? this.gender,
       birthday: birthday ?? this.birthday,
       address: address ?? this.address,
@@ -86,8 +96,31 @@ class User extends Equatable {
       bikeModel: bikeModel ?? this.bikeModel,
       bikeYear: bikeYear ?? this.bikeYear,
       bikeColor: bikeColor ?? this.bikeColor,
-      age: age ?? this.age,
       accessCode: accessCode ?? this.accessCode,
     );
   }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'user_id': int.parse(id),
+      'firstname': firstName,
+      'middlename': middleName,
+      'lastname': lastName,
+      'profile_pic': profilePicUrl,
+      'gender': gender,
+      'birth_date':
+          birthday != null ? DateFormat('yyyMMdd').format(birthday!) : null,
+      'address': address,
+      'profession': profession,
+      'blood_type': bloodType,
+      'email': email,
+      'mobile_number': mobileNumber,
+      'model': bikeModel,
+      'year': int.tryParse(bikeYear ?? ''),
+      'color': bikeColor,
+      'access_code': accessCode,
+    };
+  }
+
+  String toJson() => json.encode(toMap());
 }

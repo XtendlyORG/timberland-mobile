@@ -18,6 +18,9 @@ void init() {
     ),
   );
   serviceLocator.registerLazySingleton<Authenticator>(
-    () => RemoteAuthenticator(),
+    () => RemoteAuthenticator(
+      dioClient: serviceLocator(),
+      environmentConfig: serviceLocator(),
+    ),
   );
 }

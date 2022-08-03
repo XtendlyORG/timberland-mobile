@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 
 class RegisterParameter extends Equatable {
   final String? otp;
@@ -19,7 +19,7 @@ class RegisterParameter extends Equatable {
   final File? profilePic;
   final String? bikeModel;
   final String? bikeYear;
-  final Color? bikeColor;
+  final String? bikeColor;
   final String password;
   const RegisterParameter({
     this.otp,
@@ -68,7 +68,7 @@ class RegisterParameter extends Equatable {
     File? profilePic,
     String? bikeModel,
     String? bikeYear,
-    Color? bikeColor,
+    String? bikeColor,
     String? password,
   }) {
     return RegisterParameter(
@@ -90,5 +90,26 @@ class RegisterParameter extends Equatable {
       bikeColor: bikeColor ?? this.bikeColor,
       password: password ?? this.password,
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'firstname': firstName,
+      'middlename': middleName,
+      'lastname': lastName,
+      'gender': gender,
+      'birth_date':
+          birthDay != null ? DateFormat('yyy-MM-dd').format(birthDay!) : null,
+      'address': address,
+      'profession': profession,
+      'blood_type': bloodType,
+      'email': email,
+      'mobile_number': mobileNumber,
+      'emergency_number': emergencyContactInfo,
+      'bike_model': bikeModel,
+      'bike_year': bikeYear,
+      'bike_color': bikeColor,
+      'password': password,
+    };
   }
 }

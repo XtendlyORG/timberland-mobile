@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/domain/params/register.dart';
@@ -19,7 +22,30 @@ class UpdateProfileForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    File? newImageFile;
     return BlocBuilder<ProfileBloc, ProfileState>(
+      buildWhen: (previous, current) {
+        if (current is ProfileInitial) {
+          BlocProvider.of<ProfileBloc>(context).add(UpdateProfileEvent(
+            user: UpdateProfileParams(
+              firstName: user.firstName,
+              middleName: user.middleName,
+              lastName: user.lastName,
+              email: user.email,
+              mobileNumber: user.mobileNumber,
+              address: user.address,
+              gender: user.gender,
+              birthDay: user.birthday,
+              bloodType: user.bloodType,
+              profession: user.profession,
+              bikeColor: user.bikeColor,
+              bikeModel: user.bikeModel,
+              bikeYear: user.bikeYear,
+            ),
+          ));
+        }
+        return current is! ProfileUpdated && current is! ProfileInitial;
+      },
       builder: (context, state) {
         if (state is ProfileInitial) {
           BlocProvider.of<ProfileBloc>(context).add(UpdateProfileEvent(
@@ -48,7 +74,12 @@ class UpdateProfileForm extends StatelessWidget {
                 right: kHorizontalPadding),
             child: Column(
               children: [
-                const UpdateProfilePic(),
+                UpdateProfilePic(
+                    user: user,
+                    profilePic: state.updatedUser.profilePic,
+                    onChange: (imageFile) {
+                      newImageFile = imageFile;
+                    }),
                 const SizedBox(
                   height: kVerticalPadding,
                 ),
@@ -71,6 +102,7 @@ class UpdateProfileForm extends StatelessWidget {
                             middleName: middleName,
                             email: email,
                             mobileNumber: mobileNumber,
+                            profilePic: newImageFile,
                           ),
                         ),
                       );
