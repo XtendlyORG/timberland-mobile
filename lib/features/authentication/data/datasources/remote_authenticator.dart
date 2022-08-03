@@ -127,32 +127,14 @@ class RemoteAuthenticator implements Authenticator {
           'email': registerParameter.email,
         },
       );
-      log(body);
       final response = await dioClient.post(
         '${environmentConfig.apihost}/users/verify',
         data: body,
       );
       log(response.statusCode.toString());
       if (response.statusCode == 200) {
-        log(response.data.toString());
         if (response.data is Map<String, dynamic>) {
           return UserModel.fromMap(response.data);
-          // return User(
-          //   id: 'test-id',
-          //   firstName: registerParameter.firstName,
-          //   middleName: registerParameter.middleName,
-          //   lastName: registerParameter.lastName,
-          //   gender: registerParameter.gender,
-          //   birthday: registerParameter.birthDay,
-          //   address: registerParameter.address,
-          //   profession: registerParameter.profession,
-          //   email: registerParameter.email!,
-          //   mobileNumber: registerParameter.mobileNumber!,
-          //   age:
-          //       (registerParameter.birthDay.difference(DateTime.now()).inDays ~/
-          //           365),
-          //   accessCode: 'test-access-code',
-          // );
         } else {
           throw AuthException(message: response.data);
         }
