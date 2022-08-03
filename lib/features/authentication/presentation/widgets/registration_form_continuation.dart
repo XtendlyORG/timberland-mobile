@@ -85,7 +85,6 @@ class RegistrationContinuationForm extends StatelessWidget {
               ),
               child: TextFormField(
                 controller: professionCtrl,
-                validator: nonEmptyValidator,
                 decoration: const InputDecoration(
                   hintText: 'Profession',
                 ),
@@ -149,7 +148,6 @@ class RegistrationContinuationForm extends StatelessWidget {
                     );
                   },
                   controller: birthdayCtrl,
-                  validator: nonEmptyValidator,
                   decoration: const InputDecoration(
                     hintText: 'Date of Birth',
                   ),
@@ -162,7 +160,6 @@ class RegistrationContinuationForm extends StatelessWidget {
               ),
               child: TextFormField(
                 controller: addressCtrl,
-                validator: nonEmptyValidator,
                 decoration: const InputDecoration(
                   hintText: 'Address',
                 ),
@@ -175,7 +172,6 @@ class RegistrationContinuationForm extends StatelessWidget {
               ),
               child: TextFormField(
                 controller: bloodTypeCtrl,
-                validator: nonEmptyValidator,
                 decoration: const InputDecoration(
                   hintText: 'Blood Type',
                 ),
@@ -228,7 +224,6 @@ class RegistrationContinuationForm extends StatelessWidget {
                       );
                     },
                     controller: imageCtrl,
-                    validator: nonEmptyValidator,
                     decoration: InputDecoration(
                       hintText: 'Take a selfie',
                       suffixIcon: const Icon(Icons.ios_share_rounded),
@@ -247,7 +242,6 @@ class RegistrationContinuationForm extends StatelessWidget {
               ),
               child: TextFormField(
                 controller: bikeModelCtrl,
-                validator: nonEmptyValidator,
                 decoration: const InputDecoration(
                   hintText: 'Bike(model)',
                 ),
@@ -263,7 +257,6 @@ class RegistrationContinuationForm extends StatelessWidget {
                       margin: const EdgeInsets.only(bottom: kVerticalPadding),
                       child: TextFormField(
                         controller: bikeYearCtrl,
-                        validator: nonEmptyValidator,
                         decoration: const InputDecoration(
                           hintText: 'Bike(year)',
                         ),
@@ -280,7 +273,6 @@ class RegistrationContinuationForm extends StatelessWidget {
                       margin: const EdgeInsets.only(bottom: kVerticalPadding),
                       child: TextFormField(
                         controller: bikeColorCtrl,
-                        validator: nonEmptyValidator,
                         decoration: const InputDecoration(
                           hintText: 'Bike(color)',
                         ),

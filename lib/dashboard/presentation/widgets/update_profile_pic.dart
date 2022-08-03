@@ -3,10 +3,21 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+
 import 'package:timberland_biketrail/core/presentation/widgets/image_picker_options_bottomsheet.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/profile_avatar.dart';
+import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
 
 class UpdateProfilePic extends StatefulWidget {
-  const UpdateProfilePic({Key? key}) : super(key: key);
+  const UpdateProfilePic({
+    Key? key,
+    required this.user,
+    this.profilePic,
+    required this.onChange,
+  }) : super(key: key);
+  final User user;
+  final File? profilePic;
+  final void Function(File? imageFile) onChange;
 
   @override
   State<UpdateProfilePic> createState() => _UpdateProfilePicState();
@@ -17,6 +28,7 @@ class _UpdateProfilePicState extends State<UpdateProfilePic> {
   @override
   void initState() {
     super.initState();
+    fileImage = widget.profilePic;
   }
 
   @override
@@ -37,7 +49,10 @@ class _UpdateProfilePicState extends State<UpdateProfilePic> {
                 source: source,
               );
               if (image != null) {
-                fileImage = File(image.path);
+                setState(() {
+                  fileImage = File(image.path);
+                  widget.onChange(fileImage);
+                });
               }
             }
 
@@ -52,11 +67,17 @@ class _UpdateProfilePicState extends State<UpdateProfilePic> {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            CircleAvatar(
-              radius: 35,
-              backgroundImage:
-                  fileImage != null ? Image.file(fileImage!).image : null,
-            ),
+            if (fileImage != null)
+              CircleAvatar(
+                radius: 35,
+                backgroundImage:
+                    fileImage != null ? Image.file(fileImage!).image : null,
+              ),
+            if (fileImage == null)
+              ProfileAvatar(
+                imgUrl: widget.user.profilePicUrl,
+                radius: 35,
+              ),
             Align(
               alignment: Alignment.bottomRight,
               child: Container(

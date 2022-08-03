@@ -77,9 +77,13 @@ class RemoteAuthenticator implements Authenticator {
   @override
   Future<void> sendOtp(RegisterParameter registerParameter) async {
     try {
-      final profilePic = await MultipartFile.fromFile(
-        registerParameter.profilePic!.path,
-      );
+      MultipartFile? profilePic;
+      if (registerParameter.profilePic != null) {
+        profilePic = await MultipartFile.fromFile(
+          registerParameter.profilePic!.path,
+        );
+      }
+
       final response = await dioClient.post(
         '${environmentConfig.apihost}/users/register',
         data: FormData.fromMap(
