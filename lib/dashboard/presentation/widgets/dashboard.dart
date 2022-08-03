@@ -2,11 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timberland_biketrail/features/emergency/presentation/widgets/emergency_dialog.dart';
-
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard_header.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:timberland_biketrail/features/emergency/presentation/widgets/emergency_dialog.dart';
 
 import '../../../core/router/router.dart';
 
@@ -39,7 +38,13 @@ class Dashboard extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Column(
                   children: [
-                    const DashBoardHeader(),
+                    GestureDetector(
+                      onTap: () {
+                        context.goNamed(Routes.profile.name);
+                        Navigator.pop(context);
+                      },
+                      child: const DashBoardHeader(),
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Divider(
@@ -68,7 +73,7 @@ class Dashboard extends StatelessWidget {
                     ),
                     DashBoardListTile(
                       onTap: () {
-                        context.pushNamed(Routes.booking.name);
+                        context.goNamed(Routes.booking.name);
                         Navigator.pop(context);
                       },
                       leading: const Image(
