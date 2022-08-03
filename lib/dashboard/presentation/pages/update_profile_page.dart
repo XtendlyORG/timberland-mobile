@@ -32,7 +32,7 @@ class UpdateProfilePage extends StatelessWidget {
                   backButton: BackButton(
                     onPressed: () {
                       BlocProvider.of<ProfileBloc>(context)
-                          .add(UpdateProfileEvent(user: state.user));
+                          .add(UpdateProfileEvent(user: state.updatedUser));
                     },
                   ),
                 )

@@ -9,16 +9,17 @@ abstract class ProfileEvent extends Equatable {
 }
 
 class UpdateProfileEvent extends ProfileEvent {
-  final User user;
+  final UpdateProfileParams user;
   const UpdateProfileEvent({
     required this.user,
   });
 }
 
 class NavigateToNextPage extends ProfileEvent {
-  final User user;
+  final UpdateProfileParams updatedUser;
+
   const NavigateToNextPage({
-    required this.user,
+    required this.updatedUser,
   });
 }
 

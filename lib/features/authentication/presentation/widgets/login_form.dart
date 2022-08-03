@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/features/authentication/domain/params/login.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/presentation/widgets/widgets.dart';
 import '../../../../core/router/router.dart';
-import '../../domain/usecases/login.dart';
 import '../bloc/auth_bloc.dart';
 
 class LoginForm extends StatelessWidget {
