@@ -54,9 +54,9 @@ class RemoteAuthenticator implements Authenticator {
           message: dioError.response?.data?.toString() ?? 'Login Failed',
         );
       } else if ((dioError.response?.statusCode ?? -1) == 502) {
+        log(dioError.response?.data?.toString() ?? "No error message: 502");
         throw AuthException(
-          message:
-              dioError.response?.data?.toString() ?? 'Internal Server Error',
+          message: 'Internal Server Error',
         );
       }
       throw AuthException(
@@ -108,9 +108,9 @@ class RemoteAuthenticator implements Authenticator {
           message: dioError.response?.data?.toString() ?? 'Failed to send OTP',
         );
       } else if ((dioError.response?.statusCode ?? -1) == 502) {
+        log(dioError.response?.data?.toString() ?? "No error message: 502");
         throw AuthException(
-          message:
-              dioError.response?.data?.toString() ?? 'Internal Server Error',
+          message: 'Internal Server Error',
         );
       }
       throw AuthException(
