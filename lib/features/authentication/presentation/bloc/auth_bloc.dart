@@ -84,9 +84,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       result.fold(
         (l) {
           emit(
-            OtpSent(
-              registerParameter: event.registerParameter,
-              message: l.message,
+            AuthError(
+              errorMessage: l.message,
             ),
           );
         },

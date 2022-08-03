@@ -12,45 +12,58 @@ import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/date_picker.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/form_fields/form_fields.dart';
-
 import 'package:timberland_biketrail/core/presentation/widgets/form_fields/mobile_number_field.dart';
-
 import 'package:timberland_biketrail/core/presentation/widgets/image_picker_options_bottomsheet.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/inherited_widgets/inherited_register_parameter.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
 import 'package:timberland_biketrail/dashboard/presentation/bloc/profile_bloc.dart';
-import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
-import 'package:timberland_biketrail/features/authentication/domain/params/register.dart';
 import 'package:timberland_biketrail/features/authentication/domain/params/update_profile.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/widgets/terms_of_use.dart';
 
 class RegistrationContinuationForm extends StatelessWidget {
-  final RegisterParameter registerParameter;
   final UpdateProfileParams? user; // user will not be null when update profile
   const RegistrationContinuationForm({
     Key? key,
-    required this.registerParameter,
     this.user,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final registerParameter =
+        InheritedRegisterParameter.of(context).registerParameter!;
     final formKey = GlobalKey<FormState>();
     final passwordCtrl = TextEditingController();
-    final birthdayCtrl = TextEditingController();
-    DateTime? birthday;
-    String? selectedGender;
-    final addressCtrl = TextEditingController();
-    final professionCtrl = TextEditingController();
-    final bloodTypeCtrl = TextEditingController();
+    DateTime? birthday = registerParameter.birthDay;
+    final birthdayCtrl = TextEditingController(
+      text:
+          birthday != null ? DateFormat.yMMMMd('en_US').format(birthday) : null,
+    );
 
-    final emergencyContactsCtrl = TextEditingController();
-    final imageCtrl = TextEditingController();
-    File? imageFile;
-    final bikeModelCtrl = TextEditingController();
-    final bikeYearCtrl = TextEditingController();
-    final bikeColorCtrl = TextEditingController();
+    String? selectedGender = registerParameter.gender;
+    final addressCtrl = TextEditingController(
+      text: registerParameter.address,
+    );
+    final professionCtrl =
+        TextEditingController(text: registerParameter.profession);
+    final bloodTypeCtrl =
+        TextEditingController(text: registerParameter.bloodType);
+
+    final emergencyContactsCtrl =
+        TextEditingController(text: registerParameter.emergencyContactInfo);
+    final imageCtrl = TextEditingController(
+      text: registerParameter.profilePic != null
+          ? 'profile_pic.${registerParameter.profilePic!.path.split('.').last}'
+          : null,
+    );
+    File? imageFile = registerParameter.profilePic;
+    final bikeModelCtrl =
+        TextEditingController(text: registerParameter.bikeModel);
+    final bikeYearCtrl =
+        TextEditingController(text: registerParameter.bikeYear);
+    final bikeColorCtrl =
+        TextEditingController(text: registerParameter.bikeColor);
 
     bool agreedToTermsOfUse = false;
 

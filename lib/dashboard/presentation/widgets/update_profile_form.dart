@@ -1,13 +1,13 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:timberland_biketrail/features/authentication/domain/params/register.dart';
-import 'package:timberland_biketrail/features/authentication/domain/params/update_profile.dart';
 
 import '../../../core/constants/constants.dart';
+import '../../../core/presentation/widgets/inherited_widgets/inherited_register_parameter.dart';
 import '../../../features/authentication/domain/entities/user.dart';
+import '../../../features/authentication/domain/params/register.dart';
+import '../../../features/authentication/domain/params/update_profile.dart';
 import '../../../features/authentication/presentation/widgets/registration_form.dart';
 import '../../../features/authentication/presentation/widgets/registration_form_continuation.dart';
 import '../bloc/profile_bloc.dart';
@@ -118,8 +118,7 @@ class UpdateProfileForm extends StatelessWidget {
                 top: kHorizontalPadding,
                 left: kHorizontalPadding,
                 right: kHorizontalPadding),
-            child: RegistrationContinuationForm(
-              user: state.updatedUser,
+            child: InheritedRegisterParameter(
               registerParameter: RegisterParameter(
                 firstName: state.updatedUser.firstName,
                 middleName: state.updatedUser.middleName,
@@ -127,6 +126,9 @@ class UpdateProfileForm extends StatelessWidget {
                 email: state.updatedUser.email,
                 password: '',
                 mobileNumber: state.updatedUser.mobileNumber,
+              ),
+              child: RegistrationContinuationForm(
+                user: state.updatedUser,
               ),
             ),
           );

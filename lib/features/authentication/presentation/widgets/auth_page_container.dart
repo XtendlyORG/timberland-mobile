@@ -35,7 +35,8 @@ class AuthPageContainer extends StatelessWidget {
             builder: (context) {
               return Dialog(
                 child: AuthLockedWidget(
-                  duration: state.lockUntil.difference(DateTime.now()).inSeconds,
+                  duration:
+                      state.lockUntil.difference(DateTime.now()).inSeconds,
                 ),
               );
             },
@@ -70,9 +71,7 @@ class AuthPageContainer extends StatelessWidget {
                       height: 24,
                       width: 24,
                       child: RepaintBoundary(
-                        child: CircularProgressIndicator(
-                          
-                        ),
+                        child: CircularProgressIndicator(),
                       ),
                     ),
                     const SizedBox(width: kVerticalPadding),
@@ -99,7 +98,19 @@ class AuthPageContainer extends StatelessWidget {
               ),
             );
         }
-        if(state is UserGuideFinished){
+        if (state is AuthError) {
+          ScaffoldMessenger.of(context)
+            ..clearSnackBars()
+            ..showSnackBar(
+              SnackBar(
+                content: AutoSizeText(
+                  state.errorMessage,
+                  maxLines: 1,
+                ),
+              ),
+            );
+        }
+        if (state is UserGuideFinished) {
           context.goNamed(Routes.booking.name);
         }
       },
@@ -122,11 +133,10 @@ class AuthPageContainer extends StatelessWidget {
           Align(
             alignment: Alignment.topCenter,
             child: ScrollConfiguration(
-              behavior: scrollBehavior?? const ScrollBehavior(),
+              behavior: scrollBehavior ?? const ScrollBehavior(),
               child: ListView(
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
-                
                 children: [
                   const Align(
                     alignment: Alignment.topCenter,
