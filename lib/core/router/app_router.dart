@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/404_page.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/inherited_widgets/inherited_register_parameter.dart';
 import 'package:timberland_biketrail/features/authentication/domain/params/register.dart';
+import 'package:timberland_biketrail/features/authentication/presentation/pages/registration_continuation_page.dart';
 
 import '../../dashboard/presentation/pages/qr_code_page.dart';
 import '../../dashboard/presentation/pages/update_profile_page.dart';
@@ -16,9 +18,6 @@ import '../../features/authentication/domain/entities/user.dart';
 import '../../features/authentication/presentation/pages/forgot_password.dart';
 import '../../features/authentication/presentation/pages/otp_verification_page.dart';
 import '../../features/authentication/presentation/pages/pages.dart';
-import '../../features/authentication/presentation/widgets/registration_form.dart';
-import '../../features/authentication/presentation/widgets/registration_form_continuation.dart';
-import '../../features/booking/presentation/pages/booking_page.dart';
 import '../../features/emergency/presentation/pages/emergency_page.dart';
 import '../../features/history/presentation/pages/booking_history_page.dart';
 import '../../features/history/presentation/pages/payment_history_page.dart';
@@ -93,30 +92,7 @@ final appRouter = GoRouter(
           key: state.pageKey,
           restorationId: state.pageKey.value,
           child: Builder(builder: (ctx) {
-            return RegistrationPage(
-              form: RegistrationForm(
-                onSumbit: (
-                  String firstName,
-                  String? middleName,
-                  String lastName,
-                  String email,
-                  String password,
-                  String mobileNumber,
-                ) {
-                  ctx.pushNamed(
-                    Routes.registerContinuation.name,
-                    extra: RegisterParameter(
-                      firstName: firstName,
-                      middleName: middleName,
-                      lastName: lastName,
-                      email: email,
-                      password: password,
-                      mobileNumber: mobileNumber,
-                    ),
-                  );
-                },
-              ),
-            );
+            return const RegistrationPage();
           }),
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -135,10 +111,9 @@ final appRouter = GoRouter(
             return CustomTransitionPage(
               key: state.pageKey,
               restorationId: state.pageKey.value,
-              child: RegistrationPage(
-                form: RegistrationContinuationForm(
-                  registerParameter: state.extra as RegisterParameter,
-                ),
+              child: InheritedRegisterParameter(
+                registerParameter: state.extra as RegisterParameter,
+                child: const RegistrationContinuationPage(),
               ),
               transitionDuration: const Duration(milliseconds: 500),
               transitionsBuilder:
