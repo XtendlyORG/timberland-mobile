@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:timberland_biketrail/core/configs/environment_configs.dart';
-import 'package:timberland_biketrail/core/errors/exceptions.dart';
-import 'package:timberland_biketrail/features/authentication/domain/params/params.dart';
 
+import '../../../../core/configs/environment_configs.dart';
+import '../../../../core/errors/exceptions.dart';
 import '../../domain/entities/user.dart';
+import '../../domain/params/params.dart';
 import '../models/user_model.dart';
 import 'authenticator.dart';
 
@@ -155,9 +155,9 @@ class RemoteAuthenticator implements Authenticator {
           message: dioError.response?.data?.toString() ?? 'Failed to send OTP',
         );
       } else if ((dioError.response?.statusCode ?? -1) == 502) {
+        log(dioError.response?.data?.toString() ?? "No error message: 502");
         throw AuthException(
-          message:
-              dioError.response?.data?.toString() ?? 'Internal Server Error',
+          message: 'Internal Server Error',
         );
       }
       throw AuthException(
