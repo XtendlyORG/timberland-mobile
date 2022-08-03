@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-
 import 'package:timberland_biketrail/core/presentation/widgets/profile_avatar.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
 
@@ -16,8 +15,9 @@ class ProfileHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 200,
+      height: 227,
       child: Stack(
+        clipBehavior: Clip.antiAliasWithSaveLayer,
         children: [
           Container(
             height: 200,
@@ -35,7 +35,7 @@ class ProfileHeader extends StatelessWidget {
             ),
           ),
           Align(
-            alignment: Alignment(-.85, 1.35),
+            alignment: Alignment(-.85, 1),
             child: ProfileAvatar(
               imgUrl: user.profilePicUrl,
               radius: 27,

@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/profile_avatar.dart';
@@ -25,6 +24,7 @@ class DashBoardHeader extends StatelessWidget {
           children: [
             ProfileAvatar(
               imgUrl: state.user.profilePicUrl,
+              isExpandable: false,
               radius: 35,
             ),
             const SizedBox(
