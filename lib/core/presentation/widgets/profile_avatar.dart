@@ -6,31 +6,31 @@ import 'package:photo_view/photo_view.dart';
 class ProfileAvatar extends StatelessWidget {
   const ProfileAvatar({
     Key? key,
-    this.isExpandable = true,
     required this.imgUrl,
     required this.radius,
   }) : super(key: key);
-  final bool isExpandable;
+
   final String imgUrl;
   final double radius;
 
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: 'profile-picture',
+      tag: radius.toString(),
       child: GestureDetector(
-        onTap: isExpandable
-            ? () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return ProfilePicture(imgUrl: imgUrl);
-                    },
-                  ),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return ProfilePicture(
+                  imgUrl: imgUrl,
+                  tag: radius.toString(),
                 );
-              }
-            : null,
+              },
+            ),
+          );
+        },
         child: CircleAvatar(
           radius: radius,
           foregroundImage: CachedNetworkImageProvider(
@@ -45,16 +45,17 @@ class ProfileAvatar extends StatelessWidget {
 class ProfilePicture extends StatelessWidget {
   const ProfilePicture({
     Key? key,
+    required this.tag,
     required this.imgUrl,
   }) : super(key: key);
-
+  final String tag;
   final String imgUrl;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Hero(
-        tag: 'profile-picture',
+        tag: tag,
         child: Scaffold(
           appBar: AppBar(
             elevation: 0,

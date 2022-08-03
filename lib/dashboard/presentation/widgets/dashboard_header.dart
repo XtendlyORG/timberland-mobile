@@ -24,7 +24,6 @@ class DashBoardHeader extends StatelessWidget {
           children: [
             ProfileAvatar(
               imgUrl: state.user.profilePicUrl,
-              isExpandable: false,
               radius: 35,
             ),
             const SizedBox(
