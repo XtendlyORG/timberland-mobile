@@ -70,6 +70,28 @@ class TrailMap extends StatelessWidget {
                   ),
                 ),
               ),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      bottom: kToolbarHeight * 2, left: kVerticalPadding),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'assets/images/trail-map-footer-2.png',
+                        scale: 1.5,
+                      ),
+                      const SizedBox(
+                        width: kVerticalPadding,
+                      ),
+                      Image.asset(
+                        'assets/images/trail-map-footer-1.png',
+                        scale: 1.5,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),
