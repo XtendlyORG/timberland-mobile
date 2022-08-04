@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:intl/intl.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/time_picker.dart';
 import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
 
@@ -78,7 +79,15 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
                   ),
                   TextButton(
                     onPressed: () {
-                      widget.controller.text = start.format(context);
+                      widget.controller.text = DateFormat('hh:mm a').format(
+                        DateTime(
+                          0,
+                          0,
+                          0,
+                          start.hour,
+                          start.minute,
+                        ),
+                      );
                       Navigator.pop(context);
                     },
                     child: const Text('DONE'),
