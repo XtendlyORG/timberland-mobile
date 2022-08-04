@@ -77,13 +77,22 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Timberland Mountain BikeTrail',
-      debugShowCheckedModeBanner: false,
-      theme: TimberlandTheme.lightTheme,
-      routeInformationParser: appRouter.routeInformationParser,
-      routeInformationProvider: appRouter.routeInformationProvider,
-      routerDelegate: appRouter.routerDelegate,
+    return Listener(
+      onPointerDown: (_) {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus &&
+            currentFocus.focusedChild != null) {
+          currentFocus.focusedChild!.unfocus();
+        }
+      },
+      child: MaterialApp.router(
+        title: 'Timberland Mountain BikeTrail',
+        debugShowCheckedModeBanner: false,
+        theme: TimberlandTheme.lightTheme,
+        routeInformationParser: appRouter.routeInformationParser,
+        routeInformationProvider: appRouter.routeInformationProvider,
+        routerDelegate: appRouter.routerDelegate,
+      ),
     );
   }
 }

@@ -105,7 +105,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final result = await repository.register(event.registerParameter);
       result.fold(
         (failure) {
-          emit(AuthError(errorMessage: failure.message));
+          emit(
+            OtpSent(
+              registerParameter: event.registerParameter,
+              message: failure.message,
+            ),
+          );
         },
         (user) {
           emit(
