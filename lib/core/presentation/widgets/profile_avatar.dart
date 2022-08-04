@@ -1,17 +1,23 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:photo_view/photo_view.dart';
+
+import 'package:timberland_biketrail/core/presentation/widgets/expanded_image.dart';
+import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 
 class ProfileAvatar extends StatelessWidget {
   const ProfileAvatar({
     Key? key,
     required this.imgUrl,
     required this.radius,
+    this.useAssetImage = false,
   }) : super(key: key);
 
   final String imgUrl;
   final double radius;
+  final bool useAssetImage;
 
   @override
   Widget build(BuildContext context) {
@@ -23,56 +29,38 @@ class ProfileAvatar extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) {
-                return ProfilePicture(
-                  imgUrl: imgUrl,
+                return ExpandedImage(
+                  imageProvider: buildImage(),
                   tag: radius.toString(),
                 );
               },
             ),
           );
         },
-        child: CircleAvatar(
-          radius: radius,
-          foregroundImage: CachedNetworkImageProvider(
-            imgUrl,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: TimberlandColor.text.withOpacity(.3),
+                blurRadius: 2.5,
+                spreadRadius: 2.5,
+              )
+            ],
+          ),
+          child: CircleAvatar(
+            radius: radius,
+            foregroundImage: buildImage(),
           ),
         ),
       ),
     );
   }
-}
 
-class ProfilePicture extends StatelessWidget {
-  const ProfilePicture({
-    Key? key,
-    required this.tag,
-    required this.imgUrl,
-  }) : super(key: key);
-  final String tag;
-  final String imgUrl;
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Hero(
-        tag: tag,
-        child: Scaffold(
-          appBar: AppBar(
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-          ),
-          extendBodyBehindAppBar: true,
-          backgroundColor: Colors.transparent,
-          body: PhotoView(
-            initialScale: PhotoViewComputedScale.contained,
-            maxScale: 1.5,
-            minScale: PhotoViewComputedScale.contained,
-            imageProvider: CachedNetworkImageProvider(
-              imgUrl,
-            ),
-          ),
-        ),
-      ),
-    );
+  ImageProvider buildImage() {
+    if (useAssetImage) {
+      return Image.file(File(imgUrl)).image;
+    }
+    return CachedNetworkImageProvider(imgUrl);
   }
 }

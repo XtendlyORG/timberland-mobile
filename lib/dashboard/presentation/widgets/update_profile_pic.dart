@@ -67,10 +67,10 @@ class _UpdateProfilePicState extends State<UpdateProfilePic> {
           alignment: Alignment.center,
           children: [
             if (fileImage != null)
-              CircleAvatar(
+              ProfileAvatar(
                 radius: 35,
-                backgroundImage:
-                    fileImage != null ? Image.file(fileImage!).image : null,
+                useAssetImage: true,
+                imgUrl: fileImage!.path,
               ),
             if (fileImage == null)
               ProfileAvatar(
