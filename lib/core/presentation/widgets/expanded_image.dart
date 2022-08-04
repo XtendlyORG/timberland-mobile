@@ -6,13 +6,12 @@ import 'package:photo_view/photo_view.dart';
 class ExpandedImage extends StatelessWidget {
   const ExpandedImage({
     Key? key,
-    this.useAssetImage = false,
+    required this.imageProvider,
     required this.tag,
-    required this.imgUrl,
   }) : super(key: key);
-  final bool useAssetImage;
+
+  final ImageProvider imageProvider;
   final String tag;
-  final String imgUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +27,7 @@ class ExpandedImage extends StatelessWidget {
                   initialScale: PhotoViewComputedScale.contained,
                   maxScale: 1.5,
                   minScale: PhotoViewComputedScale.contained,
-                  imageProvider: buildImage(),
+                  imageProvider: imageProvider,
                 ),
               ),
               Material(
@@ -42,12 +41,5 @@ class ExpandedImage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  ImageProvider buildImage() {
-    if (useAssetImage) {
-      return AssetImage(imgUrl);
-    }
-    return CachedNetworkImageProvider(imgUrl);
   }
 }

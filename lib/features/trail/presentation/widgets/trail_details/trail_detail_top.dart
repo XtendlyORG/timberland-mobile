@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/expanded_image.dart';
 
@@ -24,7 +25,9 @@ class TrailDetailTop extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) {
                     return ExpandedImage(
-                      imgUrl: trail.mapImageUrl,
+                      imageProvider: CachedNetworkImageProvider(
+                        trail.mapImageUrl,
+                      ),
                       tag: trail.trailId,
                     );
                   },

@@ -45,9 +45,10 @@ class TrailMap extends StatelessWidget {
                             fullscreenDialog: true,
                             builder: (context) {
                               return const ExpandedImage(
+                                imageProvider: AssetImage(
+                                  'assets/images/trail-map-legends.png',
+                                ),
                                 tag: 'trail-map-legends',
-                                useAssetImage: true,
-                                imgUrl: 'assets/images/trail-map-legends.png',
                               );
                             },
                           ),
