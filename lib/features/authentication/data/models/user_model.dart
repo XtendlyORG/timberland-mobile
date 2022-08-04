@@ -20,6 +20,7 @@ class UserModel extends User {
     required super.bikeYear,
     required super.bikeColor,
     required super.accessCode,
+    required super.emergencyContactInfo,
   });
   factory UserModel.fromMap(Map<String, dynamic> map) {
     map.forEach(
@@ -46,6 +47,9 @@ class UserModel extends User {
       bikeYear: map['year'] != null ? (map['year'] as num).toString() : null,
       bikeColor: map['color'] != null ? map['color'] as String : null,
       accessCode: map['access_code'] as String,
+      emergencyContactInfo: map['emergency_number'] != null
+          ? map['emergency_number'] as String
+          : null,
     );
   }
 }
