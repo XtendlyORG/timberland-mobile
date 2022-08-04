@@ -102,6 +102,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                   hintText: 'Profession',
                 ),
                 textInputAction: TextInputAction.next,
+                textCapitalization: TextCapitalization.words,
               ),
             ),
             Container(
@@ -176,7 +177,9 @@ class RegistrationContinuationForm extends StatelessWidget {
                 decoration: const InputDecoration(
                   hintText: 'Address',
                 ),
+                keyboardType: TextInputType.streetAddress,
                 textInputAction: TextInputAction.next,
+                textCapitalization: TextCapitalization.words,
               ),
             ),
             Container(
@@ -189,6 +192,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                   hintText: 'Blood Type',
                 ),
                 textInputAction: TextInputAction.next,
+                textCapitalization: TextCapitalization.words,
               ),
             ),
             Container(
@@ -260,6 +264,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                   hintText: 'Bike(model)',
                 ),
                 textInputAction: TextInputAction.next,
+                textCapitalization: TextCapitalization.words,
               ),
             ),
             SizedBox(
@@ -275,6 +280,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                           hintText: 'Bike(year)',
                         ),
                         textInputAction: TextInputAction.next,
+                        textCapitalization: TextCapitalization.words,
                       ),
                     ),
                   ),
@@ -291,6 +297,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                           hintText: 'Bike(color)',
                         ),
                         textInputAction: TextInputAction.done,
+                        textCapitalization: TextCapitalization.words,
                       ),
                     ),
                   ),
