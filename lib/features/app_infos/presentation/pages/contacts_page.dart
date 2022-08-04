@@ -40,7 +40,7 @@ class ContactsPageForm extends StatelessWidget {
     final subjectCtrl = TextEditingController();
     final messageCtrl = TextEditingController();
 
-    if(authState is Authenticated){
+    if (authState is Authenticated) {
       nameCtrl.text = '${authState.user.firstName} ${authState.user.lastName}';
       emailCtrl.text = authState.user.email;
     }
@@ -54,11 +54,16 @@ class ContactsPageForm extends StatelessWidget {
             decoration: const InputDecoration(
               hintText: 'Name',
             ),
+            textCapitalization: TextCapitalization.words,
+            textInputAction: TextInputAction.next,
           ),
           const SizedBox(
             height: kVerticalPadding,
           ),
-          EmailField(controller: emailCtrl),
+          EmailField(
+            controller: emailCtrl,
+            textInputAction: TextInputAction.next,
+          ),
           const SizedBox(
             height: kVerticalPadding,
           ),
@@ -73,6 +78,8 @@ class ContactsPageForm extends StatelessWidget {
             decoration: const InputDecoration(
               hintText: 'Subject',
             ),
+            textCapitalization: TextCapitalization.words,
+            textInputAction: TextInputAction.next,
           ),
           const SizedBox(
             height: kVerticalPadding,
@@ -89,6 +96,8 @@ class ContactsPageForm extends StatelessWidget {
             decoration: const InputDecoration(
               hintText: 'Message',
             ),
+            textCapitalization: TextCapitalization.sentences,
+            textInputAction: TextInputAction.newline,
           ),
           const SizedBox(height: kVerticalPadding),
           SizedBox(

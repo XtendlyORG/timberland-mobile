@@ -62,6 +62,7 @@ class RegistrationForm extends StatelessWidget {
                 hintText: 'First Name',
               ),
               textInputAction: TextInputAction.next,
+              textCapitalization: TextCapitalization.words,
             ),
           ),
           Container(
@@ -74,6 +75,7 @@ class RegistrationForm extends StatelessWidget {
                 hintText: 'Middle Name',
               ),
               textInputAction: TextInputAction.next,
+              textCapitalization: TextCapitalization.words,
             ),
           ),
           Container(
@@ -87,6 +89,7 @@ class RegistrationForm extends StatelessWidget {
                 hintText: 'Last Name',
               ),
               textInputAction: TextInputAction.next,
+              textCapitalization: TextCapitalization.words,
             ),
           ),
           Container(
@@ -129,7 +132,9 @@ class RegistrationForm extends StatelessWidget {
                     if (formKey.currentState!.validate()) {
                       onSumbit(
                         firstNameCtrl.text,
-                        middleNameCtrl.text.isNotEmpty?middleNameCtrl.text:null,
+                        middleNameCtrl.text.isNotEmpty
+                            ? middleNameCtrl.text
+                            : null,
                         lastNameCtrl.text,
                         emailCtrl.text,
                         passwordCtrl.text,

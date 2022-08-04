@@ -88,12 +88,12 @@ final appRouter = GoRouter(
       path: Routes.register.path,
       name: Routes.register.name,
       pageBuilder: (context, state) {
+        log("rebuilt");
+
         return CustomTransitionPage(
           key: state.pageKey,
           restorationId: state.pageKey.value,
-          child: Builder(builder: (ctx) {
-            return const RegistrationPage();
-          }),
+          child: const RegistrationPage(),
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
