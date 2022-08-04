@@ -27,13 +27,14 @@ class MobileNumberField extends StatelessWidget {
           width: 60,
           child: ExcludeFocus(
             child: TextField(
+              enableInteractiveSelection: false,
               decoration: InputDecoration(
-                  disabledBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Theme.of(context).primaryColor),
-                  ),
-                  hintText: '+63',
-                  hintStyle: Theme.of(context).textTheme.titleMedium),
+                disabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
+                ),
+                hintText: '+63',
+                hintStyle: Theme.of(context).textTheme.titleMedium,
+              ),
             ),
           ),
         ),
