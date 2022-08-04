@@ -332,9 +332,15 @@ class RegistrationContinuationForm extends StatelessWidget {
                                 emergencyContactsCtrl.text.isNotEmpty
                                     ? emergencyContactsCtrl.text
                                     : null,
-                            bikeModel: bikeModelCtrl.text.isNotEmpty?bikeModelCtrl.text:null,
-                            bikeYear: bikeYearCtrl.text.isNotEmpty?bikeYearCtrl.text:null,
-                            bikeColor: bikeColorCtrl.text.isNotEmpty?bikeColorCtrl.text:null,
+                            bikeModel: bikeModelCtrl.text.isNotEmpty
+                                ? bikeModelCtrl.text
+                                : null,
+                            bikeYear: bikeYearCtrl.text.isNotEmpty
+                                ? bikeYearCtrl.text
+                                : null,
+                            bikeColor: bikeColorCtrl.text.isNotEmpty
+                                ? bikeColorCtrl.text
+                                : null,
                             profilePic: imageFile,
                           ),
                         ),

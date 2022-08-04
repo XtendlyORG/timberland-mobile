@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import '../../../constants/constants.dart';
@@ -21,17 +23,17 @@ class MobileNumberField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        ExcludeFocus(
-          child: SizedBox(
-            width: 60,
-            child: TextFormField(
-              enabled: false,
-              controller: TextEditingController(text: '+63'),
+        SizedBox(
+          width: 60,
+          child: ExcludeFocus(
+            child: TextField(
               decoration: InputDecoration(
-                disabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                ),
-              ),
+                  disabledBorder: OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Theme.of(context).primaryColor),
+                  ),
+                  hintText: '+63',
+                  hintStyle: Theme.of(context).textTheme.titleMedium),
             ),
           ),
         ),
@@ -39,7 +41,6 @@ class MobileNumberField extends StatelessWidget {
           width: kVerticalPadding,
         ),
         Expanded(
-          flex: 8,
           child: TextFormField(
             controller: controller,
             decoration: InputDecoration(
