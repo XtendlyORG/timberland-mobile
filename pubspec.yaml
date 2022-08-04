@@ -92,7 +92,7 @@ flutter_native_splash:
     # color: "#101010"
 
     # App icon background color.
-    # icon_background_color: "#101010"
+    icon_background_color: "#101010"
 
   
 
