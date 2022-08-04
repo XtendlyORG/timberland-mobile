@@ -17,6 +17,7 @@ class User extends Equatable {
   final String? bloodType;
   final String email;
   final String mobileNumber;
+  final String? emergencyContactInfo;
   final String? bikeModel;
   final String? bikeYear;
   final String? bikeColor;
@@ -34,6 +35,7 @@ class User extends Equatable {
     this.bloodType,
     required this.email,
     required this.mobileNumber,
+    this.emergencyContactInfo,
     this.bikeModel,
     this.bikeYear,
     this.bikeColor,
@@ -75,6 +77,7 @@ class User extends Equatable {
     String? bloodType,
     String? email,
     String? mobileNumber,
+    String? emergencyContactInfo,
     String? bikeModel,
     String? bikeYear,
     String? bikeColor,
@@ -93,6 +96,7 @@ class User extends Equatable {
       bloodType: bloodType ?? this.bloodType,
       email: email ?? this.email,
       mobileNumber: mobileNumber ?? this.mobileNumber,
+      emergencyContactInfo: emergencyContactInfo ?? this.emergencyContactInfo,
       bikeModel: bikeModel ?? this.bikeModel,
       bikeYear: bikeYear ?? this.bikeYear,
       bikeColor: bikeColor ?? this.bikeColor,

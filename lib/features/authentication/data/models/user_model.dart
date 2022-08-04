@@ -20,6 +20,7 @@ class UserModel extends User {
     required super.bikeYear,
     required super.bikeColor,
     required super.accessCode,
+    required super.emergencyContactInfo,
   });
   factory UserModel.fromMap(Map<String, dynamic> map) {
     map.forEach(
@@ -36,8 +37,9 @@ class UserModel extends User {
       profilePicUrl: map['profile_pic'] as String? ?? '',
       gender: map['gender'] as String,
       birthday: DateTime.tryParse(map['birth_date'] as String? ?? ''),
-      address: map['address'] as String,
-      profession: map['profession'] as String,
+      address: map['address'] != null ? map['address'] as String : null,
+      profession:
+          map['profession'] != null ? map['profession'] as String : null,
       bloodType: map['blood_type'] != null ? map['blood_type'] as String : null,
       email: map['email'] as String,
       mobileNumber: map['mobile_number'] as String,
@@ -45,6 +47,9 @@ class UserModel extends User {
       bikeYear: map['year'] != null ? (map['year'] as num).toString() : null,
       bikeColor: map['color'] != null ? map['color'] as String : null,
       accessCode: map['access_code'] as String,
+      emergencyContactInfo: map['emergency_number'] != null
+          ? map['emergency_number'] as String
+          : null,
     );
   }
 }

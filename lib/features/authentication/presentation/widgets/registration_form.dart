@@ -129,7 +129,7 @@ class RegistrationForm extends StatelessWidget {
                     if (formKey.currentState!.validate()) {
                       onSumbit(
                         firstNameCtrl.text,
-                        middleNameCtrl.text,
+                        middleNameCtrl.text.isNotEmpty?middleNameCtrl.text:null,
                         lastNameCtrl.text,
                         emailCtrl.text,
                         passwordCtrl.text,
