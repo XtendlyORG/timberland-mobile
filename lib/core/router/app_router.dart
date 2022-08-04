@@ -89,7 +89,7 @@ final appRouter = GoRouter(
       name: Routes.register.name,
       pageBuilder: (context, state) {
         log("rebuilt");
-        
+
         return CustomTransitionPage(
           key: state.pageKey,
           restorationId: state.pageKey.value,
