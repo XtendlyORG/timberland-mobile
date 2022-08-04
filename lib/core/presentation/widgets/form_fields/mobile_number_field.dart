@@ -2,6 +2,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../constants/constants.dart';
 
@@ -62,8 +63,11 @@ class MobileNumberField extends StatelessWidget {
                   return null;
                 },
             maxLength: 10,
-            keyboardType: TextInputType.phone,
+            keyboardType: TextInputType.number,
             textInputAction: textInputAction,
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+            ],
           ),
         ),
       ],
