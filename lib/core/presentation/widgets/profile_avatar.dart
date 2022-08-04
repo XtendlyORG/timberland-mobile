@@ -2,6 +2,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/expanded_image.dart';
 
 class ProfileAvatar extends StatelessWidget {
   const ProfileAvatar({
@@ -23,7 +24,7 @@ class ProfileAvatar extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) {
-                return ProfilePicture(
+                return ExpandedImage(
                   imgUrl: imgUrl,
                   tag: radius.toString(),
                 );
@@ -35,41 +36,6 @@ class ProfileAvatar extends StatelessWidget {
           radius: radius,
           foregroundImage: CachedNetworkImageProvider(
             imgUrl,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class ProfilePicture extends StatelessWidget {
-  const ProfilePicture({
-    Key? key,
-    required this.tag,
-    required this.imgUrl,
-  }) : super(key: key);
-  final String tag;
-  final String imgUrl;
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Hero(
-        tag: tag,
-        child: Scaffold(
-          appBar: AppBar(
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-          ),
-          extendBodyBehindAppBar: true,
-          backgroundColor: Colors.transparent,
-          body: PhotoView(
-            initialScale: PhotoViewComputedScale.contained,
-            maxScale: 1.5,
-            minScale: PhotoViewComputedScale.contained,
-            imageProvider: CachedNetworkImageProvider(
-              imgUrl,
-            ),
           ),
         ),
       ),

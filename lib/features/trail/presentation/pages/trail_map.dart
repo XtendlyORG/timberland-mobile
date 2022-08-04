@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/expanded_image.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_scaffold.dart';
 
 class TrailMap extends StatelessWidget {
@@ -43,7 +44,11 @@ class TrailMap extends StatelessWidget {
                           MaterialPageRoute(
                             fullscreenDialog: true,
                             builder: (context) {
-                              return const TrailMapLegends();
+                              return const ExpandedImage(
+                                tag: 'trail-map-legends',
+                                useAssetImage: true,
+                                imgUrl: 'assets/images/trail-map-legends.png',
+                              );
                             },
                           ),
                         );
@@ -93,35 +98,6 @@ class TrailMap extends StatelessWidget {
                 ),
               ),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class TrailMapLegends extends StatelessWidget {
-  const TrailMapLegends({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Hero(
-        tag: 'trail-map-legends',
-        child: Scaffold(
-          appBar: AppBar(
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-          ),
-          extendBodyBehindAppBar: true,
-          backgroundColor: Colors.transparent,
-          body: PhotoView(
-            initialScale: PhotoViewComputedScale.contained,
-            maxScale: 5.0,
-            minScale: PhotoViewComputedScale.contained,
-            imageProvider: const AssetImage(
-              'assets/images/trail-map-legends.png',
-            ),
           ),
         ),
       ),
