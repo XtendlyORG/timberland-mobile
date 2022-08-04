@@ -36,8 +36,9 @@ class UserModel extends User {
       profilePicUrl: map['profile_pic'] as String? ?? '',
       gender: map['gender'] as String,
       birthday: DateTime.tryParse(map['birth_date'] as String? ?? ''),
-      address: map['address'] as String,
-      profession: map['profession'] as String,
+      address: map['address'] != null ? map['address'] as String : null,
+      profession:
+          map['profession'] != null ? map['profession'] as String : null,
       bloodType: map['blood_type'] != null ? map['blood_type'] as String : null,
       email: map['email'] as String,
       mobileNumber: map['mobile_number'] as String,

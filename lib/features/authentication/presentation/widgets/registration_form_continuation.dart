@@ -317,15 +317,24 @@ class RegistrationContinuationForm extends StatelessWidget {
                       BlocProvider.of<AuthBloc>(context).add(
                         SendOtpEvent(
                           registerParameter: registerParameter.copyWith(
-                            profession: professionCtrl.text,
+                            profession: professionCtrl.text.isNotEmpty
+                                ? professionCtrl.text
+                                : null,
                             gender: selectedGender,
                             birthDay: birthday,
-                            address: addressCtrl.text,
-                            bloodType: bloodTypeCtrl.text,
-                            emergencyContactInfo: emergencyContactsCtrl.text,
-                            bikeModel: bikeModelCtrl.text,
-                            bikeYear: bikeYearCtrl.text,
-                            bikeColor: bikeColorCtrl.text,
+                            address: addressCtrl.text.isNotEmpty
+                                ? addressCtrl.text
+                                : null,
+                            bloodType: bloodTypeCtrl.text.isNotEmpty
+                                ? bloodTypeCtrl.text
+                                : null,
+                            emergencyContactInfo:
+                                emergencyContactsCtrl.text.isNotEmpty
+                                    ? emergencyContactsCtrl.text
+                                    : null,
+                            bikeModel: bikeModelCtrl.text.isNotEmpty?bikeModelCtrl.text:null,
+                            bikeYear: bikeYearCtrl.text.isNotEmpty?bikeYearCtrl.text:null,
+                            bikeColor: bikeColorCtrl.text.isNotEmpty?bikeColorCtrl.text:null,
                             profilePic: imageFile,
                           ),
                         ),
