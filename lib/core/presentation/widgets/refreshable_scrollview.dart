@@ -16,6 +16,7 @@ class RefreshableScrollView extends StatelessWidget {
     return RefreshIndicator(
         onRefresh: onRefresh,
         child: SingleChildScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           physics: const AlwaysScrollableScrollPhysics(),
           child: child,
         ));

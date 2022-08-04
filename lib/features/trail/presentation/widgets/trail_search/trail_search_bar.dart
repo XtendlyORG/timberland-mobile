@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
@@ -23,18 +25,30 @@ class TrailSearchBar extends StatefulWidget {
   State<TrailSearchBar> createState() => _TrailSearchBarState();
 }
 
-class _TrailSearchBarState extends State<TrailSearchBar> {
+class _TrailSearchBarState extends State<TrailSearchBar>
+    with WidgetsBindingObserver {
   late bool showIconLabels;
   late FocusNode searchFocusNode;
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     searchFocusNode = FocusNode();
     showIconLabels = true;
   }
 
   @override
+  void didChangeMetrics() {
+    super.didChangeMetrics();
+
+    if (!WidgetsBinding.instance.isRootWidgetAttached) {
+      searchFocusNode.unfocus();
+    }
+  }
+
+  @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     searchFocusNode.dispose();
     super.dispose();
   }
