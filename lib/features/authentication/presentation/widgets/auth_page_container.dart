@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:timberland_biketrail/core/constants/constants.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/loading_snackbar_content.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_logo.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
@@ -65,23 +66,8 @@ class AuthPageContainer extends StatelessWidget {
             ..clearSnackBars()
             ..showSnackBar(
               SnackBar(
-                content: Row(
-                  children: [
-                    const SizedBox(
-                      height: 24,
-                      width: 24,
-                      child: RepaintBoundary(
-                        child: CircularProgressIndicator(),
-                      ),
-                    ),
-                    const SizedBox(width: kVerticalPadding),
-                    Expanded(
-                      child: AutoSizeText(
-                        state.loadingMessage,
-                        maxLines: 1,
-                      ),
-                    ),
-                  ],
+                content: LoadingSnackBarContent(
+                  loadingMessage: state.loadingMessage,
                 ),
               ),
             );

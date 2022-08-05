@@ -1,6 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:timberland_biketrail/core/utils/device_storage/create_file_from_asset.dart';
+import 'package:timberland_biketrail/core/utils/device_storage/get_media_folder.dart';
 import 'package:timberland_biketrail/features/trail/domain/entities/trail.dart';
 import 'package:timberland_biketrail/features/trail/domain/params/fetch_trails.dart';
 import 'package:timberland_biketrail/features/trail/domain/params/search_trails.dart';
@@ -47,8 +52,23 @@ class TrailBloc extends Bloc<TrailEvent, TrailState> {
       );
     });
 
-    on<SearchTrailMapEvent>((event, emit) async {
-      emit(TrailMapLoaded());
+    on<SaveTrailMapEvent>((event, emit) async {
+      emit(SavingTrailMap());
+      final imgPath = await getPhotoDirectory('Timberland');
+      try {
+        await event.imageFile.copy("$imgPath/trail-map.png");
+        emit(
+          TrailMapSaved(
+            path: imgPath,
+          ),
+        );
+      } catch (e) {
+        emit(
+          const TrailMapSaveError(
+            errorMessage: "Failed to save Trail Map",
+          ),
+        );
+      }
     });
   }
 }
