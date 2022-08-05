@@ -54,7 +54,6 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
       controller: widget.controller,
       enabled: widget.enabled,
       enableInteractiveSelection: false,
-      style: Theme.of(context).textTheme.bodyText1,
       validator: (val) {
         return nonEmptyValidator(val, errorMessage: 'Select time range');
       },

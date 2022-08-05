@@ -21,7 +21,6 @@ class BookingDatePicker extends StatelessWidget {
       controller: controller,
       enabled: enabled,
       enableInteractiveSelection: false,
-      style: Theme.of(context).textTheme.bodyText1,
       validator: (val){
         return nonEmptyValidator(val,errorMessage: 'Select a date');
       },

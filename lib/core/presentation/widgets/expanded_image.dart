@@ -21,13 +21,11 @@ class ExpandedImage extends StatelessWidget {
           tag: tag,
           child: Stack(
             children: [
-              Expanded(
-                child: PhotoView(
-                  initialScale: PhotoViewComputedScale.contained,
-                  maxScale: 1.5,
-                  minScale: PhotoViewComputedScale.contained,
-                  imageProvider: imageProvider,
-                ),
+              PhotoView(
+                initialScale: PhotoViewComputedScale.contained,
+                maxScale: 1.5,
+                minScale: PhotoViewComputedScale.contained,
+                imageProvider: imageProvider,
               ),
               Material(
                 color: Colors.transparent,
