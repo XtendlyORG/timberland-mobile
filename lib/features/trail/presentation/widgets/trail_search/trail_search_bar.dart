@@ -90,18 +90,19 @@ class _TrailSearchBarState extends State<TrailSearchBar>
                   searchFocusNode.unfocus();
                 }
               },
+              textAlignVertical: TextAlignVertical.center,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 focusedBorder: InputBorder.none,
                 enabledBorder: InputBorder.none,
                 fillColor: TimberlandColor.primary.withOpacity(.05),
-                contentPadding:
-                    const EdgeInsets.only(top: 12), //align icons to hint text
                 hintText: 'Trail Name',
                 prefixIcon: const Icon(
                   Icons.search,
+                  size: 26,
                 ),
                 prefixIconColor: Theme.of(context).disabledColor,
+                contentPadding: EdgeInsets.zero,
                 suffixIcon: GestureDetector(
                   onTap: () {
                     widget.searchCtrl.clear();
@@ -116,6 +117,7 @@ class _TrailSearchBarState extends State<TrailSearchBar>
                       Icon(
                         Icons.circle,
                         color: Theme.of(context).disabledColor,
+                        size: 24,
                       ),
                       const Icon(
                         Icons.close,
@@ -144,6 +146,7 @@ class _TrailSearchBarState extends State<TrailSearchBar>
                 Icon(
                   Icons.filter_alt_outlined,
                   color: Theme.of(context).disabledColor,
+                  size: 24,
                 ),
               ],
             ),
@@ -164,6 +167,7 @@ class _TrailSearchBarState extends State<TrailSearchBar>
                 Icon(
                   Icons.map_outlined,
                   color: Theme.of(context).disabledColor,
+                  size: 24,
                 ),
               ],
             ),
