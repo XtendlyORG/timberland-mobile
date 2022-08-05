@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:timberland_biketrail/features/authentication/data/models/user_model.dart';
-import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
+
+import '../../features/authentication/data/models/user_model.dart';
+import '../../features/authentication/domain/entities/user.dart';
 
 class Session extends ChangeNotifier {
   static final Session _instance = Session._();

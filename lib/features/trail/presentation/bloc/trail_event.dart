@@ -24,9 +24,12 @@ class SearchTrailsEvent extends TrailEvent {
   });
 }
 
-class SearchTrailMapEvent extends TrailEvent {
-  final SearchTrailsParams searchTrailsParams;
-  const SearchTrailMapEvent({
-    required this.searchTrailsParams,
+class SaveTrailMapEvent extends TrailEvent {
+  final File imageFile;
+  const SaveTrailMapEvent({
+    required this.imageFile,
   });
+
+  @override
+  List<Object> get props => super.props..add(imageFile);
 }

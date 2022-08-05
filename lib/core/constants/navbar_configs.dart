@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 
 import '../presentation/widgets/bottom_navbar.dart';
 import '../router/router.dart';
+import '../themes/timberland_color.dart';
 
 final List<BottomNavBarConfigs> navbarConfigs = [
   BottomNavBarConfigs(

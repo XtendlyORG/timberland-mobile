@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timberland_biketrail/core/constants/constants.dart';
-import 'package:timberland_biketrail/core/router/router.dart';
-import 'package:timberland_biketrail/core/themes/timberland_color.dart';
+
+import '../../../../core/constants/constants.dart';
+import '../../../../core/router/router.dart';
+import '../../../../core/themes/timberland_color.dart';
 
 class EmergencyDialog extends StatelessWidget {
   const EmergencyDialog({Key? key}) : super(key: key);

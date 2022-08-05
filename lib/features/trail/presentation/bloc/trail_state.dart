@@ -58,4 +58,22 @@ abstract class TrailMapState extends TrailState {
   const TrailMapState();
 }
 
-class TrailMapLoaded extends TrailMapState {}
+class SavingTrailMap extends TrailMapState {}
+
+class TrailMapSaved extends TrailMapState {
+  final String path;
+  const TrailMapSaved({
+    required this.path,
+  });
+  @override
+  List<Object> get props => super.props..add(path);
+}
+
+class TrailMapSaveError extends TrailMapState {
+  final String errorMessage;
+  const TrailMapSaveError({
+    required this.errorMessage,
+  });
+  @override
+  List<Object> get props => super.props..add(errorMessage);
+}
