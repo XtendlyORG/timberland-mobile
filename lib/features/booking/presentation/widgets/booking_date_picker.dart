@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
 
 import '../../../../core/presentation/widgets/date_picker.dart';
+import '../../../../core/utils/validators/non_empty_validator.dart';
 
 class BookingDatePicker extends StatelessWidget {
   const BookingDatePicker({

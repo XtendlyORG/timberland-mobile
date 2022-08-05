@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:timberland_biketrail/core/utils/device_storage/create_file_from_asset.dart';
 import 'package:timberland_biketrail/core/utils/device_storage/get_media_folder.dart';
 import 'package:timberland_biketrail/features/trail/domain/entities/trail.dart';
 import 'package:timberland_biketrail/features/trail/domain/params/fetch_trails.dart';

@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/expanded_image.dart';
 
 import '../../../../../core/constants/constants.dart';
+import '../../../../../core/presentation/widgets/expanded_image.dart';
 import '../../../../../core/presentation/widgets/inherited_widgets/inherited_trail.dart';
 import '../../../domain/entities/trail.dart';
 

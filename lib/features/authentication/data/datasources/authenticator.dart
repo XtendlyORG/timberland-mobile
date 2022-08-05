@@ -1,6 +1,5 @@
-import 'package:timberland_biketrail/features/authentication/domain/params/params.dart';
-
 import '../../domain/entities/user.dart';
+import '../../domain/params/params.dart';
 
 abstract class Authenticator {
   Future<User> fingerPrintAuth();
