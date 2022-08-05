@@ -1,11 +1,8 @@
-import 'dart:developer';
 import 'dart:io';
-
-import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 Future<String> getPhotoDirectory(String directory) async {
-  final dir = Directory('storage/emulated/0/DCIM/$directory');
+  final dir = Directory('storage/emulated/0/Pictures/$directory');
   final status = await Permission.manageExternalStorage.status;
   if (!status.isGranted && !status.isRestricted) {
     await Permission.manageExternalStorage.request();
