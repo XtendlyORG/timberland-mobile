@@ -20,8 +20,32 @@ class UpdatingProfile extends ProfileState {
   });
 
   @override
-  // TODO: implement props
   List<Object> get props => super.props..addAll([pageNum, updatedUser]);
 }
 
-class ProfileUpdated extends ProfileState {}
+class ProfileUpdateRequestSent extends ProfileState {
+  final String loadingMessage;
+  const ProfileUpdateRequestSent({
+    required this.loadingMessage,
+  });
+  @override
+  List<Object> get props => super.props..add(loadingMessage);
+}
+
+class ProfileUpdateError extends ProfileState {
+  final String errorMessage;
+  const ProfileUpdateError({
+    required this.errorMessage,
+  });
+  @override
+  List<Object> get props => super.props..add(errorMessage);
+}
+
+class ProfileUpdated extends ProfileState {
+  final User user;
+  const ProfileUpdated({
+    required this.user,
+  });
+  @override
+  List<Object> get props => super.props..add(user);
+}

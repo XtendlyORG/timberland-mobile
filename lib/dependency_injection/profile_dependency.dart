@@ -5,6 +5,8 @@ import '../dashboard/presentation/bloc/profile_bloc.dart';
 final serviceLocator = GetIt.instance;
 void init() {
   serviceLocator.registerFactory<ProfileBloc>(
-    () => ProfileBloc(),
+    () => ProfileBloc(
+      repository: serviceLocator(),
+    ),
   );
 }

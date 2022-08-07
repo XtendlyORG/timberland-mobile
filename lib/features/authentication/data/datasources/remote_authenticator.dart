@@ -5,8 +5,10 @@ import 'package:dio/dio.dart';
 
 import '../../../../core/configs/environment_configs.dart';
 import '../../../../core/errors/exceptions.dart';
+import '../../../../core/utils/session.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/params/params.dart';
+import '../../domain/params/update_profile.dart';
 import '../models/user_model.dart';
 import 'authenticator.dart';
 
@@ -182,8 +184,66 @@ class RemoteAuthenticator implements Authenticator {
   }
 
   @override
-  Future<User> fingerPrintAuth() {
-    // TODO: implement fingerPrintAuth
-    throw UnimplementedError();
+  Future<User> updateProfile(UpdateProfileParams updateProfileParams) async {
+    try {
+      MultipartFile? profilePic;
+      if (updateProfileParams.profilePic != null) {
+        profilePic = await MultipartFile.fromFile(
+          updateProfileParams.profilePic!.path,
+        );
+      }
+
+      final response = await dioClient.put(
+        '${environmentConfig.apihost}/users/${Session().currentUser?.id}',
+        data: FormData.fromMap(
+          updateProfileParams.toMap()
+            ..addEntries(
+              {'profile_pic': profilePic}.entries,
+            ),
+        ),
+      );
+      log(response.statusCode.toString());
+      if (response.statusCode == 200) {
+        return Session().currentUser!.copyWith(
+              address: updateProfileParams.address,
+              bikeColor: updateProfileParams.bikeColor,
+              bikeModel: updateProfileParams.bikeModel,
+              bikeYear: updateProfileParams.bikeYear,
+              birthday: updateProfileParams.birthDay,
+              bloodType: updateProfileParams.bloodType,
+              email: updateProfileParams.email,
+              emergencyContactInfo: updateProfileParams.emergencyContactInfo,
+              firstName: updateProfileParams.firstName,
+              gender: updateProfileParams.gender,
+              lastName: updateProfileParams.lastName,
+              middleName: updateProfileParams.middleName,
+              mobileNumber: updateProfileParams.mobileNumber,
+              profession: updateProfileParams.profession,
+              profilePicUrl: updateProfileParams.profilePic?.path,
+            );
+      }
+      throw AuthException();
+    } on AuthException {
+      rethrow;
+    } on DioError catch (dioError) {
+      log(dioError.response?.statusCode?.toString() ?? "statuscode: null");
+      log(dioError.response?.data.toString() ?? 'no data');
+      if ((dioError.response?.statusCode ?? -1) == 400) {
+        throw AuthException(
+          message: dioError.response?.data?.toString() ?? 'Failed to send OTP',
+        );
+      } else if ((dioError.response?.statusCode ?? -1) == 502) {
+        log(dioError.response?.data?.toString() ?? "No error message: 502");
+        throw AuthException(
+          message: 'Internal Server Error',
+        );
+      }
+      throw AuthException(
+        message: "Error Occurred",
+      );
+    } catch (e) {
+      log(e.toString());
+      throw AuthException(message: "An Error Occurred");
+    }
   }
 }

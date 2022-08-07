@@ -8,6 +8,15 @@ abstract class AuthEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class UpdateUser extends AuthEvent {
+  final User newUser;
+  const UpdateUser({
+    required this.newUser,
+  });
+  @override
+  List<Object> get props => super.props..add(newUser);
+}
+
 class FetchUserEvent extends AuthEvent {
   const FetchUserEvent();
 }

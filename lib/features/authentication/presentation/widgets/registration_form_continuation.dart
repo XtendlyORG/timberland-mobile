@@ -12,7 +12,6 @@ import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/date_picker.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/form_fields/form_fields.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/form_fields/mobile_number_field.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/image_picker_options_bottomsheet.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/inherited_widgets/inherited_register_parameter.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
@@ -320,41 +319,47 @@ class RegistrationContinuationForm extends StatelessWidget {
               child: FilledTextButton(
                 onPressed: () {
                   if (formKey.currentState!.validate() && agreedToTermsOfUse) {
+                    final registerParams = registerParameter.copyWith(
+                      profession: professionCtrl.text.isNotEmpty
+                          ? professionCtrl.text
+                          : null,
+                      gender: selectedGender,
+                      birthDay: birthday,
+                      address:
+                          addressCtrl.text.isNotEmpty ? addressCtrl.text : null,
+                      bloodType: bloodTypeCtrl.text.isNotEmpty
+                          ? bloodTypeCtrl.text
+                          : null,
+                      emergencyContactInfo:
+                          emergencyContactsCtrl.text.isNotEmpty
+                              ? emergencyContactsCtrl.text
+                              : null,
+                      bikeModel: bikeModelCtrl.text.isNotEmpty
+                          ? bikeModelCtrl.text
+                          : null,
+                      bikeYear: bikeYearCtrl.text.isNotEmpty
+                          ? bikeYearCtrl.text
+                          : null,
+                      bikeColor: bikeColorCtrl.text.isNotEmpty
+                          ? bikeColorCtrl.text
+                          : null,
+                      profilePic: imageFile,
+                    );
                     if (user == null) {
                       BlocProvider.of<AuthBloc>(context).add(
-                        SendOtpEvent(
-                          registerParameter: registerParameter.copyWith(
-                            profession: professionCtrl.text.isNotEmpty
-                                ? professionCtrl.text
-                                : null,
-                            gender: selectedGender,
-                            birthDay: birthday,
-                            address: addressCtrl.text.isNotEmpty
-                                ? addressCtrl.text
-                                : null,
-                            bloodType: bloodTypeCtrl.text.isNotEmpty
-                                ? bloodTypeCtrl.text
-                                : null,
-                            emergencyContactInfo:
-                                emergencyContactsCtrl.text.isNotEmpty
-                                    ? emergencyContactsCtrl.text
-                                    : null,
-                            bikeModel: bikeModelCtrl.text.isNotEmpty
-                                ? bikeModelCtrl.text
-                                : null,
-                            bikeYear: bikeYearCtrl.text.isNotEmpty
-                                ? bikeYearCtrl.text
-                                : null,
-                            bikeColor: bikeColorCtrl.text.isNotEmpty
-                                ? bikeColorCtrl.text
-                                : null,
-                            profilePic: imageFile,
+                        SendOtpEvent(registerParameter: registerParams),
+                      );
+                    } else {
+                      BlocProvider.of<ProfileBloc>(context).add(
+                        SubmitUpdateRequestEvent(
+                          updateProfileParams:
+                              UpdateProfileParams.fromRegisterParams(
+                            registerParams.copyWith(
+                              password: passwordCtrl.text,
+                            ),
                           ),
                         ),
                       );
-                    } else {
-                      BlocProvider.of<ProfileBloc>(context)
-                          .add(SubmitUpdateRequestEvent());
                     }
                   }
                   if (!agreedToTermsOfUse) {

@@ -5,6 +5,7 @@ import 'package:timberland_biketrail/core/errors/failures.dart';
 import 'package:timberland_biketrail/features/authentication/data/datasources/authenticator.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
 import 'package:timberland_biketrail/features/authentication/domain/params/params.dart';
+import 'package:timberland_biketrail/features/authentication/domain/params/update_profile.dart';
 import 'package:timberland_biketrail/features/authentication/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -68,8 +69,13 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<AuthFailure, User>> fingerPrintAuth() {
-    return authRequest(request: authenticator.fingerPrintAuth);
+  Future<Either<AuthFailure, User>> updateProfile(
+      UpdateProfileParams updateProfileParams) {
+    return authRequest(
+      request: () => authenticator.updateProfile(
+        updateProfileParams,
+      ),
+    );
   }
 
   Future<Either<AuthFailure, ReturnType>> authRequest<ReturnType>({

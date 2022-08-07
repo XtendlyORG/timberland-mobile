@@ -1,13 +1,18 @@
 import 'dart:io';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/constants/constants.dart';
 import '../../../core/presentation/widgets/inherited_widgets/inherited_register_parameter.dart';
+import '../../../core/presentation/widgets/snackbar_content/loading_snackbar_content.dart';
+import '../../../core/router/router.dart';
 import '../../../features/authentication/domain/entities/user.dart';
 import '../../../features/authentication/domain/params/register.dart';
 import '../../../features/authentication/domain/params/update_profile.dart';
+import '../../../features/authentication/presentation/bloc/auth_bloc.dart';
 import '../../../features/authentication/presentation/widgets/registration_form.dart';
 import '../../../features/authentication/presentation/widgets/registration_form_continuation.dart';
 import '../bloc/profile_bloc.dart';
@@ -25,26 +30,31 @@ class UpdateProfileForm extends StatelessWidget {
     File? newImageFile;
     return BlocBuilder<ProfileBloc, ProfileState>(
       buildWhen: (previous, current) {
-        if (current is ProfileInitial) {
-          BlocProvider.of<ProfileBloc>(context).add(UpdateProfileEvent(
-            user: UpdateProfileParams(
-              firstName: user.firstName,
-              middleName: user.middleName,
-              lastName: user.lastName,
-              email: user.email,
-              mobileNumber: user.mobileNumber,
-              address: user.address,
-              gender: user.gender,
-              birthDay: user.birthday,
-              bloodType: user.bloodType,
-              profession: user.profession,
-              bikeColor: user.bikeColor,
-              bikeModel: user.bikeModel,
-              bikeYear: user.bikeYear,
+        if (current is ProfileUpdateRequestSent) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: LoadingSnackBarContent(
+                loadingMessage: current.loadingMessage,
+              ),
             ),
-          ));
+          );
         }
-        return current is! ProfileUpdated && current is! ProfileInitial;
+        if (current is ProfileUpdated) {
+          ScaffoldMessenger.of(context)
+            ..clearSnackBars()
+            ..showSnackBar(
+              const SnackBar(
+                content: AutoSizeText('Profile Updated'),
+              ),
+            );
+          BlocProvider.of<AuthBloc>(context).add(
+            UpdateUser(newUser: current.user),
+          );
+
+          context.goNamed(Routes.profile.name);
+        }
+
+        return current is! ProfileUpdateRequestSent;
       },
       builder: (context, state) {
         if (state is ProfileInitial) {

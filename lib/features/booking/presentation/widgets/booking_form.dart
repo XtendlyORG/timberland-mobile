@@ -12,9 +12,7 @@ import 'package:timberland_biketrail/features/booking/presentation/widgets/booki
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/presentation/widgets/widgets.dart';
-import '../../../trail/domain/entities/trail.dart';
 import '../bloc/booking_bloc.dart';
-import 'trail_list_dropdown.dart';
 
 class BookingForm extends StatefulWidget {
   const BookingForm({

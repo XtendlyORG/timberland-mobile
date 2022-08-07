@@ -4,11 +4,10 @@ import '../../../../core/errors/failures.dart';
 import '../../../../core/utils/repository.dart';
 import '../entities/user.dart';
 import '../params/params.dart';
+import '../params/update_profile.dart';
 
 abstract class AuthRepository extends Repository {
   Future<Either<AuthFailure, User>> login(LoginParameter params);
-
-  Future<Either<AuthFailure, User>> fingerPrintAuth();
 
   Future<Either<AuthFailure, void>> sendOtp(RegisterParameter params);
 
@@ -26,5 +25,9 @@ abstract class AuthRepository extends Repository {
 
   Future<Either<AuthFailure, void>> forgotPassword(
     ForgotPasswordParams forgotPasswordParams,
+  );
+
+  Future<Either<AuthFailure, User>> updateProfile(
+    UpdateProfileParams updateProfileParams,
   );
 }

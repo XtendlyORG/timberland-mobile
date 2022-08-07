@@ -27,4 +27,11 @@ class NavigateToNextPage extends ProfileEvent {
   });
 }
 
-class SubmitUpdateRequestEvent extends ProfileEvent {}
+class SubmitUpdateRequestEvent extends ProfileEvent {
+  final UpdateProfileParams updateProfileParams;
+  const SubmitUpdateRequestEvent({
+    required this.updateProfileParams,
+  });
+  @override
+  List<Object> get props => super.props..add(updateProfileParams);
+}
