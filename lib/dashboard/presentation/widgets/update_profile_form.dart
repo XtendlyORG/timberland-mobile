@@ -54,7 +54,9 @@ class UpdateProfileForm extends StatelessWidget {
           context.goNamed(Routes.profile.name);
         }
 
-        return current is! ProfileUpdateRequestSent;
+        return current is! ProfileUpdateRequestSent &&
+            current is! ProfileInitial &&
+            current is! ProfileUpdated;
       },
       builder: (context, state) {
         if (state is ProfileInitial) {
