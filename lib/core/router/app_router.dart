@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/404_page.dart';
+import 'package:timberland_biketrail/core/presentation/pages/404_page.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/inherited_widgets/inherited_register_parameter.dart';
 import 'package:timberland_biketrail/features/authentication/domain/params/register.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/pages/registration_continuation_page.dart';

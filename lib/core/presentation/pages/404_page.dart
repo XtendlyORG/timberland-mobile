@@ -1,12 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/timberland_container.dart';
 
 import '../../constants/constants.dart';
 import '../../router/router.dart';
 import '../../themes/timberland_color.dart';
-import 'filled_text_button.dart';
-import 'timberland_container.dart';
+import '../widgets/filled_text_button.dart';
+import '../widgets/timberland_container.dart';
 
 class RouteNotFoundPage extends StatelessWidget {
   final String location;
