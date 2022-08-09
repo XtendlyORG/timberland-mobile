@@ -64,10 +64,17 @@ class FAQError extends FAQState {
 abstract class ContactState extends AppInfoState {}
 
 class InquirySent extends ContactState {
-  final Inquiry inquiry;
-  InquirySent({
-    required this.inquiry,
+  InquirySent();
+}
+
+class SendingInquiry extends ContactState {}
+
+class InquiryError extends ContactState {
+  final String errorMessage;
+  InquiryError({
+    required this.errorMessage,
   });
+
   @override
-  List<Object?> get props => super.props..add(inquiry);
+  List<Object?> get props => super.props..add(errorMessage);
 }

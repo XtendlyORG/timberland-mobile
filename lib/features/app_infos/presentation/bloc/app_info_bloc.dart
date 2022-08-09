@@ -69,5 +69,19 @@ class AppInfoBloc extends Bloc<AppInfoEvent, AppInfoState> {
         },
       );
     });
+
+    on<SendInquiryEvent>((event, emit) async {
+      emit(SendingInquiry());
+
+      final result = await repository.sendInquiry(event.inquiry);
+      result.fold(
+        (l) {
+          emit(InquiryError(errorMessage: l.message));
+        },
+        (r) {
+          emit(InquirySent());
+        },
+      );
+    });
   }
 }

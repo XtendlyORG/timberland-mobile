@@ -1,10 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/loading_snackbar_content.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
+import 'package:timberland_biketrail/features/app_infos/domain/entities/inquiry.dart';
 import 'package:timberland_biketrail/features/app_infos/presentation/bloc/app_info_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 
@@ -16,8 +19,41 @@ class ContactsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AppInfoBloc, AppInfoState>(
+      listenWhen: (previous, current) => current is ContactState,
       listener: (context, state) {
-        // TODO: implement listener
+        if (state is SendingInquiry) {
+          ScaffoldMessenger.of(context)
+            ..clearSnackBars()
+            ..showSnackBar(
+              const SnackBar(
+                content: LoadingSnackBarContent(
+                    loadingMessage: 'Sending your message...'),
+              ),
+            );
+        }
+        
+        if (state is InquiryError) {
+          ScaffoldMessenger.of(context)
+            ..clearSnackBars()
+            ..showSnackBar(
+              SnackBar(
+                content: AutoSizeText(
+                  state.errorMessage,
+                ),
+              ),
+            );
+        }
+        if (state is InquirySent) {
+          ScaffoldMessenger.of(context)
+            ..clearSnackBars()
+            ..showSnackBar(
+              const SnackBar(
+                content: AutoSizeText(
+                  'Your message was sent.',
+                ),
+              ),
+            );
+        }
       },
       child: TimberlandScaffold(
         titleText: 'Contact Us',
@@ -111,7 +147,16 @@ class ContactsPageForm extends StatelessWidget {
             child: FilledTextButton(
               onPressed: () {
                 if (formKey.currentState!.validate()) {
-                  // TODO: Call contact us event here
+                  BlocProvider.of<AppInfoBloc>(context).add(
+                    SendInquiryEvent(
+                      inquiry: Inquiry(
+                        email: emailCtrl.text,
+                        fullName: nameCtrl.text,
+                        subject: subjectCtrl.text,
+                        message: messageCtrl.text,
+                      ),
+                    ),
+                  );
                 }
               },
               child: const Text(
