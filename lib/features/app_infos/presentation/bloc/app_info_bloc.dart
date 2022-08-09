@@ -1,7 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:timberland_biketrail/features/app_infos/domain/entities/faq.dart';
+import 'package:timberland_biketrail/features/app_infos/domain/entities/inquiry.dart';
 import 'package:timberland_biketrail/features/app_infos/domain/entities/trail_rule.dart';
 import 'package:timberland_biketrail/features/app_infos/domain/repositories/app_infos_repository.dart';
 
@@ -64,6 +66,20 @@ class AppInfoBloc extends Bloc<AppInfoEvent, AppInfoState> {
         },
         (faqs) {
           emit(FAQsLoaded(faqs: faqs));
+        },
+      );
+    });
+
+    on<SendInquiryEvent>((event, emit) async {
+      emit(SendingInquiry());
+
+      final result = await repository.sendInquiry(event.inquiry);
+      result.fold(
+        (l) {
+          emit(InquiryError(errorMessage: l.message));
+        },
+        (r) {
+          emit(InquirySent());
         },
       );
     });

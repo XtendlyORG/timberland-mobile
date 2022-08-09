@@ -1,10 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:timberland_biketrail/core/configs/environment_configs.dart';
 import 'package:timberland_biketrail/core/errors/exceptions.dart';
 import 'package:timberland_biketrail/features/app_infos/data/datasources/remote_datasource.dart';
 import 'package:timberland_biketrail/features/app_infos/data/models/faq_model.dart';
 import 'package:timberland_biketrail/features/app_infos/domain/entities/faq.dart';
+import 'package:timberland_biketrail/features/app_infos/domain/entities/inquiry.dart';
 import 'package:timberland_biketrail/features/app_infos/domain/entities/trail_rule.dart';
 
 class TimberlandRemoteDatasource implements RemoteDatasource {
@@ -59,6 +63,26 @@ class TimberlandRemoteDatasource implements RemoteDatasource {
     } on AppInfoException {
       rethrow;
     } catch (e) {
+      throw const AppInfoException(message: "An Error Occurred");
+    }
+  }
+
+  @override
+  Future<void> sendInquiry(Inquiry inquiry) async {
+    try {
+      final response = await dioClient.post(
+        '${environmentConfig.apihost}/users/contacts',
+        data: inquiry.toJson(),
+      );
+      log(response.data.toString());
+      if (response.statusCode == 200) {
+        return;
+      }
+      throw const AppInfoException(message: "Server Error");
+    } on AppInfoException {
+      rethrow;
+    } catch (e) {
+      log(e.toString());
       throw const AppInfoException(message: "An Error Occurred");
     }
   }

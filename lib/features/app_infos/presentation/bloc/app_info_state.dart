@@ -1,8 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'app_info_bloc.dart';
 
-abstract class AppInfoState {
+abstract class AppInfoState extends Equatable {
   const AppInfoState();
+
+  @override
+  List<Object?> get props => [];
 }
 
 abstract class TrailRulesState extends AppInfoState {
@@ -24,6 +27,8 @@ class TrailRulesLoaded extends TrailRulesState {
   const TrailRulesLoaded({
     required this.trailRules,
   });
+  @override
+  List<Object?> get props => super.props..add(trailRules);
 }
 
 class TrailRulesError extends TrailRulesState {
@@ -31,6 +36,9 @@ class TrailRulesError extends TrailRulesState {
   const TrailRulesError({
     required this.message,
   });
+
+  @override
+  List<Object?> get props => super.props..add(message);
 }
 
 class LoadingFAQs extends FAQState {
@@ -42,6 +50,8 @@ class FAQsLoaded extends FAQState {
   const FAQsLoaded({
     required this.faqs,
   });
+  @override
+  List<Object?> get props => super.props..add(faqs);
 }
 
 class FAQError extends FAQState {
@@ -49,4 +59,22 @@ class FAQError extends FAQState {
   const FAQError({
     required this.message,
   });
+}
+
+abstract class ContactState extends AppInfoState {}
+
+class InquirySent extends ContactState {
+  InquirySent();
+}
+
+class SendingInquiry extends ContactState {}
+
+class InquiryError extends ContactState {
+  final String errorMessage;
+  InquiryError({
+    required this.errorMessage,
+  });
+
+  @override
+  List<Object?> get props => super.props..add(errorMessage);
 }
