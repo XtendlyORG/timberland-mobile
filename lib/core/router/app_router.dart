@@ -131,9 +131,11 @@ final appRouter = GoRouter(
           name: Routes.otpVerification.name,
           pageBuilder: (context, state) {
             return CustomTransitionPage(
-              key: state.pageKey,
-              restorationId: state.pageKey.value,
-              child: const OtpVerificationPage(),
+              // key: state.pageKey,
+              // restorationId: state.pageKey.value,
+              child: OtpVerificationPage(
+                routeNameOnPop: state.extra as String,
+              ),
               transitionDuration: const Duration(milliseconds: 500),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {

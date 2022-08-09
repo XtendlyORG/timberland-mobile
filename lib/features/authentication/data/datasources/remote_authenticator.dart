@@ -52,6 +52,12 @@ class RemoteAuthenticator implements Authenticator {
     } on DioError catch (dioError) {
       log(dioError.response?.statusCode?.toString() ?? "statuscode: null");
       if ((dioError.response?.statusCode ?? -1) == 400) {
+        if ((dioError.response?.data?.toString() ?? '') ==
+            'Email not Verified') {
+          throw UnverifiedEmailException(
+            message: 'Email is not verified',
+          );
+        }
         throw AuthException(
           message: dioError.response?.data?.toString() ?? 'Login Failed',
         );
