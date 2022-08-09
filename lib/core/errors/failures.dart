@@ -7,6 +7,10 @@ class AuthFailure implements Failure {
   const AuthFailure({required this.message});
 }
 
+class UnverifiedEmailFailure extends AuthFailure {
+  const UnverifiedEmailFailure({required super.message});
+}
+
 class AppInfoFailure implements Failure {
   final String message;
   const AppInfoFailure({
