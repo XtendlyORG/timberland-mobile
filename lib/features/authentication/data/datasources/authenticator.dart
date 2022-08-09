@@ -1,8 +1,8 @@
 import '../../domain/entities/user.dart';
 import '../../domain/params/params.dart';
+import '../../domain/params/update_profile.dart';
 
 abstract class Authenticator {
-  Future<User> fingerPrintAuth();
   Future<User> login(LoginParameter loginParameter);
   Future<void> sendOtp(RegisterParameter registerParameter);
   Future<User> register(RegisterParameter registerParameter);
@@ -12,4 +12,6 @@ abstract class Authenticator {
 
   Future<void> resetPassword(ResetPasswordParams resetPasswordParams);
   Future<void> forgotPassword(ForgotPasswordParams forgotPasswordParams);
+
+  Future<User> updateProfile(UpdateProfileParams updateProfileParams);
 }

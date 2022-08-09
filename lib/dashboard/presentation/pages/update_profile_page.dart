@@ -1,12 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_appbar.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_scaffold.dart';
-import 'package:timberland_biketrail/core/router/router.dart';
+import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/dashboard/presentation/bloc/profile_bloc.dart';
 import 'package:timberland_biketrail/dashboard/presentation/widgets/update_profile_form.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
@@ -22,13 +20,9 @@ class UpdateProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileBloc, ProfileState>(
       buildWhen: (previous, current) {
-        if (current is ProfileUpdated) {
-          context.goNamed(Routes.profile.name);
-        }
         return current is! ProfileUpdated;
       },
       builder: (context, state) {
-        log(state.toString());
         return TimberlandScaffold(
           appBar: TimberlandAppbar(
             backButton: BackButton(
@@ -74,7 +68,7 @@ class UpdateProfilePage extends StatelessWidget {
             ),
           ),
           titleText: 'Edit Profile',
-          body: UpdateProfileForm(user: user),
+          body: UpdateProfileForm(user: Session().currentUser!),
         );
       },
     );

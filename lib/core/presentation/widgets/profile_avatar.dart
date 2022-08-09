@@ -20,8 +20,9 @@ class ProfileAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final int heroTag = DateTime.now().microsecondsSinceEpoch;
     return Hero(
-      tag: radius.toString(),
+      tag: heroTag,
       child: GestureDetector(
         onTap: () {
           Navigator.push(
@@ -30,7 +31,7 @@ class ProfileAvatar extends StatelessWidget {
               builder: (context) {
                 return ExpandedImage(
                   imageProvider: buildImage(),
-                  tag: radius.toString(),
+                  tag: heroTag,
                 );
               },
             ),
