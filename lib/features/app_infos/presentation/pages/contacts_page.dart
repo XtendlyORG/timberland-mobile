@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
+import 'package:timberland_biketrail/features/app_infos/presentation/bloc/app_info_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 
 class ContactsPage extends StatelessWidget {
@@ -14,13 +15,18 @@ class ContactsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TimberlandScaffold(
-      titleText: 'Contact Us',
-      showNavbar: Session().isLoggedIn,
-      body: const Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: kHorizontalPadding, vertical: kVerticalPadding * 3),
-        child: ContactsPageForm(),
+    return BlocListener<AppInfoBloc, AppInfoState>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      child: TimberlandScaffold(
+        titleText: 'Contact Us',
+        showNavbar: Session().isLoggedIn,
+        body: const Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: kHorizontalPadding, vertical: kVerticalPadding * 3),
+          child: ContactsPageForm(),
+        ),
       ),
     );
   }
