@@ -6,6 +6,12 @@ class AuthException implements Exception {
   });
 }
 
+class UnverifiedEmailException extends AuthException {
+  UnverifiedEmailException({
+    super.message,
+  });
+}
+
 class AppInfoException implements Exception {
   final String? message;
   const AppInfoException({

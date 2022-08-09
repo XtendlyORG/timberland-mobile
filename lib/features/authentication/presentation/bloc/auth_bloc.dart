@@ -6,6 +6,7 @@ import 'dart:developer';
 // ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:timberland_biketrail/core/errors/failures.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
 import 'package:timberland_biketrail/features/authentication/domain/params/params.dart';
@@ -61,7 +62,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final result = await repository.login(event.loginParameter);
       result.fold(
         (failure) {
-          emit(AuthError(errorMessage: failure.message));
+          if (failure is UnverifiedEmailFailure) {
+            emit(
+              OtpSent(
+                registerParameter: RegisterParameter(
+                  firstName: '',
+                  lastName: '',
+                  email: event.loginParameter.email,
+                  mobileNumber: '',
+                  password: event.loginParameter.password,
+                ),
+                message: 'Verify your email.',
+              ),
+            );
+          } else {
+            emit(AuthError(errorMessage: failure.message));
+          }
         },
         (user) {
           emit(

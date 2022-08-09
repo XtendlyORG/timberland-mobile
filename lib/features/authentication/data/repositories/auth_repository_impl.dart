@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:timberland_biketrail/core/errors/exceptions.dart';
 import 'package:timberland_biketrail/core/errors/failures.dart';
@@ -84,6 +86,13 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       return Right(await request());
     } on AuthException catch (exception) {
+      if (exception is UnverifiedEmailException) {
+        return Left(
+          UnverifiedEmailFailure(
+            message: exception.message ?? 'Server Failure.',
+          ),
+        );
+      }
       return Left(
         AuthFailure(
           message: exception.message ?? 'Server Failure.',

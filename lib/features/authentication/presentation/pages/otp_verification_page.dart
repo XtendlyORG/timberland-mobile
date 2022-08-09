@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,7 +12,11 @@ import '../widgets/auth_page_container.dart';
 import '../widgets/otp_resend_button.dart';
 
 class OtpVerificationPage extends StatelessWidget {
-  const OtpVerificationPage({Key? key}) : super(key: key);
+  const OtpVerificationPage({
+    Key? key,
+    required this.routeNameOnPop,
+  }) : super(key: key);
+  final String routeNameOnPop;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +27,7 @@ class OtpVerificationPage extends StatelessWidget {
     return WillPopScope(
       onWillPop: () async {
         context.goNamed(
-          Routes.registerContinuation.name,
+          routeNameOnPop,
           extra: (authBloc.state as OtpSent).registerParameter,
         );
         return false;
@@ -38,7 +43,7 @@ class OtpVerificationPage extends StatelessWidget {
               child: IconButton(
                 onPressed: () {
                   context.goNamed(
-                    Routes.registerContinuation.name,
+                    routeNameOnPop,
                     extra: (authBloc.state as OtpSent).registerParameter,
                   );
                 },
