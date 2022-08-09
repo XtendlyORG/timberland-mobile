@@ -1,13 +1,19 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
 import 'package:timberland_biketrail/features/authentication/domain/params/update_profile.dart';
+import 'package:timberland_biketrail/features/authentication/domain/repositories/auth_repository.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  ProfileBloc() : super(ProfileInitial()) {
+  final AuthRepository repository;
+  ProfileBloc({
+    required this.repository,
+  }) : super(ProfileInitial()) {
     on<UpdateProfileEvent>((event, emit) {
       emit(UpdatingProfile(
         updatedUser: UpdateProfileParams(
@@ -40,8 +46,33 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     });
 
     on<SubmitUpdateRequestEvent>(
-      (event, emit) {
-        emit(ProfileUpdated());
+      (event, emit) async {
+        emit(
+          const ProfileUpdateRequestSent(
+            loadingMessage: 'Updating your profile',
+          ),
+        );
+
+        final result = await repository.updateProfile(
+          event.updateProfileParams,
+        );
+
+        result.fold(
+          (failure) {
+            emit(
+              ProfileUpdateError(
+                errorMessage: failure.message,
+              ),
+            );
+            emit(ProfileInitial());
+          },
+          (user) {
+            emit(
+              ProfileUpdated(user: user),
+            );
+            emit(ProfileInitial());
+          },
+        );
       },
     );
     on<CancelUpdateRequest>((event, emit) {

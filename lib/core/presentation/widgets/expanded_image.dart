@@ -10,7 +10,7 @@ class ExpandedImage extends StatelessWidget {
   }) : super(key: key);
 
   final ImageProvider imageProvider;
-  final String tag;
+  final Object tag;
 
   @override
   Widget build(BuildContext context) {

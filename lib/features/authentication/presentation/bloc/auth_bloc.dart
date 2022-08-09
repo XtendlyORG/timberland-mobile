@@ -146,5 +146,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       Session().logout();
       emit(const UnAuthenticated());
     });
+
+    on<UpdateUser>((event, emit) {
+      final _state = state as Authenticated;
+      emit(
+        const AuthLoading(loadingMessage: 'Updating profile'),
+      );
+      // emit(Authenticated(
+      //   message: "Profile Updated",
+      //   user: event.newUser,
+      //   firstTimeUser:
+      // ));
+      emit(
+        _state.copyWith(
+          message: 'Profile Updated',
+          user: event.newUser,
+        ),
+      );
+    });
   }
 }

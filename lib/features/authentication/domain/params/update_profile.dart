@@ -2,43 +2,53 @@
 
 import 'dart:io';
 
-class UpdateProfileParams {
-  final String firstName;
-  final String? middleName;
-  final String lastName;
-  final String? gender;
-  final DateTime? birthDay;
-  final String? address;
-  final String? profession;
-  final String? bloodType;
-  final String email;
-  final String mobileNumber;
-  final String? emergencyContactInfo;
-  final File? profilePic;
-  final String? bikeModel;
-  final String? bikeYear;
-  final String? bikeColor;
-  final String? password;
-  UpdateProfileParams({
-    required this.firstName,
-    this.middleName,
-    required this.lastName,
-    this.gender,
-    this.birthDay,
-    this.address,
-    this.profession,
-    this.bloodType,
-    required this.email,
-    required this.mobileNumber,
-    this.emergencyContactInfo,
-    this.profilePic,
-    this.bikeModel,
-    this.bikeYear,
-    this.bikeColor,
-    this.password,
+import 'package:timberland_biketrail/features/authentication/domain/params/params.dart';
+
+class UpdateProfileParams extends RegisterParameter {
+  const UpdateProfileParams({
+    required super.firstName,
+    super.middleName,
+    required super.lastName,
+    super.gender,
+    super.birthDay,
+    super.address,
+    super.profession,
+    super.bloodType,
+    required super.email,
+    required super.mobileNumber,
+    super.emergencyContactInfo,
+    super.profilePic,
+    super.bikeModel,
+    super.bikeYear,
+    super.bikeColor,
+    super.password = '',
   });
 
+  factory UpdateProfileParams.fromRegisterParams(
+    RegisterParameter registerParameter,
+  ) =>
+      UpdateProfileParams(
+        firstName: registerParameter.firstName,
+        middleName: registerParameter.middleName,
+        lastName: registerParameter.lastName,
+        email: registerParameter.email,
+        mobileNumber: registerParameter.mobileNumber,
+        address: registerParameter.address,
+        bikeColor: registerParameter.bikeColor,
+        bikeModel: registerParameter.bikeModel,
+        bikeYear: registerParameter.bikeYear,
+        birthDay: registerParameter.birthDay,
+        bloodType: registerParameter.bloodType,
+        emergencyContactInfo: registerParameter.emergencyContactInfo,
+        gender: registerParameter.gender,
+        password: registerParameter.password,
+        profession: registerParameter.profession,
+        profilePic: registerParameter.profilePic,
+      );
+
+  @override
   UpdateProfileParams copyWith({
+    String? otp,
     String? firstName,
     String? middleName,
     String? lastName,

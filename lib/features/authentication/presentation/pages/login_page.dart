@@ -84,7 +84,9 @@ class _LoginPageState extends State<LoginPage> {
               const LockAuthEvent(),
             );
           },
-          onPermanentlyLockedOut: () {},
+          onPermanentlyLockedOut: () {
+            //TODO: implement permanent lockout
+          },
         );
       } else {
         BlocProvider.of<AuthBloc>(context).add(
