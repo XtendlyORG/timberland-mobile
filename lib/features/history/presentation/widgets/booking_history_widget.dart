@@ -28,42 +28,44 @@ class BookingHistoryWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Text(
-            DateFormat.yMMMMd('en_US').format(
-              bookingHistory.booking.bookDate,
-            ),
-            style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-          ),
-          Text.rich(
-            style: Theme.of(context).textTheme.labelLarge,
-            TextSpan(
-              children: [
-                TextSpan(
-                  text: DateFormat('hh:mm a').format(
-                    DateTime(
-                      0,
-                      0,
-                      0,
-                      bookingHistory.booking.startTime.hour,
-                      bookingHistory.booking.startTime.minute,
+          Expanded(
+            child: AutoSizeText.rich(
+              style: Theme.of(context).textTheme.titleLarge,
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              TextSpan(
+                children: [
+                  TextSpan(
+                    text: DateFormat.yMMMMd('en_US').format(
+                      bookingHistory.booking.bookDate,
                     ),
                   ),
-                ),
-                const TextSpan(text: ' - '),
-                TextSpan(
-                  text: DateFormat('hh:mm a').format(
-                    DateTime(
-                      0,
-                      0,
-                      0,
-                      bookingHistory.booking.endTime.hour,
-                      bookingHistory.booking.endTime.minute,
+                  const TextSpan(text: '\t\t'),
+                  TextSpan(
+                    text: DateFormat('hh:mm a').format(
+                      DateTime(
+                        0,
+                        0,
+                        0,
+                        bookingHistory.booking.startTime.hour,
+                        bookingHistory.booking.startTime.minute,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  const TextSpan(text: ' - '),
+                  TextSpan(
+                    text: DateFormat('hh:mm a').format(
+                      DateTime(
+                        0,
+                        0,
+                        0,
+                        bookingHistory.booking.endTime.hour,
+                        bookingHistory.booking.endTime.minute,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
