@@ -13,7 +13,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
     required this.profileDatasource,
   });
   @override
-  Future<Either<Failure, User>> updateUserDetail(
+  Future<Either<ProfileFailure, User>> updateUserDetail(
       UpdateUserDetailsParams userDetails) {
     // TODO: implement updateUserDetail
     throw UnimplementedError();

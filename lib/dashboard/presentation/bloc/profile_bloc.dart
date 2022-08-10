@@ -45,6 +45,29 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       ));
     });
 
+    on<SubmitUpdateUserDetailRequestEvent>((event, emit) async {
+      emit(
+        const ProfileUpdateRequestSent(
+          loadingMessage: 'Updating User Detail',
+        ),
+      );
+
+      final result = await repository.updateUserDetail(
+        event.updateProfileParams,
+      );
+
+      result.fold(
+        (failure) {
+          emit(
+            ProfileUpdateError(errorMessage: failure.message),
+          );
+        },
+        (user) {
+          emit(ProfileUpdated(user: user));
+        },
+      );
+    });
+
     on<SubmitUpdateOtp>((event, emit) async {});
 
     on<CancelUpdateRequest>((event, emit) {
