@@ -111,6 +111,7 @@ class UpdateProfileForm extends StatelessWidget {
                       String password,
                       String mobileNumber,
                     ) {
+                      log(newImageFile?.path.toString()??"no image");
                       BlocProvider.of<ProfileBloc>(context).add(
                         NavigateToNextPage(
                           updatedUser: state.updatedUser.copyWith(
@@ -143,6 +144,7 @@ class UpdateProfileForm extends StatelessWidget {
                 email: '',
                 password: '',
                 mobileNumber: state.updatedUser.mobileNumber,
+                profilePic: state.updatedUser.profilePic,
               ),
               child: RegistrationContinuationForm(
                 user: state.updatedUser,

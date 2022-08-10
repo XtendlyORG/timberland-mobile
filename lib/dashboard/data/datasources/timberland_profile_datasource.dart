@@ -23,6 +23,7 @@ class TimberlandProfileDataSource implements ProfileDataSource {
     try {
       MultipartFile? profilePic;
       if (updateProfileParams.profilePic != null) {
+        log("profile pic is not null");
         profilePic = await MultipartFile.fromFile(
           updateProfileParams.profilePic!.path,
         );
@@ -54,7 +55,7 @@ class TimberlandProfileDataSource implements ProfileDataSource {
               middleName: updateProfileParams.middleName,
               mobileNumber: updateProfileParams.mobileNumber,
               profession: updateProfileParams.profession,
-              profilePicUrl: updateProfileParams.profilePic?.path,
+              profilePicUrl: response.data.toString(),
             );
       }
       throw const ProfileException();
