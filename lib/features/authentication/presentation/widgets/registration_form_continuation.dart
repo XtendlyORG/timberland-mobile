@@ -314,6 +314,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                 child: PasswordField(
                   controller: passwordCtrl,
                   textInputAction: TextInputAction.next,
+                  acceptEmpty: true,
                 ),
               ),
             Container(

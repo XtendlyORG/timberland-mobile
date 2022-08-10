@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/presentation/pages/404_page.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/inherited_widgets/inherited_register_parameter.dart';
+import 'package:timberland_biketrail/dashboard/presentation/widgets/update_profile_form.dart';
 import 'package:timberland_biketrail/features/authentication/domain/params/register.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/pages/registration_continuation_page.dart';
 
@@ -287,6 +288,24 @@ final appRouter = GoRouter(
                   },
                 );
               },
+              routes: [
+                GoRoute(
+                    path: Routes.verifyUpdateOtp.asSubPath(),
+                    name: Routes.verifyUpdateOtp.name,
+                    pageBuilder: (context, routeState) {
+                      return CustomTransitionPage(
+                        child: const VerifyUpdateOtpPage(),
+                        transitionDuration: const Duration(milliseconds: 500),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          );
+                        },
+                      );
+                    }),
+              ],
             ),
             GoRoute(
               path: Routes.qr.asSubPath(),

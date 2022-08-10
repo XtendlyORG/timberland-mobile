@@ -1,9 +1,12 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/timberland_scaffold.dart';
+import 'package:timberland_biketrail/features/authentication/presentation/widgets/otp_validation_form.dart';
 
 import '../../../core/constants/constants.dart';
 import '../../../core/presentation/widgets/inherited_widgets/inherited_register_parameter.dart';
@@ -52,6 +55,9 @@ class UpdateProfileForm extends StatelessWidget {
           );
 
           context.goNamed(Routes.profile.name);
+        }
+        if (current is OTPToUpdateSent) {
+          context.pushNamed(Routes.verifyUpdateOtp.name);
         }
 
         return current is! ProfileUpdateRequestSent &&
@@ -149,6 +155,23 @@ class UpdateProfileForm extends StatelessWidget {
           child: Text(state.toString()),
         );
       },
+    );
+  }
+}
+
+class VerifyUpdateOtpPage extends StatelessWidget {
+  const VerifyUpdateOtpPage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TimberlandScaffold(
+      body: OtpVerificationForm(
+        onSubmit: ((otp) {
+          log(otp);
+        }),
+      ),
     );
   }
 }

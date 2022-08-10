@@ -1,4 +1,4 @@
-String? validatePassword(String? password) {
+String? validatePassword(String? password, {bool acceptEmpty = false}) {
   final numberRegex = RegExp(
     r"^(?=.*\d)",
   );
@@ -9,6 +9,7 @@ String? validatePassword(String? password) {
     r'(?=.*[A-Z])',
   );
   if (password == null || password.isEmpty) {
+    if (acceptEmpty) return null;
     return 'Password cannot be empty';
   } else if (password.length < 6) {
     return 'Password must be atleast 6 characters.';

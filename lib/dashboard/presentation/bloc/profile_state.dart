@@ -49,3 +49,5 @@ class ProfileUpdated extends ProfileState {
   @override
   List<Object> get props => super.props..add(user);
 }
+
+class OTPToUpdateSent extends ProfileState {}

@@ -23,8 +23,14 @@ abstract class Routes {
 
   // profile - tab
   static const profile = _Route(path: '/profile', name: 'profile');
-  static const updateProfile =
-      _Route(path: '/update-profile', name: 'update-profile');
+  static const updateProfile = _Route(
+    path: '/update-profile',
+    name: 'update-profile',
+  );
+  static const verifyUpdateOtp = _Route(
+    path: '/update-profile/verification',
+    name: 'update-profile-verification',
+  );
   static const qr = _Route(path: '/my-qr', name: 'qr');
   static const bookingHistory =
       _Route(path: '/booking-history', name: 'booking-history');

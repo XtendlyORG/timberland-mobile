@@ -9,9 +9,11 @@ class PasswordField extends StatefulWidget {
     Key? key,
     this.textInputAction,
     required this.controller,
+    this.acceptEmpty = false,
   }) : super(key: key);
 
   final TextEditingController controller;
+  final bool acceptEmpty;
 
   @override
   State<PasswordField> createState() => _PasswordFieldState();
@@ -30,7 +32,9 @@ class _PasswordFieldState extends State<PasswordField> {
     return TextFormField(
       controller: widget.controller,
       obscureText: hidePassword,
-      validator: validatePassword,
+      validator: (password) {
+        return validatePassword(password, acceptEmpty: widget.acceptEmpty);
+      },
       keyboardType: TextInputType.visiblePassword,
       textInputAction: widget.textInputAction,
       decoration: InputDecoration(

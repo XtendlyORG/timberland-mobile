@@ -2,6 +2,7 @@
 // ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
 import 'package:timberland_biketrail/features/authentication/domain/params/update_profile.dart';
 import 'package:timberland_biketrail/features/authentication/domain/repositories/auth_repository.dart';
@@ -52,27 +53,54 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             loadingMessage: 'Updating your profile',
           ),
         );
+        if (event.updateProfileParams.email != Session().currentUser!.email ||
+            event.updateProfileParams.password.isNotEmpty) {
+          emit(OTPToUpdateSent());
+          emit(
+            UpdatingProfile(
+              pageNum: 2,
+              updatedUser: event.updateProfileParams,
+            ),
+          );
+        } else {
+          // emit(
+          //   ProfileUpdated(user: user),
+          // );
+          emit(ProfileInitial());
+        }
 
-        final result = await repository.updateProfile(
-          event.updateProfileParams,
-        );
+        // final result = await repository.updateProfile(
+        //   event.updateProfileParams,
+        // );
 
-        result.fold(
-          (failure) {
-            emit(
-              ProfileUpdateError(
-                errorMessage: failure.message,
-              ),
-            );
-            emit(ProfileInitial());
-          },
-          (user) {
-            emit(
-              ProfileUpdated(user: user),
-            );
-            emit(ProfileInitial());
-          },
-        );
+        // result.fold(
+        //   (failure) {
+        //     emit(
+        //       ProfileUpdateError(
+        //         errorMessage: failure.message,
+        //       ),
+        //     );
+        //     emit(ProfileInitial());
+        //   },
+        //   (user) {
+        //     if (event.updateProfileParams.email !=
+        //             Session().currentUser!.email ||
+        //         event.updateProfileParams.password.isNotEmpty) {
+        //       emit(OTPToUpdateSent());
+        //       emit(
+        //         UpdatingProfile(
+        //           pageNum: 2,
+        //           updatedUser: event.updateProfileParams,
+        //         ),
+        //       );
+        //     } else {
+        //       emit(
+        //         ProfileUpdated(user: user),
+        //       );
+        //       emit(ProfileInitial());
+        //     }
+        //   },
+        // );
       },
     );
     on<CancelUpdateRequest>((event, emit) {
