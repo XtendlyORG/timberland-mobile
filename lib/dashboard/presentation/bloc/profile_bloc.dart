@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
-import 'package:timberland_biketrail/features/authentication/domain/params/update_profile.dart';
+import 'package:timberland_biketrail/dashboard/domain/params/update_user_detail.dart';
 import 'package:timberland_biketrail/features/authentication/domain/repositories/auth_repository.dart';
 
 part 'profile_event.dart';
@@ -17,21 +17,19 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }) : super(ProfileInitial()) {
     on<UpdateProfileEvent>((event, emit) {
       emit(UpdatingProfile(
-        updatedUser: UpdateProfileParams(
+        updatedUser: UpdateUserDetailsParams(
           firstName: event.user.firstName,
           middleName: event.user.middleName,
           lastName: event.user.lastName,
-          email: event.user.email,
           mobileNumber: event.user.mobileNumber,
           address: event.user.address,
           bikeColor: event.user.bikeColor,
           bikeModel: event.user.bikeModel,
           bikeYear: event.user.bikeYear,
-          birthDay: event.user.birthDay,
+          birthday: event.user.birthday,
           bloodType: event.user.bloodType,
           emergencyContactInfo: event.user.emergencyContactInfo,
           gender: event.user.gender,
-          password: event.user.password,
           profession: event.user.profession,
           profilePic: event.user.profilePic,
         ),
@@ -46,63 +44,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       ));
     });
 
-    on<SubmitUpdateRequestEvent>(
-      (event, emit) async {
-        emit(
-          const ProfileUpdateRequestSent(
-            loadingMessage: 'Updating your profile',
-          ),
-        );
-        if (event.updateProfileParams.email != Session().currentUser!.email ||
-            event.updateProfileParams.password.isNotEmpty) {
-          emit(OTPToUpdateSent());
-          emit(
-            UpdatingProfile(
-              pageNum: 2,
-              updatedUser: event.updateProfileParams,
-            ),
-          );
-        } else {
-          // emit(
-          //   ProfileUpdated(user: user),
-          // );
-          emit(ProfileInitial());
-        }
+    on<SubmitUpdateOtp>((event, emit) async {});
 
-        // final result = await repository.updateProfile(
-        //   event.updateProfileParams,
-        // );
-
-        // result.fold(
-        //   (failure) {
-        //     emit(
-        //       ProfileUpdateError(
-        //         errorMessage: failure.message,
-        //       ),
-        //     );
-        //     emit(ProfileInitial());
-        //   },
-        //   (user) {
-        //     if (event.updateProfileParams.email !=
-        //             Session().currentUser!.email ||
-        //         event.updateProfileParams.password.isNotEmpty) {
-        //       emit(OTPToUpdateSent());
-        //       emit(
-        //         UpdatingProfile(
-        //           pageNum: 2,
-        //           updatedUser: event.updateProfileParams,
-        //         ),
-        //       );
-        //     } else {
-        //       emit(
-        //         ProfileUpdated(user: user),
-        //       );
-        //       emit(ProfileInitial());
-        //     }
-        //   },
-        // );
-      },
-    );
     on<CancelUpdateRequest>((event, emit) {
       emit(ProfileInitial());
     });

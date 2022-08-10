@@ -1,6 +1,6 @@
 import '../../domain/entities/user.dart';
 import '../../domain/params/params.dart';
-import '../../domain/params/update_profile.dart';
+import '../../../../dashboard/domain/params/update_user_detail.dart';
 
 abstract class Authenticator {
   Future<User> login(LoginParameter loginParameter);
@@ -13,5 +13,4 @@ abstract class Authenticator {
   Future<void> resetPassword(ResetPasswordParams resetPasswordParams);
   Future<void> forgotPassword(ForgotPasswordParams forgotPasswordParams);
 
-  Future<User> updateProfile(UpdateProfileParams updateProfileParams);
 }

@@ -14,7 +14,7 @@ import '../../../core/presentation/widgets/snackbar_content/loading_snackbar_con
 import '../../../core/router/router.dart';
 import '../../../features/authentication/domain/entities/user.dart';
 import '../../../features/authentication/domain/params/register.dart';
-import '../../../features/authentication/domain/params/update_profile.dart';
+import '../../domain/params/update_user_detail.dart';
 import '../../../features/authentication/presentation/bloc/auth_bloc.dart';
 import '../../../features/authentication/presentation/widgets/registration_form.dart';
 import '../../../features/authentication/presentation/widgets/registration_form_continuation.dart';
@@ -67,15 +67,14 @@ class UpdateProfileForm extends StatelessWidget {
       builder: (context, state) {
         if (state is ProfileInitial) {
           BlocProvider.of<ProfileBloc>(context).add(UpdateProfileEvent(
-            user: UpdateProfileParams(
+            user: UpdateUserDetailsParams(
               firstName: user.firstName,
               middleName: user.middleName,
               lastName: user.lastName,
-              email: user.email,
               mobileNumber: user.mobileNumber,
               address: user.address,
               gender: user.gender,
-              birthDay: user.birthday,
+              birthday: user.birthday,
               bloodType: user.bloodType,
               profession: user.profession,
               bikeColor: user.bikeColor,
@@ -141,7 +140,7 @@ class UpdateProfileForm extends StatelessWidget {
                 firstName: state.updatedUser.firstName,
                 middleName: state.updatedUser.middleName,
                 lastName: state.updatedUser.lastName,
-                email: state.updatedUser.email,
+                email: '',
                 password: '',
                 mobileNumber: state.updatedUser.mobileNumber,
               ),

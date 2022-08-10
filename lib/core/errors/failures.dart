@@ -24,3 +24,10 @@ class TrailFailure implements Failure {
     required this.message,
   });
 }
+
+class ProfileFailure implements Failure {
+  final String message;
+  ProfileFailure({
+    required this.message,
+  });
+}

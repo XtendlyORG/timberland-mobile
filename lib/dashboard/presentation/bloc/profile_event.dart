@@ -9,7 +9,7 @@ abstract class ProfileEvent extends Equatable {
 }
 
 class UpdateProfileEvent extends ProfileEvent {
-  final UpdateProfileParams user;
+  final UpdateUserDetailsParams user;
   const UpdateProfileEvent({
     required this.user,
   });
@@ -20,7 +20,7 @@ class CancelUpdateRequest extends ProfileEvent {
 }
 
 class NavigateToNextPage extends ProfileEvent {
-  final UpdateProfileParams updatedUser;
+  final UpdateUserDetailsParams updatedUser;
 
   const NavigateToNextPage({
     required this.updatedUser,
@@ -28,10 +28,21 @@ class NavigateToNextPage extends ProfileEvent {
 }
 
 class SubmitUpdateRequestEvent extends ProfileEvent {
-  final UpdateProfileParams updateProfileParams;
+  final UpdateUserDetailsParams updateProfileParams;
   const SubmitUpdateRequestEvent({
     required this.updateProfileParams,
   });
   @override
   List<Object> get props => super.props..add(updateProfileParams);
+}
+
+class SubmitUpdateOtp extends ProfileEvent {
+  final String email;
+  final String password;
+  final String otp;
+  const SubmitUpdateOtp({
+    required this.email,
+    required this.password,
+    required this.otp,
+  });
 }

@@ -4,7 +4,7 @@ import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/form_fields/form_fields.dart';
 import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
-import 'package:timberland_biketrail/features/authentication/domain/params/update_profile.dart';
+import 'package:timberland_biketrail/dashboard/domain/params/update_user_detail.dart';
 
 class RegistrationForm extends StatelessWidget {
   const RegistrationForm({
@@ -21,7 +21,7 @@ class RegistrationForm extends StatelessWidget {
     String password,
     String mobileNumber,
   ) onSumbit;
-  final UpdateProfileParams? user;
+  final UpdateUserDetailsParams? user;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,6 @@ class RegistrationForm extends StatelessWidget {
       firstNameCtrl.text = user!.firstName;
       lastNameCtrl.text = user!.lastName;
       middleNameCtrl.text = user!.middleName ?? '';
-      emailCtrl.text = user!.email;
       mobileNumberCtrl.text = user!.mobileNumber;
     }
 
@@ -86,15 +85,15 @@ class RegistrationForm extends StatelessWidget {
               textCapitalization: TextCapitalization.words,
             ),
           ),
-          Container(
-            margin: const EdgeInsets.only(
-              bottom: kVerticalPadding,
+          if (user == null) ...[
+            Container(
+              margin: const EdgeInsets.only(
+                bottom: kVerticalPadding,
+              ),
+              child: EmailField(
+                controller: emailCtrl,
+              ),
             ),
-            child: EmailField(
-              controller: emailCtrl,
-            ),
-          ),
-          if (user == null)
             Container(
               margin: const EdgeInsets.only(
                 bottom: kVerticalPadding,
@@ -104,6 +103,7 @@ class RegistrationForm extends StatelessWidget {
                 textInputAction: TextInputAction.next,
               ),
             ),
+          ],
           Container(
             margin: const EdgeInsets.only(
               bottom: kVerticalPadding,

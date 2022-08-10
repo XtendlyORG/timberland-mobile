@@ -12,7 +12,7 @@ class ProfileInitial extends ProfileState {}
 
 class UpdatingProfile extends ProfileState {
   final int pageNum;
-  final UpdateProfileParams updatedUser;
+  final UpdateUserDetailsParams updatedUser;
 
   const UpdatingProfile({
     required this.pageNum,
@@ -50,4 +50,11 @@ class ProfileUpdated extends ProfileState {
   List<Object> get props => super.props..add(user);
 }
 
-class OTPToUpdateSent extends ProfileState {}
+class OTPToUpdateSent extends ProfileState {
+  final String email;
+  final String password;
+  const OTPToUpdateSent({
+    required this.email,
+    required this.password,
+  });
+}
