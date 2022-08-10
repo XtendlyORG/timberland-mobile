@@ -102,6 +102,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(
             AuthError(
               errorMessage: l.message,
+              registerParameter: event.registerParameter,
             ),
           );
         },

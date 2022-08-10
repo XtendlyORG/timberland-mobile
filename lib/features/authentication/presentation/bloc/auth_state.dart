@@ -72,8 +72,10 @@ class UserGuideFinished extends Authenticated {
 
 class AuthError extends AuthState {
   final String errorMessage;
+  final RegisterParameter? registerParameter;
   const AuthError({
     required this.errorMessage,
+    this.registerParameter,
   });
   @override
   List<Object> get props => super.props..add(errorMessage);

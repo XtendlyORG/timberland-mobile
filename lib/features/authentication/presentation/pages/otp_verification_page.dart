@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/features/authentication/domain/params/params.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/widgets/otp_validation_form.dart';
 
 import '../../../../core/constants/constants.dart';
@@ -41,9 +42,17 @@ class OtpVerificationPage extends StatelessWidget {
               message: 'Back',
               child: IconButton(
                 onPressed: () {
+                  RegisterParameter? registerParameter;
+                  if (authBloc.state is OtpSent) {
+                    registerParameter =
+                        (authBloc.state as OtpSent).registerParameter;
+                  } else if (authBloc.state is AuthError) {
+                    registerParameter =
+                        (authBloc.state as AuthError).registerParameter!;
+                  }
                   context.goNamed(
                     routeNameOnPop,
-                    extra: (authBloc.state as OtpSent).registerParameter,
+                    extra: registerParameter,
                   );
                 },
                 icon: const Icon(
@@ -57,15 +66,29 @@ class OtpVerificationPage extends StatelessWidget {
           body: AuthPageContainer(
             alignment: Alignment.center,
             child: OtpVerificationForm(
-              onSubmit: ((otp) {
+              onResend: () {
                 authBloc.add(
-                  RegisterEvent(
-                    registerParameter: (authBloc.state as OtpSent)
-                        .registerParameter
-                        .copyWith(otp: otp),
+                  SendOtpEvent(
+                    registerParameter:
+                        (authBloc.state as OtpSent).registerParameter,
                   ),
                 );
-              }),
+              },
+              onSubmit: (otp) {
+                RegisterParameter? registerParameter;
+                if (authBloc.state is OtpSent) {
+                  registerParameter =
+                      (authBloc.state as OtpSent).registerParameter;
+                } else if (authBloc.state is AuthError) {
+                  registerParameter =
+                      (authBloc.state as AuthError).registerParameter!;
+                }
+                authBloc.add(
+                  RegisterEvent(
+                    registerParameter: registerParameter!.copyWith(otp: otp),
+                  ),
+                );
+              },
             ),
           ),
         ),
