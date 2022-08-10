@@ -29,7 +29,7 @@ class TimberlandProfileDataSource implements ProfileDataSource {
       }
 
       final response = await dioClient.put(
-        '${environmentConfig.apihost}/users/${Session().currentUser?.id}',
+        '${environmentConfig.apihost}/users/${Session().currentUser?.id}/details',
         data: FormData.fromMap(
           updateProfileParams.toMap()
             ..addEntries(
