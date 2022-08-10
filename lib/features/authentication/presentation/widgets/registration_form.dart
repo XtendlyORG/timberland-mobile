@@ -50,7 +50,12 @@ class RegistrationForm extends StatelessWidget {
             ),
             child: TextFormField(
               controller: firstNameCtrl,
-              validator: nonEmptyValidator,
+              validator: (lastName) {
+                return nonEmptyValidator(
+                  lastName,
+                  errorMessage: 'First Name can not be empty',
+                );
+              },
               decoration: const InputDecoration(
                 hintText: 'First Name',
               ),
@@ -77,7 +82,12 @@ class RegistrationForm extends StatelessWidget {
             ),
             child: TextFormField(
               controller: lastNameCtrl,
-              validator: nonEmptyValidator,
+              validator: (lastName) {
+                return nonEmptyValidator(
+                  lastName,
+                  errorMessage: 'Last Name can not be empty',
+                );
+              },
               decoration: const InputDecoration(
                 hintText: 'Last Name',
               ),

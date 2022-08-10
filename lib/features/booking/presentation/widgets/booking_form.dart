@@ -4,8 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/form_fields/email_field.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/form_fields/mobile_number_field.dart';
+import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
 import 'package:timberland_biketrail/features/booking/presentation/widgets/booking_date_picker.dart';
 import 'package:timberland_biketrail/features/booking/presentation/widgets/booking_time_picker.dart';
@@ -135,10 +134,10 @@ class _BookingFormState extends State<BookingForm> {
                           hintText: "Full Name",
                         ),
                         validator: (fullName) {
-                          if (fullName == null || fullName.isEmpty) {
-                            return 'Field can not be emtpy.';
-                          }
-                          return null;
+                          return nonEmptyValidator(
+                            fullName,
+                            errorMessage: 'Name can not be empty.',
+                          );
                         },
                       ),
                     ],

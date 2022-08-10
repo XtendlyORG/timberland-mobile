@@ -50,7 +50,7 @@ class MobileNumberField extends StatelessWidget {
             validator: validator ??
                 (number) {
                   if (number == null || number.isEmpty) {
-                    return 'Field can not be empty';
+                    return 'Mobile Number can not be empty';
                   }
                   if (number.length < 10) {
                     return 'Must be a 10 digit number';

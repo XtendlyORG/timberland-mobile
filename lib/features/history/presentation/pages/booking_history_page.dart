@@ -17,7 +17,7 @@ class BookingHistoryPage extends StatelessWidget {
       titleText: 'Booking History',
       body: Padding(
         padding: const EdgeInsets.symmetric(
-            horizontal: kVerticalPadding, vertical: kHorizontalPadding),
+            horizontal: kHorizontalPadding, vertical: kHorizontalPadding),
         child: Column(
           children: [
             ...List.generate(
