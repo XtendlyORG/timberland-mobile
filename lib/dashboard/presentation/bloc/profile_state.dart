@@ -10,11 +10,11 @@ abstract class ProfileState extends Equatable {
 
 class ProfileInitial extends ProfileState {}
 
-class UpdatingProfile extends ProfileState {
+class UpdatingUserDetail extends ProfileState {
   final int pageNum;
-  final UpdateProfileParams updatedUser;
+  final UpdateUserDetailsParams updatedUser;
 
-  const UpdatingProfile({
+  const UpdatingUserDetail({
     required this.pageNum,
     required this.updatedUser,
   });
@@ -48,4 +48,13 @@ class ProfileUpdated extends ProfileState {
   });
   @override
   List<Object> get props => super.props..add(user);
+}
+
+class OTPToUpdateSent extends ProfileState {
+  final String email;
+  final String password;
+  const OTPToUpdateSent({
+    required this.email,
+    required this.password,
+  });
 }

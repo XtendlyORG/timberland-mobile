@@ -1,9 +1,12 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/timberland_scaffold.dart';
+import 'package:timberland_biketrail/features/authentication/presentation/widgets/otp_validation_form.dart';
 
 import '../../../core/constants/constants.dart';
 import '../../../core/presentation/widgets/inherited_widgets/inherited_register_parameter.dart';
@@ -11,7 +14,7 @@ import '../../../core/presentation/widgets/snackbar_content/loading_snackbar_con
 import '../../../core/router/router.dart';
 import '../../../features/authentication/domain/entities/user.dart';
 import '../../../features/authentication/domain/params/register.dart';
-import '../../../features/authentication/domain/params/update_profile.dart';
+import '../../domain/params/update_user_detail.dart';
 import '../../../features/authentication/presentation/bloc/auth_bloc.dart';
 import '../../../features/authentication/presentation/widgets/registration_form.dart';
 import '../../../features/authentication/presentation/widgets/registration_form_continuation.dart';
@@ -53,6 +56,9 @@ class UpdateProfileForm extends StatelessWidget {
 
           context.goNamed(Routes.profile.name);
         }
+        if (current is OTPToUpdateSent) {
+          context.pushNamed(Routes.verifyUpdateOtp.name);
+        }
 
         return current is! ProfileUpdateRequestSent &&
             current is! ProfileInitial &&
@@ -60,16 +66,15 @@ class UpdateProfileForm extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is ProfileInitial) {
-          BlocProvider.of<ProfileBloc>(context).add(UpdateProfileEvent(
-            user: UpdateProfileParams(
+          BlocProvider.of<ProfileBloc>(context).add(UpdateUserDetailEvent(
+            user: UpdateUserDetailsParams(
               firstName: user.firstName,
               middleName: user.middleName,
               lastName: user.lastName,
-              email: user.email,
               mobileNumber: user.mobileNumber,
               address: user.address,
               gender: user.gender,
-              birthDay: user.birthday,
+              birthday: user.birthday,
               bloodType: user.bloodType,
               profession: user.profession,
               bikeColor: user.bikeColor,
@@ -78,7 +83,7 @@ class UpdateProfileForm extends StatelessWidget {
             ),
           ));
         }
-        if (state is UpdatingProfile && state.pageNum == 1) {
+        if (state is UpdatingUserDetail && state.pageNum == 1) {
           return Padding(
             padding: const EdgeInsets.only(
                 top: kHorizontalPadding,
@@ -106,6 +111,7 @@ class UpdateProfileForm extends StatelessWidget {
                       String password,
                       String mobileNumber,
                     ) {
+                      log(newImageFile?.path.toString()??"no image");
                       BlocProvider.of<ProfileBloc>(context).add(
                         NavigateToNextPage(
                           updatedUser: state.updatedUser.copyWith(
@@ -124,7 +130,7 @@ class UpdateProfileForm extends StatelessWidget {
               ],
             ),
           );
-        } else if (state is UpdatingProfile && state.pageNum == 2) {
+        } else if (state is UpdatingUserDetail && state.pageNum == 2) {
           return Padding(
             padding: const EdgeInsets.only(
                 top: kHorizontalPadding,
@@ -135,9 +141,10 @@ class UpdateProfileForm extends StatelessWidget {
                 firstName: state.updatedUser.firstName,
                 middleName: state.updatedUser.middleName,
                 lastName: state.updatedUser.lastName,
-                email: state.updatedUser.email,
+                email: '',
                 password: '',
                 mobileNumber: state.updatedUser.mobileNumber,
+                profilePic: state.updatedUser.profilePic,
               ),
               child: RegistrationContinuationForm(
                 user: state.updatedUser,
@@ -149,6 +156,23 @@ class UpdateProfileForm extends StatelessWidget {
           child: Text(state.toString()),
         );
       },
+    );
+  }
+}
+
+class VerifyUpdateOtpPage extends StatelessWidget {
+  const VerifyUpdateOtpPage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TimberlandScaffold(
+      body: OtpVerificationForm(
+        onSubmit: ((otp) {
+          log(otp);
+        }),
+      ),
     );
   }
 }

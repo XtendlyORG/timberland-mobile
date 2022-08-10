@@ -17,12 +17,12 @@ import 'package:timberland_biketrail/core/presentation/widgets/inherited_widgets
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
 import 'package:timberland_biketrail/dashboard/presentation/bloc/profile_bloc.dart';
-import 'package:timberland_biketrail/features/authentication/domain/params/update_profile.dart';
+import 'package:timberland_biketrail/dashboard/domain/params/update_user_detail.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/widgets/terms_of_use.dart';
 
 class RegistrationContinuationForm extends StatelessWidget {
-  final UpdateProfileParams? user; // user will not be null when update profile
+  final UpdateUserDetailsParams? user; // user will not be null when update profile
   const RegistrationContinuationForm({
     Key? key,
     this.user,
@@ -33,7 +33,6 @@ class RegistrationContinuationForm extends StatelessWidget {
     final registerParameter =
         InheritedRegisterParameter.of(context).registerParameter!;
     final formKey = GlobalKey<FormState>();
-    final passwordCtrl = TextEditingController();
     DateTime? birthday = registerParameter.birthDay;
     final birthdayCtrl = TextEditingController(
       text:
@@ -69,7 +68,7 @@ class RegistrationContinuationForm extends StatelessWidget {
     if (user != null) {
       // auto fill fields with current user's informations
       selectedGender = user!.gender;
-      birthday = user!.birthDay;
+      birthday = user!.birthday;
       birthdayCtrl.text =
           birthday != null ? DateFormat.yMMMMd('en_US').format(birthday) : '';
       bloodTypeCtrl.text = user!.bloodType ?? '';
@@ -306,16 +305,6 @@ class RegistrationContinuationForm extends StatelessWidget {
                 ],
               ),
             ),
-            if (user != null)
-              Container(
-                margin: const EdgeInsets.only(
-                  bottom: kVerticalPadding,
-                ),
-                child: PasswordField(
-                  controller: passwordCtrl,
-                  textInputAction: TextInputAction.next,
-                ),
-              ),
             Container(
               margin: const EdgeInsets.only(bottom: kVerticalPadding),
               width: double.infinity,
@@ -354,12 +343,10 @@ class RegistrationContinuationForm extends StatelessWidget {
                       );
                     } else {
                       BlocProvider.of<ProfileBloc>(context).add(
-                        SubmitUpdateRequestEvent(
+                        SubmitUpdateUserDetailRequestEvent(
                           updateProfileParams:
-                              UpdateProfileParams.fromRegisterParams(
-                            registerParams.copyWith(
-                              password: passwordCtrl.text,
-                            ),
+                              UpdateUserDetailsParams.fromRegisterParams(
+                            registerParams,
                           ),
                         ),
                       );
