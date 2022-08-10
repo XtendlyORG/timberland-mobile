@@ -63,6 +63,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         },
         (user) {
           emit(ProfileUpdated(user: user));
+          emit(ProfileInitial());
         },
       );
     });

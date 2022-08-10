@@ -39,6 +39,7 @@ class TimberlandProfileDataSource implements ProfileDataSource {
       );
       log(response.statusCode.toString());
       if (response.statusCode == 200) {
+        log(response.data.toString());
         return Session().currentUser!.copyWith(
               address: updateProfileParams.address,
               bikeColor: updateProfileParams.bikeColor,
