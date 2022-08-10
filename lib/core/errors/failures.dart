@@ -27,7 +27,7 @@ class TrailFailure implements Failure {
 
 class ProfileFailure implements Failure {
   final String message;
-  ProfileFailure({
+  const ProfileFailure({
     required this.message,
   });
 }
