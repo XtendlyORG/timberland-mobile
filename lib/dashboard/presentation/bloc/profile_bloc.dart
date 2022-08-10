@@ -15,8 +15,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc({
     required this.repository,
   }) : super(ProfileInitial()) {
-    on<UpdateProfileEvent>((event, emit) {
-      emit(UpdatingProfile(
+    on<UpdateUserDetailEvent>((event, emit) {
+      emit(UpdatingUserDetail(
         updatedUser: UpdateUserDetailsParams(
           firstName: event.user.firstName,
           middleName: event.user.middleName,
@@ -38,7 +38,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     });
 
     on<NavigateToNextPage>((event, emit) {
-      emit(UpdatingProfile(
+      emit(UpdatingUserDetail(
         updatedUser: event.updatedUser,
         pageNum: 2,
       ));

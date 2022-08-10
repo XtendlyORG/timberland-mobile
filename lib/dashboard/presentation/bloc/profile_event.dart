@@ -8,9 +8,9 @@ abstract class ProfileEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class UpdateProfileEvent extends ProfileEvent {
+class UpdateUserDetailEvent extends ProfileEvent {
   final UpdateUserDetailsParams user;
-  const UpdateProfileEvent({
+  const UpdateUserDetailEvent({
     required this.user,
   });
 }
@@ -27,9 +27,9 @@ class NavigateToNextPage extends ProfileEvent {
   });
 }
 
-class SubmitUpdateRequestEvent extends ProfileEvent {
+class SubmitUpdateUserDetailRequestEvent extends ProfileEvent {
   final UpdateUserDetailsParams updateProfileParams;
-  const SubmitUpdateRequestEvent({
+  const SubmitUpdateUserDetailRequestEvent({
     required this.updateProfileParams,
   });
   @override

@@ -17,7 +17,7 @@ import 'package:timberland_biketrail/core/presentation/widgets/inherited_widgets
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
 import 'package:timberland_biketrail/dashboard/presentation/bloc/profile_bloc.dart';
-import 'package:timberland_biketrail/dashboard/domain/params/update_profile.dart';
+import 'package:timberland_biketrail/dashboard/domain/params/update_user_detail.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/widgets/terms_of_use.dart';
 
@@ -343,7 +343,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                       );
                     } else {
                       BlocProvider.of<ProfileBloc>(context).add(
-                        SubmitUpdateRequestEvent(
+                        SubmitUpdateUserDetailRequestEvent(
                           updateProfileParams:
                               UpdateUserDetailsParams.fromRegisterParams(
                             registerParams,

@@ -26,10 +26,10 @@ class UpdateProfilePage extends StatelessWidget {
         return TimberlandScaffold(
           appBar: TimberlandAppbar(
             backButton: BackButton(
-              onPressed: (state is UpdatingProfile && state.pageNum == 2)
+              onPressed: (state is UpdatingUserDetail && state.pageNum == 2)
                   ? () {
                       BlocProvider.of<ProfileBloc>(context)
-                          .add(UpdateProfileEvent(user: state.updatedUser));
+                          .add(UpdateUserDetailEvent(user: state.updatedUser));
                     }
                   : () {
                       showDialog(

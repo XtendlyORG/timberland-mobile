@@ -66,7 +66,7 @@ class UpdateProfileForm extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is ProfileInitial) {
-          BlocProvider.of<ProfileBloc>(context).add(UpdateProfileEvent(
+          BlocProvider.of<ProfileBloc>(context).add(UpdateUserDetailEvent(
             user: UpdateUserDetailsParams(
               firstName: user.firstName,
               middleName: user.middleName,
@@ -83,7 +83,7 @@ class UpdateProfileForm extends StatelessWidget {
             ),
           ));
         }
-        if (state is UpdatingProfile && state.pageNum == 1) {
+        if (state is UpdatingUserDetail && state.pageNum == 1) {
           return Padding(
             padding: const EdgeInsets.only(
                 top: kHorizontalPadding,
@@ -129,7 +129,7 @@ class UpdateProfileForm extends StatelessWidget {
               ],
             ),
           );
-        } else if (state is UpdatingProfile && state.pageNum == 2) {
+        } else if (state is UpdatingUserDetail && state.pageNum == 2) {
           return Padding(
             padding: const EdgeInsets.only(
                 top: kHorizontalPadding,

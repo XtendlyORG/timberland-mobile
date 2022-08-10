@@ -10,11 +10,11 @@ abstract class ProfileState extends Equatable {
 
 class ProfileInitial extends ProfileState {}
 
-class UpdatingProfile extends ProfileState {
+class UpdatingUserDetail extends ProfileState {
   final int pageNum;
   final UpdateUserDetailsParams updatedUser;
 
-  const UpdatingProfile({
+  const UpdatingUserDetail({
     required this.pageNum,
     required this.updatedUser,
   });
