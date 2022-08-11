@@ -67,10 +67,17 @@ class OtpVerificationPage extends StatelessWidget {
             alignment: Alignment.center,
             child: OtpVerificationForm(
               onResend: () {
+                RegisterParameter? registerParameter;
+                if (authBloc.state is OtpSent) {
+                  registerParameter =
+                      (authBloc.state as OtpSent).registerParameter;
+                } else if (authBloc.state is AuthError) {
+                  registerParameter =
+                      (authBloc.state as AuthError).registerParameter!;
+                }
                 authBloc.add(
                   SendOtpEvent(
-                    registerParameter:
-                        (authBloc.state as OtpSent).registerParameter,
+                    registerParameter: registerParameter!,
                   ),
                 );
               },
