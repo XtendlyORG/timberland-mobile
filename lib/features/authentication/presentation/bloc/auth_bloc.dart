@@ -65,13 +65,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           if (failure is UnverifiedEmailFailure) {
             emit(
               OtpSent(
-                registerParameter: RegisterParameter(
-                  firstName: '',
-                  lastName: '',
-                  email: event.loginParameter.email,
-                  mobileNumber: '',
-                  password: event.loginParameter.password,
-                ),
+                parameter: event.loginParameter,
                 message: 'Verify your email.',
               ),
             );
@@ -93,23 +87,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SendOtpEvent>((event, emit) async {
       emit(
         AuthLoading(
-          loadingMessage: 'Sending Otp to ${event.registerParameter.email}.',
+          loadingMessage: 'Sending Otp to ${event.parameter.email}.',
         ),
       );
-      final result = await repository.sendOtp(event.registerParameter);
+      final result = await repository.sendOtp(event.parameter);
       result.fold(
         (l) {
           emit(
             AuthError(
               errorMessage: l.message,
-              registerParameter: event.registerParameter,
+              parameter: event.parameter,
             ),
           );
         },
         (r) {
           emit(OtpSent(
-            registerParameter: event.registerParameter,
-            message: "OTP is sent to ${event.registerParameter.email}",
+            parameter: event.parameter,
+            message: "OTP is sent to ${event.parameter.email}",
           ));
         },
       );
@@ -124,7 +118,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         (failure) {
           emit(
             OtpSent(
-              registerParameter: event.registerParameter,
+              parameter: event.registerParameter,
               message: failure.message,
             ),
           );
@@ -144,7 +138,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<ForgotPasswordEvent>((event, emit) async {
       emit(const AuthLoading(loadingMessage: 'Sending OTP to your email'));
 
-      final result = repository.forgotPassword(event.email);
+      final result = await repository.forgotPassword(event.email);
+
+      result.fold(
+        (l) {
+          emit(AuthError(errorMessage: l.message));
+        },
+        (r) {
+          emit(OtpSent(parameter: event.email, message: 'OTP is sent to ${event.email}'));
+        },
+      );
     });
 
     on<GoogleAuthEvent>((event, emit) {
@@ -175,11 +178,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(
         const AuthLoading(loadingMessage: 'Updating profile'),
       );
-      // emit(Authenticated(
-      //   message: "Profile Updated",
-      //   user: event.newUser,
-      //   firstTimeUser:
-      // ));
       emit(
         _state.copyWith(
           message: 'Profile Updated',

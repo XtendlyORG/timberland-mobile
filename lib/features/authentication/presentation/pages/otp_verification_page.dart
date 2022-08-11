@@ -28,7 +28,7 @@ class OtpVerificationPage extends StatelessWidget {
       onWillPop: () async {
         context.goNamed(
           routeNameOnPop,
-          extra: (authBloc.state as OtpSent).registerParameter,
+          extra: (authBloc.state as OtpSent).parameter,
         );
         return false;
       },
@@ -44,11 +44,10 @@ class OtpVerificationPage extends StatelessWidget {
                 onPressed: () {
                   RegisterParameter? registerParameter;
                   if (authBloc.state is OtpSent) {
-                    registerParameter =
-                        (authBloc.state as OtpSent).registerParameter;
+                    registerParameter = (authBloc.state as OtpSent).parameter;
                   } else if (authBloc.state is AuthError) {
                     registerParameter =
-                        (authBloc.state as AuthError).registerParameter!;
+                        (authBloc.state as AuthError).parameter!;
                   }
                   context.goNamed(
                     routeNameOnPop,
@@ -67,43 +66,49 @@ class OtpVerificationPage extends StatelessWidget {
             alignment: Alignment.center,
             child: OtpVerificationForm(
               onResend: () {
-                RegisterParameter? registerParameter;
+                var parameter;
                 if (authBloc.state is OtpSent) {
-                  registerParameter =
-                      (authBloc.state as OtpSent).registerParameter;
+                  parameter = (authBloc.state as OtpSent).parameter;
                 } else if (authBloc.state is AuthError) {
-                  registerParameter =
-                      (authBloc.state as AuthError).registerParameter!;
+                  parameter = (authBloc.state as AuthError).parameter!;
                 }
                 if (routeNameOnPop == Routes.login.name) {
                   authBloc.add(
                     LoginEvent(
                       loginParameter: LoginParameter(
-                        email: registerParameter!.email,
-                        password: registerParameter.password,
+                        email: parameter!.email,
+                        password: parameter.password,
                       ),
                     ),
                   );
                 } else {
                   authBloc.add(
                     SendOtpEvent(
-                      registerParameter: registerParameter!,
+                      parameter: parameter,
                     ),
                   );
                 }
               },
               onSubmit: (otp) {
-                RegisterParameter? registerParameter;
+                var parameter;
                 if (authBloc.state is OtpSent) {
-                  registerParameter =
-                      (authBloc.state as OtpSent).registerParameter;
+                  parameter = (authBloc.state as OtpSent).parameter;
                 } else if (authBloc.state is AuthError) {
-                  registerParameter =
-                      (authBloc.state as AuthError).registerParameter!;
+                  parameter = (authBloc.state as AuthError).parameter;
                 }
                 authBloc.add(
                   RegisterEvent(
-                    registerParameter: registerParameter!.copyWith(otp: otp),
+                    registerParameter: parameter is LoginParameter
+                        ? RegisterParameter(
+                            firstName: '',
+                            lastName: '',
+                            email: parameter.email,
+                            mobileNumber: '',
+                            password: parameter.password,
+                            otp: otp)
+                        : (parameter as RegisterParameter).copyWith(
+                            otp: otp,
+                          ),
                   ),
                 );
               },

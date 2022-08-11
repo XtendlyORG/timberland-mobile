@@ -17,17 +17,17 @@ class UnAuthenticated extends AuthState {
   List<Object> get props => super.props..add(keepCurrentUser);
 }
 
-class OtpSent extends AuthState {
-  final RegisterParameter registerParameter;
+class OtpSent<ParameterType> extends AuthState {
+  final ParameterType parameter;
   final String message;
   const OtpSent({
-    required this.registerParameter,
+    required this.parameter,
     required this.message,
   });
   @override
   List<Object> get props => super.props
     ..addAll([
-      registerParameter,
+      parameter as Object,
       message,
     ]);
 }
@@ -70,12 +70,12 @@ class UserGuideFinished extends Authenticated {
     ]);
 }
 
-class AuthError extends AuthState {
+class AuthError<ParameterType> extends AuthState {
   final String errorMessage;
-  final RegisterParameter? registerParameter;
+  final ParameterType? parameter;
   const AuthError({
     required this.errorMessage,
-    this.registerParameter,
+    this.parameter,
   });
   @override
   List<Object> get props => super.props..add(errorMessage);
