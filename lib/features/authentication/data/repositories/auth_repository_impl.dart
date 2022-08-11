@@ -54,10 +54,10 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<AuthFailure, void>> forgotPassword(
-    ForgotPasswordParams forgotPasswordParams,
+    String email,
   ) {
     return authRequest<void>(
-      request: () => authenticator.forgotPassword(forgotPasswordParams),
+      request: () => authenticator.forgotPassword(email),
     );
   }
 

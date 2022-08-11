@@ -80,7 +80,9 @@ class ForgotPasswordForm extends StatelessWidget {
               width: double.infinity,
               child: FilledTextButton(
                 onPressed: () {
-                  if (formKey.currentState!.validate()) {}
+                  if (formKey.currentState!.validate()) {
+                    
+                  }
                 },
                 child: const Text("Send Email"),
               ),

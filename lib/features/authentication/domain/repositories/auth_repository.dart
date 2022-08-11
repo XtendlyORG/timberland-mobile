@@ -24,6 +24,6 @@ abstract class AuthRepository extends Repository {
   );
 
   Future<Either<AuthFailure, void>> forgotPassword(
-    ForgotPasswordParams forgotPasswordParams,
+    String email,
   );
 }

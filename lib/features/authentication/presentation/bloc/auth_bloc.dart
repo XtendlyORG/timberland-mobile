@@ -141,6 +141,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
     });
 
+    on<ForgotPasswordEvent>((event, emit) async {
+      emit(const AuthLoading(loadingMessage: 'Sending OTP to your email'));
+
+      final result = repository.forgotPassword(event.email);
+    });
+
     on<GoogleAuthEvent>((event, emit) {
       // TODO: implement event handler
     });

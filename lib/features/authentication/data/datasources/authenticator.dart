@@ -11,6 +11,6 @@ abstract class Authenticator {
   Future<void> logout();
 
   Future<void> resetPassword(ResetPasswordParams resetPasswordParams);
-  Future<void> forgotPassword(ForgotPasswordParams forgotPasswordParams);
+  Future<void> forgotPassword(String email);
 
 }

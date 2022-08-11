@@ -178,9 +178,45 @@ class RemoteAuthenticator implements Authenticator {
   }
 
   @override
-  Future<void> forgotPassword(ForgotPasswordParams forgotPasswordParams) {
-    // TODO: implement forgotPassword
-    throw UnimplementedError();
+  Future<void> forgotPassword(String email) async {
+    try {
+      final body = json.encode(
+        {
+          'email': email,
+        },
+      );
+      final response = await dioClient.post(
+        '${environmentConfig.apihost}/users/forgot',
+        data: body,
+      );
+      log(response.statusCode.toString());
+      if (response.statusCode == 200) {
+        return;
+      }
+      log(response.data.toString());
+      throw AuthException(message: "Server Error");
+    } on AuthException {
+      rethrow;
+    } on DioError catch (dioError) {
+      log(dioError.response?.statusCode?.toString() ?? 'statuscode: -1');
+      log(dioError.response?.data ?? "no message");
+      if ((dioError.response?.statusCode ?? -1) == 400) {
+        throw AuthException(
+          message: dioError.response?.data?.toString() ?? 'Failed to send OTP',
+        );
+      } else if ((dioError.response?.statusCode ?? -1) == 502) {
+        log(dioError.response?.data?.toString() ?? "No error message: 502");
+        throw AuthException(
+          message: 'Internal Server Error',
+        );
+      }
+      throw AuthException(
+        message: "Error Occurred",
+      );
+    } catch (e) {
+      log(e.toString());
+      throw AuthException(message: "An Error Occurred");
+    }
   }
 
   @override

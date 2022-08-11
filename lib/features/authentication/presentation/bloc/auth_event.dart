@@ -66,6 +66,15 @@ class LogoutEvent extends AuthEvent {
   const LogoutEvent();
 }
 
+class ForgotPasswordEvent extends AuthEvent {
+  final String email;
+  const ForgotPasswordEvent({
+    required this.email,
+  });
+  @override
+  List<Object> get props => super.props..add(email);
+}
+
 class LockAuthEvent extends AuthEvent {
   const LockAuthEvent();
 }
