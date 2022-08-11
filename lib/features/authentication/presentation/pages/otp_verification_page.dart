@@ -42,16 +42,16 @@ class OtpVerificationPage extends StatelessWidget {
               message: 'Back',
               child: IconButton(
                 onPressed: () {
-                  RegisterParameter? registerParameter;
+                  var parameter;
                   if (authBloc.state is OtpSent) {
-                    registerParameter = (authBloc.state as OtpSent).parameter;
+                    parameter = (authBloc.state as OtpSent).parameter;
                   } else if (authBloc.state is AuthError) {
-                    registerParameter =
+                    parameter =
                         (authBloc.state as AuthError).parameter!;
                   }
                   context.goNamed(
                     routeNameOnPop,
-                    extra: registerParameter,
+                    extra: parameter,
                   );
                 },
                 icon: const Icon(

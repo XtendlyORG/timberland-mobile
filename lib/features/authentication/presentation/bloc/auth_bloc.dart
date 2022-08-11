@@ -5,6 +5,7 @@ import 'dart:developer';
 
 // ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:timberland_biketrail/core/errors/failures.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
@@ -90,7 +91,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           loadingMessage: 'Sending Otp to ${event.parameter.email}.',
         ),
       );
-      final result = await repository.sendOtp(event.parameter);
+      Either result;
+      if (event.parameter is RegisterParameter) {
+        result = await repository.sendOtp(event.parameter);
+      } else if (event.parameter is String) {
+        result = await repository.forgotPassword(event.parameter);
+      } else {
+        throw Exception("Event Parameter is ${event.parameter.runtimeType}");
+      }
+
       result.fold(
         (l) {
           emit(
@@ -145,7 +154,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(AuthError(errorMessage: l.message));
         },
         (r) {
-          emit(OtpSent(parameter: event.email, message: 'OTP is sent to ${event.email}'));
+          emit(OtpSent(
+              parameter: event.email,
+              message: 'OTP is sent to ${event.email}'));
         },
       );
     });
