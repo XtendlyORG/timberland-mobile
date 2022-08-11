@@ -236,7 +236,11 @@ class RemoteAuthenticator implements Authenticator {
       log(response.statusCode.toString());
       log(response.data.toString());
       if (response.statusCode == 200) {
-        return;
+        if (response.data is bool && response.data) {
+          return;
+        }
+
+        throw AuthException(message: 'Password Update Failed.');
       }
       log(response.data.toString());
       throw AuthException(message: "Server Error");
@@ -265,8 +269,46 @@ class RemoteAuthenticator implements Authenticator {
   }
 
   @override
-  Future<void> updatePassword(String email, String newPassword) {
-    // TODO: implement updatePassword
-    throw UnimplementedError();
+  Future<void> updatePassword(String email, String newPassword) async {
+    try {
+      final body = json.encode(
+        {
+          'email': email,
+          'new_password': newPassword,
+        },
+      );
+      final response = await dioClient.put(
+        '${environmentConfig.apihost}/users/forgot/change',
+        data: body,
+      );
+      log(response.statusCode.toString());
+      log(response.data.toString());
+      if (response.statusCode == 200) {
+        return;
+      }
+      log(response.data.toString());
+      throw AuthException(message: "Server Error");
+    } on AuthException {
+      rethrow;
+    } on DioError catch (dioError) {
+      log(dioError.response?.statusCode?.toString() ?? 'statuscode: -1');
+      log(dioError.response?.data ?? "no message");
+      if ((dioError.response?.statusCode ?? -1) == 400) {
+        throw AuthException(
+          message: dioError.response?.data?.toString() ?? 'Failed to send OTP',
+        );
+      } else if ((dioError.response?.statusCode ?? -1) == 502) {
+        log(dioError.response?.data?.toString() ?? "No error message: 502");
+        throw AuthException(
+          message: 'Internal Server Error',
+        );
+      }
+      throw AuthException(
+        message: "Error Occurred",
+      );
+    } catch (e) {
+      log(e.toString());
+      throw AuthException(message: "An Error Occurred");
+    }
   }
 }

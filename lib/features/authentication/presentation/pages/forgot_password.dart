@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/loading_snackbar_content.dart';
+import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/widgets/auth_page_container.dart';
 
@@ -72,33 +73,9 @@ class ForgotPasswordForm extends StatelessWidget {
     final emailCtrl = TextEditingController();
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        if(state is SettingNewPassword){
-          log(state.toString());
-          // context.pushNamed(Routes.up);
+        if (state is SettingNewPassword) {
+          context.pushNamed(Routes.resetPassword.name);
         }
-        // // if (state is ) {
-        // //   ScaffoldMessenger.of(context)
-        // //     ..clearSnackBars()
-        // //     ..showSnackBar(
-        // //       SnackBar(
-        // //         content: LoadingSnackBarContent(
-        // //           loadingMessage: state.loadingMessage,
-        // //         ),
-        // //       ),
-        // //     );
-        // // }
-        // if (state is OtpSent) {
-        //   ScaffoldMessenger.of(context)
-        //     ..clearSnackBars()
-        //     ..showSnackBar(
-        //       SnackBar(
-        //         content: AutoSizeText(
-        //           state.message,
-        //           maxLines: 1,
-        //         ),
-        //       ),
-        //     );
-        // }
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),

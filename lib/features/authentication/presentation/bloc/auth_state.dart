@@ -101,18 +101,15 @@ class AuthLoading extends AuthState {
 }
 
 class SettingNewPassword extends AuthState {
-  final String? email;
+  final String email;
 
   const SettingNewPassword({
-    this.email,
+    required this.email,
   });
   @override
-  List<Object> get props => super.props
-    ..addAll([
-      if (email != null) email!,
-    ]);
+  List<Object> get props => super.props..add(email);
 }
 
-class PasswordUpdated extends AuthState{
+class PasswordUpdated extends AuthState {
   const PasswordUpdated();
 }
