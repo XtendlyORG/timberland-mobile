@@ -75,11 +75,22 @@ class OtpVerificationPage extends StatelessWidget {
                   registerParameter =
                       (authBloc.state as AuthError).registerParameter!;
                 }
-                authBloc.add(
-                  SendOtpEvent(
-                    registerParameter: registerParameter!,
-                  ),
-                );
+                if (routeNameOnPop == Routes.login.name) {
+                  authBloc.add(
+                    LoginEvent(
+                      loginParameter: LoginParameter(
+                        email: registerParameter!.email,
+                        password: registerParameter.password,
+                      ),
+                    ),
+                  );
+                } else {
+                  authBloc.add(
+                    SendOtpEvent(
+                      registerParameter: registerParameter!,
+                    ),
+                  );
+                }
               },
               onSubmit: (otp) {
                 RegisterParameter? registerParameter;
