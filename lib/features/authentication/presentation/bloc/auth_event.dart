@@ -68,17 +68,28 @@ class LogoutEvent extends AuthEvent {
 
 class ForgotPasswordEvent extends AuthEvent {
   final String email;
-  final String password;
+  final String otp;
   const ForgotPasswordEvent({
     required this.email,
-    required this.password,
+    required this.otp,
   });
   @override
-  List<Object> get props => super.props..addAll([email,password]);
+  List<Object> get props => super.props..addAll([email, otp]);
 }
 
 class LockAuthEvent extends AuthEvent {
   const LockAuthEvent();
+}
+
+class UpdatePasswordEvent extends AuthEvent {
+  final String email;
+  final String password;
+  const UpdatePasswordEvent({
+    required this.email,
+    required this.password,
+  });
+  @override
+  List<Object> get props => super.props..addAll([email, password]);
 }
 
 class UnlockAuthEvent extends AuthEvent {

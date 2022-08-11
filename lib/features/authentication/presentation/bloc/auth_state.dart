@@ -99,3 +99,20 @@ class AuthLoading extends AuthState {
   @override
   List<Object> get props => super.props..add(loadingMessage);
 }
+
+class SettingNewPassword extends AuthState {
+  final String? email;
+
+  const SettingNewPassword({
+    this.email,
+  });
+  @override
+  List<Object> get props => super.props
+    ..addAll([
+      if (email != null) email!,
+    ]);
+}
+
+class PasswordUpdated extends AuthState{
+  const PasswordUpdated();
+}

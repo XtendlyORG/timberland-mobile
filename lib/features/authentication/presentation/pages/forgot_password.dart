@@ -1,6 +1,12 @@
+import 'dart:developer';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/loading_snackbar_content.dart';
+import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:timberland_biketrail/features/authentication/presentation/widgets/auth_page_container.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/presentation/widgets/filled_text_button.dart';
@@ -64,30 +70,65 @@ class ForgotPasswordForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
     final emailCtrl = TextEditingController();
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-      child: Form(
-        key: formKey,
-        child: Column(
-          children: [
-            EmailField(
-              controller: emailCtrl,
-            ),
-            const SizedBox(
-              height: kVerticalPadding,
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: FilledTextButton(
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    
-                  }
-                },
-                child: const Text("Send Email"),
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if(state is SettingNewPassword){
+          log(state.toString());
+          // context.pushNamed(Routes.up);
+        }
+        // // if (state is ) {
+        // //   ScaffoldMessenger.of(context)
+        // //     ..clearSnackBars()
+        // //     ..showSnackBar(
+        // //       SnackBar(
+        // //         content: LoadingSnackBarContent(
+        // //           loadingMessage: state.loadingMessage,
+        // //         ),
+        // //       ),
+        // //     );
+        // // }
+        // if (state is OtpSent) {
+        //   ScaffoldMessenger.of(context)
+        //     ..clearSnackBars()
+        //     ..showSnackBar(
+        //       SnackBar(
+        //         content: AutoSizeText(
+        //           state.message,
+        //           maxLines: 1,
+        //         ),
+        //       ),
+        //     );
+        // }
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+        child: Form(
+          key: formKey,
+          child: Column(
+            children: [
+              EmailField(
+                controller: emailCtrl,
               ),
-            ),
-          ],
+              const SizedBox(
+                height: kVerticalPadding,
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: FilledTextButton(
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      BlocProvider.of<AuthBloc>(context).add(
+                        SendOtpEvent(
+                          parameter: emailCtrl.text,
+                        ),
+                      );
+                    }
+                  },
+                  child: const Text("Send Email"),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,8 +48,7 @@ class OtpVerificationPage extends StatelessWidget {
                   if (authBloc.state is OtpSent) {
                     parameter = (authBloc.state as OtpSent).parameter;
                   } else if (authBloc.state is AuthError) {
-                    parameter =
-                        (authBloc.state as AuthError).parameter!;
+                    parameter = (authBloc.state as AuthError).parameter!;
                   }
                   context.goNamed(
                     routeNameOnPop,
@@ -77,7 +78,7 @@ class OtpVerificationPage extends StatelessWidget {
                     LoginEvent(
                       loginParameter: LoginParameter(
                         email: parameter!.email,
-                        password: parameter.password,
+                        password: parameter.otp,
                       ),
                     ),
                   );
@@ -96,21 +97,27 @@ class OtpVerificationPage extends StatelessWidget {
                 } else if (authBloc.state is AuthError) {
                   parameter = (authBloc.state as AuthError).parameter;
                 }
-                authBloc.add(
-                  RegisterEvent(
-                    registerParameter: parameter is LoginParameter
-                        ? RegisterParameter(
-                            firstName: '',
-                            lastName: '',
-                            email: parameter.email,
-                            mobileNumber: '',
-                            password: parameter.password,
-                            otp: otp)
-                        : (parameter as RegisterParameter).copyWith(
-                            otp: otp,
-                          ),
-                  ),
-                );
+                if (routeNameOnPop == Routes.forgotPassword.name) {
+                  authBloc.add(
+                    ForgotPasswordEvent(email: parameter, otp: otp),
+                  );
+                } else {
+                  authBloc.add(
+                    RegisterEvent(
+                      registerParameter: parameter is LoginParameter
+                          ? RegisterParameter(
+                              firstName: '',
+                              lastName: '',
+                              email: parameter.email,
+                              mobileNumber: '',
+                              password: parameter.password,
+                              otp: otp)
+                          : (parameter as RegisterParameter).copyWith(
+                              otp: otp,
+                            ),
+                    ),
+                  );
+                }
               },
             ),
           ),

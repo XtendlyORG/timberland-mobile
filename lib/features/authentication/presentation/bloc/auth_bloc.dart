@@ -86,20 +86,29 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
 
     on<SendOtpEvent>((event, emit) async {
-      emit(
-        AuthLoading(
-          loadingMessage: 'Sending Otp to ${event.parameter.email}.',
-        ),
-      );
+      String email;
       Either result;
       if (event.parameter is RegisterParameter) {
+        email = (event.parameter as RegisterParameter).email;
+        emit(
+          AuthLoading(
+            loadingMessage: 'Sending OTP to $email.',
+          ),
+        );
         result = await repository.sendOtp(event.parameter);
       } else if (event.parameter is String) {
+        email = event.parameter;
+        emit(
+          AuthLoading(
+            loadingMessage: 'Sending OTP to $email.',
+          ),
+        );
         result = await repository.forgotPassword(event.parameter);
       } else {
-        throw Exception("Event Parameter is ${event.parameter.runtimeType}");
+        throw Exception(
+          "Event Parameter is ${event.parameter.runtimeType}, and not a valid parameter",
+        );
       }
-
       result.fold(
         (l) {
           emit(
@@ -112,7 +121,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         (r) {
           emit(OtpSent(
             parameter: event.parameter,
-            message: "OTP is sent to ${event.parameter.email}",
+            message: "OTP is sent to $email",
           ));
         },
       );
@@ -147,16 +156,40 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<ForgotPasswordEvent>((event, emit) async {
       emit(const AuthLoading(loadingMessage: 'Sending OTP to your email'));
 
-      final result = await repository.forgotPassword(event.email);
+      final result = await repository.forgotPasswordEmailVerification(
+        event.email,
+        event.otp,
+      );
 
       result.fold(
         (l) {
           emit(AuthError(errorMessage: l.message));
         },
         (r) {
-          emit(OtpSent(
-              parameter: event.email,
-              message: 'OTP is sent to ${event.email}'));
+          emit(
+            SettingNewPassword(
+              email: event.email,
+            ),
+          );
+        },
+      );
+    });
+
+    on<UpdatePasswordEvent>((event, emit) async {
+      emit(
+        const AuthLoading(loadingMessage: 'Updating Password'),
+      );
+      final result = await repository.updatePassword(
+        event.email,
+        event.password,
+      );
+
+      result.fold(
+        (l) {
+          emit(AuthError(errorMessage: l.message));
+        },
+        (r) {
+          emit(const PasswordUpdated());
         },
       );
     });
