@@ -3,15 +3,18 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 
 class OTPResendButton extends StatefulWidget {
   const OTPResendButton({
     Key? key,
     required this.duration,
+    required this.onTap,
   }) : super(key: key);
 
   final int duration;
+  final VoidCallback onTap;
 
   @override
   State<OTPResendButton> createState() => _OTPResendButtonState();
@@ -46,17 +49,12 @@ class _OTPResendButtonState extends State<OTPResendButton> {
 
   @override
   Widget build(BuildContext context) {
-    final authState = BlocProvider.of<AuthBloc>(context).state;
     return canResend
         ? SizedBox.shrink(
             child: Center(
               child: InkWell(
                 onTap: () {
-                  BlocProvider.of<AuthBloc>(context).add(
-                    SendOtpEvent(
-                        registerParameter:
-                            (authState as OtpSent).registerParameter),
-                  );
+                  widget.onTap();
                   startTimer(duration: widget.duration);
                 },
                 child: Text(

@@ -169,6 +169,9 @@ class VerifyUpdateOtpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return TimberlandScaffold(
       body: OtpVerificationForm(
+        onResend: (){
+          //TODO: call resend otp to update profile
+        },
         onSubmit: ((otp) {
           log(otp);
         }),
