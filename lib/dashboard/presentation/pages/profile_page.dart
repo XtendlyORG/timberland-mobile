@@ -44,7 +44,7 @@ class ProfilePage extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     Text(
-                      'Manila',
+                      '63${authState.user.mobileNumber}',
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(

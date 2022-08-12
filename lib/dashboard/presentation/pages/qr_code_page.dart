@@ -66,7 +66,7 @@ class QrCodePage extends StatelessWidget {
                                     style:
                                         Theme.of(context).textTheme.titleLarge,
                                   ),
-                                  const Text("Manila"),
+                                  Text('63${state.user.mobileNumber}'),
                                 ],
                               ),
                             ),
