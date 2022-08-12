@@ -1,8 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/features/authentication/domain/params/forgot_password.dart';
 import 'package:timberland_biketrail/features/authentication/domain/params/params.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/widgets/otp_validation_form.dart';
 
@@ -28,7 +31,7 @@ class OtpVerificationPage extends StatelessWidget {
       onWillPop: () async {
         context.goNamed(
           routeNameOnPop,
-          extra: (authBloc.state as OtpSent).registerParameter,
+          extra: (authBloc.state as OtpSent).parameter,
         );
         return false;
       },
@@ -42,17 +45,15 @@ class OtpVerificationPage extends StatelessWidget {
               message: 'Back',
               child: IconButton(
                 onPressed: () {
-                  RegisterParameter? registerParameter;
+                  var parameter;
                   if (authBloc.state is OtpSent) {
-                    registerParameter =
-                        (authBloc.state as OtpSent).registerParameter;
+                    parameter = (authBloc.state as OtpSent).parameter;
                   } else if (authBloc.state is AuthError) {
-                    registerParameter =
-                        (authBloc.state as AuthError).registerParameter!;
+                    parameter = (authBloc.state as AuthError).parameter!;
                   }
                   context.goNamed(
                     routeNameOnPop,
-                    extra: registerParameter,
+                    extra: parameter,
                   );
                 },
                 icon: const Icon(
@@ -67,45 +68,62 @@ class OtpVerificationPage extends StatelessWidget {
             alignment: Alignment.center,
             child: OtpVerificationForm(
               onResend: () {
-                RegisterParameter? registerParameter;
+                var parameter;
                 if (authBloc.state is OtpSent) {
-                  registerParameter =
-                      (authBloc.state as OtpSent).registerParameter;
+                  parameter = (authBloc.state as OtpSent).parameter;
                 } else if (authBloc.state is AuthError) {
-                  registerParameter =
-                      (authBloc.state as AuthError).registerParameter!;
+                  parameter = (authBloc.state as AuthError).parameter!;
                 }
                 if (routeNameOnPop == Routes.login.name) {
                   authBloc.add(
                     LoginEvent(
                       loginParameter: LoginParameter(
-                        email: registerParameter!.email,
-                        password: registerParameter.password,
+                        email: parameter!.email,
+                        password: parameter.otp,
                       ),
                     ),
                   );
                 } else {
                   authBloc.add(
                     SendOtpEvent(
-                      registerParameter: registerParameter!,
+                      parameter: parameter,
                     ),
                   );
                 }
               },
               onSubmit: (otp) {
-                RegisterParameter? registerParameter;
+                var parameter;
                 if (authBloc.state is OtpSent) {
-                  registerParameter =
-                      (authBloc.state as OtpSent).registerParameter;
+                  parameter = (authBloc.state as OtpSent).parameter;
                 } else if (authBloc.state is AuthError) {
-                  registerParameter =
-                      (authBloc.state as AuthError).registerParameter!;
+                  parameter = (authBloc.state as AuthError).parameter;
                 }
-                authBloc.add(
-                  RegisterEvent(
-                    registerParameter: registerParameter!.copyWith(otp: otp),
-                  ),
-                );
+                if (routeNameOnPop == Routes.forgotPassword.name) {
+                  authBloc.add(
+                    ForgotPasswordEvent(
+                      forgotPasswordParameter: ForgotPasswordParameter(
+                        email: parameter,
+                        otp: otp,
+                      ),
+                    ),
+                  );
+                } else {
+                  authBloc.add(
+                    RegisterEvent(
+                      registerParameter: parameter is LoginParameter
+                          ? RegisterParameter(
+                              firstName: '',
+                              lastName: '',
+                              email: parameter.email,
+                              mobileNumber: '',
+                              password: parameter.password,
+                              otp: otp)
+                          : (parameter as RegisterParameter).copyWith(
+                              otp: otp,
+                            ),
+                    ),
+                  );
+                }
               },
             ),
           ),

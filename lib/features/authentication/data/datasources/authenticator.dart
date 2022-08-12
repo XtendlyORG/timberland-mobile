@@ -10,7 +10,8 @@ abstract class Authenticator {
   Future<User> facebookAuth();
   Future<void> logout();
 
-  Future<void> resetPassword(ResetPasswordParams resetPasswordParams);
-  Future<void> forgotPassword(ForgotPasswordParams forgotPasswordParams);
-
+  
+  Future<void> forgotPassword(String email);
+  Future<void> forgotPasswordEmailVerification(String email, String otp);
+  Future<void> updatePassword(String email,String newPassword);
 }

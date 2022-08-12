@@ -19,11 +19,17 @@ abstract class AuthRepository extends Repository {
 
   Future<Either<AuthFailure, void>> logout();
 
-  Future<Either<AuthFailure, void>> resetPassword(
-    ResetPasswordParams restPasswordParams,
+  Future<Either<AuthFailure, void>> forgotPassword(
+    String email,
   );
 
-  Future<Either<AuthFailure, void>> forgotPassword(
-    ForgotPasswordParams forgotPasswordParams,
+  Future<Either<AuthFailure, void>> forgotPasswordEmailVerification(
+    String email,
+    String otp,
+  );
+
+  Future<Either<AuthFailure, void>> updatePassword(
+    String email,
+    String newPassword,
   );
 }

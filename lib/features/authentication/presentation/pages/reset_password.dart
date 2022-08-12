@@ -1,27 +1,23 @@
-import 'dart:developer';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/loading_snackbar_content.dart';
+import 'package:timberland_biketrail/core/constants/constants.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/form_fields/form_fields.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/timberland_container.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
+import 'package:timberland_biketrail/features/authentication/domain/params/forgot_password.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
-import 'package:timberland_biketrail/features/authentication/presentation/widgets/auth_page_container.dart';
 
-import '../../../../core/constants/constants.dart';
-import '../../../../core/presentation/widgets/filled_text_button.dart';
-import '../../../../core/presentation/widgets/form_fields/email_field.dart';
-import '../../../../core/presentation/widgets/timberland_container.dart';
-
-class ForgotPasswordPage extends StatelessWidget {
-  const ForgotPasswordPage({Key? key}) : super(key: key);
+class ResetPasswordPage extends StatelessWidget {
+  const ResetPasswordPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: ()async {
-        context.goNamed(Routes.login.name);
+      onWillPop: () async {
+        context.goNamed(Routes.forgotPassword.name);
         return false;
       },
       child: SafeArea(
@@ -34,7 +30,7 @@ class ForgotPasswordPage extends StatelessWidget {
               message: 'Back',
               child: IconButton(
                 onPressed: () {
-                  context.goNamed(Routes.login.name);
+                  context.goNamed(Routes.forgotPassword.name);
                 },
                 icon: const Icon(
                   Icons.arrow_back_rounded,
@@ -50,15 +46,15 @@ class ForgotPasswordPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: kToolbarHeight),
                   child: AutoSizeText(
-                    'Forgot Password',
+                    'Reset Password',
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                 ),
-                const Text("Enter your email and get help logging in."),
+                const Text("Enter New Password"),
                 const SizedBox(
                   height: kVerticalPadding * 2,
                 ),
-                const ForgotPasswordForm(),
+                const ResetPasswordForm(),
               ],
             ),
           ),
@@ -68,26 +64,29 @@ class ForgotPasswordPage extends StatelessWidget {
   }
 }
 
-class ForgotPasswordForm extends StatelessWidget {
-  const ForgotPasswordForm({
+class ResetPasswordForm extends StatelessWidget {
+  const ResetPasswordForm({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
-    final emailCtrl = TextEditingController();
+    final passwordCtrl = TextEditingController();
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state is SettingNewPassword) {
-          context.pushNamed(Routes.resetPassword.name);
+        if (state is PasswordUpdated) {
           ScaffoldMessenger.of(context)
             ..clearSnackBars()
             ..showSnackBar(
               const SnackBar(
-                content: AutoSizeText('OTP Verified'),
+                content: AutoSizeText(
+                  'Password Updated',
+                  maxLines: 1,
+                ),
               ),
             );
+          context.goNamed(Routes.login.name);
         }
       },
       child: Padding(
@@ -96,8 +95,8 @@ class ForgotPasswordForm extends StatelessWidget {
           key: formKey,
           child: Column(
             children: [
-              EmailField(
-                controller: emailCtrl,
+              PasswordField(
+                controller: passwordCtrl,
               ),
               const SizedBox(
                 height: kVerticalPadding,
@@ -108,17 +107,18 @@ class ForgotPasswordForm extends StatelessWidget {
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       BlocProvider.of<AuthBloc>(context).add(
-                        SendOtpEvent(
-                          parameter: emailCtrl.text,
+                        ResetPasswordEvent(
+                          resetPasswordParameter: ResetPasswordParameter(
+                            email: (BlocProvider.of<AuthBloc>(context).state
+                                    as SettingNewPassword)
+                                .email,
+                            password: passwordCtrl.text,
+                          ),
                         ),
-                      );
-                      context.pushNamed(
-                        Routes.otpVerification.name,
-                        extra: Routes.forgotPassword.name,
                       );
                     }
                   },
-                  child: const Text("Send Email"),
+                  child: const Text("Reset Password"),
                 ),
               ),
             ],

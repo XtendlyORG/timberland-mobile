@@ -31,14 +31,14 @@ class LoginEvent extends AuthEvent {
   List<Object> get props => super.props..add(loginParameter);
 }
 
-class SendOtpEvent extends AuthEvent {
-  final RegisterParameter registerParameter;
+class SendOtpEvent<ParameterType> extends AuthEvent {
+  final ParameterType parameter;
   const SendOtpEvent({
-    required this.registerParameter,
+    required this.parameter,
   });
 
   @override
-  List<Object> get props => super.props..add(registerParameter);
+  List<Object> get props => super.props..add(parameter as Object);
 }
 
 class RegisterEvent extends AuthEvent {
@@ -66,8 +66,26 @@ class LogoutEvent extends AuthEvent {
   const LogoutEvent();
 }
 
+class ForgotPasswordEvent extends AuthEvent {
+  final ForgotPasswordParameter forgotPasswordParameter;
+  const ForgotPasswordEvent({
+    required this.forgotPasswordParameter,
+  });
+  @override
+  List<Object> get props => super.props..add(forgotPasswordParameter);
+}
+
 class LockAuthEvent extends AuthEvent {
   const LockAuthEvent();
+}
+
+class ResetPasswordEvent extends AuthEvent {
+  final ResetPasswordParameter resetPasswordParameter;
+  const ResetPasswordEvent({
+    required this.resetPasswordParameter,
+  });
+  @override
+  List<Object> get props => super.props..add(resetPasswordParameter);
 }
 
 class UnlockAuthEvent extends AuthEvent {

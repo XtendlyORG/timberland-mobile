@@ -54,31 +54,37 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<AuthFailure, void>> forgotPassword(
-    ForgotPasswordParams forgotPasswordParams,
+    String email,
   ) {
     return authRequest<void>(
-      request: () => authenticator.forgotPassword(forgotPasswordParams),
+      request: () => authenticator.forgotPassword(email),
     );
   }
 
   @override
-  Future<Either<AuthFailure, void>> resetPassword(
-    ResetPasswordParams resetPasswordParams,
-  ) {
-    return authRequest(
-      request: () => authenticator.resetPassword(resetPasswordParams),
-    );
-  }
-
-  @override
-  Future<Either<AuthFailure, User>> verifyUpdateOtp(
+  Future<Either<AuthFailure, void>> forgotPasswordEmailVerification(
     String email,
-    String password,
     String otp,
   ) {
-    return authRequest(request: () {
-      throw Exception();
-    });
+    return authRequest(
+      request: () => authenticator.forgotPasswordEmailVerification(
+        email,
+        otp,
+      ),
+    );
+  }
+
+  @override
+  Future<Either<AuthFailure, void>> updatePassword(
+    String email,
+    String newPassword,
+  ) {
+    return authRequest(
+      request: () => authenticator.updatePassword(
+        email,
+        newPassword,
+      ),
+    );
   }
 
   Future<Either<AuthFailure, ReturnType>> authRequest<ReturnType>({

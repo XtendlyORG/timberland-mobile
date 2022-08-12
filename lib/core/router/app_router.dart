@@ -9,6 +9,7 @@ import 'package:timberland_biketrail/core/presentation/widgets/inherited_widgets
 import 'package:timberland_biketrail/dashboard/presentation/widgets/update_profile_form.dart';
 import 'package:timberland_biketrail/features/authentication/domain/params/register.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/pages/registration_continuation_page.dart';
+import 'package:timberland_biketrail/features/authentication/presentation/pages/reset_password.dart';
 
 import '../../dashboard/presentation/pages/qr_code_page.dart';
 import '../../dashboard/presentation/pages/update_profile_page.dart';
@@ -37,6 +38,7 @@ final appRouter = GoRouter(
     bool isAuthenticating = [
       Routes.login.path,
       Routes.forgotPassword.path,
+      '${Routes.forgotPassword.path}${Routes.resetPassword.path}',
       Routes.register.path,
       '${Routes.register.path}${Routes.registerContinuation.path}',
       '${Routes.register.path}${Routes.otpVerification.path}',
@@ -68,23 +70,41 @@ final appRouter = GoRouter(
       },
     ),
     GoRoute(
-      path: Routes.forgotPassword.path,
-      name: Routes.forgotPassword.name,
-      pageBuilder: (context, state) {
-        return CustomTransitionPage(
-          key: state.pageKey,
-          restorationId: state.pageKey.value,
-          child: const ForgotPasswordPage(),
-          transitionDuration: const Duration(milliseconds: 500),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(
-              opacity: animation,
-              child: child,
-            );
-          },
-        );
-      },
-    ),
+        path: Routes.forgotPassword.path,
+        name: Routes.forgotPassword.name,
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            restorationId: state.pageKey.value,
+            child: const ForgotPasswordPage(),
+            transitionDuration: const Duration(milliseconds: 500),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              return FadeTransition(
+                opacity: animation,
+                child: child,
+              );
+            },
+          );
+        },
+        routes: [
+          GoRoute(
+              path: Routes.resetPassword.asSubPath(),
+              name: Routes.resetPassword.name,
+              pageBuilder: (context, routeState) {
+                return CustomTransitionPage(
+                  child: const ResetPasswordPage(),
+                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    );
+                  },
+                );
+              }),
+        ]),
     GoRoute(
       path: Routes.register.path,
       name: Routes.register.name,

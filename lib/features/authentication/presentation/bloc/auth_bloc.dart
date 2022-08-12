@@ -5,10 +5,12 @@ import 'dart:developer';
 
 // ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:timberland_biketrail/core/errors/failures.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
+import 'package:timberland_biketrail/features/authentication/domain/params/forgot_password.dart';
 import 'package:timberland_biketrail/features/authentication/domain/params/params.dart';
 import 'package:timberland_biketrail/features/authentication/domain/repositories/auth_repository.dart';
 
@@ -65,13 +67,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           if (failure is UnverifiedEmailFailure) {
             emit(
               OtpSent(
-                registerParameter: RegisterParameter(
-                  firstName: '',
-                  lastName: '',
-                  email: event.loginParameter.email,
-                  mobileNumber: '',
-                  password: event.loginParameter.password,
-                ),
+                parameter: event.loginParameter,
                 message: 'Verify your email.',
               ),
             );
@@ -91,25 +87,43 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
 
     on<SendOtpEvent>((event, emit) async {
-      emit(
-        AuthLoading(
-          loadingMessage: 'Sending Otp to ${event.registerParameter.email}.',
-        ),
-      );
-      final result = await repository.sendOtp(event.registerParameter);
+      String email;
+      Either result;
+      if (event.parameter is RegisterParameter) {
+        email = (event.parameter as RegisterParameter).email;
+        emit(
+          AuthLoading(
+            loadingMessage: 'Sending OTP to $email.',
+          ),
+        );
+        result = await repository.sendOtp(event.parameter);
+      } else if (event.parameter is String) {
+        email = event.parameter;
+        emit(
+          AuthLoading(
+            loadingMessage: 'Sending OTP to $email.',
+          ),
+        );
+        result = await repository.forgotPassword(event.parameter);
+      } else {
+        throw Exception(
+          "Event Parameter is ${event.parameter.runtimeType}, and not a valid parameter",
+        );
+      }
       result.fold(
         (l) {
           emit(
             AuthError(
               errorMessage: l.message,
-              registerParameter: event.registerParameter,
+              parameter: event.parameter,
             ),
           );
         },
         (r) {
+          log('otp sent as');
           emit(OtpSent(
-            registerParameter: event.registerParameter,
-            message: "OTP is sent to ${event.registerParameter.email}",
+            parameter: event.parameter,
+            message: "OTP is sent to $email",
           ));
         },
       );
@@ -124,7 +138,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         (failure) {
           emit(
             OtpSent(
-              registerParameter: event.registerParameter,
+              parameter: event.registerParameter,
               message: failure.message,
             ),
           );
@@ -137,6 +151,53 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               firstTimeUser: true,
             ),
           );
+        },
+      );
+    });
+
+    on<ForgotPasswordEvent>((event, emit) async {
+      emit(const AuthLoading(loadingMessage: 'Sending OTP to your email'));
+
+      final result = await repository.forgotPasswordEmailVerification(
+        event.forgotPasswordParameter.email,
+        event.forgotPasswordParameter.otp,
+      );
+
+      result.fold(
+        (l) {
+          emit(AuthError(
+            errorMessage: l.message,
+            parameter: event.forgotPasswordParameter.email,
+          ));
+        },
+        (r) {
+          emit(
+            SettingNewPassword(
+              email: event.forgotPasswordParameter.email,
+            ),
+          );
+        },
+      );
+    });
+
+    on<ResetPasswordEvent>((event, emit) async {
+      emit(
+        const AuthLoading(loadingMessage: 'Updating Password'),
+      );
+      final result = await repository.updatePassword(
+        event.resetPasswordParameter.email,
+        event.resetPasswordParameter.password,
+      );
+
+      result.fold(
+        (l) {
+          emit(AuthError(
+            errorMessage: l.message,
+            parameter: event.resetPasswordParameter,
+          ));
+        },
+        (r) {
+          emit(const PasswordUpdated());
         },
       );
     });
@@ -169,11 +230,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(
         const AuthLoading(loadingMessage: 'Updating profile'),
       );
-      // emit(Authenticated(
-      //   message: "Profile Updated",
-      //   user: event.newUser,
-      //   firstTimeUser:
-      // ));
       emit(
         _state.copyWith(
           message: 'Profile Updated',
