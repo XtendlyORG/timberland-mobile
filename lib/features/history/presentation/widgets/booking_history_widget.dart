@@ -25,6 +25,9 @@ class BookingHistoryWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       padding: const EdgeInsets.all(kVerticalPadding),
+      constraints: const BoxConstraints(
+        minHeight: 70
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -51,6 +54,9 @@ class BookingHistoryWidget extends StatelessWidget {
                         bookingHistory.booking.startTime.minute,
                       ),
                     ),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
                   const TextSpan(text: ' - '),
                   TextSpan(
@@ -62,6 +68,9 @@ class BookingHistoryWidget extends StatelessWidget {
                         bookingHistory.booking.endTime.hour,
                         bookingHistory.booking.endTime.minute,
                       ),
+                    ),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.normal,
                     ),
                   ),
                 ],
