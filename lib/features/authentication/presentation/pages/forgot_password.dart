@@ -20,7 +20,7 @@ class ForgotPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: ()async {
+      onWillPop: () async {
         context.goNamed(Routes.login.name);
         return false;
       },
@@ -80,7 +80,7 @@ class ForgotPasswordForm extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is SettingNewPassword) {
-          context.pushNamed(Routes.resetPassword.name);
+          context.goNamed(Routes.resetPassword.name);
           ScaffoldMessenger.of(context)
             ..clearSnackBars()
             ..showSnackBar(
