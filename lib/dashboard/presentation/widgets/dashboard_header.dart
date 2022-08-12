@@ -44,7 +44,7 @@ class DashBoardHeader extends StatelessWidget {
                         ),
                   ),
                   Text(
-                    'Manila',
+                    '63${state.user.mobileNumber}',
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           color: Theme.of(context).backgroundColor,
                         ),

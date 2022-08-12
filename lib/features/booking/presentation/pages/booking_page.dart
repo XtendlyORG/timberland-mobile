@@ -52,6 +52,9 @@ class BookingPage extends StatelessWidget {
                 );
               },
             ),
+            const SizedBox(
+              height: kToolbarHeight,
+            ),
           ],
         ),
       ),
