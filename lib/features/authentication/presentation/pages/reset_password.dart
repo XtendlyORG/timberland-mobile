@@ -7,6 +7,7 @@ import 'package:timberland_biketrail/core/presentation/widgets/filled_text_butto
 import 'package:timberland_biketrail/core/presentation/widgets/form_fields/form_fields.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_container.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
+import 'package:timberland_biketrail/features/authentication/domain/params/forgot_password.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 
 class ResetPasswordPage extends StatelessWidget {
@@ -16,7 +17,7 @@ class ResetPasswordPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        context.goNamed(Routes.login.name);
+        context.goNamed(Routes.forgotPassword.name);
         return false;
       },
       child: SafeArea(
@@ -29,7 +30,7 @@ class ResetPasswordPage extends StatelessWidget {
               message: 'Back',
               child: IconButton(
                 onPressed: () {
-                  context.goNamed(Routes.login.name);
+                  context.goNamed(Routes.forgotPassword.name);
                 },
                 icon: const Icon(
                   Icons.arrow_back_rounded,
@@ -106,11 +107,13 @@ class ResetPasswordForm extends StatelessWidget {
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       BlocProvider.of<AuthBloc>(context).add(
-                        UpdatePasswordEvent(
-                          email: (BlocProvider.of<AuthBloc>(context).state
-                                  as SettingNewPassword)
-                              .email,
-                          password: passwordCtrl.text,
+                        ResetPasswordEvent(
+                          resetPasswordParameter: ResetPasswordParameter(
+                            email: (BlocProvider.of<AuthBloc>(context).state
+                                    as SettingNewPassword)
+                                .email,
+                            password: passwordCtrl.text,
+                          ),
                         ),
                       );
                     }

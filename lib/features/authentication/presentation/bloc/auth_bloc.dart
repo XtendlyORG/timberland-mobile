@@ -10,6 +10,7 @@ import 'package:equatable/equatable.dart';
 import 'package:timberland_biketrail/core/errors/failures.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
+import 'package:timberland_biketrail/features/authentication/domain/params/forgot_password.dart';
 import 'package:timberland_biketrail/features/authentication/domain/params/params.dart';
 import 'package:timberland_biketrail/features/authentication/domain/repositories/auth_repository.dart';
 
@@ -119,6 +120,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           );
         },
         (r) {
+          log('otp sent as');
           emit(OtpSent(
             parameter: event.parameter,
             message: "OTP is sent to $email",
@@ -157,36 +159,42 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(const AuthLoading(loadingMessage: 'Sending OTP to your email'));
 
       final result = await repository.forgotPasswordEmailVerification(
-        event.email,
-        event.otp,
+        event.forgotPasswordParameter.email,
+        event.forgotPasswordParameter.otp,
       );
 
       result.fold(
         (l) {
-          emit(AuthError(errorMessage: l.message));
+          emit(AuthError(
+            errorMessage: l.message,
+            parameter: event.forgotPasswordParameter.email,
+          ));
         },
         (r) {
           emit(
             SettingNewPassword(
-              email: event.email,
+              email: event.forgotPasswordParameter.email,
             ),
           );
         },
       );
     });
 
-    on<UpdatePasswordEvent>((event, emit) async {
+    on<ResetPasswordEvent>((event, emit) async {
       emit(
         const AuthLoading(loadingMessage: 'Updating Password'),
       );
       final result = await repository.updatePassword(
-        event.email,
-        event.password,
+        event.resetPasswordParameter.email,
+        event.resetPasswordParameter.password,
       );
 
       result.fold(
         (l) {
-          emit(AuthError(errorMessage: l.message));
+          emit(AuthError(
+            errorMessage: l.message,
+            parameter: event.resetPasswordParameter,
+          ));
         },
         (r) {
           emit(const PasswordUpdated());

@@ -107,7 +107,7 @@ class SettingNewPassword extends AuthState {
     required this.email,
   });
   @override
-  List<Object> get props => super.props..add(email);
+  List<Object> get props => super.props..addAll([email]);
 }
 
 class PasswordUpdated extends AuthState {

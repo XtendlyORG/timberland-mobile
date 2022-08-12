@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/features/authentication/domain/params/forgot_password.dart';
 import 'package:timberland_biketrail/features/authentication/domain/params/params.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/widgets/otp_validation_form.dart';
 
@@ -99,7 +100,12 @@ class OtpVerificationPage extends StatelessWidget {
                 }
                 if (routeNameOnPop == Routes.forgotPassword.name) {
                   authBloc.add(
-                    ForgotPasswordEvent(email: parameter, otp: otp),
+                    ForgotPasswordEvent(
+                      forgotPasswordParameter: ForgotPasswordParameter(
+                        email: parameter,
+                        otp: otp,
+                      ),
+                    ),
                   );
                 } else {
                   authBloc.add(

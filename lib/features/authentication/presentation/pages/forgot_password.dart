@@ -19,42 +19,48 @@ class ForgotPasswordPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          foregroundColor: Theme.of(context).primaryColor,
-          backgroundColor: Colors.transparent,
-          leading: Tooltip(
-            message: 'Back',
-            child: IconButton(
-              onPressed: () {
-                context.pop();
-              },
-              icon: const Icon(
-                Icons.arrow_back_rounded,
-                color: Colors.black,
+    return WillPopScope(
+      onWillPop: ()async {
+        context.goNamed(Routes.login.name);
+        return false;
+      },
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            elevation: 0,
+            foregroundColor: Theme.of(context).primaryColor,
+            backgroundColor: Colors.transparent,
+            leading: Tooltip(
+              message: 'Back',
+              child: IconButton(
+                onPressed: () {
+                  context.goNamed(Routes.login.name);
+                },
+                icon: const Icon(
+                  Icons.arrow_back_rounded,
+                  color: Colors.black,
+                ),
               ),
             ),
           ),
-        ),
-        extendBodyBehindAppBar: true,
-        body: TimberlandContainer(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: kToolbarHeight),
-                child: AutoSizeText(
-                  'Forgot Password',
-                  style: Theme.of(context).textTheme.headlineSmall,
+          extendBodyBehindAppBar: true,
+          body: TimberlandContainer(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: kToolbarHeight),
+                  child: AutoSizeText(
+                    'Forgot Password',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
                 ),
-              ),
-              const Text("Enter your email and get help logging in."),
-              const SizedBox(
-                height: kVerticalPadding * 2,
-              ),
-              const ForgotPasswordForm(),
-            ],
+                const Text("Enter your email and get help logging in."),
+                const SizedBox(
+                  height: kVerticalPadding * 2,
+                ),
+                const ForgotPasswordForm(),
+              ],
+            ),
           ),
         ),
       ),
@@ -75,6 +81,13 @@ class ForgotPasswordForm extends StatelessWidget {
       listener: (context, state) {
         if (state is SettingNewPassword) {
           context.pushNamed(Routes.resetPassword.name);
+          ScaffoldMessenger.of(context)
+            ..clearSnackBars()
+            ..showSnackBar(
+              const SnackBar(
+                content: AutoSizeText('OTP Verified'),
+              ),
+            );
         }
       },
       child: Padding(
@@ -98,6 +111,10 @@ class ForgotPasswordForm extends StatelessWidget {
                         SendOtpEvent(
                           parameter: emailCtrl.text,
                         ),
+                      );
+                      context.pushNamed(
+                        Routes.otpVerification.name,
+                        extra: Routes.forgotPassword.name,
                       );
                     }
                   },
