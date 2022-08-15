@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timberland_biketrail/core/constants/constants.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../../features/authentication/presentation/bloc/auth_bloc.dart';
@@ -60,6 +62,19 @@ class _UserGuideVideoState extends State<UserGuideVideo> {
               children: [
                 CustomVideoPlayer(
                   videoPlayerController: _videoPlayerController,
+                ),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      bottom: kVerticalPadding * 2,
+                      right: kVerticalPadding,
+                    ),
+                    child: FilledTextButton(
+                      onPressed: () {},
+                      child: const Text("Skip"),
+                    ),
+                  ),
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
