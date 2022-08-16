@@ -1,4 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,7 +11,7 @@ import 'package:timberland_biketrail/core/presentation/widgets/filled_text_butto
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/widgets/otp_resend_button.dart';
 
-class OtpVerificationForm extends StatelessWidget {
+class OtpVerificationForm extends StatefulWidget {
   const OtpVerificationForm({
     Key? key,
     required this.onSubmit,
@@ -19,60 +22,230 @@ class OtpVerificationForm extends StatelessWidget {
   final VoidCallback onResend;
 
   @override
+  State<OtpVerificationForm> createState() => _OtpVerificationFormState();
+}
+
+class _OtpVerificationFormState extends State<OtpVerificationForm> {
+  late bool validOtp;
+  late final TextEditingController otpCtrl;
+  late final TextEditingController digit1;
+  late final TextEditingController digit2;
+  late final TextEditingController digit3;
+  late final TextEditingController digit4;
+  late final TextEditingController digit5;
+  late final TextEditingController digit6;
+  @override
+  void initState() {
+    super.initState();
+    validOtp = false;
+
+    otpCtrl = TextEditingController();
+    digit1 = TextEditingController();
+    digit2 = TextEditingController();
+    digit3 = TextEditingController();
+    digit4 = TextEditingController();
+    digit5 = TextEditingController();
+    digit6 = TextEditingController();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
-    final otpCtrl = TextEditingController();
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: kToolbarHeight),
+          padding: const EdgeInsets.only(bottom: kHorizontalPadding),
           child: Text(
             'OTP Verification',
             style: Theme.of(context).textTheme.headlineSmall,
           ),
         ),
         Padding(
+          padding: const EdgeInsets.only(bottom: kHorizontalPadding),
+          child: AutoSizeText(
+            'Enter the verification code we just sent you on your email address.',
+            maxLines: 2,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
+        ),
+        Padding(
           padding: const EdgeInsets.only(bottom: kVerticalPadding),
           child: Form(
-            key: formKey,
-            child: TextFormField(
-              controller: otpCtrl,
-              maxLength: 6,
-              validator: (val) {
-                if (val == null || val.isEmpty) {
-                  return 'OTP can not be empty.';
-                } else if (val.length != 6 || int.tryParse(val) == null) {
-                  return 'OTP must be a 6 digit number.';
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                hintText: 'Enter your OTP',
-                suffixIcon: SizedBox(
-                  width: 100,
-                  child: OTPResendButton(
-                    duration: 10,
-                    onTap: onResend,
+            onChanged: () {
+              otpCtrl.text = digit1.text +
+                  digit2.text +
+                  digit3.text +
+                  digit4.text +
+                  digit5.text +
+                  digit6.text;
+              if (otpCtrl.text.length != 6 && validOtp) {
+                setState(() {
+                  validOtp = false;
+                });
+              }
+              if (otpCtrl.text.length == 6 && !validOtp) {
+                setState(() {
+                  validOtp = true;
+                });
+              }
+            },
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    controller: digit1,
+                    maxLength: 1,
+                    onChanged: (val) {
+                      if (val.length == 1) {
+                        FocusManager.instance.primaryFocus?.nextFocus();
+                      }
+                    },
+                    decoration: const InputDecoration(counterText: ''),
+                    textAlign: TextAlign.center,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                    autofocus: true,
+                    textInputAction: TextInputAction.next,
                   ),
                 ),
-              ),
-              textAlign: TextAlign.center,
-              keyboardType: TextInputType.number,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
+                const SizedBox(width: 8),
+                Expanded(
+                  child: TextFormField(
+                    controller: digit2,
+                    maxLength: 1,
+                    onChanged: (val) {
+                      if (val.length == 1) {
+                        FocusManager.instance.primaryFocus?.nextFocus();
+                      } else {
+                        FocusManager.instance.primaryFocus?.previousFocus();
+                      }
+                    },
+                    decoration: const InputDecoration(counterText: ''),
+                    textAlign: TextAlign.center,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                    autofocus: true,
+                    textInputAction: TextInputAction.next,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: TextFormField(
+                    controller: digit3,
+                    maxLength: 1,
+                    onChanged: (val) {
+                      if (val.length == 1) {
+                        FocusManager.instance.primaryFocus?.nextFocus();
+                      } else {
+                        FocusManager.instance.primaryFocus?.previousFocus();
+                      }
+                    },
+                    decoration: const InputDecoration(counterText: ''),
+                    textAlign: TextAlign.center,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                    autofocus: true,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: TextFormField(
+                    controller: digit4,
+                    maxLength: 1,
+                    onChanged: (val) {
+                      if (val.length == 1) {
+                        FocusManager.instance.primaryFocus?.nextFocus();
+                      } else {
+                        FocusManager.instance.primaryFocus?.previousFocus();
+                      }
+                    },
+                    decoration: const InputDecoration(counterText: ''),
+                    textAlign: TextAlign.center,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                    autofocus: true,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: TextFormField(
+                    controller: digit5,
+                    maxLength: 1,
+                    onChanged: (val) {
+                      if (val.length == 1) {
+                        FocusManager.instance.primaryFocus?.nextFocus();
+                      } else {
+                        FocusManager.instance.primaryFocus?.previousFocus();
+                      }
+                    },
+                    decoration: const InputDecoration(counterText: ''),
+                    textAlign: TextAlign.center,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                    autofocus: true,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: TextFormField(
+                    controller: digit6,
+                    maxLength: 1,
+                    onChanged: (val) {
+                      if (val.isEmpty) {
+                        FocusManager.instance.primaryFocus?.previousFocus();
+                      }
+                    },
+                    decoration: const InputDecoration(counterText: ''),
+                    textAlign: TextAlign.center,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                    autofocus: true,
+                  ),
+                ),
               ],
-              autofocus: true,
             ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: kVerticalPadding),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AutoSizeText(
+                "Didn’t receive the code?",
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+              SizedBox(
+                width: 100,
+                height: 40,
+                child: OTPResendButton(
+                  duration: 10,
+                  onTap: widget.onResend,
+                ),
+              ),
+            ],
           ),
         ),
         SizedBox(
           width: double.infinity,
           child: FilledTextButton(
-            onPressed: () {
-              if (formKey.currentState!.validate()) {
-                onSubmit(otpCtrl.text);
-              }
-            },
+            onPressed: validOtp
+                ? () {
+                    widget.onSubmit(otpCtrl.text);
+                  }
+                : null,
             child: const Text("Validate OTP"),
           ),
         ),

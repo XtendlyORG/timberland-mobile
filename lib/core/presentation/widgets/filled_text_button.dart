@@ -2,12 +2,12 @@
 import 'package:flutter/material.dart';
 
 class FilledTextButton extends StatelessWidget {
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final Widget child;
   final ButtonStyle? style;
   const FilledTextButton({
     Key? key,
-    required this.onPressed,
+    this.onPressed,
     required this.child,
     this.style,
   }) : super(key: key);
@@ -18,7 +18,7 @@ class FilledTextButton extends StatelessWidget {
       onPressed: onPressed,
       style: style ??
           TextButton.styleFrom(
-            backgroundColor: Theme.of(context).primaryColor,
+            backgroundColor: onPressed!=null?Theme.of(context).primaryColor:Theme.of(context).disabledColor,
             primary: Theme.of(context).backgroundColor,
           ),
       child: child,

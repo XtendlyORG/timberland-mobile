@@ -57,23 +57,27 @@ class _OTPResendButtonState extends State<OTPResendButton> {
                   widget.onTap();
                   startTimer(duration: widget.duration);
                 },
-                child: Text(
-                  'Resend OTP',
-                  style: Theme.of(context).textTheme.button?.copyWith(
-                        color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.bold,
-                      ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    'Resend OTP',
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: Theme.of(context).primaryColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
                 ),
               ),
             ),
           )
         : Container(
             alignment: Alignment.center,
-            padding: const EdgeInsets.only(right: 8.0),
+            padding: const EdgeInsets.only(left: 8.0),
             child: Text(
               'Resend in: ${widget.duration - _timer!.tick}',
-              style: Theme.of(context).textTheme.button?.copyWith(
-                  color: Theme.of(context).textTheme.bodySmall?.color),
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    color: Theme.of(context).textTheme.bodySmall?.color,
+                  ),
             ),
           );
   }
