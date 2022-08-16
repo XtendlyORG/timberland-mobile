@@ -44,13 +44,20 @@ class ResetPasswordPage extends StatelessWidget {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: kToolbarHeight),
+                  padding: const EdgeInsets.only(
+                      top: kToolbarHeight, bottom: kHorizontalPadding),
                   child: AutoSizeText(
-                    'Reset Password',
+                    'Create new password',
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                 ),
-                const Text("Enter New Password"),
+                Text(
+                  "Please enter your password.",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(fontWeight: FontWeight.normal),
+                ),
                 const SizedBox(
                   height: kVerticalPadding * 2,
                 ),
@@ -97,6 +104,20 @@ class ResetPasswordForm extends StatelessWidget {
             children: [
               PasswordField(
                 controller: passwordCtrl,
+                hintText: 'New Password',
+              ),
+              const SizedBox(
+                height: kVerticalPadding,
+              ),
+              PasswordField(
+                hintText: 'Confirm Password',
+                controller: TextEditingController(),
+                validator: (val) {
+                  if (val != passwordCtrl.text) {
+                    return "Password doesn't match.";
+                  }
+                  return null;
+                },
               ),
               const SizedBox(
                 height: kVerticalPadding,
@@ -118,7 +139,7 @@ class ResetPasswordForm extends StatelessWidget {
                       );
                     }
                   },
-                  child: const Text("Reset Password"),
+                  child: const Text("Confirm"),
                 ),
               ),
             ],
