@@ -2,6 +2,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/expanded_image.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/features/trail/domain/entities/trail.dart';
 import 'package:timberland_biketrail/features/trail/presentation/widgets/trail_specs.dart';
@@ -29,7 +30,7 @@ class TrailWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 150,
+            height: 180,
             width: double.infinity,
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
@@ -37,7 +38,33 @@ class TrailWidget extends StatelessWidget {
             ),
             child: CachedNetworkImage(
               imageUrl: trail.featureImageUrl,
+              imageBuilder: (ctx, imageProvider) {
+                final tag = DateTime.now();
+                return Hero(
+                  tag: tag,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return ExpandedImage(
+                              imageProvider: imageProvider,
+                              tag: tag,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                    child: Image(
+                      image: imageProvider,
+                      fit: BoxFit.fitWidth,
+                    ),
+                  ),
+                );
+              },
               fit: BoxFit.fitWidth,
+              alignment: Alignment.center,
               placeholder: (context, url) {
                 return const Center(
                   child: RepaintBoundary(
@@ -45,7 +72,6 @@ class TrailWidget extends StatelessWidget {
                   ),
                 );
               },
-              
               errorWidget: (context, url, error) {
                 return const Center(
                   child: Icon(Icons.error_outline_rounded),
