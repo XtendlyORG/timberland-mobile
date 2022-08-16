@@ -46,7 +46,7 @@ final List<BottomNavBarConfigs> navbarConfigs = [
       image: AssetImage('assets/icons/emergency-icon.png'),
       height: 24,
       width: 24,
-      color: Color(0xffF60505),
+      color: TimberlandColor.secondaryColor,
     ),
     label: 'Emergency',
     routeName: Routes.emergency.name,

@@ -71,8 +71,17 @@ class _UserGuideVideoState extends State<UserGuideVideo> {
                       right: kVerticalPadding,
                     ),
                     child: FilledTextButton(
-                      onPressed: () {},
-                      child: const Text("Skip"),
+                      onPressed: () {
+                        BlocProvider.of<AuthBloc>(context)
+                            .add(const FinishUserGuideEvent(skipBooking: true));
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [
+                          Text("Skip"),
+                          Icon(Icons.skip_next_rounded)
+                        ],
+                      ),
                     ),
                   ),
                 ),

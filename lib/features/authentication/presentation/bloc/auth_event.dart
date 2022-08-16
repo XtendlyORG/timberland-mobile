@@ -59,7 +59,13 @@ class FacebookAuthEvent extends AuthEvent {
 }
 
 class FinishUserGuideEvent extends AuthEvent {
-  const FinishUserGuideEvent();
+  final bool skipBooking;
+  const FinishUserGuideEvent({
+    this.skipBooking = false,
+  });
+
+  @override
+  List<Object> get props => super.props..add(skipBooking);
 }
 
 class LogoutEvent extends AuthEvent {
