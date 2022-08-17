@@ -9,7 +9,10 @@ import '../../../../dashboard/domain/params/update_user_detail.dart';
 abstract class AuthRepository extends Repository {
   Future<Either<AuthFailure, User>> login(LoginParameter params);
 
-  Future<Either<AuthFailure, void>> sendOtp(RegisterParameter params);
+  Future<Either<AuthFailure, void>> sendOtp(
+    RegisterParameter params, {
+    bool resending = false,
+  });
 
   Future<Either<AuthFailure, User>> register(RegisterParameter params);
 
@@ -20,8 +23,9 @@ abstract class AuthRepository extends Repository {
   Future<Either<AuthFailure, void>> logout();
 
   Future<Either<AuthFailure, void>> forgotPassword(
-    String email,
-  );
+    String email, {
+    bool resending = false,
+  });
 
   Future<Either<AuthFailure, void>> forgotPasswordEmailVerification(
     String email,

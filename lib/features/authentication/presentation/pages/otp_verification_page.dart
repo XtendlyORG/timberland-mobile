@@ -76,17 +76,16 @@ class OtpVerificationPage extends StatelessWidget {
                 }
                 if (routeNameOnPop == Routes.login.name) {
                   authBloc.add(
-                    LoginEvent(
-                      loginParameter: LoginParameter(
-                        email: parameter!.email,
-                        password: parameter.otp,
-                      ),
+                    SendOtpEvent(
+                      parameter: parameter!.email,
+                      resending: true,
                     ),
                   );
                 } else {
                   authBloc.add(
                     SendOtpEvent(
                       parameter: parameter,
+                      resending: true,
                     ),
                   );
                 }

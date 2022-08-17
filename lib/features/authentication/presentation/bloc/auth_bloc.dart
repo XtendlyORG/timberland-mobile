@@ -96,7 +96,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             loadingMessage: 'Sending OTP to $email.',
           ),
         );
-        result = await repository.sendOtp(event.parameter);
+        result = await repository.sendOtp(
+          event.parameter,
+          resending: event.resending,
+        );
       } else if (event.parameter is String) {
         email = event.parameter;
         emit(
@@ -104,7 +107,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             loadingMessage: 'Sending OTP to $email.',
           ),
         );
-        result = await repository.forgotPassword(event.parameter);
+        result = await repository.forgotPassword(
+          event.parameter,
+          resending: event.resending,
+        );
       } else {
         throw Exception(
           "Event Parameter is ${event.parameter.runtimeType}, and not a valid parameter",
@@ -123,7 +129,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           log('otp sent as');
           emit(OtpSent(
             parameter: event.parameter,
-            message: "OTP is sent to $email",
+            message: event.resending
+                ? 'New OTP is sent to $email'
+                : "OTP is sent to $email",
           ));
         },
       );

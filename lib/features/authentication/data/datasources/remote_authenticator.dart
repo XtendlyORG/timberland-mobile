@@ -83,7 +83,10 @@ class RemoteAuthenticator implements Authenticator {
   }
 
   @override
-  Future<void> sendOtp(RegisterParameter registerParameter) async {
+  Future<void> sendOtp(
+    RegisterParameter registerParameter, {
+    bool resending = false,
+  }) async {
     try {
       MultipartFile? profilePic;
       if (registerParameter.profilePic != null) {
@@ -92,15 +95,26 @@ class RemoteAuthenticator implements Authenticator {
         );
       }
 
-      final response = await dioClient.post(
-        '${environmentConfig.apihost}/users/register',
-        data: FormData.fromMap(
-          registerParameter.toMap()
-            ..addEntries(
-              {'profile_pic': profilePic}.entries,
-            ),
-        ),
-      );
+      final Response response;
+      if (resending) {
+        response = await dioClient.put(
+          '${environmentConfig.apihost}/users/otp',
+          data: {
+            'email': registerParameter.email,
+          },
+        );
+      } else {
+        response = await dioClient.post(
+          '${environmentConfig.apihost}/users/register',
+          data: FormData.fromMap(
+            registerParameter.toMap()
+              ..addEntries(
+                {'profile_pic': profilePic}.entries,
+              ),
+          ),
+        );
+      }
+
       log(response.statusCode.toString());
       if (response.statusCode == 200) {
         return;
@@ -178,17 +192,25 @@ class RemoteAuthenticator implements Authenticator {
   }
 
   @override
-  Future<void> forgotPassword(String email) async {
+  Future<void> forgotPassword(String email, {bool resending = false}) async {
     try {
       final body = json.encode(
         {
           'email': email,
         },
       );
-      final response = await dioClient.post(
-        '${environmentConfig.apihost}/users/forgot',
-        data: body,
-      );
+      final Response response;
+      if (resending) {
+        response = await dioClient.put(
+          '${environmentConfig.apihost}/users/otp',
+          data: body,
+        );
+      } else {
+        response = await dioClient.post(
+          '${environmentConfig.apihost}/users/forgot',
+          data: body,
+        );
+      }
       log(response.statusCode.toString());
       log(response.data.toString());
       if (response.statusCode == 200) {

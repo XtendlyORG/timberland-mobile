@@ -24,8 +24,10 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<AuthFailure, void>> sendOtp(RegisterParameter params) {
-    return authRequest(request: () => authenticator.sendOtp(params));
+  Future<Either<AuthFailure, void>> sendOtp(RegisterParameter params, {
+    bool resending = false,
+  }) {
+    return authRequest(request: () => authenticator.sendOtp(params,resending:resending));
   }
 
   @override
@@ -54,10 +56,11 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<AuthFailure, void>> forgotPassword(
-    String email,
-  ) {
+    String email, {
+    bool resending = false,
+  }) {
     return authRequest<void>(
-      request: () => authenticator.forgotPassword(email),
+      request: () => authenticator.forgotPassword(email, resending: resending),
     );
   }
 

@@ -33,8 +33,10 @@ class LoginEvent extends AuthEvent {
 
 class SendOtpEvent<ParameterType> extends AuthEvent {
   final ParameterType parameter;
+  final bool resending;
   const SendOtpEvent({
     required this.parameter,
+    this.resending = false,
   });
 
   @override
