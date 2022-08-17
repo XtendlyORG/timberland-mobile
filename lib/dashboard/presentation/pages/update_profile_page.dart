@@ -23,54 +23,64 @@ class UpdateProfilePage extends StatelessWidget {
         return current is! ProfileUpdated;
       },
       builder: (context, state) {
-        return TimberlandScaffold(
-          appBar: TimberlandAppbar(
-            backButton: BackButton(
-              onPressed: (state is UpdatingUserDetail && state.pageNum == 2)
-                  ? () {
-                      BlocProvider.of<ProfileBloc>(context)
-                          .add(UpdateUserDetailEvent(user: state.updatedUser));
-                    }
-                  : () {
-                      showDialog(
-                        context: context,
-                        builder: (ctx) {
-                          return AlertDialog(
-                            content: const SizedBox(
-                              child: Text("Discard profile updates?"),
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(ctx);
-                                },
-                                child: const Text('Cancel'),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(ctx, true);
-                                  BlocProvider.of<ProfileBloc>(context)
-                                      .add(const CancelUpdateRequest());
-                                },
-                                child: const Text('Discard'),
-                              ),
-                            ],
-                          );
-                        },
-                      ).then(
-                        (value) {
-                          if (value) {
-                            Navigator.pop(context);
-                          }
-                        },
-                      );
-                    },
+        return WillPopScope(
+          onWillPop: () async {
+            handleBackButton(state, context);
+            return false;
+          },
+          child: TimberlandScaffold(
+            appBar: TimberlandAppbar(
+              backButton: BackButton(
+                onPressed: () {
+                  handleBackButton(state, context);
+                },
+              ),
             ),
+            titleText: 'Update Information',
+            body: UpdateProfileForm(user: Session().currentUser!),
           ),
-          titleText: 'Edit Profile',
-          body: UpdateProfileForm(user: Session().currentUser!),
         );
       },
     );
+  }
+
+  void handleBackButton(ProfileState state, BuildContext context) {
+    if (state is UpdatingUserDetail && state.pageNum == 2) {
+      BlocProvider.of<ProfileBloc>(context)
+          .add(UpdateUserDetailEvent(user: state.updatedUser));
+    } else {
+      showDialog(
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            content: const SizedBox(
+              child: Text("Discard profile updates?"),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(ctx);
+                },
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(ctx, true);
+                  BlocProvider.of<ProfileBloc>(context)
+                      .add(const CancelUpdateRequest());
+                },
+                child: const Text('Discard'),
+              ),
+            ],
+          );
+        },
+      ).then(
+        (value) {
+          if (value) {
+            Navigator.pop(context);
+          }
+        },
+      );
+    }
   }
 }
