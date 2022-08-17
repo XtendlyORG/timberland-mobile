@@ -32,8 +32,6 @@ class _OtpVerificationFormState extends State<OtpVerificationForm> {
   late final TextEditingController digit2;
   late final TextEditingController digit3;
   late final TextEditingController digit4;
-  late final TextEditingController digit5;
-  late final TextEditingController digit6;
   @override
   void initState() {
     super.initState();
@@ -44,8 +42,6 @@ class _OtpVerificationFormState extends State<OtpVerificationForm> {
     digit2 = TextEditingController();
     digit3 = TextEditingController();
     digit4 = TextEditingController();
-    digit5 = TextEditingController();
-    digit6 = TextEditingController();
   }
 
   @override
@@ -75,15 +71,13 @@ class _OtpVerificationFormState extends State<OtpVerificationForm> {
               otpCtrl.text = digit1.text +
                   digit2.text +
                   digit3.text +
-                  digit4.text +
-                  digit5.text +
-                  digit6.text;
-              if (otpCtrl.text.length != 6 && validOtp) {
+                  digit4.text;
+              if (otpCtrl.text.length != 4 && validOtp) {
                 setState(() {
                   validOtp = false;
                 });
               }
-              if (otpCtrl.text.length == 6 && !validOtp) {
+              if (otpCtrl.text.length == 4 && !validOtp) {
                 setState(() {
                   validOtp = true;
                 });
@@ -162,46 +156,6 @@ class _OtpVerificationFormState extends State<OtpVerificationForm> {
                       if (val.length == 1) {
                         FocusManager.instance.primaryFocus?.nextFocus();
                       } else {
-                        FocusManager.instance.primaryFocus?.previousFocus();
-                      }
-                    },
-                    decoration: const InputDecoration(counterText: ''),
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                    autofocus: true,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: TextFormField(
-                    controller: digit5,
-                    maxLength: 1,
-                    onChanged: (val) {
-                      if (val.length == 1) {
-                        FocusManager.instance.primaryFocus?.nextFocus();
-                      } else {
-                        FocusManager.instance.primaryFocus?.previousFocus();
-                      }
-                    },
-                    decoration: const InputDecoration(counterText: ''),
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                    autofocus: true,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: TextFormField(
-                    controller: digit6,
-                    maxLength: 1,
-                    onChanged: (val) {
-                      if (val.isEmpty) {
                         FocusManager.instance.primaryFocus?.previousFocus();
                       }
                     },
