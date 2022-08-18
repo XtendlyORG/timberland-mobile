@@ -8,6 +8,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/no_network_snackbar.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/core/utils/internet_connection.dart';
 
@@ -70,61 +71,22 @@ class _MyAppState extends State<MyApp> {
     FlutterNativeSplash.remove();
 
     final InternetConnectivity internetConnectivity = InternetConnectivity();
-    _messengerKey = GlobalKey<ScaffoldMessengerState>();
+    _messengerKey = internetConnectivity.scaffoldMessengerKey;
 
     if (!internetConnectivity.internetConnected) {
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        _messengerKey.currentState!.showSnackBar(
-          SnackBar(
-            duration: const Duration(days: 1),
-            dismissDirection: DismissDirection.none,
-            content: const AutoSizeText(
-              'No internet connection',
-              textAlign: TextAlign.center,
-            ),
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24),
-            ),
-            margin: const EdgeInsets.only(
-              right: 20,
-              left: 20,
-              bottom: kHorizontalPadding,
-            ),
-          ),
-        );
+        _messengerKey.currentState?.showSnackBar(noNetworkSnackBar);
       });
     }
-
     internetConnectivity.addListener(() async {
-      log("adasd");
       log(internetConnectivity.internetConnected.toString());
       if (!internetConnectivity.internetConnected) {
-        log("No internet");
         SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          _messengerKey.currentState!.showSnackBar(
-            SnackBar(
-              duration: const Duration(days: 1),
-              dismissDirection: DismissDirection.none,
-              content: const AutoSizeText(
-                'No internet connection',
-                textAlign: TextAlign.center,
-              ),
-              behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24),
-              ),
-              margin: const EdgeInsets.only(
-                right: 20,
-                left: 20,
-                bottom: kHorizontalPadding,
-              ),
-            ),
-          );
+          _messengerKey.currentState?.showSnackBar(noNetworkSnackBar);
         });
       } else {
         SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          _messengerKey.currentState?.clearMaterialBanners();
+          _messengerKey.currentState?.clearSnackBars();
         });
       }
     });
