@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/constants/constants.dart';
 import '../../../core/presentation/widgets/inherited_widgets/inherited_register_parameter.dart';
 import '../../../core/presentation/widgets/snackbar_content/loading_snackbar_content.dart';
+import '../../../core/presentation/widgets/snackbar_content/show_snackbar.dart';
 import '../../../core/presentation/widgets/timberland_scaffold.dart';
 import '../../../core/router/router.dart';
 import '../../../features/authentication/domain/entities/user.dart';
@@ -43,13 +44,21 @@ class UpdateProfileForm extends StatelessWidget {
           );
         }
         if (current is ProfileUpdated) {
-          ScaffoldMessenger.of(context)
-            ..clearSnackBars()
-            ..showSnackBar(
-              const SnackBar(
-                content: AutoSizeText('Profile Updated'),
+          showSnackBar(
+            SnackBar(
+              content: const AutoSizeText('Profile Updated'),
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
               ),
-            );
+              margin: const EdgeInsets.only(
+                right: 20,
+                left: 20,
+                bottom: kHorizontalPadding,
+              ),
+            ),
+          );
+
           BlocProvider.of<AuthBloc>(context).add(
             UpdateUser(newUser: current.user),
           );
@@ -59,10 +68,27 @@ class UpdateProfileForm extends StatelessWidget {
         if (current is OTPToUpdateSent) {
           context.pushNamed(Routes.verifyUpdateOtp.name);
         }
+        if (current is ProfileUpdateError) {
+          showSnackBar(
+            SnackBar(
+              content: AutoSizeText(current.errorMessage),
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
+              ),
+              margin: const EdgeInsets.only(
+                right: 20,
+                left: 20,
+                bottom: kHorizontalPadding,
+              ),
+            ),
+          );
+        }
 
         return current is! ProfileUpdateRequestSent &&
             current is! ProfileInitial &&
-            current is! ProfileUpdated;
+            current is! ProfileUpdated &&
+            current is! ProfileUpdateError;
       },
       builder: (context, state) {
         if (state is ProfileInitial) {
@@ -100,33 +126,35 @@ class UpdateProfileForm extends StatelessWidget {
                 const SizedBox(
                   height: kVerticalPadding,
                 ),
-                Builder(builder: (ctx) {
-                  return RegistrationForm(
-                    user: state.updatedUser,
-                    onSumbit: (
-                      String firstName,
-                      String? middleName,
-                      String lastName,
-                      String email,
-                      String password,
-                      String mobileNumber,
-                    ) {
-                      log(newImageFile?.path.toString()??"no image");
-                      BlocProvider.of<ProfileBloc>(context).add(
-                        NavigateToNextPage(
-                          updatedUser: state.updatedUser.copyWith(
-                            firstName: firstName,
-                            lastName: lastName,
-                            middleName: middleName,
-                            email: email,
-                            mobileNumber: mobileNumber,
-                            profilePic: newImageFile,
+                Builder(
+                  builder: (ctx) {
+                    return RegistrationForm(
+                      user: state.updatedUser,
+                      onSumbit: (
+                        String firstName,
+                        String? middleName,
+                        String lastName,
+                        String email,
+                        String password,
+                        String mobileNumber,
+                      ) {
+                        log(newImageFile?.path.toString() ?? "no image");
+                        BlocProvider.of<ProfileBloc>(context).add(
+                          NavigateToNextPage(
+                            updatedUser: state.updatedUser.copyWith(
+                              firstName: firstName,
+                              lastName: lastName,
+                              middleName: middleName,
+                              email: email,
+                              mobileNumber: mobileNumber,
+                              profilePic: newImageFile,
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  );
-                }),
+                        );
+                      },
+                    );
+                  },
+                ),
               ],
             ),
           );
@@ -169,7 +197,7 @@ class VerifyUpdateOtpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return TimberlandScaffold(
       body: OtpVerificationForm(
-        onResend: (){
+        onResend: () {
           //TODO: call resend otp to update profile
         },
         onSubmit: ((otp) {

@@ -7,7 +7,7 @@ void showSnackBar(
   SnackBar snackBar,
 ) {
   InternetConnectivity().scaffoldMessengerKey.currentState
-    ?..clearSnackBars
+    ?..clearSnackBars()
     ..showSnackBar(snackBar);
     
   if (!InternetConnectivity().internetConnected) {

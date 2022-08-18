@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_appbar.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_scaffold.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
@@ -56,7 +57,12 @@ class UpdateProfilePage extends StatelessWidget {
               ),
             ),
             titleText: 'Update Information',
-            body: UpdateProfileForm(user: Session().currentUser!),
+            body: Column(
+              children: [
+                UpdateProfileForm(user: Session().currentUser!),
+                const SizedBox(height: kVerticalPadding),
+              ],
+            ),
           ),
         );
       },

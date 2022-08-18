@@ -67,6 +67,10 @@ class TimberlandProfileDataSource implements ProfileDataSource {
         throw ProfileException(
           message: dioError.response?.data?.toString() ?? 'Failed to send OTP',
         );
+      } else if ((dioError.response?.statusCode ?? -1) == 413) {
+        throw const ProfileException(
+          message: "Failed to Update. Image is too large.",
+        );
       } else if ((dioError.response?.statusCode ?? -1) == 502) {
         log(dioError.response?.data?.toString() ?? "No error message: 502");
         throw const ProfileException(
