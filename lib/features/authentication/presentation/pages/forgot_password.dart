@@ -1,18 +1,14 @@
-import 'dart:developer';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/loading_snackbar_content.dart';
-import 'package:timberland_biketrail/core/router/router.dart';
-import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
-import 'package:timberland_biketrail/features/authentication/presentation/widgets/auth_page_container.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/presentation/widgets/filled_text_button.dart';
 import '../../../../core/presentation/widgets/form_fields/email_field.dart';
-import '../../../../core/presentation/widgets/timberland_container.dart';
+import '../../../../core/router/router.dart';
+import '../bloc/auth_bloc.dart';
+import '../widgets/auth_page_container.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);

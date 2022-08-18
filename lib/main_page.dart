@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:timberland_biketrail/core/constants/navbar_configs.dart';
 import 'package:timberland_biketrail/core/presentation/pages/first_time_user_page.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';

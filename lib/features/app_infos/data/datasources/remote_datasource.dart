@@ -1,6 +1,5 @@
-import 'package:timberland_biketrail/features/app_infos/domain/entities/inquiry.dart';
-
 import '../../domain/entities/faq.dart';
+import '../../domain/entities/inquiry.dart';
 import '../../domain/entities/trail_rule.dart';
 
 abstract class RemoteDatasource {

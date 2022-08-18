@@ -2,13 +2,14 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timberland_biketrail/core/constants/constants.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/form_fields/form_fields.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/timberland_container.dart';
-import 'package:timberland_biketrail/core/router/router.dart';
-import 'package:timberland_biketrail/features/authentication/domain/params/forgot_password.dart';
-import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
+
+import '../../../../core/constants/constants.dart';
+import '../../../../core/presentation/widgets/filled_text_button.dart';
+import '../../../../core/presentation/widgets/form_fields/form_fields.dart';
+import '../../../../core/presentation/widgets/timberland_container.dart';
+import '../../../../core/router/router.dart';
+import '../../domain/params/forgot_password.dart';
+import '../bloc/auth_bloc.dart';
 
 class ResetPasswordPage extends StatelessWidget {
   const ResetPasswordPage({Key? key}) : super(key: key);

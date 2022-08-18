@@ -1,6 +1,5 @@
 import '../../domain/entities/user.dart';
 import '../../domain/params/params.dart';
-import '../../../../dashboard/domain/params/update_user_detail.dart';
 
 abstract class Authenticator {
   Future<User> login(LoginParameter loginParameter);

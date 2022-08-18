@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/no_network_snackbar.dart';
-import 'package:timberland_biketrail/core/utils/internet_connection.dart';
+
+import '../../../utils/internet_connection.dart';
+import 'no_network_snackbar.dart';
 
 void showSnackBar(
   SnackBar snackBar,

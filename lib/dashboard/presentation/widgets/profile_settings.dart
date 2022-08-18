@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timberland_biketrail/core/router/router.dart';
-import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
+
+import '../../../core/router/router.dart';
+import '../../../features/authentication/domain/entities/user.dart';
 
 class ProfileSettingsButton extends StatelessWidget {
   const ProfileSettingsButton({

@@ -2,7 +2,6 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-
 import 'package:timberland_biketrail/core/configs/environment_configs.dart';
 import 'package:timberland_biketrail/core/errors/exceptions.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';

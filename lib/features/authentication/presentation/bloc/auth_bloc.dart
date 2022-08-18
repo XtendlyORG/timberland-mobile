@@ -5,7 +5,6 @@ import 'dart:developer';
 
 // ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
-import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:timberland_biketrail/core/errors/failures.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';

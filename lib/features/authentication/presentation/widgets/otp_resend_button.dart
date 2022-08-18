@@ -2,9 +2,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 
 class OTPResendButton extends StatefulWidget {
   const OTPResendButton({

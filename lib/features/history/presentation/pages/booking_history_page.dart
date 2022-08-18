@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants/constants.dart';
 import '../../../../core/presentation/widgets/widgets.dart';
 import '../../../booking/domain/entities/booking.dart';
-import '../../../trail/domain/entities/difficulty.dart';
-import '../../../trail/domain/entities/trail.dart';
 import '../../domain/entities/booking_history.dart';
 import '../widgets/booking_history_widget.dart';
 

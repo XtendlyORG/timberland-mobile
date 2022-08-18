@@ -1,15 +1,12 @@
 import 'dart:developer';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/no_network_snackbar.dart';
-import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/core/utils/internet_connection.dart';
 
 import 'core/router/app_router.dart';

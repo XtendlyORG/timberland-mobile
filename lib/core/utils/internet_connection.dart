@@ -1,14 +1,7 @@
-import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../features/authentication/data/models/user_model.dart';
-import '../../features/authentication/domain/entities/user.dart';
 
 class InternetConnectivity extends ChangeNotifier {
   static final InternetConnectivity _instance = InternetConnectivity._();

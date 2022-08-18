@@ -5,19 +5,19 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/timberland_scaffold.dart';
-import 'package:timberland_biketrail/features/authentication/presentation/widgets/otp_validation_form.dart';
 
 import '../../../core/constants/constants.dart';
 import '../../../core/presentation/widgets/inherited_widgets/inherited_register_parameter.dart';
 import '../../../core/presentation/widgets/snackbar_content/loading_snackbar_content.dart';
+import '../../../core/presentation/widgets/timberland_scaffold.dart';
 import '../../../core/router/router.dart';
 import '../../../features/authentication/domain/entities/user.dart';
 import '../../../features/authentication/domain/params/register.dart';
-import '../../domain/params/update_user_detail.dart';
 import '../../../features/authentication/presentation/bloc/auth_bloc.dart';
+import '../../../features/authentication/presentation/widgets/otp_validation_form.dart';
 import '../../../features/authentication/presentation/widgets/registration_form.dart';
 import '../../../features/authentication/presentation/widgets/registration_form_continuation.dart';
+import '../../domain/params/update_user_detail.dart';
 import '../bloc/profile_bloc.dart';
 import 'update_profile_pic.dart';
 
