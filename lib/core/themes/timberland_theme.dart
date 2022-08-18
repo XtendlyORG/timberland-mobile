@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:timberland_biketrail/core/constants/constants.dart';
 
 import 'timberland_color.dart';
 
@@ -17,6 +18,14 @@ class TimberlandTheme {
             ),
             textStyle: const TextStyle(fontSize: 18),
           ),
+        ),
+        bannerTheme: const MaterialBannerThemeData(
+          backgroundColor: Colors.transparent,
+          elevation: 0.01,
+          contentTextStyle: TextStyle(
+            color: TimberlandColor.background,
+          ),
+
         ),
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(

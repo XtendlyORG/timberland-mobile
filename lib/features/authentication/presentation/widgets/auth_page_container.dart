@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/loading_snackbar_content.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/show_snackbar.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_logo.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
@@ -48,65 +49,56 @@ class AuthPageContainer extends StatelessWidget {
           }
         }
         if (state is Authenticated) {
-          ScaffoldMessenger.of(context)
-            ..clearSnackBars()
-            ..showSnackBar(
-              SnackBar(
-                content: AutoSizeText(
-                  state.message,
-                  maxLines: 1,
-                ),
+          showSnackBar(
+            SnackBar(
+              content: AutoSizeText(
+                state.message,
+                maxLines: 1,
               ),
-            );
+            ),
+          );
+
           context.goNamed(Routes.home.name);
         }
         if (state is AuthLoading) {
-          ScaffoldMessenger.of(context)
-            ..clearSnackBars()
-            ..showSnackBar(
-              SnackBar(
-                content: LoadingSnackBarContent(
-                  loadingMessage: state.loadingMessage,
-                ),
+          showSnackBar(
+            SnackBar(
+              content: LoadingSnackBarContent(
+                loadingMessage: state.loadingMessage,
               ),
-            );
+            ),
+          );
         }
         if (state is OtpSent) {
-          ScaffoldMessenger.of(context)
-            ..clearSnackBars()
-            ..showSnackBar(
-              SnackBar(
-                content: AutoSizeText(
-                  state.message,
-                  maxLines: 1,
-                ),
+          showSnackBar(
+            SnackBar(
+              content: AutoSizeText(
+                state.message,
+                maxLines: 1,
               ),
-            );
+            ),
+          );
         }
         if (state is AuthError) {
-          ScaffoldMessenger.of(context)
-            ..clearSnackBars()
-            ..showSnackBar(
-              SnackBar(
-                content: AutoSizeText(
-                  state.errorMessage,
-                  maxLines: 1,
-                ),
+          showSnackBar(
+            SnackBar(
+              content: AutoSizeText(
+                state.errorMessage,
+                maxLines: 1,
               ),
-            );
+            ),
+          );
         }
         if (state is UserGuideFinished) {
           context.goNamed(Routes.booking.name);
         }
         if (state is SettingNewPassword) {
           context.goNamed(Routes.resetPassword.name);
-          ScaffoldMessenger.of(context)
-            ..clearSnackBars()
-            ..showSnackBar(
-              const SnackBar(
-                content: AutoSizeText('OTP Verified'),
-              ),
-            );
+          showSnackBar(
+            const SnackBar(
+              content: AutoSizeText('OTP Verified'),
+            ),
+          );
         }
       },
       child: Stack(
