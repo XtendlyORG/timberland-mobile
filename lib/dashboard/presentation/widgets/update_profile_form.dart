@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -12,6 +13,7 @@ import '../../../core/presentation/widgets/snackbar_content/loading_snackbar_con
 import '../../../core/presentation/widgets/snackbar_content/show_snackbar.dart';
 import '../../../core/presentation/widgets/timberland_scaffold.dart';
 import '../../../core/router/router.dart';
+import '../../../core/utils/reduce_image_byte.dart';
 import '../../../features/authentication/domain/entities/user.dart';
 import '../../../features/authentication/domain/params/register.dart';
 import '../../../features/authentication/presentation/bloc/auth_bloc.dart';
@@ -32,6 +34,7 @@ class UpdateProfileForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     File? newImageFile;
+    bool imageReady = true;
     return BlocBuilder<ProfileBloc, ProfileState>(
       buildWhen: (previous, current) {
         if (current is ProfileUpdateRequestSent) {
@@ -120,8 +123,15 @@ class UpdateProfileForm extends StatelessWidget {
                 UpdateProfilePic(
                     user: user,
                     profilePic: state.updatedUser.profilePic,
-                    onChange: (imageFile) {
-                      newImageFile = imageFile;
+                    onChange: (imageFile, imagePath) async {
+                      imageReady = false;
+                      List<int> reducedImageByte = await compute(
+                        reduceImageByte,
+                        imageFile.readAsBytesSync(),
+                      ).whenComplete(() => imageReady = true);
+                      newImageFile = await File(imagePath).writeAsBytes(
+                        reducedImageByte,
+                      );
                     }),
                 const SizedBox(
                   height: kVerticalPadding,
@@ -137,20 +147,39 @@ class UpdateProfileForm extends StatelessWidget {
                         String email,
                         String password,
                         String mobileNumber,
-                      ) {
+                      ) async {
                         log(newImageFile?.path.toString() ?? "no image");
-                        BlocProvider.of<ProfileBloc>(context).add(
-                          NavigateToNextPage(
-                            updatedUser: state.updatedUser.copyWith(
-                              firstName: firstName,
-                              lastName: lastName,
-                              middleName: middleName,
-                              email: email,
-                              mobileNumber: mobileNumber,
-                              profilePic: newImageFile,
+                        if (imageReady) {
+                          BlocProvider.of<ProfileBloc>(context).add(
+                            NavigateToNextPage(
+                              updatedUser: state.updatedUser.copyWith(
+                                firstName: firstName,
+                                lastName: lastName,
+                                middleName: middleName,
+                                email: email,
+                                mobileNumber: mobileNumber,
+                                profilePic: newImageFile,
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                        } else {
+                          showSnackBar(
+                            SnackBar(
+                              content: const AutoSizeText(
+                                'Processing Image...',
+                              ),
+                              behavior: SnackBarBehavior.floating,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                              margin: const EdgeInsets.only(
+                                right: 20,
+                                left: 20,
+                                bottom: kHorizontalPadding,
+                              ),
+                            ),
+                          );
+                        }
                       },
                     );
                   },
