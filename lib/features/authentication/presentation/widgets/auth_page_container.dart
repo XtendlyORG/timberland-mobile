@@ -98,6 +98,16 @@ class AuthPageContainer extends StatelessWidget {
         if (state is UserGuideFinished) {
           context.goNamed(Routes.booking.name);
         }
+        if (state is SettingNewPassword) {
+          context.goNamed(Routes.resetPassword.name);
+          ScaffoldMessenger.of(context)
+            ..clearSnackBars()
+            ..showSnackBar(
+              const SnackBar(
+                content: AutoSizeText('OTP Verified'),
+              ),
+            );
+        }
       },
       child: Stack(
         children: [

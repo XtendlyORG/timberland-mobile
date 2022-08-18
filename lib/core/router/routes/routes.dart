@@ -13,7 +13,7 @@ abstract class Routes {
   );
   static const register = _Route(path: '/register', name: 'register');
   static const registerContinuation =
-      _Route(path: '/continuation', name: 'register-continuation');
+      _Route(path: '/register/continuation', name: 'register-continuation');
   static const otpVerification = _Route(
     path: '/otp-verification',
     name: 'otp-verification',

@@ -38,10 +38,10 @@ final appRouter = GoRouter(
     bool isAuthenticating = [
       Routes.login.path,
       Routes.forgotPassword.path,
-      '${Routes.forgotPassword.path}${Routes.resetPassword.path}',
+      Routes.resetPassword.path,
       Routes.register.path,
-      '${Routes.register.path}${Routes.registerContinuation.path}',
-      '${Routes.register.path}${Routes.otpVerification.path}',
+      Routes.registerContinuation.path,
+      Routes.otpVerification.path,
     ].contains(routeState.location);
     if (routeState.location == Routes.contacts.path) {
       return null;
@@ -70,13 +70,29 @@ final appRouter = GoRouter(
       },
     ),
     GoRoute(
-        path: Routes.forgotPassword.path,
-        name: Routes.forgotPassword.name,
-        pageBuilder: (context, state) {
+      path: Routes.forgotPassword.path,
+      name: Routes.forgotPassword.name,
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          restorationId: state.pageKey.value,
+          child: const ForgotPasswordPage(),
+          transitionDuration: const Duration(milliseconds: 500),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+    ),
+    GoRoute(
+        path: Routes.resetPassword.path,
+        name: Routes.resetPassword.name,
+        pageBuilder: (context, routeState) {
           return CustomTransitionPage(
-            key: state.pageKey,
-            restorationId: state.pageKey.value,
-            child: const ForgotPasswordPage(),
+            child: const ResetPasswordPage(),
             transitionDuration: const Duration(milliseconds: 500),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
@@ -86,25 +102,7 @@ final appRouter = GoRouter(
               );
             },
           );
-        },
-        routes: [
-          GoRoute(
-              path: Routes.resetPassword.asSubPath(),
-              name: Routes.resetPassword.name,
-              pageBuilder: (context, routeState) {
-                return CustomTransitionPage(
-                  child: const ResetPasswordPage(),
-                  transitionDuration: const Duration(milliseconds: 500),
-                  transitionsBuilder:
-                      (context, animation, secondaryAnimation, child) {
-                    return FadeTransition(
-                      opacity: animation,
-                      child: child,
-                    );
-                  },
-                );
-              }),
-        ]),
+        }),
     GoRoute(
       path: Routes.register.path,
       name: Routes.register.name,
@@ -124,51 +122,45 @@ final appRouter = GoRouter(
           },
         );
       },
-      routes: [
-        GoRoute(
-          path: Routes.registerContinuation.asSubPath(),
-          name: Routes.registerContinuation.name,
-          pageBuilder: (context, state) {
-            return CustomTransitionPage(
-              key: state.pageKey,
-              restorationId: state.pageKey.value,
-              child: InheritedRegisterParameter(
-                registerParameter: state.extra as RegisterParameter,
-                child: const RegistrationContinuationPage(),
-              ),
-              transitionDuration: const Duration(milliseconds: 500),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
-                return FadeTransition(
-                  opacity: animation,
-                  child: child,
-                );
-              },
+    ),
+    GoRoute(
+      path: Routes.registerContinuation.path,
+      name: Routes.registerContinuation.name,
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          child: InheritedRegisterParameter(
+            registerParameter: state.extra as RegisterParameter,
+            child: const RegistrationContinuationPage(),
+          ),
+          transitionDuration: const Duration(milliseconds: 500),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
             );
           },
-        ),
-        GoRoute(
-          path: Routes.otpVerification.asSubPath(),
-          name: Routes.otpVerification.name,
-          pageBuilder: (context, state) {
-            return CustomTransitionPage(
-              // key: state.pageKey,
-              // restorationId: state.pageKey.value,
-              child: OtpVerificationPage(
-                routeNameOnPop: state.extra as String,
-              ),
-              transitionDuration: const Duration(milliseconds: 500),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
-                return FadeTransition(
-                  opacity: animation,
-                  child: child,
-                );
-              },
+        );
+      },
+    ),
+    GoRoute(
+      path: Routes.otpVerification.path,
+      name: Routes.otpVerification.name,
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          restorationId: state.pageKey.value,
+          child: OtpVerificationPage(
+            routeNameOnPop: state.extra as String,
+          ),
+          transitionDuration: const Duration(milliseconds: 500),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
             );
           },
-        ),
-      ],
+        );
+      },
     ),
     GoRoute(
       path: Routes.home.path,

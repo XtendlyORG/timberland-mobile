@@ -24,16 +24,21 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<AuthFailure, void>> sendOtp(RegisterParameter params, {
-    bool resending = false,
-  }) {
-    return authRequest(request: () => authenticator.sendOtp(params,resending:resending));
+  Future<Either<AuthFailure, void>> requestRegister(RegisterParameter params) {
+    return authRequest(request: () => authenticator.requestRegister(params));
   }
 
   @override
-  Future<Either<AuthFailure, User>> register(RegisterParameter params) {
+  Future<Either<AuthFailure, User>> verifyOtp(String email, String otp) {
     return authRequest<User>(
-      request: () => authenticator.register(params),
+      request: () => authenticator.verifyOtp(email, otp),
+    );
+  }
+
+  @override
+  Future<Either<AuthFailure, void>> resendOtp(String email) {
+    return authRequest<void>(
+      request: () => authenticator.resendOtp(email),
     );
   }
 
@@ -55,25 +60,9 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<AuthFailure, void>> forgotPassword(
-    String email, {
-    bool resending = false,
-  }) {
+  Future<Either<AuthFailure, void>> forgotPassword(String email) {
     return authRequest<void>(
-      request: () => authenticator.forgotPassword(email, resending: resending),
-    );
-  }
-
-  @override
-  Future<Either<AuthFailure, void>> forgotPasswordEmailVerification(
-    String email,
-    String otp,
-  ) {
-    return authRequest(
-      request: () => authenticator.forgotPasswordEmailVerification(
-        email,
-        otp,
-      ),
+      request: () => authenticator.forgotPassword(email),
     );
   }
 
