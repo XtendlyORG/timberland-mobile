@@ -83,10 +83,7 @@ class RemoteAuthenticator implements Authenticator {
   }
 
   @override
-  Future<void> sendOtp(
-    RegisterParameter registerParameter, {
-    bool resending = false,
-  }) async {
+  Future<void> requestRegister(RegisterParameter registerParameter) async {
     try {
       MultipartFile? profilePic;
       if (registerParameter.profilePic != null) {
@@ -96,24 +93,16 @@ class RemoteAuthenticator implements Authenticator {
       }
 
       final Response response;
-      if (resending) {
-        response = await dioClient.put(
-          '${environmentConfig.apihost}/users/otp',
-          data: {
-            'email': registerParameter.email,
-          },
-        );
-      } else {
-        response = await dioClient.post(
-          '${environmentConfig.apihost}/users/register',
-          data: FormData.fromMap(
-            registerParameter.toMap()
-              ..addEntries(
-                {'profile_pic': profilePic}.entries,
-              ),
-          ),
-        );
-      }
+
+      response = await dioClient.post(
+        '${environmentConfig.apihost}/users/register',
+        data: FormData.fromMap(
+          registerParameter.toMap()
+            ..addEntries(
+              {'profile_pic': profilePic}.entries,
+            ),
+        ),
+      );
 
       log(response.statusCode.toString());
       if (response.statusCode == 200) {
@@ -145,12 +134,12 @@ class RemoteAuthenticator implements Authenticator {
   }
 
   @override
-  Future<User> register(RegisterParameter registerParameter) async {
+  Future<User> verifyOtp(String email, String otp) async {
     try {
       final body = json.encode(
         {
-          'otp': registerParameter.otp,
-          'email': registerParameter.email,
+          'otp': otp,
+          'email': email,
         },
       );
       final response = await dioClient.post(
@@ -171,10 +160,61 @@ class RemoteAuthenticator implements Authenticator {
       rethrow;
     } on DioError catch (dioError) {
       log(dioError.response?.statusCode?.toString() ?? 'statuscode: -1');
-      log(dioError.response?.data ?? "no message");
+      log(dioError.response?.data.toString() ?? "no message");
+
+      if ((dioError.response?.statusCode ?? -1) == 400) {
+        if (dioError.response?.data is Map<String, dynamic>) {
+          throw AuthException(
+            message:
+                dioError.response?.data['message'] ?? 'Something went wrong..',
+          );
+        } else {
+          throw AuthException(
+            message:
+                dioError.response?.data?.toString() ?? 'Failed to send OTP',
+          );
+        }
+      } else if ((dioError.response?.statusCode ?? -1) == 502) {
+        log(dioError.response?.data?.toString() ?? "No error message: 502");
+        throw AuthException(
+          message: 'Internal Server Error',
+        );
+      }
+      throw AuthException(
+        message: "Error Occurred",
+      );
+    } catch (e) {
+      log(e.toString());
+      throw AuthException(message: "An Error Occurred");
+    }
+  }
+
+  @override
+  Future<void> resendOtp(String email) async {
+    try {
+      final Response response;
+
+      response = await dioClient.put(
+        '${environmentConfig.apihost}/users/otp',
+        data: {
+          'email': email,
+        },
+      );
+
+      log(response.statusCode.toString());
+      if (response.statusCode == 200) {
+        return;
+      }
+      throw AuthException();
+    } on AuthException {
+      rethrow;
+    } on DioError catch (dioError) {
+      log(dioError.response?.statusCode?.toString() ?? "statuscode: null");
+      log(dioError.response?.data.toString() ?? 'no data');
       if ((dioError.response?.statusCode ?? -1) == 400) {
         throw AuthException(
-          message: dioError.response?.data?.toString() ?? 'Failed to send OTP',
+          message:
+              dioError.response?.data?.toString() ?? 'Failed to resend OTP',
         );
       } else if ((dioError.response?.statusCode ?? -1) == 502) {
         log(dioError.response?.data?.toString() ?? "No error message: 502");
@@ -192,7 +232,7 @@ class RemoteAuthenticator implements Authenticator {
   }
 
   @override
-  Future<void> forgotPassword(String email, {bool resending = false}) async {
+  Future<void> forgotPassword(String email) async {
     try {
       final body = json.encode(
         {
@@ -200,69 +240,16 @@ class RemoteAuthenticator implements Authenticator {
         },
       );
       final Response response;
-      if (resending) {
-        response = await dioClient.put(
-          '${environmentConfig.apihost}/users/otp',
-          data: body,
-        );
-      } else {
-        response = await dioClient.post(
-          '${environmentConfig.apihost}/users/forgot',
-          data: body,
-        );
-      }
+
+      response = await dioClient.post(
+        '${environmentConfig.apihost}/users/forgot',
+        data: body,
+      );
+
       log(response.statusCode.toString());
       log(response.data.toString());
       if (response.statusCode == 200) {
         return;
-      }
-      log(response.data.toString());
-      throw AuthException(message: "Server Error");
-    } on AuthException {
-      rethrow;
-    } on DioError catch (dioError) {
-      log(dioError.response?.statusCode?.toString() ?? 'statuscode: -1');
-      log(dioError.response?.data ?? "no message");
-      if ((dioError.response?.statusCode ?? -1) == 400) {
-        throw AuthException(
-          message: dioError.response?.data?.toString() ?? 'Failed to send OTP',
-        );
-      } else if ((dioError.response?.statusCode ?? -1) == 502) {
-        log(dioError.response?.data?.toString() ?? "No error message: 502");
-        throw AuthException(
-          message: 'Internal Server Error',
-        );
-      }
-      throw AuthException(
-        message: "Error Occurred",
-      );
-    } catch (e) {
-      log(e.toString());
-      throw AuthException(message: "An Error Occurred");
-    }
-  }
-
-  @override
-  Future<void> forgotPasswordEmailVerification(String email, String otp) async {
-    try {
-      final body = json.encode(
-        {
-          'email': email,
-          'otp': otp,
-        },
-      );
-      final response = await dioClient.post(
-        '${environmentConfig.apihost}/users/forgot/verify',
-        data: body,
-      );
-      log(response.statusCode.toString());
-      log(response.data.toString());
-      if (response.statusCode == 200) {
-        if (response.data is bool && response.data) {
-          return;
-        }
-
-        throw AuthException(message: 'Password Update Failed.');
       }
       log(response.data.toString());
       throw AuthException(message: "Server Error");

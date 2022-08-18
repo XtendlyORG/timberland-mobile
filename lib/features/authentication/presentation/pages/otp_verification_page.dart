@@ -74,21 +74,7 @@ class OtpVerificationPage extends StatelessWidget {
                 } else if (authBloc.state is AuthError) {
                   parameter = (authBloc.state as AuthError).parameter!;
                 }
-                if (routeNameOnPop == Routes.login.name) {
-                  authBloc.add(
-                    SendOtpEvent(
-                      parameter: parameter!.email,
-                      resending: true,
-                    ),
-                  );
-                } else {
-                  authBloc.add(
-                    SendOtpEvent(
-                      parameter: parameter,
-                      resending: true,
-                    ),
-                  );
-                }
+                authBloc.add(ResendOTPEvent(parameter: parameter));
               },
               onSubmit: (otp) {
                 var parameter;
@@ -99,27 +85,24 @@ class OtpVerificationPage extends StatelessWidget {
                 }
                 if (routeNameOnPop == Routes.forgotPassword.name) {
                   authBloc.add(
-                    ForgotPasswordEvent(
-                      forgotPasswordParameter: ForgotPasswordParameter(
-                        email: parameter,
-                        otp: otp,
-                      ),
+                    VerifyForgotPasswordEvent(
+                      parameter: parameter,
+                      otp: otp,
                     ),
                   );
                 } else {
                   authBloc.add(
-                    RegisterEvent(
-                      registerParameter: parameter is LoginParameter
-                          ? RegisterParameter(
+                    VerifyRegisterEvent(
+                      parameter: parameter is RegisterParameter
+                          ? parameter
+                          : RegisterParameter(
                               firstName: '',
                               lastName: '',
                               email: parameter.email,
                               mobileNumber: '',
-                              password: parameter.password,
-                              otp: otp)
-                          : (parameter as RegisterParameter).copyWith(
-                              otp: otp,
+                              password: '',
                             ),
+                      otp: otp,
                     ),
                   );
                 }

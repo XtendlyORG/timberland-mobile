@@ -44,19 +44,16 @@ class ForgotPasswordPage extends StatelessWidget {
             ),
           ),
           extendBodyBehindAppBar: true,
-          body: TimberlandContainer(
+          body: AuthPageContainer(
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: kToolbarHeight),
-                  child: AutoSizeText(
-                    'Forgot Password',
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
+                AutoSizeText(
+                  'Forgot Password',
+                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
-                const Text("Enter your email and get help logging in."),
-                const SizedBox(
-                  height: kVerticalPadding * 2,
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: kVerticalPadding * 2),
+                  child: Text("Enter your email and get help logging in."),
                 ),
                 const ForgotPasswordForm(),
               ],
@@ -79,50 +76,39 @@ class ForgotPasswordForm extends StatelessWidget {
     final emailCtrl = TextEditingController();
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state is SettingNewPassword) {
-          context.goNamed(Routes.resetPassword.name);
-          ScaffoldMessenger.of(context)
-            ..clearSnackBars()
-            ..showSnackBar(
-              const SnackBar(
-                content: AutoSizeText('OTP Verified'),
-              ),
-            );
+        if (state is OtpSent) {
+          context.goNamed(
+            Routes.otpVerification.name,
+            extra: Routes.forgotPassword.name,
+          );
         }
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-        child: Form(
-          key: formKey,
-          child: Column(
-            children: [
-              EmailField(
-                controller: emailCtrl,
+      child: Form(
+        key: formKey,
+        child: Column(
+          children: [
+            EmailField(
+              controller: emailCtrl,
+            ),
+            const SizedBox(
+              height: kVerticalPadding,
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: FilledTextButton(
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    BlocProvider.of<AuthBloc>(context).add(
+                      ForgotPasswordEvent(
+                        email: emailCtrl.text,
+                      ),
+                    );
+                  }
+                },
+                child: const Text("Send Email"),
               ),
-              const SizedBox(
-                height: kVerticalPadding,
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: FilledTextButton(
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      BlocProvider.of<AuthBloc>(context).add(
-                        SendOtpEvent(
-                          parameter: emailCtrl.text,
-                        ),
-                      );
-                      context.pushNamed(
-                        Routes.otpVerification.name,
-                        extra: Routes.forgotPassword.name,
-                      );
-                    }
-                  },
-                  child: const Text("Send Email"),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

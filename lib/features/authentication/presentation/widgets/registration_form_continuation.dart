@@ -339,7 +339,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                     );
                     if (user == null) {
                       BlocProvider.of<AuthBloc>(context).add(
-                        SendOtpEvent(parameter: registerParams),
+                        RequestRegisterEvent(parameter: registerParams),
                       );
                     } else {
                       BlocProvider.of<ProfileBloc>(context).add(

@@ -85,37 +85,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         },
       );
     });
+    on<ResendOTPEvent>((event, emit) async {
+      final initState = state as OtpSent;
+      final email = event.email;
+      emit(
+        AuthLoading(
+          loadingMessage: 'Sending OTP to $email.',
+        ),
+      );
+      final result = await repository.resendOtp(email);
 
-    on<SendOtpEvent>((event, emit) async {
-      String email;
-      Either result;
-      if (event.parameter is RegisterParameter) {
-        email = (event.parameter as RegisterParameter).email;
-        emit(
-          AuthLoading(
-            loadingMessage: 'Sending OTP to $email.',
-          ),
-        );
-        result = await repository.sendOtp(
-          event.parameter,
-          resending: event.resending,
-        );
-      } else if (event.parameter is String) {
-        email = event.parameter;
-        emit(
-          AuthLoading(
-            loadingMessage: 'Sending OTP to $email.',
-          ),
-        );
-        result = await repository.forgotPassword(
-          event.parameter,
-          resending: event.resending,
-        );
-      } else {
-        throw Exception(
-          "Event Parameter is ${event.parameter.runtimeType}, and not a valid parameter",
-        );
-      }
       result.fold(
         (l) {
           emit(
@@ -124,29 +103,65 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               parameter: event.parameter,
             ),
           );
+          emit(initState);
         },
         (r) {
-          log('otp sent as');
-          emit(OtpSent(
-            parameter: event.parameter,
-            message: event.resending
-                ? 'New OTP is sent to $email'
-                : "OTP is sent to $email",
-          ));
+          emit(
+            OtpSent(
+              parameter: initState.parameter,
+              message: "New OTP is sent to $email",
+            ),
+          );
         },
       );
     });
 
-    on<RegisterEvent>((event, emit) async {
+    on<RequestRegisterEvent>((event, emit) async {
+      final initState = state;
+      final email = event.parameter.email;
+      emit(
+        AuthLoading(
+          loadingMessage: 'Sending OTP to $email.',
+        ),
+      );
+      final result = await repository.requestRegister(
+        event.parameter,
+      );
+
+      result.fold(
+        (l) {
+          emit(
+            AuthError(
+              errorMessage: l.message,
+              parameter: event.parameter,
+            ),
+          );
+          emit(initState);
+        },
+        (r) {
+          emit(
+            OtpSent(
+              parameter: event.parameter,
+              message: "OTP is sent to $email",
+            ),
+          );
+        },
+      );
+    });
+
+    on<VerifyRegisterEvent>((event, emit) async {
       emit(
         const AuthLoading(loadingMessage: "Creating your timberland account."),
       );
-      final result = await repository.register(event.registerParameter);
+      final result = await repository.verifyOtp(
+        event.parameter.email,
+        event.otp,
+      );
       result.fold(
         (failure) {
           emit(
             OtpSent(
-              parameter: event.registerParameter,
+              parameter: event.parameter,
               message: failure.message,
             ),
           );
@@ -163,25 +178,60 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
     });
 
-    on<ForgotPasswordEvent>((event, emit) async {
-      emit(const AuthLoading(loadingMessage: 'Sending OTP to your email'));
+    on<VerifyForgotPasswordEvent>((event, emit) async {
+      emit(const AuthLoading(loadingMessage: 'Validating OTP'));
 
-      final result = await repository.forgotPasswordEmailVerification(
-        event.forgotPasswordParameter.email,
-        event.forgotPasswordParameter.otp,
+      final result = await repository.verifyOtp(
+        event.parameter,
+        event.otp,
       );
 
       result.fold(
         (l) {
-          emit(AuthError(
-            errorMessage: l.message,
-            parameter: event.forgotPasswordParameter.email,
-          ));
+          emit(
+            OtpSent(
+              message: l.message,
+              parameter: event.parameter,
+            ),
+          );
         },
         (r) {
           emit(
             SettingNewPassword(
-              email: event.forgotPasswordParameter.email,
+              email: event.parameter,
+            ),
+          );
+        },
+      );
+    });
+
+    on<ForgotPasswordEvent>((event, emit) async {
+      final initState = state;
+      final email = event.email;
+      emit(
+        AuthLoading(
+          loadingMessage: 'Sending OTP to $email.',
+        ),
+      );
+      final result = await repository.forgotPassword(
+        email,
+      );
+
+      result.fold(
+        (l) {
+          emit(
+            AuthError(
+              errorMessage: l.message,
+              parameter: event.email,
+            ),
+          );
+          emit(initState);
+        },
+        (r) {
+          emit(
+            OtpSent(
+              parameter: event.email,
+              message: "OTP is sent to $email",
             ),
           );
         },

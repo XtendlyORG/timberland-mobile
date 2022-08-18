@@ -100,6 +100,10 @@ class AuthLoading extends AuthState {
   List<Object> get props => super.props..add(loadingMessage);
 }
 
+class EmailVerified extends AuthState {
+  const EmailVerified();
+}
+
 class SettingNewPassword extends AuthState {
   final String email;
 

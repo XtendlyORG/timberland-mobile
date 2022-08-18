@@ -20,7 +20,7 @@ class LoginForm extends StatelessWidget {
       listenWhen: (previous, current) => current is OtpSent,
       listener: (context, state) {
         final _state = state as OtpSent;
-        context.pushNamed(
+        context.goNamed(
           Routes.otpVerification.name,
           extra: _state.parameter is LoginParameter
               ? Routes.login.name
