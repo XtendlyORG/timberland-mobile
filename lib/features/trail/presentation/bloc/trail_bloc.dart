@@ -53,6 +53,7 @@ class TrailBloc extends Bloc<TrailEvent, TrailState> {
           emit(SearchResultsLoaded(
             searchParams: event.searchParams,
             trails: trails,
+            
           ));
         },
       );
