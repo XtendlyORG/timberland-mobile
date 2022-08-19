@@ -7,7 +7,7 @@ String? validatePassword(String? password, {bool acceptEmpty = false}) {
   );
   if (password == null || password.isEmpty) {
     if (acceptEmpty) return null;
-    return 'Password cannot be empty';
+    return 'Please enter your password';
   } else if (!uppercaseRegex.hasMatch(password)) {
     return 'Password should contain at least one uppercase letter';
   } else if (!numberRegex.hasMatch(password)) {
