@@ -22,7 +22,7 @@ class BookingDatePicker extends StatelessWidget {
       enabled: enabled,
       enableInteractiveSelection: false,
       validator: (val){
-        return nonEmptyValidator(val,errorMessage: 'Select a date');
+        return nonEmptyValidator(val,errorMessage: 'Please select a date');
       },
       onTap: () {
         showDialog(
