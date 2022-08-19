@@ -176,6 +176,12 @@ class RemoteAuthenticator implements Authenticator {
 
       if ((dioError.response?.statusCode ?? -1) == 400) {
         if (dioError.response?.data is Map<String, dynamic>) {
+          if (dioError.response?.data['message'] == 'Wrong OTP') {
+            throw AuthException(
+              message:
+                  'Invalid OTP. Please enter the one time pin sent to your email',
+            );
+          }
           throw AuthException(
             message:
                 dioError.response?.data['message'] ?? 'Something went wrong..',
