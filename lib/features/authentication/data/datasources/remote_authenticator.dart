@@ -115,6 +115,18 @@ class RemoteAuthenticator implements Authenticator {
       log(dioError.response?.statusCode?.toString() ?? "statuscode: null");
       log(dioError.response?.data.toString() ?? 'no data');
       if ((dioError.response?.statusCode ?? -1) == 400) {
+        if ((dioError.response?.data?.toString() ?? '') ==
+            "Email found but not verified, OTP needed") {
+          throw AuthException(
+            message:
+                "Your email is already in our system. Please proceed to login	",
+          );
+        } else if ((dioError.response?.data?.toString() ?? '') ==
+            "Your email is already in our system. Please proceed to login.") {
+          throw AuthException(
+            message: "Email has already been taken.",
+          );
+        }
         throw AuthException(
           message: dioError.response?.data?.toString() ?? 'Failed to send OTP',
         );
