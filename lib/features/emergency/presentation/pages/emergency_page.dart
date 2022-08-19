@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/presentation/widgets/timberland_scaffold.dart';
@@ -34,6 +35,10 @@ class _EmergencyPageState extends State<EmergencyPage>
     return TimberlandScaffold(
       titleText: "Emergency",
       disableBackButton: true,
+      endDrawer: const Dashboard(
+         disableEmergency: true,
+      ),
+      index: 4,
       body: Padding(
         padding: const EdgeInsets.all(kHorizontalPadding),
         child: Column(

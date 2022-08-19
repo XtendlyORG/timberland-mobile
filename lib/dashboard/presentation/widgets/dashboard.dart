@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard_header.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
@@ -10,7 +11,11 @@ import 'package:timberland_biketrail/features/emergency/presentation/widgets/eme
 import '../../../core/router/router.dart';
 
 class Dashboard extends StatelessWidget {
-  const Dashboard({Key? key}) : super(key: key);
+  const Dashboard({
+    Key? key,
+    this.disableEmergency = false,
+  }) : super(key: key);
+  final bool disableEmergency;
 
   @override
   Widget build(BuildContext context) {
@@ -105,12 +110,22 @@ class Dashboard extends StatelessWidget {
                     ),
                     DashBoardListTile(
                       onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (ctx) {
-                            return const EmergencyDialog();
-                          },
-                        );
+                        if (!disableEmergency) {
+                          showDialog(
+                            context: context,
+                            builder: (ctx) {
+                              return const EmergencyDialog();
+                            },
+                          ).then((value) {
+                            Navigator.canPop(context)
+                                ? Navigator.pop(context)
+                                : null;
+                          });
+                        } else {
+                          Navigator.canPop(context)
+                              ? Navigator.pop(context)
+                              : null;
+                        }
                       },
                       leading: const Image(
                         image: AssetImage('assets/icons/emergency-icon.png'),
