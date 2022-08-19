@@ -2,6 +2,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:timberland_biketrail/core/constants/navbar_configs.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
 import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard.dart';
@@ -16,6 +17,8 @@ class TimberlandScaffold extends StatelessWidget {
   final bool disableBackButton;
   final PreferredSizeWidget? appBar;
   final Color? backButtonColor;
+  final int index;
+  final Widget? endDrawer;
   const TimberlandScaffold({
     Key? key,
     required this.body,
@@ -27,6 +30,8 @@ class TimberlandScaffold extends StatelessWidget {
     this.disableBackButton = false,
     this.appBar,
     this.backButtonColor,
+    this.index = 0,
+    this.endDrawer,
   }) : super(key: key);
 
   @override
@@ -53,10 +58,10 @@ class TimberlandScaffold extends StatelessWidget {
                       ),
                     ),
             ),
-        endDrawer: showNavbar ? const Dashboard() : null,
+        endDrawer: endDrawer ?? (showNavbar ? const Dashboard() : null),
         bottomNavigationBar: showNavbar
             ? BottomNavBar(
-                index: 0,
+                index: index,
                 configs: navbarConfigs,
                 onTap: (index) {
                   context.goNamed(navbarConfigs[index].routeName);
