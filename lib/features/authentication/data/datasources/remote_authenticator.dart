@@ -58,6 +58,17 @@ class RemoteAuthenticator implements Authenticator {
             message: 'Email is not verified',
           );
         }
+        if (dioError.response?.data is Map<String, dynamic>) {
+          if (dioError.response?.data['message'] ==
+              'Invalid credentials. Please try again.') {
+            throw AuthException(
+              message: 'Email or password is incorrect. Please try again.',
+            );
+          }
+          throw AuthException(
+            message: dioError.response?.data?['message'].toString() ?? 'Login Failed',
+          );
+        }
         throw AuthException(
           message: dioError.response?.data?.toString() ?? 'Login Failed',
         );
