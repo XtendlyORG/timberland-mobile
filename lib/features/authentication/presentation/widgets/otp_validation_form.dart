@@ -63,10 +63,8 @@ class _OtpVerificationFormState extends State<OtpVerificationForm> {
           padding: const EdgeInsets.only(bottom: kVerticalPadding),
           child: Form(
             onChanged: () {
-              otpCtrl.text = digit1.text +
-                  digit2.text +
-                  digit3.text +
-                  digit4.text;
+              otpCtrl.text =
+                  digit1.text + digit2.text + digit3.text + digit4.text;
               if (otpCtrl.text.length != 4 && validOtp) {
                 setState(() {
                   validOtp = false;
@@ -89,6 +87,7 @@ class _OtpVerificationFormState extends State<OtpVerificationForm> {
                         FocusManager.instance.primaryFocus?.nextFocus();
                       }
                     },
+                    onEditingComplete: (){},
                     decoration: const InputDecoration(counterText: ''),
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.number,
@@ -111,6 +110,7 @@ class _OtpVerificationFormState extends State<OtpVerificationForm> {
                         FocusManager.instance.primaryFocus?.previousFocus();
                       }
                     },
+                    onEditingComplete: (){},
                     decoration: const InputDecoration(counterText: ''),
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.number,
@@ -133,6 +133,7 @@ class _OtpVerificationFormState extends State<OtpVerificationForm> {
                         FocusManager.instance.primaryFocus?.previousFocus();
                       }
                     },
+                    onEditingComplete: (){},
                     decoration: const InputDecoration(counterText: ''),
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.number,
@@ -148,12 +149,15 @@ class _OtpVerificationFormState extends State<OtpVerificationForm> {
                     controller: digit4,
                     maxLength: 1,
                     onChanged: (val) {
-                      if (val.length == 1) {
-                        FocusManager.instance.primaryFocus?.nextFocus();
-                      } else {
+                      if (val.isEmpty) {
                         FocusManager.instance.primaryFocus?.previousFocus();
                       }
                     },
+                    onFieldSubmitted: (_) {
+                      validOtp ? widget.onSubmit(otpCtrl.text) : null;
+                    },
+                    onEditingComplete: (){},
+                    onSaved: (_){},
                     decoration: const InputDecoration(counterText: ''),
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.number,
