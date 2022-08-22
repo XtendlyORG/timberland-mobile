@@ -19,7 +19,13 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     });
 
     on<SubmitBookingRequest>((event, emit) async {
-      repository.submitBookingRequest();
+      final result = await repository.submitBookingRequest();
+      result.fold(
+        (l) {},
+        (checkoutHtml) {
+          emit(BookingSubmitted(checkoutHtml: checkoutHtml));
+        },
+      );
     });
   }
 }

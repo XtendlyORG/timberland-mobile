@@ -30,7 +30,7 @@ class BookingRepositoryImpl implements BookingRepository {
   }
 
   @override
-  Future<Either<BookingFailure, void>> submitBookingRequest() async {
+  Future<Either<BookingFailure, String>> submitBookingRequest() async {
     try {
       return Right(await bookingDatasource.submitBookingRequest());
     } on BookingException catch (e) {

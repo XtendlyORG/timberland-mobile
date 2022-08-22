@@ -3,7 +3,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
 import 'package:timberland_biketrail/features/booking/presentation/widgets/booking_date_picker.dart';
@@ -58,6 +60,10 @@ class _BookingFormState extends State<BookingForm> {
           BlocProvider.of<BookingBloc>(context).add(
             const FetchAvailabilityEvent(),
           );
+        }
+        if(current is BookingSubmitted){
+          
+          context.pushNamed(Routes.checkout.name);
         }
         return current is BookingAvailabilityLoaded;
       },

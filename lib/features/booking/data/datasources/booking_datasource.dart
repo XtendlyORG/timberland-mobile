@@ -1,4 +1,3 @@
-
-abstract class BookingDatasource{
-  Future<void> submitBookingRequest();
+abstract class BookingDatasource {
+  Future<String> submitBookingRequest();
 }

@@ -11,5 +11,5 @@ abstract class BookingRepository extends Repository {
   );
   Future<Either<BookingFailure, void>> cancelBooking();
 
-  Future<Either<BookingFailure, void>> submitBookingRequest();
+  Future<Either<BookingFailure, String>> submitBookingRequest();
 }

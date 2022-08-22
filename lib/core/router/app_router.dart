@@ -10,6 +10,7 @@ import 'package:timberland_biketrail/dashboard/presentation/widgets/update_profi
 import 'package:timberland_biketrail/features/authentication/domain/params/register.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/pages/registration_continuation_page.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/pages/reset_password.dart';
+import 'package:timberland_biketrail/features/booking/presentation/pages/checkout_page.dart';
 
 import '../../dashboard/presentation/pages/qr_code_page.dart';
 import '../../dashboard/presentation/pages/update_profile_page.dart';
@@ -448,6 +449,24 @@ final appRouter = GoRouter(
           key: routeState.pageKey,
           restorationId: routeState.pageKey.value,
           child: const EmergencyPage(),
+          transitionDuration: const Duration(milliseconds: 500),
+          transitionsBuilder: (context, animation, secondaryAnim, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+    ),
+    GoRoute(
+      path: Routes.checkout.path,
+      name: Routes.checkout.name,
+      pageBuilder: (context, routeState) {
+        return CustomTransitionPage(
+          // key: routeState.pageKey,
+          // restorationId: routeState.pageKey.value,
+          child: const CheckoutPage(),
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnim, child) {
             return FadeTransition(
