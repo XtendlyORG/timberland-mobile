@@ -202,7 +202,7 @@ class RegistrationContinuationForm extends StatelessWidget {
               ),
               child: MobileNumberField(
                 controller: emergencyContactsCtrl,
-                validator: (_) => null, //disable validator
+                allowEmpty: true,
                 hintText: 'Emergency Contact Number',
                 textInputAction: TextInputAction.next,
               ),
