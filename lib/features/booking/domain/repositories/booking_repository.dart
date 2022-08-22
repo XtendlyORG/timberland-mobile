@@ -6,8 +6,10 @@ import '../entities/booking.dart';
 import '../usecases/place_reservation.dart';
 
 abstract class BookingRepository extends Repository {
-  Future<Either<Failure, Booking>> placeBooking(
+  Future<Either<BookingFailure, Booking>> placeBooking(
     BookingReservationParams reservationParams,
   );
-  Future<Either<Failure, void>> cancelBooking();
+  Future<Either<BookingFailure, void>> cancelBooking();
+
+  Future<Either<BookingFailure, void>> submitBookingRequest();
 }

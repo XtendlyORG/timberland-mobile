@@ -176,7 +176,9 @@ class _BookingFormState extends State<BookingForm> {
                   child: FilledTextButton(
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        log('Booked');
+                        BlocProvider.of<BookingBloc>(context).add(
+                          SubmitBookingRequest(),
+                        );
                       }
                     },
                     child: const Text("Submit"),

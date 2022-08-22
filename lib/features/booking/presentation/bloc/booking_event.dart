@@ -11,3 +11,8 @@ abstract class BookingEvent extends Equatable {
 class FetchAvailabilityEvent extends BookingEvent {
   const FetchAvailabilityEvent();
 }
+
+
+class SubmitBookingRequest extends BookingEvent{
+  
+}
