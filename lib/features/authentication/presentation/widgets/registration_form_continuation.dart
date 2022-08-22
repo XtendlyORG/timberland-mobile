@@ -22,7 +22,8 @@ import 'package:timberland_biketrail/features/authentication/presentation/bloc/a
 import 'package:timberland_biketrail/features/authentication/presentation/widgets/terms_of_use.dart';
 
 class RegistrationContinuationForm extends StatelessWidget {
-  final UpdateUserDetailsParams? user; // user will not be null when update profile
+  final UpdateUserDetailsParams?
+      user; // user will not be null when update profile
   const RegistrationContinuationForm({
     Key? key,
     this.user,
@@ -74,6 +75,7 @@ class RegistrationContinuationForm extends StatelessWidget {
       bloodTypeCtrl.text = user!.bloodType ?? '';
       addressCtrl.text = user!.address ?? '';
       professionCtrl.text = user!.profession ?? '';
+      emergencyContactsCtrl.text = user!.emergencyContactInfo ?? '';
       bikeModelCtrl.text = user!.bikeModel ?? '';
       bikeYearCtrl.text = user!.bikeYear ?? '';
       bikeColorCtrl.text = user!.bikeColor ?? '';

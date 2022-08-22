@@ -102,6 +102,7 @@ class UpdateProfileForm extends StatelessWidget {
               middleName: user.middleName,
               lastName: user.lastName,
               mobileNumber: user.mobileNumber,
+              emergencyContactInfo: user.emergencyContactInfo,
               address: user.address,
               gender: user.gender,
               birthday: user.birthday,
@@ -156,7 +157,7 @@ class UpdateProfileForm extends StatelessWidget {
                               updatedUser: state.updatedUser.copyWith(
                                 firstName: firstName,
                                 lastName: lastName,
-                                middleName: middleName,
+                                middleName: middleName??'',
                                 email: email,
                                 mobileNumber: mobileNumber,
                                 profilePic: newImageFile,

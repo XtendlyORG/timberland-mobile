@@ -41,19 +41,19 @@ class TimberlandProfileDataSource implements ProfileDataSource {
       if (response.statusCode == 200) {
         log(response.data.toString());
         return Session().currentUser!.copyWith(
-              address: updateProfileParams.address,
-              bikeColor: updateProfileParams.bikeColor,
-              bikeModel: updateProfileParams.bikeModel,
-              bikeYear: updateProfileParams.bikeYear,
+              address: updateProfileParams.address??'',
+              bikeColor: updateProfileParams.bikeColor??'',
+              bikeModel: updateProfileParams.bikeModel??'',
+              bikeYear: updateProfileParams.bikeYear??'',
               birthday: updateProfileParams.birthday,
-              bloodType: updateProfileParams.bloodType,
-              emergencyContactInfo: updateProfileParams.emergencyContactInfo,
+              bloodType: updateProfileParams.bloodType??'',
+              emergencyContactInfo: updateProfileParams.emergencyContactInfo??'',
               firstName: updateProfileParams.firstName,
               gender: updateProfileParams.gender,
               lastName: updateProfileParams.lastName,
-              middleName: updateProfileParams.middleName,
+              middleName: updateProfileParams.middleName??'',
               mobileNumber: updateProfileParams.mobileNumber,
-              profession: updateProfileParams.profession,
+              profession: updateProfileParams.profession??'',
               profilePicUrl: response.data.toString(),
             );
       }
