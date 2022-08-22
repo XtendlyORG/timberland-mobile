@@ -157,7 +157,7 @@ class UpdateProfileForm extends StatelessWidget {
                               updatedUser: state.updatedUser.copyWith(
                                 firstName: firstName,
                                 lastName: lastName,
-                                middleName: middleName??'',
+                                middleName: middleName ?? '',
                                 email: email,
                                 mobileNumber: mobileNumber,
                                 profilePic: newImageFile,

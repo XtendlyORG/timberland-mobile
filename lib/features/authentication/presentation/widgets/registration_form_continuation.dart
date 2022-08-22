@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
@@ -264,7 +265,7 @@ class RegistrationContinuationForm extends StatelessWidget {
               child: TextFormField(
                 controller: bikeModelCtrl,
                 decoration: const InputDecoration(
-                  hintText: 'Bike(model)',
+                  hintText: 'Bike (model)',
                 ),
                 textInputAction: TextInputAction.next,
                 textCapitalization: TextCapitalization.words,
@@ -279,11 +280,25 @@ class RegistrationContinuationForm extends StatelessWidget {
                       margin: const EdgeInsets.only(bottom: kVerticalPadding),
                       child: TextFormField(
                         controller: bikeYearCtrl,
+                        validator: (year) {
+                          if (year!.isEmpty) {
+                            return null;
+                          } else if (year.length != 4) {
+                            return 'Invalid year';
+                          }
+                          return null;
+                        },
                         decoration: const InputDecoration(
-                          hintText: 'Bike(year)',
+                          hintText: 'Bike (year)',
+                          counterText: ''
                         ),
+                        maxLength: 4,
                         textInputAction: TextInputAction.next,
                         textCapitalization: TextCapitalization.words,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
                       ),
                     ),
                   ),
@@ -297,7 +312,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                       child: TextFormField(
                         controller: bikeColorCtrl,
                         decoration: const InputDecoration(
-                          hintText: 'Bike(color)',
+                          hintText: 'Bike (color)',
                         ),
                         textInputAction: TextInputAction.done,
                         textCapitalization: TextCapitalization.words,
