@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:math';
+import 'dart:math' as math;
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +32,7 @@ class _FAQWidgetState extends State<FAQWidget> with TickerProviderStateMixin {
     _isExpanded = false;
     _controller.addListener(() {
       setState(() {
-        _angle = _controller.value * 45 / 360 * pi * 2;
+        _angle = _controller.value * 45 / 360 * math.pi * 2;
       });
     });
   }
@@ -70,11 +70,51 @@ class _FAQWidgetState extends State<FAQWidget> with TickerProviderStateMixin {
           bottom: kVerticalPadding,
         ),
         children: [
-          Text(
-            widget.faq.answer,
-            textAlign: TextAlign.justify,
+          CustomeStyledText(
+            text: widget.faq.answer,
           ),
         ],
+      ),
+    );
+  }
+}
+
+class CustomeStyledText extends StatelessWidget {
+  const CustomeStyledText({
+    Key? key,
+    required this.text,
+  }) : super(key: key);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    final texts = text.split('<bold>');
+
+    return Text.rich(
+      TextSpan(
+        children: texts.map((text) {
+          final textWithBold = text.split('</bold>');
+          if (textWithBold.length > 1) {
+            return TextSpan(
+              children: [
+                TextSpan(
+                  text: textWithBold[0],
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                TextSpan(
+                  text: textWithBold[1],
+                  style: const TextStyle(
+                    fontWeight: FontWeight.normal,
+                  ),
+                )
+              ],
+            );
+          }
+          return TextSpan(text: text);
+        }).toList(),
       ),
     );
   }
