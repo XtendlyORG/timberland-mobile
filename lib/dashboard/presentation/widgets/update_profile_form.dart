@@ -86,6 +86,7 @@ class UpdateProfileForm extends StatelessWidget {
               ),
             ),
           );
+          context.goNamed(Routes.profile.name);
         }
 
         return current is! ProfileUpdateRequestSent &&

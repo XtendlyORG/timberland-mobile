@@ -55,7 +55,7 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
       enabled: widget.enabled,
       enableInteractiveSelection: false,
       validator: (val) {
-        return nonEmptyValidator(val, errorMessage: 'Select time range');
+        return nonEmptyValidator(val, errorMessage: 'Please select a take off time');
       },
       onTap: () {
         showDialog(

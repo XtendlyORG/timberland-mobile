@@ -47,17 +47,19 @@ class MobileNumberField extends StatelessWidget {
               hintText: hintText ?? '9** *** ****',
               counterText: '', // hide the counter text at the bottom
             ),
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: validator ??
                 (number) {
                   if (number == null || number.isEmpty) {
-                    return 'Mobile Number can not be empty';
-                  }
-                  if (number.length < 10) {
-                    return 'Must be a 10 digit number';
+                    return 'Please enter your mobile number';
                   }
                   if (!number.startsWith('9')) {
                     return "Should start with '9'";
                   }
+                  if (number.length < 10) {
+                    return 'Must be a 10 digit number';
+                  }
+
                   return null;
                 },
             maxLength: 10,

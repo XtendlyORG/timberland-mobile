@@ -35,6 +35,7 @@ class TimberlandTheme {
           isCollapsed: true,
           fillColor: TimberlandColor.background,
           filled: true,
+          errorMaxLines: 2,
           enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: TimberlandColor.primary),
             borderRadius: BorderRadius.circular(6),

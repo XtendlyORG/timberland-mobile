@@ -58,6 +58,17 @@ class RemoteAuthenticator implements Authenticator {
             message: 'Email is not verified',
           );
         }
+        if (dioError.response?.data is Map<String, dynamic>) {
+          if (dioError.response?.data['message'] ==
+              'Invalid credentials. Please try again.') {
+            throw AuthException(
+              message: 'Email or password is incorrect. Please try again.',
+            );
+          }
+          throw AuthException(
+            message: dioError.response?.data?['message'].toString() ?? 'Login Failed',
+          );
+        }
         throw AuthException(
           message: dioError.response?.data?.toString() ?? 'Login Failed',
         );
@@ -115,6 +126,18 @@ class RemoteAuthenticator implements Authenticator {
       log(dioError.response?.statusCode?.toString() ?? "statuscode: null");
       log(dioError.response?.data.toString() ?? 'no data');
       if ((dioError.response?.statusCode ?? -1) == 400) {
+        if ((dioError.response?.data?.toString() ?? '') ==
+            "Email found but not verified, OTP needed") {
+          throw AuthException(
+            message:
+                "Your email is already in our system. Please proceed to login	",
+          );
+        } else if ((dioError.response?.data?.toString() ?? '') ==
+            "Your email is already in our system. Please proceed to login.") {
+          throw AuthException(
+            message: "Email has already been taken.",
+          );
+        }
         throw AuthException(
           message: dioError.response?.data?.toString() ?? 'Failed to send OTP',
         );
@@ -164,6 +187,12 @@ class RemoteAuthenticator implements Authenticator {
 
       if ((dioError.response?.statusCode ?? -1) == 400) {
         if (dioError.response?.data is Map<String, dynamic>) {
+          if (dioError.response?.data['message'] == 'Wrong OTP') {
+            throw AuthException(
+              message:
+                  'Invalid OTP. Please enter the one time pin sent to your email',
+            );
+          }
           throw AuthException(
             message:
                 dioError.response?.data['message'] ?? 'Something went wrong..',

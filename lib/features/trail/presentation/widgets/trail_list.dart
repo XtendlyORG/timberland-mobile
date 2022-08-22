@@ -1,5 +1,7 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../domain/params/fetch_trails.dart';
@@ -37,9 +39,33 @@ class TrailList extends StatelessWidget {
         if (state is TrailsLoaded) {
           if (state.trails.isEmpty) {
             return Center(
-              child: Text(
-                "No Trails to show.",
-                style: Theme.of(context).textTheme.titleLarge,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: kHorizontalPadding,
+                ),
+                child: Column(
+                  children: [
+                    const Icon(
+                      Icons.search_off_rounded,
+                      color: TimberlandColor.primary,
+                      size: 128,
+                    ),
+                    (state is SearchResultsLoaded)
+                        ? AutoSizeText(
+                            "Sorry, but there's no trail that matches your search parameter. Please try a different trail.",
+                            style: Theme.of(context).textTheme.headlineMedium,
+                            textAlign: TextAlign.center,
+                          )
+                        : Text(
+                            "No Trails to show.",
+                            style: Theme.of(context).textTheme.headlineMedium,
+                            textAlign: TextAlign.center,
+                          ),
+                    const SizedBox(
+                      height: kToolbarHeight,
+                    ),
+                  ],
+                ),
               ),
             );
           } else {
