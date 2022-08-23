@@ -116,7 +116,10 @@ class LogoutEvent extends AuthEvent {
 }
 
 class LockAuthEvent extends AuthEvent {
-  const LockAuthEvent();
+  final int duration;
+  const LockAuthEvent({
+    this.duration = 60,
+  });
 }
 
 class ForgotPasswordEvent extends AuthEvent {

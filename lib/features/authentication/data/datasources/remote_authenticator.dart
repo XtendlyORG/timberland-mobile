@@ -5,10 +5,8 @@ import 'package:dio/dio.dart';
 
 import '../../../../core/configs/environment_configs.dart';
 import '../../../../core/errors/exceptions.dart';
-import '../../../../core/utils/session.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/params/params.dart';
-import '../../../../dashboard/domain/params/update_user_detail.dart';
 import '../models/user_model.dart';
 import 'authenticator.dart';
 
@@ -63,10 +61,13 @@ class RemoteAuthenticator implements Authenticator {
               'Invalid credentials. Please try again.') {
             throw AuthException(
               message: 'Email or password is incorrect. Please try again.',
+              penaltyDuration: dioError.response?.data?['penalty'],
             );
           }
           throw AuthException(
-            message: dioError.response?.data?['message'].toString() ?? 'Login Failed',
+            message: dioError.response?.data?['message'].toString() ??
+                'Login Failed',
+            penaltyDuration: dioError.response?.data?['penalty'],
           );
         }
         throw AuthException(
@@ -191,11 +192,13 @@ class RemoteAuthenticator implements Authenticator {
             throw AuthException(
               message:
                   'Invalid OTP. Please enter the one time pin sent to your email',
+              penaltyDuration: dioError.response?.data?['penalty'],
             );
           }
           throw AuthException(
             message:
                 dioError.response?.data['message'] ?? 'Something went wrong..',
+            penaltyDuration: dioError.response?.data?['penalty'],
           );
         } else {
           throw AuthException(

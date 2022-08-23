@@ -92,6 +92,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(
         AuthFailure(
           message: exception.message ?? 'Server Failure.',
+          penaltyDuration: exception.penaltyDuration,
         ),
       );
     } catch (e) {
