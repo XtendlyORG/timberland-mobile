@@ -116,6 +116,7 @@ class CustomeStyledText extends StatelessWidget {
           return TextSpan(text: text);
         }).toList(),
       ),
+      textAlign: TextAlign.left,
     );
   }
 }
