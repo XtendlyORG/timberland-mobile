@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:dartz/dartz.dart';
 import 'package:timberland_biketrail/core/errors/exceptions.dart';
-
 import 'package:timberland_biketrail/core/errors/failures.dart';
 import 'package:timberland_biketrail/dashboard/data/datasources/profile_datasource.dart';
 import 'package:timberland_biketrail/dashboard/domain/params/update_user_detail.dart';
@@ -20,6 +19,29 @@ class ProfileRepositoryImpl implements ProfileRepository {
     return this(
       request: () => profileDatasource.updateUserDetails(userDetails),
     );
+  }
+
+  @override
+  Future<Either<ProfileFailure, void>> updateEmailRequest(
+      String email, String password) {
+    return this(
+      request: () => profileDatasource.updateEmailRequest(email, password),
+    );
+  }
+
+  @override
+  Future<Either<ProfileFailure, void>> verifyEmailUpdate(
+    String email,
+    String otp,
+  ) {
+    return this(
+      request: () => profileDatasource.verifyEmailUpdate(email, otp),
+    );
+  }
+
+  @override
+  Future<Either<ProfileFailure, void>> resendEmailOtp(String email) {
+    return this(request: () => profileDatasource.resendEmailOtp(email));
   }
 
   Future<Either<ProfileFailure, ReturnType>> call<ReturnType>({

@@ -57,4 +57,30 @@ class OTPToUpdateSent extends ProfileState {
     required this.email,
     required this.password,
   });
+
+  @override
+  // TODO: implement props
+  List<Object> get props => super.props
+    ..addAll([
+      email,
+      password,
+      DateTime.now(),
+    ]);
+}
+
+class ProfileOtpError extends ProfileState {
+  final String email;
+  final String errorMessage;
+  const ProfileOtpError({
+    required this.email,
+    required this.errorMessage,
+  });
+
+  @override
+  List<Object> get props => super.props
+    ..addAll([
+      email,
+      errorMessage,
+      DateTime.now(),
+    ]);
 }

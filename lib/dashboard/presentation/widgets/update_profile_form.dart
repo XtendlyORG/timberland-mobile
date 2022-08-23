@@ -11,13 +11,11 @@ import '../../../core/constants/constants.dart';
 import '../../../core/presentation/widgets/inherited_widgets/inherited_register_parameter.dart';
 import '../../../core/presentation/widgets/snackbar_content/loading_snackbar_content.dart';
 import '../../../core/presentation/widgets/snackbar_content/show_snackbar.dart';
-import '../../../core/presentation/widgets/timberland_scaffold.dart';
 import '../../../core/router/router.dart';
 import '../../../core/utils/reduce_image_byte.dart';
 import '../../../features/authentication/domain/entities/user.dart';
 import '../../../features/authentication/domain/params/register.dart';
 import '../../../features/authentication/presentation/bloc/auth_bloc.dart';
-import '../../../features/authentication/presentation/widgets/otp_validation_form.dart';
 import '../../../features/authentication/presentation/widgets/registration_form.dart';
 import '../../../features/authentication/presentation/widgets/registration_form_continuation.dart';
 import '../../domain/params/update_user_detail.dart';
@@ -215,26 +213,6 @@ class UpdateProfileForm extends StatelessWidget {
           child: Text(state.toString()),
         );
       },
-    );
-  }
-}
-
-class VerifyUpdateOtpPage extends StatelessWidget {
-  const VerifyUpdateOtpPage({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TimberlandScaffold(
-      body: OtpVerificationForm(
-        onResend: () {
-          //TODO: call resend otp to update profile
-        },
-        onSubmit: ((otp) {
-          log(otp);
-        }),
-      ),
     );
   }
 }

@@ -38,7 +38,7 @@ abstract class Routes {
     name: 'update-email',
   );
   static const verifyUpdateOtp = _Route(
-    path: '/update-email/verification',
+    path: '/verification',
     name: 'update-email-verification',
   );
   static const qr = _Route(path: '/my-qr', name: 'qr');
