@@ -44,6 +44,19 @@ class ProfileRepositoryImpl implements ProfileRepository {
     return this(request: () => profileDatasource.resendEmailOtp(email));
   }
 
+  @override
+  Future<Either<ProfileFailure, void>> updatePasswordRequest(
+    String oldPassword,
+    String newPassword,
+  ) {
+    return this(
+      request: () => profileDatasource.updatePasswordRequest(
+        oldPassword,
+        newPassword,
+      ),
+    );
+  }
+
   Future<Either<ProfileFailure, ReturnType>> call<ReturnType>({
     required Future<ReturnType> Function() request,
   }) async {

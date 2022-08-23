@@ -19,4 +19,9 @@ abstract class ProfileRepository {
     String email,
     String otp,
   );
+
+  Future<Either<ProfileFailure, void>> updatePasswordRequest(
+    String oldPassword,
+    String newPassword
+  );
 }

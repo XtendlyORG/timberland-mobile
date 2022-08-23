@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/presentation/pages/404_page.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/inherited_widgets/inherited_register_parameter.dart';
 import 'package:timberland_biketrail/dashboard/presentation/pages/update_email.dart';
+import 'package:timberland_biketrail/dashboard/presentation/pages/update_password.dart';
 import 'package:timberland_biketrail/dashboard/presentation/pages/verify_otp_update_page.dart';
 import 'package:timberland_biketrail/features/authentication/domain/params/register.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/pages/registration_continuation_page.dart';
@@ -338,6 +339,23 @@ final appRouter = GoRouter(
                   },
                 ),
               ],
+            ),
+            GoRoute(
+              path: Routes.updatePassword.asSubPath(),
+              name: Routes.updatePassword.name,
+              pageBuilder: (context, routeState) {
+                return CustomTransitionPage(
+                  child: const UpdatePasswordPage(),
+                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    );
+                  },
+                );
+              },
             ),
             GoRoute(
               path: Routes.qr.asSubPath(),

@@ -69,3 +69,14 @@ class VerifyEmailUpdate extends ProfileEvent {
     required this.otp,
   });
 }
+
+class UpdatePasswordRequest extends ProfileEvent {
+  final String oldPassword;
+  final String newPassword;
+  const UpdatePasswordRequest({
+    required this.oldPassword,
+    required this.newPassword,
+  });
+  @override
+  List<Object> get props => super.props..addAll([oldPassword,newPassword]);
+}

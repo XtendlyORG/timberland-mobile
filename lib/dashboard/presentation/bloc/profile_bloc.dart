@@ -128,6 +128,24 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       );
     });
 
+    on<UpdatePasswordRequest>((event, emit) async {
+      final result = await repository.updatePasswordRequest(
+        event.oldPassword,
+        event.newPassword,
+      );
+
+      result.fold(
+        (l) {
+          emit(ProfileUpdateError(errorMessage: l.message));
+        },
+        (r) {
+          emit(
+            ProfileUpdated(user: Session().currentUser!),
+          );
+        },
+      );
+    });
+
     on<CancelUpdateRequest>((event, emit) {
       emit(ProfileInitial());
     });

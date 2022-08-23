@@ -38,7 +38,9 @@ class ProfileSettingsButton extends StatelessWidget {
           child: ListTile(
             title: const Text('Update Password'),
             onTap: () {
-              // TODO: implement update password page
+              context.pushNamed(
+                Routes.updatePassword.name,
+              );
               Navigator.pop(context);
             },
           ),

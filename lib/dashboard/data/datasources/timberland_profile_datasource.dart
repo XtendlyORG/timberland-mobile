@@ -230,4 +230,51 @@ class TimberlandProfileDataSource implements ProfileDataSource {
       throw const ProfileException(message: "An Error Occurred");
     }
   }
+
+  @override
+  Future<void> updatePasswordRequest(
+      String oldPassword, String newPassword) async {
+    try {
+      final response = await dioClient.put(
+        '${environmentConfig.apihost}/users/${Session().currentUser?.id}/password',
+        data: json.encode(
+          {
+            'old_password': oldPassword,
+            'new_password': newPassword,
+          },
+        ),
+      );
+      log(response.statusCode.toString());
+      if (response.statusCode == 200) {
+        log(response.data.toString());
+        return;
+      }
+      throw const ProfileException();
+    } on ProfileException {
+      rethrow;
+    } on DioError catch (dioError) {
+      log(dioError.response?.statusCode?.toString() ?? "statuscode: null");
+      log(dioError.response?.data.toString() ?? 'no data');
+      if ((dioError.response?.statusCode ?? -1) == 400) {
+        throw ProfileException(
+          message: dioError.response?.data?.toString() ?? 'Failed to Update Password',
+        );
+      } else if ((dioError.response?.statusCode ?? -1) == 413) {
+        throw const ProfileException(
+          message: "Failed to Update: Error 413",
+        );
+      } else if ((dioError.response?.statusCode ?? -1) == 502) {
+        log(dioError.response?.data?.toString() ?? "No error message: 502");
+        throw const ProfileException(
+          message: 'Internal Server Error',
+        );
+      }
+      throw const ProfileException(
+        message: "Error Occurred",
+      );
+    } catch (e) {
+      log(e.toString());
+      throw const ProfileException(message: "An Error Occurred");
+    }
+  }
 }
