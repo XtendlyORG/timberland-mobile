@@ -119,7 +119,7 @@ class _TrailDifficultyChecklistState extends State<TrailDifficultyChecklist> {
                                       color: Theme.of(context).primaryColor,
                                     ),
                           ),
-                          child: const Text("See 20 Trails"),
+                          child: const Text("See Trails"),
                         ),
                       ),
                     ],
