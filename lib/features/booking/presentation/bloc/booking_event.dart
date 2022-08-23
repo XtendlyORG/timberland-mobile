@@ -12,7 +12,11 @@ class FetchAvailabilityEvent extends BookingEvent {
   const FetchAvailabilityEvent();
 }
 
-
-class SubmitBookingRequest extends BookingEvent{
-  
+class SubmitBookingRequest extends BookingEvent {
+  final BookingRequestParams params;
+  const SubmitBookingRequest({
+    required this.params,
+  });
+  @override
+  List<Object> get props => super.props..add(params);
 }

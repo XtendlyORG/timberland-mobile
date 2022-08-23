@@ -1,11 +1,11 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/timberland_scaffold.dart';
-import 'package:timberland_biketrail/features/booking/presentation/bloc/booking_bloc.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
+import '../../../../core/presentation/widgets/timberland_scaffold.dart';
+import '../bloc/booking_bloc.dart';
 
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({Key? key}) : super(key: key);
@@ -29,15 +29,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
     return SafeArea(
       child: TimberlandScaffold(
         extendBodyBehindAppbar: true,
+        disableBackButton: true,
+        physics: const NeverScrollableScrollPhysics(),
         body: SizedBox(
-          height: MediaQuery.of(context).size.height - kToolbarHeight * 2,
+          height: MediaQuery.of(context).size.height - kToolbarHeight,
           child: WebView(
-            initialUrl: 'google.com',
+            initialUrl: state.checkoutHtml,
             javascriptMode: JavascriptMode.unrestricted,
-            // onWebViewCreated: (WebViewController webViewController) {
-            //   _controller = webViewController;
-            //   _controller.loadHtmlString(state.checkoutHtml);
-            // },
           ),
         ),
       ),

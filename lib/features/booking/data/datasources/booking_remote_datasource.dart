@@ -2,10 +2,10 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-
 import 'package:timberland_biketrail/core/configs/environment_configs.dart';
 import 'package:timberland_biketrail/core/errors/exceptions.dart';
 import 'package:timberland_biketrail/features/booking/data/datasources/booking_datasource.dart';
+import 'package:timberland_biketrail/features/booking/domain/params/booking_request_params.dart';
 
 class BookingRemoteDataSource implements BookingDatasource {
   final Dio dioClient;
@@ -15,16 +15,22 @@ class BookingRemoteDataSource implements BookingDatasource {
     required this.environmentConfig,
   });
   @override
-  Future<String> submitBookingRequest() async {
+  Future<String> submitBookingRequest(BookingRequestParams params) async {
     try {
       final result = await dioClient.post(
         '${environmentConfig.apihost}/payments/create-checkout-session',
+        data: params.toJson(),
       );
 
       log(result.statusCode.toString());
       log(result.data.toString());
 
-      return result.data.toString();
+      if (result.statusCode == 200) {
+        if (result.data is Map<String, dynamic>) {
+          return result.data['redirectUrl'];
+        }
+      }
+      throw BookingException();
     } on DioError catch (error) {
       log(error.toString());
       throw BookingException();
