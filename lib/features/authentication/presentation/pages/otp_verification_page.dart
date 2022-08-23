@@ -75,6 +75,7 @@ class OtpVerificationPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: LockUserWidget(
+                          title: 'Too many OTP verification attempts.',
                           onFinishTimer: () {
                             Navigator.pop(context);
                           },
