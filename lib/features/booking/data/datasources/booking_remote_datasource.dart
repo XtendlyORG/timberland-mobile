@@ -22,9 +22,6 @@ class BookingRemoteDataSource implements BookingDatasource {
         data: params.toJson(),
       );
 
-      log(result.statusCode.toString());
-      log(result.data.toString());
-
       if (result.statusCode == 200) {
         if (result.data is Map<String, dynamic>) {
           return result.data['redirectUrl'];

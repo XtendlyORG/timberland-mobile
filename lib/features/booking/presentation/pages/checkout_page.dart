@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../../../core/presentation/widgets/drawer_iconbutton.dart';
 import '../../../../core/presentation/widgets/timberland_scaffold.dart';
 import '../bloc/booking_bloc.dart';
 
@@ -28,11 +29,15 @@ class _CheckoutPageState extends State<CheckoutPage> {
         BlocProvider.of<BookingBloc>(context).state as BookingSubmitted;
     return SafeArea(
       child: TimberlandScaffold(
-        extendBodyBehindAppbar: true,
         disableBackButton: true,
+        index: 2,
         physics: const NeverScrollableScrollPhysics(),
+        appBar: AppBar(
+          title: const Text('Checkout'),
+          actions: const [DrawerIconButton()],
+        ),
         body: SizedBox(
-          height: MediaQuery.of(context).size.height - kToolbarHeight,
+          height: MediaQuery.of(context).size.height - kToolbarHeight * 2,
           child: WebView(
             initialUrl: state.checkoutHtml,
             javascriptMode: JavascriptMode.unrestricted,
