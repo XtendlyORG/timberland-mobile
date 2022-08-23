@@ -1,11 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/timberland_appbar.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_scaffold.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/dashboard/domain/params/update_user_detail.dart';
@@ -35,7 +32,7 @@ class UpdateProfilePage extends StatelessWidget {
               lastName: user.lastName,
               mobileNumber: user.mobileNumber,
               emergencyContactInfo: user.emergencyContactInfo,
-              address: user.address,  
+              address: user.address,
               gender: user.gender,
               birthday: user.birthday,
               bloodType: user.bloodType,
@@ -52,8 +49,13 @@ class UpdateProfilePage extends StatelessWidget {
             return false;
           },
           child: TimberlandScaffold(
-            appBar: TimberlandAppbar(
-              backButton: BackButton(
+            index: 3,
+            showNavbar: false,
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              leading: BackButton(
+                color: Colors.black,
                 onPressed: () {
                   handleBackButton(state, context);
                 },

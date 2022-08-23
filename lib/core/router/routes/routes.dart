@@ -33,9 +33,13 @@ abstract class Routes {
     path: '/update-profile',
     name: 'update-profile',
   );
+  static const updateEmail = _Route(
+    path: '/update-email',
+    name: 'update-email',
+  );
   static const verifyUpdateOtp = _Route(
-    path: '/update-profile/verification',
-    name: 'update-profile-verification',
+    path: '/update-email/verification',
+    name: 'update-email-verification',
   );
   static const qr = _Route(path: '/my-qr', name: 'qr');
   static const bookingHistory =

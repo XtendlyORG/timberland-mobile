@@ -48,7 +48,9 @@ class ProfileSettingsButton extends StatelessWidget {
           child: ListTile(
             title: const Text('Update Email'),
             onTap: () {
-              // TODO: implement update email page
+              context.pushNamed(
+                Routes.updateEmail.name,
+              );
               Navigator.pop(context);
             },
           ),
