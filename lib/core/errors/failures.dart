@@ -1,12 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-
 abstract class Failure {}
 
 class AuthFailure implements Failure {
   final String message;
-
-  const AuthFailure({required this.message});
+  final int? penaltyDuration;
+  const AuthFailure({
+    required this.message,
+    this.penaltyDuration,
+  });
 }
 
 class UnverifiedEmailFailure extends AuthFailure {

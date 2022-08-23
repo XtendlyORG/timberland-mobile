@@ -42,6 +42,7 @@ class AuthPageContainer extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: LockUserWidget(
+                  title: 'Too many login attempts.',
                   onFinishTimer: () {
                     BlocProvider.of<AuthBloc>(context).add(
                       const UnlockAuthEvent(),

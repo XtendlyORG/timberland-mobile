@@ -41,7 +41,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<LockAuthEvent>((event, emit) {
       log(state.toString());
       if (Session().lockAuthUntil == null) {
-        Session().lockAuth(duration: const Duration(seconds: 60));
+        Session().lockAuth(duration: Duration(seconds: event.duration));
       }
       emit(
         AuthLocked(
@@ -64,6 +64,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       result.fold(
         (failure) {
           if (failure is UnverifiedEmailFailure) {
+            emit(AuthError(
+              errorMessage: failure.message,
+              penaltyDuration: failure.penaltyDuration,
+            ));
             emit(
               OtpSent(
                 parameter: event.loginParameter,
@@ -71,7 +75,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               ),
             );
           } else {
-            emit(AuthError(errorMessage: failure.message));
+            emit(AuthError(
+              errorMessage: failure.message,
+              penaltyDuration: failure.penaltyDuration,
+            ));
           }
         },
         (user) {
@@ -159,6 +166,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       result.fold(
         (failure) {
           emit(
+            AuthError(
+              errorMessage: failure.message,
+              penaltyDuration: failure.penaltyDuration,
+              parameter: event.parameter,
+            ),
+          );
+          emit(
             OtpSent(
               parameter: event.parameter,
               message: failure.message,
@@ -186,10 +200,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
 
       result.fold(
-        (l) {
+        (failure) {
+          emit(
+            AuthError(
+              errorMessage: failure.message,
+              penaltyDuration: failure.penaltyDuration,
+              parameter: event.parameter,
+            ),
+          );
           emit(
             OtpSent(
-              message: l.message,
+              message: failure.message,
               parameter: event.parameter,
             ),
           );
@@ -217,10 +238,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
 
       result.fold(
-        (l) {
+        (failure) {
           emit(
             AuthError(
-              errorMessage: l.message,
+              errorMessage: failure.message,
+              penaltyDuration: failure.penaltyDuration,
+              parameter: event.email,
+            ),
+          );
+          emit(
+            AuthError(
+              errorMessage: failure.message,
               parameter: event.email,
             ),
           );
