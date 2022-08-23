@@ -9,7 +9,7 @@ import 'package:timberland_biketrail/features/app_infos/domain/entities/trail_ru
 import 'package:timberland_biketrail/features/app_infos/domain/repositories/app_infos_repository.dart';
 
 class AppInfoRepositoryImpl implements AppInfoRepository {
-  final RemoteDatasource remoteDatasource;
+  final AppInfoDataSource remoteDatasource;
   const AppInfoRepositoryImpl({
     required this.remoteDatasource,
   });

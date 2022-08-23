@@ -58,6 +58,7 @@ dependencies:
   permission_handler: ^10.0.0
   email_validator: ^2.1.17
   connectivity_plus: ^2.3.6+1
+  webview_flutter: ^3.0.4
 
 dev_dependencies:
   flutter_test:

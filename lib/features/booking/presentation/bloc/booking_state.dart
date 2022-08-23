@@ -15,3 +15,13 @@ class LoadingBookingAvailability extends BookingState {}
 class BookingAvailabilityLoaded extends BookingState {
   const BookingAvailabilityLoaded();
 }
+
+class BookingSubmitted extends BookingState {
+  final String checkoutHtml;
+  const BookingSubmitted({
+    required this.checkoutHtml,
+  });
+
+  @override
+  List<Object> get props => super.props..add(checkoutHtml);
+}

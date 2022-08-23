@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:dartz/dartz.dart';
+
 abstract class Failure {}
 
 class AuthFailure implements Failure {
@@ -28,6 +30,13 @@ class TrailFailure implements Failure {
 class ProfileFailure implements Failure {
   final String message;
   const ProfileFailure({
+    required this.message,
+  });
+}
+
+class BookingFailure implements Failure {
+  final String message;
+  const BookingFailure({
     required this.message,
   });
 }

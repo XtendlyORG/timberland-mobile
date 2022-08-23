@@ -2,12 +2,10 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/errors/failures.dart';
 import '../../../../core/utils/repository.dart';
-import '../entities/booking.dart';
-import '../usecases/place_reservation.dart';
+import '../params/booking_request_params.dart';
 
 abstract class BookingRepository extends Repository {
-  Future<Either<Failure, Booking>> placeBooking(
-    BookingReservationParams reservationParams,
+  Future<Either<BookingFailure, String>> submitBookingRequest(
+    BookingRequestParams requestParams,
   );
-  Future<Either<Failure, void>> cancelBooking();
 }
