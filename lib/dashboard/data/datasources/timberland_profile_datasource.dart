@@ -162,6 +162,7 @@ class TimberlandProfileDataSource implements ProfileDataSource {
           throw ProfileException(
             message:
                 dioError.response?.data?['message'] ?? 'Failed to send OTP',
+            penaltyDuration: dioError.response?.data?['penalty'],
           );
         }
         throw ProfileException(
@@ -257,7 +258,8 @@ class TimberlandProfileDataSource implements ProfileDataSource {
       log(dioError.response?.data.toString() ?? 'no data');
       if ((dioError.response?.statusCode ?? -1) == 400) {
         throw ProfileException(
-          message: dioError.response?.data?.toString() ?? 'Failed to Update Password',
+          message: dioError.response?.data?.toString() ??
+              'Failed to Update Password',
         );
       } else if ((dioError.response?.statusCode ?? -1) == 413) {
         throw const ProfileException(

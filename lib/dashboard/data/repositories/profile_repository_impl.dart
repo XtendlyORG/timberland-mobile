@@ -66,6 +66,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
       return Left(
         ProfileFailure(
           message: exception.message ?? 'Server Failure.',
+          penaltyDuration: exception.penaltyDuration,
         ),
       );
     } catch (e) {

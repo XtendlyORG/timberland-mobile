@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore: depend_on_referenced_packages
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
@@ -111,10 +113,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
       result.fold(
         (l) {
+          log(l.penaltyDuration.toString());
           emit(
             ProfileOtpError(
               email: event.email,
               errorMessage: l.message,
+              otpPenaltyDuration: l.penaltyDuration,
             ),
           );
         },

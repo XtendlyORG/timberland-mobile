@@ -4,9 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/constants/constants.dart';
+import '../../../core/presentation/widgets/lock_user_widget.dart';
 import '../../../core/presentation/widgets/snackbar_content/show_snackbar.dart';
 import '../../../core/presentation/widgets/timberland_scaffold.dart';
 import '../../../core/router/router.dart';
+import '../../../core/themes/timberland_color.dart';
 import '../../../features/authentication/presentation/bloc/auth_bloc.dart';
 import '../../../features/authentication/presentation/widgets/otp_validation_form.dart';
 import '../bloc/profile_bloc.dart';
@@ -26,6 +28,28 @@ class VerifyUpdateOtpPage extends StatelessWidget {
           ));
         }
         if (state is ProfileOtpError) {
+          if (state.otpPenaltyDuration != 0) {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) {
+                return Dialog(
+                  backgroundColor: TimberlandColor.background,
+                  clipBehavior: Clip.hardEdge,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: LockUserWidget(
+                    onFinishTimer: () {
+                      Navigator.pop(context);
+                    },
+                    duration: state.otpPenaltyDuration!,
+                  ),
+                );
+              },
+            );
+          }
+
           showSnackBar(
             SnackBar(
               content: AutoSizeText(

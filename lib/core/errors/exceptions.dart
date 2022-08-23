@@ -28,8 +28,10 @@ class TrailException implements Exception {
 
 class ProfileException implements Exception {
   final String? message;
+  final int? penaltyDuration;
   const ProfileException({
     this.message,
+    this.penaltyDuration,
   });
 }
 

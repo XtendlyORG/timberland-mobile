@@ -71,9 +71,11 @@ class OTPToUpdateSent extends ProfileState {
 class ProfileOtpError extends ProfileState {
   final String email;
   final String errorMessage;
+  final int? otpPenaltyDuration;
   const ProfileOtpError({
     required this.email,
     required this.errorMessage,
+    this.otpPenaltyDuration,
   });
 
   @override
@@ -81,6 +83,7 @@ class ProfileOtpError extends ProfileState {
     ..addAll([
       email,
       errorMessage,
+      if (otpPenaltyDuration != null) otpPenaltyDuration!,
       DateTime.now(),
     ]);
 }
