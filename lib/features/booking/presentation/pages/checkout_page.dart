@@ -1,15 +1,14 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../../core/presentation/widgets/drawer_iconbutton.dart';
 import '../../../../core/presentation/widgets/timberland_scaffold.dart';
+import '../../../../core/router/router.dart';
 import '../bloc/booking_bloc.dart';
 
 class CheckoutPage extends StatefulWidget {
@@ -76,9 +75,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   return NavigationDecision.prevent;
                 }
                 if (request.url.contains('fail')) {
+                  Navigator.pop(context);
+                  context.pushNamed(Routes.failedfulBooking.name);
                   return NavigationDecision.prevent;
                 }
                 if (request.url.contains('cancel')) {
+                  Navigator.pop(context);
+                  context.pushNamed(Routes.cancelledfulBooking.name);
                   return NavigationDecision.prevent;
                 }
 

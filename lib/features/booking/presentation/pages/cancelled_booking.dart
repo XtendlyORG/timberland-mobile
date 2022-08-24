@@ -1,24 +1,29 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/themes/timberland_color.dart';
 import '../widgets/checkout_information.dart';
 
-class SuccessBookingPage extends StatelessWidget {
-  const SuccessBookingPage({Key? key}) : super(key: key);
+class CancelledBookingPage extends StatelessWidget {
+  const CancelledBookingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CheckoutInformationWidget(
-      icon: const Icon(Icons.check_circle_rounded),
+      icon: const Icon(
+        Icons.error,
+        color: TimberlandColor.secondaryColor,
+        size: 64,
+      ),
       title: AutoSizeText(
-        'Payment Successful!',
+        'Payment Cancelled!',
         style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: Colors.green,
+              color: TimberlandColor.secondaryColor,
             ),
         maxLines: 1,
       ),
       subtitle: const AutoSizeText(
-        "Your payment was successful! Thanks for using our application.",
+        "Your payment was cancelled!Thanks for using our application.",
         textAlign: TextAlign.center,
       ),
     );

@@ -63,6 +63,14 @@ abstract class Routes {
     path: '/success',
     name: 'successful-booking',
   );
+  static const failedfulBooking = _Route(
+    path: '/failed',
+    name: 'failed-booking',
+  );
+  static const cancelledfulBooking = _Route(
+    path: '/cancelled',
+    name: 'cancelled-booking',
+  );
   static const rules = _Route(path: '/rules', name: 'rules');
   static const contacts = _Route(path: '/contacts', name: 'contacts');
   static const faqs = _Route(path: '/faqs', name: 'faqs');
