@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../../core/presentation/widgets/drawer_iconbutton.dart';
@@ -19,7 +20,7 @@ class CheckoutPage extends StatefulWidget {
 }
 
 class _CheckoutPageState extends State<CheckoutPage> {
-  late WebViewController _controller;
+  // late WebViewController _controller;
   @override
   void initState() {
     super.initState();
@@ -39,31 +40,51 @@ class _CheckoutPageState extends State<CheckoutPage> {
           title: const Text('Checkout'),
           actions: const [DrawerIconButton()],
         ),
-        body: SizedBox(
-          height: MediaQuery.of(context).size.height - kToolbarHeight * 2,
-          child: WebView(
-            initialUrl: state.checkoutHtml,
-            javascriptMode: JavascriptMode.unrestricted,
-            onWebViewCreated: (ctrl) {
-              _controller = ctrl;
-            },
-            // onPageFinished: (val) {
-            //   // CODE LOGIC FOR GETTING THE CHECKOUT PAGE'S DATA AS JSON
+        body: BlocListener<BookingBloc, BookingState>(
+          listener: (context, state) {
+            if (state is BookingCreated) {
+              Navigator.pop(context);
+              context.pushNamed(Routes.successfulBooking.name);
+            }
+          },
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height - kToolbarHeight * 2,
+            child: WebView(
+              initialUrl: state.checkoutHtml,
+              javascriptMode: JavascriptMode.unrestricted,
+              // onWebViewCreated: (ctrl) {
+              //   _controller = ctrl;
+              // },
+              // onPageFinished: (val) {
+              //   // CODE LOGIC FOR GETTING THE CHECKOUT PAGE'S DATA AS JSON
 
-            //   // _controller
-            //   //     .runJavascriptReturningResult(
-            //   //         'document.body.getElementsByTagName("script")[0].outerHTML')
-            //   //     .then((scriptTag) {
-            //   //   final _json = readCheckOutPageAsJson(scriptTag);
-            //   //   log(_json.toString());
-            //   // });
-            // },
-            navigationDelegate: (request) {
-              log(request.url);
-              return request.url.contains('google')
-                  ? NavigationDecision.prevent
-                  : NavigationDecision.navigate;
-            },
+              //   // _controller
+              //   //     .runJavascriptReturningResult(
+              //   //         'document.body.getElementsByTagName("script")[0].outerHTML')
+              //   //     .then((scriptTag) {
+              //   //   final _json = readCheckOutPageAsJson(scriptTag);
+              //   //   log(_json.toString());
+              //   // });
+              // },
+              navigationDelegate: (request) {
+                log(request.url);
+
+                if (request.url.contains('success')) {
+                  BlocProvider.of<BookingBloc>(context).add(CreateBookingEvent(
+                    parameter: state.bookingParameter,
+                  ));
+                  return NavigationDecision.prevent;
+                }
+                if (request.url.contains('fail')) {
+                  return NavigationDecision.prevent;
+                }
+                if (request.url.contains('cancel')) {
+                  return NavigationDecision.prevent;
+                }
+
+                return NavigationDecision.navigate;
+              },
+            ),
           ),
         ),
       ),

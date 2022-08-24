@@ -31,7 +31,7 @@ class _BookingFormState extends State<BookingForm> {
   late final GlobalKey<FormState> formKey;
   late DateTime? chosenDate;
   late TextEditingController dateCtrl;
-  late TextEditingController timeRangeCtrl;
+  late TextEditingController timeCtrl;
   late TextEditingController mobileNumberCtrl;
   late TextEditingController emailCtrl;
   late TextEditingController fullNameCtrl;
@@ -41,7 +41,7 @@ class _BookingFormState extends State<BookingForm> {
     formKey = GlobalKey<FormState>();
     chosenDate = null;
     dateCtrl = TextEditingController();
-    timeRangeCtrl = TextEditingController();
+    timeCtrl = TextEditingController();
     mobileNumberCtrl = TextEditingController(text: widget.user.mobileNumber);
     emailCtrl = TextEditingController(
       text: widget.user.email,
@@ -115,7 +115,7 @@ class _BookingFormState extends State<BookingForm> {
                             const Text('Take Off Time'),
                             ExcludeFocus(
                               child: BookingTimePicker(
-                                controller: timeRangeCtrl,
+                                controller: timeCtrl,
                                 enabled: true,
                                 onSubmit: (value) {},
                               ),
@@ -188,6 +188,11 @@ class _BookingFormState extends State<BookingForm> {
                               firstName: widget.user.firstName,
                               middleName: widget.user.middleName,
                               lastName: widget.user.lastName,
+                              customerFullname: fullNameCtrl.text,
+                              mobileNumber: mobileNumberCtrl.text,
+                              email: emailCtrl.text,
+                              date: dateCtrl.text,
+                              time: timeCtrl.text
                             ),
                           ),
                         );
