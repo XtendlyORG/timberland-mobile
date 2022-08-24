@@ -8,10 +8,20 @@ class BookingRequestParams extends Equatable {
   final String firstName;
   final String? middleName;
   final String lastName;
+  final String customerFullname;
+  final String mobileNumber;
+  final String email;
+  final String date;
+  final String time;
   const BookingRequestParams({
     required this.firstName,
     this.middleName,
     required this.lastName,
+    required this.customerFullname,
+    required this.mobileNumber,
+    required this.email,
+    required this.date,
+    required this.time,
   });
 
   @override
@@ -20,18 +30,6 @@ class BookingRequestParams extends Equatable {
         if (middleName != null) middleName!,
         lastName,
       ];
-
-  BookingRequestParams copyWith({
-    String? firstName,
-    String? middleName,
-    String? lastName,
-  }) {
-    return BookingRequestParams(
-      firstName: firstName ?? this.firstName,
-      middleName: middleName ?? this.middleName,
-      lastName: lastName ?? this.lastName,
-    );
-  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{

@@ -14,9 +14,19 @@ class FetchAvailabilityEvent extends BookingEvent {
 
 class SubmitBookingRequest extends BookingEvent {
   final BookingRequestParams params;
+
   const SubmitBookingRequest({
     required this.params,
   });
   @override
   List<Object> get props => super.props..add(params);
+}
+
+class CreateBookingEvent extends BookingEvent {
+  final CreateBookingParameter parameter;
+  const CreateBookingEvent({
+    required this.parameter,
+  });
+  @override
+  List<Object> get props => super.props..add(parameter);
 }
