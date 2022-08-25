@@ -194,7 +194,7 @@ class _BookingFormState extends State<BookingForm> {
                             customerFullname: fullNameCtrl.text,
                             mobileNumber: mobileNumberCtrl.text,
                             email: emailCtrl.text,
-                            date: dateCtrl.text,
+                            date: chosenDate!.toIso8601String(),
                             time: timeCtrl.text),
                       ),
                     );
