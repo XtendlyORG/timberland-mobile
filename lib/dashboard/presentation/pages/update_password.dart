@@ -127,7 +127,7 @@ class _UpdatePasswordForm extends StatelessWidget {
           ),
           PasswordField(
             controller: newPasswordCtrl,
-            hintText: 'Current Password',
+            hintText: 'New Password',
           ),
           const SizedBox(
             height: kVerticalPadding,
