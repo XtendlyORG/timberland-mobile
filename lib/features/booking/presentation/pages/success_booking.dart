@@ -9,7 +9,11 @@ class SuccessBookingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CheckoutInformationWidget(
-      icon: const Icon(Icons.check_circle_rounded),
+      icon: const Icon(
+        Icons.check_circle_rounded,
+        size: 64,
+        color: Colors.green
+      ),
       title: AutoSizeText(
         'Payment Successful!',
         style: Theme.of(context).textTheme.titleLarge?.copyWith(
