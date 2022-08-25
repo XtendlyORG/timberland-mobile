@@ -10,6 +10,17 @@ abstract class BookingState extends Equatable {
 
 class BookingInitial extends BookingState {}
 
+class SubmittingBookingRequest extends BookingState {}
+
+class BookingError extends BookingState {
+  final String errorMessage;
+  const BookingError({
+    required this.errorMessage,
+  });
+  @override
+  List<Object> get props => super.props..addAll([errorMessage, DateTime.now()]);
+}
+
 class BookingSubmitted extends BookingState {
   final String checkoutHtml;
 
