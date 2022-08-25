@@ -1,20 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timberland_biketrail/features/authentication/domain/params/forgot_password.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/lock_user_widget.dart';
+import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/features/authentication/domain/params/params.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/widgets/otp_validation_form.dart';
 
-import '../../../../core/constants/constants.dart';
-import '../../../../core/presentation/widgets/filled_text_button.dart';
 import '../../../../core/router/router.dart';
 import '../bloc/auth_bloc.dart';
 import '../widgets/auth_page_container.dart';
-import '../widgets/otp_resend_button.dart';
 
 class OtpVerificationPage extends StatelessWidget {
   const OtpVerificationPage({
@@ -64,67 +59,78 @@ class OtpVerificationPage extends StatelessWidget {
             ),
           ),
           extendBodyBehindAppBar: true,
-          body: AuthPageContainer(
-            alignment: Alignment.center,
-            child: OtpVerificationForm(
-              onResend: () {
-                var parameter;
-                if (authBloc.state is OtpSent) {
-                  parameter = (authBloc.state as OtpSent).parameter;
-                } else if (authBloc.state is AuthError) {
-                  parameter = (authBloc.state as AuthError).parameter!;
-                }
-                if (routeNameOnPop == Routes.login.name) {
-                  authBloc.add(
-                    LoginEvent(
-                      loginParameter: LoginParameter(
-                        email: parameter!.email,
-                        password: parameter.otp,
-                      ),
-                    ),
+          body: BlocListener<AuthBloc, AuthState>(
+            listenWhen: (previous, current) => current is AuthError,
+            listener: (context, state) {
+              if (state is AuthError) {
+                if (state.penaltyDuration != 0) {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) {
+                      return Dialog(
+                        backgroundColor: TimberlandColor.background,
+                        clipBehavior: Clip.hardEdge,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: LockUserWidget(
+                          title: 'Too many OTP verification attempts.',
+                          onFinishTimer: () {
+                            Navigator.pop(context);
+                          },
+                          duration: state.penaltyDuration!,
+                        ),
+                      );
+                    },
                   );
-                } else {
-                  authBloc.add(
-                    SendOtpEvent(
-                      parameter: parameter,
-                    ),
-                  );
                 }
-              },
-              onSubmit: (otp) {
-                var parameter;
-                if (authBloc.state is OtpSent) {
-                  parameter = (authBloc.state as OtpSent).parameter;
-                } else if (authBloc.state is AuthError) {
-                  parameter = (authBloc.state as AuthError).parameter;
-                }
-                if (routeNameOnPop == Routes.forgotPassword.name) {
-                  authBloc.add(
-                    ForgotPasswordEvent(
-                      forgotPasswordParameter: ForgotPasswordParameter(
-                        email: parameter,
+              }
+            },
+            child: AuthPageContainer(
+              alignment: Alignment.center,
+              child: OtpVerificationForm(
+                onResend: () {
+                  var parameter;
+                  if (authBloc.state is OtpSent) {
+                    parameter = (authBloc.state as OtpSent).parameter;
+                  } else if (authBloc.state is AuthError) {
+                    parameter = (authBloc.state as AuthError).parameter!;
+                  }
+                  authBloc.add(ResendOTPEvent(parameter: parameter));
+                },
+                onSubmit: (otp) {
+                  var parameter;
+                  if (authBloc.state is OtpSent) {
+                    parameter = (authBloc.state as OtpSent).parameter;
+                  } else if (authBloc.state is AuthError) {
+                    parameter = (authBloc.state as AuthError).parameter;
+                  }
+                  if (routeNameOnPop == Routes.forgotPassword.name) {
+                    authBloc.add(
+                      VerifyForgotPasswordEvent(
+                        parameter: parameter,
                         otp: otp,
                       ),
-                    ),
-                  );
-                } else {
-                  authBloc.add(
-                    RegisterEvent(
-                      registerParameter: parameter is LoginParameter
-                          ? RegisterParameter(
-                              firstName: '',
-                              lastName: '',
-                              email: parameter.email,
-                              mobileNumber: '',
-                              password: parameter.password,
-                              otp: otp)
-                          : (parameter as RegisterParameter).copyWith(
-                              otp: otp,
-                            ),
-                    ),
-                  );
-                }
-              },
+                    );
+                  } else {
+                    authBloc.add(
+                      VerifyRegisterEvent(
+                        parameter: parameter is RegisterParameter
+                            ? parameter
+                            : RegisterParameter(
+                                firstName: '',
+                                lastName: '',
+                                email: parameter.email,
+                                mobileNumber: '',
+                                password: '',
+                              ),
+                        otp: otp,
+                      ),
+                    );
+                  }
+                },
+              ),
             ),
           ),
         ),

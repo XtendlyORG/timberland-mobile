@@ -17,10 +17,18 @@ class LoginForm extends StatelessWidget {
     final emailCtrl = TextEditingController();
     final passwordCtrl = TextEditingController();
     return BlocListener<AuthBloc, AuthState>(
-      listenWhen: (previous, current) => current is OtpSent,
+      listenWhen: (previous, current) {
+        if (current is AuthError) {
+          if ((current.penaltyDuration ?? 0) != 0) {
+            BlocProvider.of<AuthBloc>(context)
+                .add(LockAuthEvent(duration: current.penaltyDuration!));
+          }
+        }
+        return current is OtpSent ;
+      },
       listener: (context, state) {
         final _state = state as OtpSent;
-        context.pushNamed(
+        context.goNamed(
           Routes.otpVerification.name,
           extra: _state.parameter is LoginParameter
               ? Routes.login.name

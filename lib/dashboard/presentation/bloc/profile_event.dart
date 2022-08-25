@@ -36,13 +36,47 @@ class SubmitUpdateUserDetailRequestEvent extends ProfileEvent {
   List<Object> get props => super.props..add(updateProfileParams);
 }
 
-class SubmitUpdateOtp extends ProfileEvent {
+class UpdateEmailRequest extends ProfileEvent {
   final String email;
   final String password;
-  final String otp;
-  const SubmitUpdateOtp({
+  const UpdateEmailRequest({
     required this.email,
     required this.password,
+  });
+  @override
+  List<Object> get props => super.props..addAll([email, password]);
+}
+
+class ResendEmailOTP extends ProfileEvent {
+  final String email;
+  const ResendEmailOTP({
+    required this.email,
+  });
+  @override
+  List<Object> get props => super.props
+    ..addAll([
+      email,
+      DateTime.now(),
+    ]);
+}
+
+class VerifyEmailUpdate extends ProfileEvent {
+  final String email;
+
+  final String otp;
+  const VerifyEmailUpdate({
+    required this.email,
     required this.otp,
   });
+}
+
+class UpdatePasswordRequest extends ProfileEvent {
+  final String oldPassword;
+  final String newPassword;
+  const UpdatePasswordRequest({
+    required this.oldPassword,
+    required this.newPassword,
+  });
+  @override
+  List<Object> get props => super.props..addAll([oldPassword,newPassword]);
 }

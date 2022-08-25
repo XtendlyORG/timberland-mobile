@@ -16,75 +16,89 @@ class RegistrationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          foregroundColor: Theme.of(context).colorScheme.primary,
-          elevation: 0,
-          leading: Tooltip(
-            message: 'Back',
-            child: IconButton(
-              onPressed: () {
-                context.goNamed(Routes.login.name);
-              },
-              icon: const Icon(
-                Icons.arrow_back_rounded,
-                color: Colors.black,
+    return WillPopScope(
+      onWillPop: () async {
+        if (Navigator.canPop(context)) {
+          Navigator.pop(context);
+        } else {
+          context.goNamed(Routes.login.name);
+        }
+        return false;
+      },
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            foregroundColor: Theme.of(context).colorScheme.primary,
+            elevation: 0,
+            leading: Tooltip(
+              message: 'Back',
+              child: IconButton(
+                onPressed: () {
+                  if (Navigator.canPop(context)) {
+                    Navigator.pop(context);
+                  } else {
+                    context.goNamed(Routes.login.name);
+                  }
+                },
+                icon: const Icon(
+                  Icons.arrow_back_rounded,
+                  color: Colors.black,
+                ),
               ),
             ),
           ),
-        ),
-        extendBodyBehindAppBar: true,
-        body: AuthPageContainer(
-          child: Column(
-            children: [
-              RegistrationForm(
-                onSumbit: (
-                  String firstName,
-                  String? middleName,
-                  String lastName,
-                  String email,
-                  String password,
-                  String mobileNumber,
-                ) {
-                  context.pushNamed(
-                    Routes.registerContinuation.name,
-                    extra: RegisterParameter(
-                      firstName: firstName,
-                      middleName: middleName,
-                      lastName: lastName,
-                      email: email,
-                      password: password,
-                      mobileNumber: mobileNumber,
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(
-                height: kVerticalPadding,
-              ),
-              Text.rich(
-                TextSpan(
-                  style: Theme.of(context).textTheme.titleSmall,
-                  children: [
-                    const TextSpan(
-                      text: "Already have an account? ",
-                      style: TextStyle(fontWeight: FontWeight.normal),
-                    ),
-                    TextSpan(
-                      text: "Log in",
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          log('login');
-                          context.goNamed(Routes.login.name);
-                        },
-                    ),
-                  ],
+          extendBodyBehindAppBar: true,
+          body: AuthPageContainer(
+            child: Column(
+              children: [
+                RegistrationForm(
+                  onSumbit: (
+                    String firstName,
+                    String? middleName,
+                    String lastName,
+                    String email,
+                    String password,
+                    String mobileNumber,
+                  ) {
+                    context.pushNamed(
+                      Routes.registerContinuation.name,
+                      extra: RegisterParameter(
+                        firstName: firstName,
+                        middleName: middleName,
+                        lastName: lastName,
+                        email: email,
+                        password: password,
+                        mobileNumber: mobileNumber,
+                      ),
+                    );
+                  },
                 ),
-              ),
-            ],
+                const SizedBox(
+                  height: kVerticalPadding,
+                ),
+                Text.rich(
+                  TextSpan(
+                    style: Theme.of(context).textTheme.titleSmall,
+                    children: [
+                      const TextSpan(
+                        text: "Already have an account? ",
+                        style: TextStyle(fontWeight: FontWeight.normal),
+                      ),
+                      TextSpan(
+                        text: "Log in",
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            log('login');
+                            context.goNamed(Routes.login.name);
+                          },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

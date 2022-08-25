@@ -13,7 +13,7 @@ abstract class Routes {
   );
   static const register = _Route(path: '/register', name: 'register');
   static const registerContinuation =
-      _Route(path: '/continuation', name: 'register-continuation');
+      _Route(path: '/register/continuation', name: 'register-continuation');
   static const otpVerification = _Route(
     path: '/otp-verification',
     name: 'otp-verification',
@@ -33,9 +33,17 @@ abstract class Routes {
     path: '/update-profile',
     name: 'update-profile',
   );
+  static const updateEmail = _Route(
+    path: '/update-email',
+    name: 'update-email',
+  );
   static const verifyUpdateOtp = _Route(
-    path: '/update-profile/verification',
-    name: 'update-profile-verification',
+    path: '/verification',
+    name: 'update-email-verification',
+  );
+  static const updatePassword = _Route(
+    path: '/update-password',
+    name: 'update-password',
   );
   static const qr = _Route(path: '/my-qr', name: 'qr');
   static const bookingHistory =
@@ -44,6 +52,8 @@ abstract class Routes {
       _Route(path: '/payment-history', name: 'payment-history');
 
   static const booking = _Route(path: '/booking', name: 'booking');
+  static const checkout =
+      _Route(path: '/booking/checkout-page', name: 'checkout');
 
   static const rules = _Route(path: '/rules', name: 'rules');
   static const contacts = _Route(path: '/contacts', name: 'contacts');

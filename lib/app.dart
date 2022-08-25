@@ -1,10 +1,13 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/no_network_snackbar.dart';
+import 'package:timberland_biketrail/core/utils/internet_connection.dart';
 
 import 'core/router/app_router.dart';
 import 'core/themes/timberland_theme.dart';
@@ -25,6 +28,7 @@ Future<void> run({
   await dotenv.load(fileName: dotEnvFileName);
 
   await Session().init();
+  await InternetConnectivity().init();
 
   runApp(MultiBlocProvider(
     providers: [
@@ -56,11 +60,33 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  late final GlobalKey<ScaffoldMessengerState> _messengerKey;
   @override
   void initState() {
     super.initState();
     final Session session = Session();
     FlutterNativeSplash.remove();
+
+    final InternetConnectivity internetConnectivity = InternetConnectivity();
+    _messengerKey = internetConnectivity.scaffoldMessengerKey;
+
+    if (!internetConnectivity.internetConnected) {
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        _messengerKey.currentState?.showSnackBar(noNetworkSnackBar);
+      });
+    }
+    internetConnectivity.addListener(() async {
+      log(internetConnectivity.internetConnected.toString());
+      if (!internetConnectivity.internetConnected) {
+        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+          _messengerKey.currentState?.showSnackBar(noNetworkSnackBar);
+        });
+      } else {
+        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+          _messengerKey.currentState?.clearSnackBars();
+        });
+      }
+    });
 
     BlocProvider.of<AuthBloc>(context).stream.listen((state) {
       if (state is AuthError) {
@@ -76,6 +102,12 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
+  void dispose() {
+    InternetConnectivity().removeListener(() {});
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Listener(
       onPointerDown: (_) {
@@ -86,6 +118,7 @@ class _MyAppState extends State<MyApp> {
         }
       },
       child: MaterialApp.router(
+        scaffoldMessengerKey: _messengerKey,
         title: 'Timberland Mountain BikeTrail',
         debugShowCheckedModeBanner: false,
         theme: TimberlandTheme.lightTheme,

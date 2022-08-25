@@ -76,8 +76,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (displayFingerPrintDialog) {
-      if (Session().lockAuthUntil == null) {
+    if (Session().lockAuthUntil == null) {
+      if (displayFingerPrintDialog) {
         authtenticateWithFingerPrint(
           onLockedOut: () {
             BlocProvider.of<AuthBloc>(context).add(
@@ -88,11 +88,11 @@ class _LoginPageState extends State<LoginPage> {
             //TODO: implement permanent lockout
           },
         );
-      } else {
-        BlocProvider.of<AuthBloc>(context).add(
-          const LockAuthEvent(),
-        );
       }
+    } else {
+      BlocProvider.of<AuthBloc>(context).add(
+        const LockAuthEvent(),
+      );
     }
 
     return SafeArea(

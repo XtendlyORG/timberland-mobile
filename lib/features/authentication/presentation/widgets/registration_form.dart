@@ -53,7 +53,7 @@ class RegistrationForm extends StatelessWidget {
               validator: (lastName) {
                 return nonEmptyValidator(
                   lastName,
-                  errorMessage: 'First Name can not be empty',
+                  errorMessage: 'Please enter your first name',
                 );
               },
               decoration: const InputDecoration(
@@ -85,7 +85,7 @@ class RegistrationForm extends StatelessWidget {
               validator: (lastName) {
                 return nonEmptyValidator(
                   lastName,
-                  errorMessage: 'Last Name can not be empty',
+                  errorMessage: 'Please enter your last name',
                 );
               },
               decoration: const InputDecoration(

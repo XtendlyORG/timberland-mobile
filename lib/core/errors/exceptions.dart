@@ -1,8 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class AuthException implements Exception {
   final String? message;
+  final int? penaltyDuration;
   AuthException({
     this.message,
+    this.penaltyDuration,
   });
 }
 
@@ -28,7 +30,16 @@ class TrailException implements Exception {
 
 class ProfileException implements Exception {
   final String? message;
+  final int? penaltyDuration;
   const ProfileException({
+    this.message,
+    this.penaltyDuration,
+  });
+}
+
+class BookingException implements Exception {
+  final String? message;
+  const BookingException({
     this.message,
   });
 }

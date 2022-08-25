@@ -41,6 +41,7 @@ class _PasswordFieldState extends State<PasswordField> {
           },
       keyboardType: TextInputType.visiblePassword,
       textInputAction: widget.textInputAction,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
         hintText: widget.hintText,
         suffixIcon: ExcludeFocus(

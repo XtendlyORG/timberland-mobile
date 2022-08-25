@@ -31,23 +31,66 @@ class LoginEvent extends AuthEvent {
   List<Object> get props => super.props..add(loginParameter);
 }
 
-class SendOtpEvent<ParameterType> extends AuthEvent {
-  final ParameterType parameter;
-  const SendOtpEvent({
+class RequestRegisterEvent extends AuthEvent {
+  final RegisterParameter parameter;
+  const RequestRegisterEvent({
     required this.parameter,
   });
+
+  @override
+  List<Object> get props => super.props..add(parameter);
+}
+
+class ResendOTPEvent<ParameterType> extends AuthEvent {
+  final ParameterType parameter;
+  const ResendOTPEvent({
+    required this.parameter,
+  });
+  String get email {
+    if (parameter is RegisterParameter) {
+      return (parameter as RegisterParameter).email;
+    } else if (parameter is VerifyOTPParameter) {
+      return (parameter as VerifyOTPParameter).email;
+    } else if (parameter is LoginParameter) {
+      return (parameter as LoginParameter).email;
+    } else if (parameter is String) {
+      return parameter as String;
+    }
+    throw Exception(
+        'Invalid parameter type in SendOTPEvent: ${parameter.runtimeType}');
+  }
 
   @override
   List<Object> get props => super.props..add(parameter as Object);
 }
 
-class RegisterEvent extends AuthEvent {
-  final RegisterParameter registerParameter;
-  const RegisterEvent({
-    required this.registerParameter,
+abstract class VerifyOtpEvent<ParameterType> extends AuthEvent {
+  final ParameterType parameter;
+  final String otp;
+  const VerifyOtpEvent({
+    required this.parameter,
+    required this.otp,
   });
+}
+
+class VerifyRegisterEvent extends VerifyOtpEvent<RegisterParameter> {
+  const VerifyRegisterEvent({
+    required super.parameter,
+    required super.otp,
+  });
+
   @override
-  List<Object> get props => super.props..add(registerParameter);
+  List<Object> get props => super.props..addAll([parameter, otp]);
+}
+
+class VerifyForgotPasswordEvent extends VerifyOtpEvent<String> {
+  const VerifyForgotPasswordEvent({
+    required super.parameter,
+    required super.otp,
+  });
+
+  @override
+  List<Object> get props => super.props..addAll([parameter, otp]);
 }
 
 class GoogleAuthEvent extends AuthEvent {
@@ -72,17 +115,20 @@ class LogoutEvent extends AuthEvent {
   const LogoutEvent();
 }
 
-class ForgotPasswordEvent extends AuthEvent {
-  final ForgotPasswordParameter forgotPasswordParameter;
-  const ForgotPasswordEvent({
-    required this.forgotPasswordParameter,
+class LockAuthEvent extends AuthEvent {
+  final int duration;
+  const LockAuthEvent({
+    this.duration = 60,
   });
-  @override
-  List<Object> get props => super.props..add(forgotPasswordParameter);
 }
 
-class LockAuthEvent extends AuthEvent {
-  const LockAuthEvent();
+class ForgotPasswordEvent extends AuthEvent {
+  final String email;
+  const ForgotPasswordEvent({
+    required this.email,
+  });
+  @override
+  List<Object> get props => super.props..add(email);
 }
 
 class ResetPasswordEvent extends AuthEvent {

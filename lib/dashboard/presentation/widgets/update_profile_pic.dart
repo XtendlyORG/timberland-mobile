@@ -16,7 +16,7 @@ class UpdateProfilePic extends StatefulWidget {
   }) : super(key: key);
   final User user;
   final File? profilePic;
-  final void Function(File? imageFile) onChange;
+  final void Function(File imageFile, String imagePath) onChange;
 
   @override
   State<UpdateProfilePic> createState() => _UpdateProfilePicState();
@@ -43,20 +43,10 @@ class _UpdateProfilePicState extends State<UpdateProfilePic> {
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           ),
           builder: (context) {
-            void chooseFrom({required ImageSource source}) async {
-              XFile? image = await ImagePicker().pickImage(
-                source: source,
-              );
-              if (image != null) {
-                setState(() {
-                  fileImage = File(image.path);
-                  widget.onChange(fileImage);
-                });
-              }
-            }
-
             return ImagePickerOptionBottomSheet(
-              callback: chooseFrom,
+              callback: ({required ImageSource source}) {
+                chooseFrom(source: source);
+              },
             );
           },
         );
@@ -106,5 +96,17 @@ class _UpdateProfilePicState extends State<UpdateProfilePic> {
         ),
       ),
     );
+  }
+
+  void chooseFrom({required ImageSource source}) async {
+    XFile? image = await ImagePicker().pickImage(
+      source: source,
+    );
+    if (image != null) {
+      setState(() {
+        fileImage = File(image.path);
+        widget.onChange(fileImage!, image.path);
+      });
+    }
   }
 }

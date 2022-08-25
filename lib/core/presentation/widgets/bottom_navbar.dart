@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
@@ -39,12 +41,14 @@ class _BottomNavBarState extends State<BottomNavBar> {
         if (widget.configs[index].routeName != Routes.emergency.name) {
           widget.onTap(index);
         } else {
-          showDialog(
-            context: context,
-            builder: (ctx) {
-              return const EmergencyDialog();
-            },
-          );
+          if (widget.index != index) {
+            showDialog(
+              context: context,
+              builder: (ctx) {
+                return const EmergencyDialog();
+              },  
+            );
+          }
         }
       },
     );

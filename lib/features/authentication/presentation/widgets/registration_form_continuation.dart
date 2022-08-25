@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,13 +17,14 @@ import 'package:timberland_biketrail/core/presentation/widgets/image_picker_opti
 import 'package:timberland_biketrail/core/presentation/widgets/inherited_widgets/inherited_register_parameter.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
-import 'package:timberland_biketrail/dashboard/presentation/bloc/profile_bloc.dart';
 import 'package:timberland_biketrail/dashboard/domain/params/update_user_detail.dart';
+import 'package:timberland_biketrail/dashboard/presentation/bloc/profile_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/widgets/terms_of_use.dart';
 
 class RegistrationContinuationForm extends StatelessWidget {
-  final UpdateUserDetailsParams? user; // user will not be null when update profile
+  final UpdateUserDetailsParams?
+      user; // user will not be null when update profile
   const RegistrationContinuationForm({
     Key? key,
     this.user,
@@ -74,6 +76,7 @@ class RegistrationContinuationForm extends StatelessWidget {
       bloodTypeCtrl.text = user!.bloodType ?? '';
       addressCtrl.text = user!.address ?? '';
       professionCtrl.text = user!.profession ?? '';
+      emergencyContactsCtrl.text = user!.emergencyContactInfo ?? '';
       bikeModelCtrl.text = user!.bikeModel ?? '';
       bikeYearCtrl.text = user!.bikeYear ?? '';
       bikeColorCtrl.text = user!.bikeColor ?? '';
@@ -202,7 +205,6 @@ class RegistrationContinuationForm extends StatelessWidget {
               ),
               child: MobileNumberField(
                 controller: emergencyContactsCtrl,
-                validator: (_) => null, //disable validator
                 hintText: 'Emergency Contact Number',
                 textInputAction: TextInputAction.next,
               ),
@@ -262,7 +264,7 @@ class RegistrationContinuationForm extends StatelessWidget {
               child: TextFormField(
                 controller: bikeModelCtrl,
                 decoration: const InputDecoration(
-                  hintText: 'Bike(model)',
+                  hintText: 'Bike (model)',
                 ),
                 textInputAction: TextInputAction.next,
                 textCapitalization: TextCapitalization.words,
@@ -277,11 +279,25 @@ class RegistrationContinuationForm extends StatelessWidget {
                       margin: const EdgeInsets.only(bottom: kVerticalPadding),
                       child: TextFormField(
                         controller: bikeYearCtrl,
+                        validator: (year) {
+                          if (year!.isEmpty) {
+                            return null;
+                          } else if (year.length != 4) {
+                            return 'Invalid year';
+                          }
+                          return null;
+                        },
                         decoration: const InputDecoration(
-                          hintText: 'Bike(year)',
+                          hintText: 'Bike (year)',
+                          counterText: ''
                         ),
+                        maxLength: 4,
                         textInputAction: TextInputAction.next,
                         textCapitalization: TextCapitalization.words,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
                       ),
                     ),
                   ),
@@ -295,7 +311,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                       child: TextFormField(
                         controller: bikeColorCtrl,
                         decoration: const InputDecoration(
-                          hintText: 'Bike(color)',
+                          hintText: 'Bike (color)',
                         ),
                         textInputAction: TextInputAction.done,
                         textCapitalization: TextCapitalization.words,
@@ -339,7 +355,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                     );
                     if (user == null) {
                       BlocProvider.of<AuthBloc>(context).add(
-                        SendOtpEvent(parameter: registerParams),
+                        RequestRegisterEvent(parameter: registerParams),
                       );
                     } else {
                       BlocProvider.of<ProfileBloc>(context).add(

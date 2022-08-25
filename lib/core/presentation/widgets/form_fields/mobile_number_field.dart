@@ -7,12 +7,13 @@ import '../../../constants/constants.dart';
 class MobileNumberField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final String? hintText;
-  final String? Function(String? val)? validator;
+
+  final bool allowEmpty;
   const MobileNumberField({
     Key? key,
     this.textInputAction,
     this.hintText,
-    this.validator,
+    this.allowEmpty = false,
     required this.controller,
   }) : super(key: key);
 
@@ -47,19 +48,20 @@ class MobileNumberField extends StatelessWidget {
               hintText: hintText ?? '9** *** ****',
               counterText: '', // hide the counter text at the bottom
             ),
-            validator: validator ??
-                (number) {
-                  if (number == null || number.isEmpty) {
-                    return 'Mobile Number can not be empty';
-                  }
-                  if (number.length < 10) {
-                    return 'Must be a 10 digit number';
-                  }
-                  if (!number.startsWith('9')) {
-                    return "Should start with '9'";
-                  }
-                  return null;
-                },
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: (number) {
+              if (number == null || number.isEmpty) {
+                return allowEmpty ? null : 'Please enter your mobile number';
+              }
+              if (!number.startsWith('9')) {
+                return "Should start with '9'";
+              }
+              if (number.length < 10) {
+                return 'Must be a 10 digit number';
+              }
+
+              return null;
+            },
             maxLength: 10,
             keyboardType: TextInputType.number,
             textInputAction: textInputAction,

@@ -7,6 +7,7 @@ import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/loading_snackbar_content.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
+import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
 import 'package:timberland_biketrail/features/app_infos/domain/entities/inquiry.dart';
 import 'package:timberland_biketrail/features/app_infos/presentation/bloc/app_info_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
@@ -31,7 +32,7 @@ class ContactsPage extends StatelessWidget {
               ),
             );
         }
-        
+
         if (state is InquiryError) {
           ScaffoldMessenger.of(context)
             ..clearSnackBars()
@@ -112,10 +113,10 @@ class ContactsPageForm extends StatelessWidget {
           TextFormField(
             controller: subjectCtrl,
             validator: (subject) {
-              if (subject == null || subject.isEmpty) {
-                return 'Subject can not be empty';
-              }
-              return null;
+              return nonEmptyValidator(
+                subject,
+                errorMessage: 'Please enter a subject',
+              );
             },
             decoration: const InputDecoration(
               hintText: 'Subject',
@@ -130,10 +131,10 @@ class ContactsPageForm extends StatelessWidget {
             controller: messageCtrl,
             maxLines: 5,
             validator: (message) {
-              if (message == null || message.isEmpty) {
-                return 'Message can not be empty';
-              }
-              return null;
+              return nonEmptyValidator(
+                message,
+                errorMessage: 'Please enter a subject',
+              );
             },
             decoration: const InputDecoration(
               hintText: 'Message',

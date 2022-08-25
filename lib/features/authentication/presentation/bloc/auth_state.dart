@@ -73,12 +73,20 @@ class UserGuideFinished extends Authenticated {
 class AuthError<ParameterType> extends AuthState {
   final String errorMessage;
   final ParameterType? parameter;
+  final int? penaltyDuration;
   const AuthError({
     required this.errorMessage,
     this.parameter,
+    this.penaltyDuration,
   });
   @override
-  List<Object> get props => super.props..add(errorMessage);
+  List<Object> get props => super.props
+    ..addAll([
+      errorMessage,
+      if (parameter != null) parameter!,
+      if (penaltyDuration != null) penaltyDuration!,
+      DateTime.now(),
+    ]);
 }
 
 class AuthLocked extends AuthState {
@@ -98,6 +106,10 @@ class AuthLoading extends AuthState {
 
   @override
   List<Object> get props => super.props..add(loadingMessage);
+}
+
+class EmailVerified extends AuthState {
+  const EmailVerified();
 }
 
 class SettingNewPassword extends AuthState {

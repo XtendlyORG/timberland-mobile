@@ -1,14 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
-import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/widgets/otp_resend_button.dart';
 
 class OtpVerificationForm extends StatefulWidget {
@@ -68,10 +63,8 @@ class _OtpVerificationFormState extends State<OtpVerificationForm> {
           padding: const EdgeInsets.only(bottom: kVerticalPadding),
           child: Form(
             onChanged: () {
-              otpCtrl.text = digit1.text +
-                  digit2.text +
-                  digit3.text +
-                  digit4.text;
+              otpCtrl.text =
+                  digit1.text + digit2.text + digit3.text + digit4.text;
               if (otpCtrl.text.length != 4 && validOtp) {
                 setState(() {
                   validOtp = false;
@@ -94,6 +87,7 @@ class _OtpVerificationFormState extends State<OtpVerificationForm> {
                         FocusManager.instance.primaryFocus?.nextFocus();
                       }
                     },
+                    onEditingComplete: (){},
                     decoration: const InputDecoration(counterText: ''),
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.number,
@@ -116,6 +110,7 @@ class _OtpVerificationFormState extends State<OtpVerificationForm> {
                         FocusManager.instance.primaryFocus?.previousFocus();
                       }
                     },
+                    onEditingComplete: (){},
                     decoration: const InputDecoration(counterText: ''),
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.number,
@@ -138,6 +133,7 @@ class _OtpVerificationFormState extends State<OtpVerificationForm> {
                         FocusManager.instance.primaryFocus?.previousFocus();
                       }
                     },
+                    onEditingComplete: (){},
                     decoration: const InputDecoration(counterText: ''),
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.number,
@@ -153,12 +149,15 @@ class _OtpVerificationFormState extends State<OtpVerificationForm> {
                     controller: digit4,
                     maxLength: 1,
                     onChanged: (val) {
-                      if (val.length == 1) {
-                        FocusManager.instance.primaryFocus?.nextFocus();
-                      } else {
+                      if (val.isEmpty) {
                         FocusManager.instance.primaryFocus?.previousFocus();
                       }
                     },
+                    onFieldSubmitted: (_) {
+                      validOtp ? widget.onSubmit(otpCtrl.text) : null;
+                    },
+                    onEditingComplete: (){},
+                    onSaved: (_){},
                     decoration: const InputDecoration(counterText: ''),
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.number,

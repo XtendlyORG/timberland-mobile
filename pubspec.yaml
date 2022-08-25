@@ -56,6 +56,9 @@ dependencies:
   cached_network_image: ^3.2.1
   path_provider: ^2.0.11
   permission_handler: ^10.0.0
+  email_validator: ^2.1.17
+  connectivity_plus: ^2.3.6+1
+  webview_flutter: ^3.0.4
 
 dev_dependencies:
   flutter_test:
@@ -89,21 +92,9 @@ flutter_native_splash:
     # App icon without an icon background: This should be 1152×1152 pixels, and fit within a circle
     # 768 pixels in diameter.
     image: assets/splash/splash-android-12.png
-
-    # Splash screen background color.
-    # color: "#101010"
-
-    # App icon background color.
     icon_background_color: "#101010"
-
-  
-
-    # The image_dark parameter and icon_background_color_dark set the image and icon background
-    # color when the device is in dark mode. If they are not specified, the app will use the
-    # parameters from above.
-    #image_dark: assets/android12splash-invert.png
-    #color_dark: "#042a49"
-    #icon_background_color_dark: "#eeeeee"
+    image_dark: assets/splash/splash-android-12.png
+    icon_background_color_dark: "#101010"
 
   
   ios: false

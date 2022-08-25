@@ -18,6 +18,14 @@ class TimberlandTheme {
             textStyle: const TextStyle(fontSize: 18),
           ),
         ),
+        bannerTheme: const MaterialBannerThemeData(
+          backgroundColor: Colors.transparent,
+          elevation: 0.01,
+          contentTextStyle: TextStyle(
+            color: TimberlandColor.background,
+          ),
+
+        ),
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
             borderSide: const BorderSide(color: TimberlandColor.primary),
@@ -27,6 +35,7 @@ class TimberlandTheme {
           isCollapsed: true,
           fillColor: TimberlandColor.background,
           filled: true,
+          errorMaxLines: 2,
           enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: TimberlandColor.primary),
             borderRadius: BorderRadius.circular(6),

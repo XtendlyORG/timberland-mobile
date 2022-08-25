@@ -1,11 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore: depend_on_referenced_packages
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
+import 'package:timberland_biketrail/dashboard/domain/params/update_user_detail.dart';
 import 'package:timberland_biketrail/dashboard/domain/repository/profile_repository.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
-import 'package:timberland_biketrail/dashboard/domain/params/update_user_detail.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';
@@ -67,8 +69,86 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         },
       );
     });
+    on<UpdateEmailRequest>((event, emit) async {
+      final result = await repository.updateEmailRequest(
+        event.email,
+        event.password,
+      );
+      result.fold(
+        (l) {
+          emit(ProfileUpdateError(errorMessage: l.message));
+        },
+        (r) {
+          emit(OTPToUpdateSent(email: event.email, password: event.password));
+        },
+      );
+    });
+    on<ResendEmailOTP>((event, emit) async {
+      final result = await repository.resendEmailOtp(event.email);
+      result.fold(
+        (l) {
+          emit(
+            ProfileOtpError(
+              email: event.email,
+              errorMessage: l.message,
+            ),
+          );
+        },
+        (r) {
+          emit(
+            OTPToUpdateSent(
+              email: event.email,
+              password: '',
+            ),
+          );
+        },
+      );
+    });
 
-    on<SubmitUpdateOtp>((event, emit) async {});
+    on<VerifyEmailUpdate>((event, emit) async {
+      final result = await repository.verifyEmailUpdate(
+        event.email,
+        event.otp,
+      );
+
+      result.fold(
+        (l) {
+          log(l.penaltyDuration.toString());
+          emit(
+            ProfileOtpError(
+              email: event.email,
+              errorMessage: l.message,
+              otpPenaltyDuration: l.penaltyDuration,
+            ),
+          );
+        },
+        (r) {
+          emit(
+            ProfileUpdated(
+              user: Session().currentUser!.copyWith(email: event.email),
+            ),
+          );
+        },
+      );
+    });
+
+    on<UpdatePasswordRequest>((event, emit) async {
+      final result = await repository.updatePasswordRequest(
+        event.oldPassword,
+        event.newPassword,
+      );
+
+      result.fold(
+        (l) {
+          emit(ProfileUpdateError(errorMessage: l.message));
+        },
+        (r) {
+          emit(
+            ProfileUpdated(user: Session().currentUser!),
+          );
+        },
+      );
+    });
 
     on<CancelUpdateRequest>((event, emit) {
       emit(ProfileInitial());

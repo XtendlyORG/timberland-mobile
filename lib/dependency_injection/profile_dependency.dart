@@ -1,9 +1,9 @@
 import 'package:get_it/get_it.dart';
-import 'package:timberland_biketrail/dashboard/data/datasources/profile_datasource.dart';
-import 'package:timberland_biketrail/dashboard/data/datasources/timberland_profile_datasource.dart';
-import 'package:timberland_biketrail/dashboard/data/repositories/profile_repository_impl.dart';
-import 'package:timberland_biketrail/dashboard/domain/repository/profile_repository.dart';
 
+import '../dashboard/data/datasources/profile_datasource.dart';
+import '../dashboard/data/datasources/timberland_profile_datasource.dart';
+import '../dashboard/data/repositories/profile_repository_impl.dart';
+import '../dashboard/domain/repository/profile_repository.dart';
 import '../dashboard/presentation/bloc/profile_bloc.dart';
 
 final serviceLocator = GetIt.instance;

@@ -2,23 +2,18 @@ String? validatePassword(String? password, {bool acceptEmpty = false}) {
   final numberRegex = RegExp(
     r"^(?=.*\d)",
   );
-  final letterRegex = RegExp(
-    r"^(?=.*[A-Za-z])",
-  );
   final uppercaseRegex = RegExp(
     r'(?=.*[A-Z])',
   );
   if (password == null || password.isEmpty) {
     if (acceptEmpty) return null;
-    return 'Password cannot be empty';
-  } else if (password.length < 6) {
-    return 'Password must be atleast 6 characters.';
-  } else if (!letterRegex.hasMatch(password)) {
-    return 'Password should contain at least one letter';
-  } else if (!numberRegex.hasMatch(password)) {
-    return 'Password should contain at least one number';
+    return 'Please enter your password';
   } else if (!uppercaseRegex.hasMatch(password)) {
     return 'Password should contain at least one uppercase letter';
+  } else if (!numberRegex.hasMatch(password)) {
+    return 'Password should contain at least one number';
+  } else if (password.length < 6) {
+    return 'Password must be atleast 6 characters.';
   }
   return null;
 }

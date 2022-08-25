@@ -11,7 +11,7 @@ import 'package:timberland_biketrail/features/app_infos/domain/entities/faq.dart
 import 'package:timberland_biketrail/features/app_infos/domain/entities/inquiry.dart';
 import 'package:timberland_biketrail/features/app_infos/domain/entities/trail_rule.dart';
 
-class TimberlandRemoteDatasource implements RemoteDatasource {
+class TimberlandRemoteDatasource implements AppInfoDataSource {
   final EnvironmentConfig environmentConfig;
   final Dio dioClient;
   TimberlandRemoteDatasource({

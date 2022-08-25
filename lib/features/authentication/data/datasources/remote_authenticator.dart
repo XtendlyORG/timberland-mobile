@@ -5,10 +5,8 @@ import 'package:dio/dio.dart';
 
 import '../../../../core/configs/environment_configs.dart';
 import '../../../../core/errors/exceptions.dart';
-import '../../../../core/utils/session.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/params/params.dart';
-import '../../../../dashboard/domain/params/update_user_detail.dart';
 import '../models/user_model.dart';
 import 'authenticator.dart';
 
@@ -58,6 +56,20 @@ class RemoteAuthenticator implements Authenticator {
             message: 'Email is not verified',
           );
         }
+        if (dioError.response?.data is Map<String, dynamic>) {
+          if (dioError.response?.data['message'] ==
+              'Invalid credentials. Please try again.') {
+            throw AuthException(
+              message: 'Email or password is incorrect. Please try again.',
+              penaltyDuration: dioError.response?.data?['penalty'],
+            );
+          }
+          throw AuthException(
+            message: dioError.response?.data?['message'].toString() ??
+                'Login Failed',
+            penaltyDuration: dioError.response?.data?['penalty'],
+          );
+        }
         throw AuthException(
           message: dioError.response?.data?.toString() ?? 'Login Failed',
         );
@@ -83,7 +95,7 @@ class RemoteAuthenticator implements Authenticator {
   }
 
   @override
-  Future<void> sendOtp(RegisterParameter registerParameter) async {
+  Future<void> requestRegister(RegisterParameter registerParameter) async {
     try {
       MultipartFile? profilePic;
       if (registerParameter.profilePic != null) {
@@ -92,7 +104,9 @@ class RemoteAuthenticator implements Authenticator {
         );
       }
 
-      final response = await dioClient.post(
+      final Response response;
+
+      response = await dioClient.post(
         '${environmentConfig.apihost}/users/register',
         data: FormData.fromMap(
           registerParameter.toMap()
@@ -101,6 +115,7 @@ class RemoteAuthenticator implements Authenticator {
             ),
         ),
       );
+
       log(response.statusCode.toString());
       if (response.statusCode == 200) {
         return;
@@ -112,6 +127,18 @@ class RemoteAuthenticator implements Authenticator {
       log(dioError.response?.statusCode?.toString() ?? "statuscode: null");
       log(dioError.response?.data.toString() ?? 'no data');
       if ((dioError.response?.statusCode ?? -1) == 400) {
+        if ((dioError.response?.data?.toString() ?? '') ==
+            "Email found but not verified, OTP needed") {
+          throw AuthException(
+            message:
+                "Your email is already in our system. Please proceed to login	",
+          );
+        } else if ((dioError.response?.data?.toString() ?? '') ==
+            "Your email is already in our system. Please proceed to login.") {
+          throw AuthException(
+            message: "Email has already been taken.",
+          );
+        }
         throw AuthException(
           message: dioError.response?.data?.toString() ?? 'Failed to send OTP',
         );
@@ -131,12 +158,12 @@ class RemoteAuthenticator implements Authenticator {
   }
 
   @override
-  Future<User> register(RegisterParameter registerParameter) async {
+  Future<User> verifyOtp(String email, String otp) async {
     try {
       final body = json.encode(
         {
-          'otp': registerParameter.otp,
-          'email': registerParameter.email,
+          'otp': otp,
+          'email': email,
         },
       );
       final response = await dioClient.post(
@@ -157,10 +184,69 @@ class RemoteAuthenticator implements Authenticator {
       rethrow;
     } on DioError catch (dioError) {
       log(dioError.response?.statusCode?.toString() ?? 'statuscode: -1');
-      log(dioError.response?.data ?? "no message");
+      log(dioError.response?.data.toString() ?? "no message");
+
+      if ((dioError.response?.statusCode ?? -1) == 400) {
+        if (dioError.response?.data is Map<String, dynamic>) {
+          if (dioError.response?.data['message'] == 'Wrong OTP') {
+            throw AuthException(
+              message:
+                  'Invalid OTP. Please enter the one time pin sent to your email',
+              penaltyDuration: dioError.response?.data?['penalty'],
+            );
+          }
+          throw AuthException(
+            message:
+                dioError.response?.data['message'] ?? 'Something went wrong..',
+            penaltyDuration: dioError.response?.data?['penalty'],
+          );
+        } else {
+          throw AuthException(
+            message:
+                dioError.response?.data?.toString() ?? 'Failed to send OTP',
+          );
+        }
+      } else if ((dioError.response?.statusCode ?? -1) == 502) {
+        log(dioError.response?.data?.toString() ?? "No error message: 502");
+        throw AuthException(
+          message: 'Internal Server Error',
+        );
+      }
+      throw AuthException(
+        message: "Error Occurred",
+      );
+    } catch (e) {
+      log(e.toString());
+      throw AuthException(message: "An Error Occurred");
+    }
+  }
+
+  @override
+  Future<void> resendOtp(String email) async {
+    try {
+      final Response response;
+
+      response = await dioClient.put(
+        '${environmentConfig.apihost}/users/otp',
+        data: {
+          'email': email,
+        },
+      );
+
+      log(response.statusCode.toString());
+      if (response.statusCode == 200) {
+        return;
+      }
+      throw AuthException();
+    } on AuthException {
+      rethrow;
+    } on DioError catch (dioError) {
+      log(dioError.response?.statusCode?.toString() ?? "statuscode: null");
+      log(dioError.response?.data.toString() ?? 'no data');
       if ((dioError.response?.statusCode ?? -1) == 400) {
         throw AuthException(
-          message: dioError.response?.data?.toString() ?? 'Failed to send OTP',
+          message:
+              dioError.response?.data?.toString() ?? 'Failed to resend OTP',
         );
       } else if ((dioError.response?.statusCode ?? -1) == 502) {
         log(dioError.response?.data?.toString() ?? "No error message: 502");
@@ -185,62 +271,17 @@ class RemoteAuthenticator implements Authenticator {
           'email': email,
         },
       );
-      final response = await dioClient.post(
+      final Response response;
+
+      response = await dioClient.post(
         '${environmentConfig.apihost}/users/forgot',
         data: body,
       );
+
       log(response.statusCode.toString());
       log(response.data.toString());
       if (response.statusCode == 200) {
         return;
-      }
-      log(response.data.toString());
-      throw AuthException(message: "Server Error");
-    } on AuthException {
-      rethrow;
-    } on DioError catch (dioError) {
-      log(dioError.response?.statusCode?.toString() ?? 'statuscode: -1');
-      log(dioError.response?.data ?? "no message");
-      if ((dioError.response?.statusCode ?? -1) == 400) {
-        throw AuthException(
-          message: dioError.response?.data?.toString() ?? 'Failed to send OTP',
-        );
-      } else if ((dioError.response?.statusCode ?? -1) == 502) {
-        log(dioError.response?.data?.toString() ?? "No error message: 502");
-        throw AuthException(
-          message: 'Internal Server Error',
-        );
-      }
-      throw AuthException(
-        message: "Error Occurred",
-      );
-    } catch (e) {
-      log(e.toString());
-      throw AuthException(message: "An Error Occurred");
-    }
-  }
-
-  @override
-  Future<void> forgotPasswordEmailVerification(String email, String otp) async {
-    try {
-      final body = json.encode(
-        {
-          'email': email,
-          'otp': otp,
-        },
-      );
-      final response = await dioClient.post(
-        '${environmentConfig.apihost}/users/forgot/verify',
-        data: body,
-      );
-      log(response.statusCode.toString());
-      log(response.data.toString());
-      if (response.statusCode == 200) {
-        if (response.data is bool && response.data) {
-          return;
-        }
-
-        throw AuthException(message: 'Password Update Failed.');
       }
       log(response.data.toString());
       throw AuthException(message: "Server Error");

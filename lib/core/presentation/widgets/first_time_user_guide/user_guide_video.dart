@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:timberland_biketrail/core/constants/constants.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../../features/authentication/presentation/bloc/auth_bloc.dart';
+import '../../../constants/constants.dart';
+import '../filled_text_button.dart';
 import 'custom_video_player.dart';
 import 'first_booking_dialog.dart';
 import 'fullscreen_video_player.dart';

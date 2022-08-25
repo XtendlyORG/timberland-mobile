@@ -9,6 +9,7 @@ import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/dashboard/presentation/pages/profile_page.dart';
 import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard.dart';
+import 'package:timberland_biketrail/dashboard/presentation/widgets/profile_settings.dart';
 import 'package:timberland_biketrail/features/app_infos/presentation/pages/trail_rules.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:timberland_biketrail/features/booking/presentation/pages/booking_page.dart';
@@ -84,19 +85,8 @@ class _MainPageState extends State<MainPage> {
                 appBar: TimberlandAppbar(
                   actions: currentIndex == 3
                       ? [
-                          CircularIconButton(
-                            onTap: () {
-                              context.pushNamed(
-                                Routes.updateProfile.name,
-                                extra: state.user,
-                              );
-                            },
-                            icon: Icon(
-                              Icons.settings,
-                              color: Theme.of(context).backgroundColor,
-                              size: 18,
-                            ),
-                            size: 24,
+                          ProfileSettingsButton(
+                            user: state.user,
                           ),
                         ]
                       : null,
