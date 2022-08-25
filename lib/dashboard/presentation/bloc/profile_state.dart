@@ -38,7 +38,7 @@ class ProfileUpdateError extends ProfileState {
     required this.errorMessage,
   });
   @override
-  List<Object> get props => super.props..add(errorMessage);
+  List<Object> get props => super.props..addAll([errorMessage, DateTime.now()]);
 }
 
 class ProfileUpdated extends ProfileState {
