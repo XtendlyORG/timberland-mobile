@@ -42,6 +42,11 @@ class BookingRemoteDataSource implements BookingDatasource {
       log(dioError.response?.data.toString() ?? "no message");
 
       if ((dioError.response?.statusCode ?? -1) == 400) {
+        if (dioError.response?.data.toString() == 'Email is Invalid') {
+          throw const BookingException(
+            message: 'Email is not verified',
+          );
+        }
         throw BookingException(
           message:
               dioError.response?.data.toString() ?? 'Something went wrong..',

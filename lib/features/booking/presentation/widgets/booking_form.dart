@@ -70,9 +70,7 @@ class _BookingFormState extends State<BookingForm> {
         if (state is BookingError) {
           showSnackBar(
             SnackBar(
-              content: SnackBar(
-                content: AutoSizeText(state.errorMessage),
-              ),
+              content: AutoSizeText(state.errorMessage),
             ),
           );
         }
