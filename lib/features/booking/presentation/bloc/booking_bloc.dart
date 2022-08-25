@@ -14,10 +14,6 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
   BookingBloc({
     required this.repository,
   }) : super(BookingInitial()) {
-    on<FetchAvailabilityEvent>((event, emit) async {
-      emit(const BookingAvailabilityLoaded());
-    });
-
     on<SubmitBookingRequest>((event, emit) async {
       final result = await repository.submitBookingRequest(event.params);
       result.fold(

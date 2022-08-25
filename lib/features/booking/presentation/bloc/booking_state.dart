@@ -10,12 +10,6 @@ abstract class BookingState extends Equatable {
 
 class BookingInitial extends BookingState {}
 
-class LoadingBookingAvailability extends BookingState {}
-
-class BookingAvailabilityLoaded extends BookingState {
-  const BookingAvailabilityLoaded();
-}
-
 class BookingSubmitted extends BookingState {
   final String checkoutHtml;
 
@@ -29,4 +23,3 @@ class BookingSubmitted extends BookingState {
       checkoutHtml,
     ]);
 }
-

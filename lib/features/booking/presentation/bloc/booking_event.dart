@@ -8,10 +8,6 @@ abstract class BookingEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class FetchAvailabilityEvent extends BookingEvent {
-  const FetchAvailabilityEvent();
-}
-
 class SubmitBookingRequest extends BookingEvent {
   final BookingRequestParams params;
 
@@ -21,5 +17,3 @@ class SubmitBookingRequest extends BookingEvent {
   @override
   List<Object> get props => super.props..add(params);
 }
-
-
