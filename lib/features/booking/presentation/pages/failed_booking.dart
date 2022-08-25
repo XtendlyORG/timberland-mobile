@@ -22,6 +22,7 @@ class FailedBookingPage extends StatelessWidget {
         child: const Icon(
           Icons.close,
           color: TimberlandColor.background,
+          size: 48,
         ),
       ),
       title: AutoSizeText(
