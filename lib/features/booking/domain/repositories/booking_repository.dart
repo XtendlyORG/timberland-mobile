@@ -6,6 +6,6 @@ import '../params/booking_request_params.dart';
 
 abstract class BookingRepository extends Repository {
   Future<Either<BookingFailure, String>> submitBookingRequest(
-    BookingRequestParams requestParams,
+    BookingRequestParams parameter,
   );
 }

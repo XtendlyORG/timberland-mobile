@@ -8,12 +8,9 @@ abstract class BookingEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class FetchAvailabilityEvent extends BookingEvent {
-  const FetchAvailabilityEvent();
-}
-
 class SubmitBookingRequest extends BookingEvent {
   final BookingRequestParams params;
+
   const SubmitBookingRequest({
     required this.params,
   });

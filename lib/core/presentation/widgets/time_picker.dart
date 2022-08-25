@@ -21,25 +21,35 @@ class TimePickerSpinner extends StatefulWidget {
 
 class _TimePickerSpinnerState extends State<TimePickerSpinner> {
   late int hour, minute;
-  late bool isMorning;
+  late FixedExtentScrollController hourCtrl, minuteCtrl;
+  late List<int> hours;
 
   @override
   void initState() {
     super.initState();
-    final TimeOfDay initialTime = widget.initialTime ?? TimeOfDay.now();
-    isMorning = initialTime.hour < 12;
-    hour = isMorning ? initialTime.hour : initialTime.hour - 12;
+
+    final TimeOfDay initialTime =
+        widget.initialTime ?? const TimeOfDay(hour: 6, minute: 0);
+    hour = initialTime.hour;
     minute = initialTime.minute;
+    hours = const [1, 2, 6, 7, 8, 9, 10, 11, 12];
+    hourCtrl = FixedExtentScrollController(initialItem: hours.indexOf(hour));
+    minuteCtrl = FixedExtentScrollController(initialItem: minute);
   }
 
   void getTime() {
-    hour = isMorning
-        ? hour < 12
-            ? hour
-            : hour - 12
-        : hour > 12
-            ? hour
-            : hour + 12;
+    if (hour == 14) {
+      if (minute > 30) {
+        minute = 30;
+      }
+    } else {
+      setState(() {});
+    }
+
+    hourCtrl.jumpToItem(hours.indexOf(
+      hour > 12 ? hour - 12 : hour,
+    ));
+    minuteCtrl.jumpToItem(minute);
     widget.onChange(
       TimeOfDay(
         hour: hour,
@@ -50,122 +60,99 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: widget.height,
-      child: Row(
-        children: [
-          Expanded(
-            child: SpinnerWheel(
-              textStyle: widget.textStyle,
-              count: 12,
-              initialValue: hour,
-              onChange: (val) {
-                hour = val;
-                getTime();
-              },
-            ),
-          ),
-          SizedBox(
-            child: Text(
-              ':',
-              style: widget.textStyle.copyWith(
-                fontWeight: FontWeight.bold,
-                fontSize: widget.textStyle.fontSize != null
-                    ? widget.textStyle.fontSize! * 1.75
-                    : null,
-              ),
-            ),
-          ),
-          Expanded(
-            child: SpinnerWheel(
-              textStyle: widget.textStyle,
-              count: 60,
-              startFromZero: true,
-              initialValue: minute,
-              fix2Digits: true,
-              onChange: (val) {
-                minute = val;
-                getTime();
-              },
-            ),
-          ),
-          Expanded(
-            child: SizedBox(
-              height: widget.height,
-              child: ListWheelScrollView(
-                itemExtent: widget.height / 3,
-                controller:
-                    FixedExtentScrollController(initialItem: isMorning ? 0 : 1),
-                physics: const FixedExtentScrollPhysics(),
-                useMagnifier: true,
-                magnification: 1.5,
-                onSelectedItemChanged: (index) {
-                  isMorning = index == 0;
-                  getTime();
+    return Listener(
+      onPointerUp: (_) {
+        getTime();
+      },
+      child: SizedBox(
+        height: widget.height,
+        child: Row(
+          children: [
+            Expanded(
+              child: SpinnerWheel<int>(
+                textStyle: widget.textStyle,
+                items: hours,
+                controller: hourCtrl,
+                onChange: (val) {
+                  if (hour < 12 && (val < 3 || val == 12)) {
+                    setState(() {});
+                  } else if (hour >= 12 && (val > 3 || val != 12)) {
+                    setState(() {});
+                  }
+                  hour = (val < 3 ? val + 12 : val);
                 },
-                children: [
-                  Container(
-                    alignment: Alignment.center,
-                    height: widget.height / 3,
-                    child: Text(
-                      'AM',
-                      style: widget.textStyle,
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    height: widget.height / 3,
-                    child: Text(
-                      'PM',
-                      style: widget.textStyle,
-                    ),
-                  ),
-                ],
               ),
             ),
-          ),
-        ],
+            SizedBox(
+              child: Text(
+                ':',
+                style: widget.textStyle.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: widget.textStyle.fontSize != null
+                      ? widget.textStyle.fontSize! * 1.75
+                      : null,
+                ),
+              ),
+            ),
+            Expanded(
+              child: SpinnerWheel<int>(
+                textStyle: widget.textStyle,
+                items: List.generate(hour != 14 ? 60 : 31, (index) => index),
+                fix2Digits: true,
+                controller: minuteCtrl,
+                onChange: (val) {
+                  minute = val;
+                },
+              ),
+            ),
+            Expanded(
+              child: Text(
+                hour >= 12 ? 'PM' : 'AM',
+                style: widget.textStyle.copyWith(
+                    fontSize: (widget.textStyle.fontSize ?? 12) * 1.5),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-class SpinnerWheel extends StatelessWidget {
+class SpinnerWheel<T> extends StatelessWidget {
   const SpinnerWheel({
     Key? key,
-    required this.initialValue,
     required this.textStyle,
-    required this.count,
-    this.startFromZero = false,
+    required this.items,
     required this.onChange,
     this.height = 90,
     this.fix2Digits = false,
+    this.controller,
   }) : super(key: key);
-  final int initialValue;
+
   final TextStyle textStyle;
-  final int count;
-  final bool startFromZero;
-  final void Function(int val) onChange;
+  final List items;
+  final void Function(T val) onChange;
   final double height;
   final bool fix2Digits;
+  final ScrollController? controller;
 
   @override
   Widget build(BuildContext context) {
     return ListWheelScrollView.useDelegate(
       itemExtent: height / 3,
-      controller: FixedExtentScrollController(
-          initialItem: startFromZero ? initialValue : initialValue - 1),
       useMagnifier: true,
       magnification: 1.5,
+      controller: controller,
       physics: const FixedExtentScrollPhysics(),
       onSelectedItemChanged: (index) {
-        onChange(startFromZero ? index : index + 1);
+        onChange(items[index]);
       },
       childDelegate: ListWheelChildLoopingListDelegate(
-        children: List<Widget>.generate(
-          count,
-          (index) {
-            String text = startFromZero ? '$index' : '${index + 1}';
+        children: items.map(
+          (item) {
+            String text = item.toString();
+
             text = fix2Digits && text.length < 2 ? '0$text' : text;
             return Container(
               height: height / 3,
@@ -176,7 +163,7 @@ class SpinnerWheel extends StatelessWidget {
               ),
             );
           },
-        ),
+        ).toList(),
       ),
     );
   }

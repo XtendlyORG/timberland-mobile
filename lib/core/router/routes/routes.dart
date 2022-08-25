@@ -51,10 +51,26 @@ abstract class Routes {
   static const paymentHistory =
       _Route(path: '/payment-history', name: 'payment-history');
 
-  static const booking = _Route(path: '/booking', name: 'booking');
-  static const checkout =
-      _Route(path: '/booking/checkout-page', name: 'checkout');
-
+  static const booking = _Route(
+    path: '/booking',
+    name: 'booking',
+  );
+  static const checkout = _Route(
+    path: '/booking/checkout-page',
+    name: 'checkout',
+  );
+  static const successfulBooking = _Route(
+    path: '/success',
+    name: 'successful-booking',
+  );
+  static const failedfulBooking = _Route(
+    path: '/failed',
+    name: 'failed-booking',
+  );
+  static const cancelledfulBooking = _Route(
+    path: '/cancelled',
+    name: 'cancelled-booking',
+  );
   static const rules = _Route(path: '/rules', name: 'rules');
   static const contacts = _Route(path: '/contacts', name: 'contacts');
   static const faqs = _Route(path: '/faqs', name: 'faqs');

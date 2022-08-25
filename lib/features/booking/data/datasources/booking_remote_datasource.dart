@@ -15,10 +15,11 @@ class BookingRemoteDataSource implements BookingDatasource {
     required this.environmentConfig,
   });
   @override
-  Future<String> submitBookingRequest(BookingRequestParams params) async {
-    try {
+  Future<String> submitBookingRequest(BookingRequestParams params) {
+    return this(callback: () async {
+      log('test');
       final result = await dioClient.post(
-        '${environmentConfig.apihost}/payments/create-checkout-session',
+        '${environmentConfig.apihost}/bookings',
         data: params.toJson(),
       );
 
@@ -27,12 +28,41 @@ class BookingRemoteDataSource implements BookingDatasource {
           return result.data['redirectUrl'];
         }
       }
-      throw BookingException();
-    } on DioError catch (error) {
-      log(error.toString());
-      throw BookingException();
+      throw const BookingException();
+    });
+  }
+
+  Future<ReturnType> call<ReturnType>({
+    required Future<ReturnType> Function() callback,
+  }) async {
+    try {
+      return await callback();
+    } on DioError catch (dioError) {
+      log(dioError.response?.statusCode?.toString() ?? 'statuscode: -1');
+      log(dioError.response?.data.toString() ?? "no message");
+
+      if ((dioError.response?.statusCode ?? -1) == 400) {
+        if (dioError.response?.data.toString() == 'Email is Invalid') {
+          throw const BookingException(
+            message: 'Email is not verified',
+          );
+        }
+        throw BookingException(
+          message:
+              dioError.response?.data.toString() ?? 'Something went wrong..',
+        );
+      } else if ((dioError.response?.statusCode ?? -1) == 502) {
+        log(dioError.response?.data?.toString() ?? "No error message: 502");
+        throw const BookingException(
+          message: 'Internal Server Error',
+        );
+      }
+      throw const BookingException(
+        message: "Error Occurred",
+      );
     } catch (e) {
-      throw BookingException();
+      log(e.toString());
+      throw const BookingException(message: "An Error Occurred");
     }
   }
 }

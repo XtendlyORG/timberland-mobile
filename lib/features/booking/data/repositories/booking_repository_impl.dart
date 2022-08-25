@@ -15,12 +15,27 @@ class BookingRepositoryImpl implements BookingRepository {
 
   @override
   Future<Either<BookingFailure, String>> submitBookingRequest(
-      BookingRequestParams requestParams) async {
+      BookingRequestParams requestParams) {
+    return this(
+        request: () => bookingDatasource.submitBookingRequest(requestParams));
+  }
+
+  Future<Either<BookingFailure, ReturnType>> call<ReturnType>({
+    required Future<ReturnType> Function() request,
+  }) async {
     try {
-      return Right(await bookingDatasource.submitBookingRequest(requestParams));
-    } on BookingException catch (e) {
+      return Right(await request());
+    } on BookingException catch (exception) {
       return Left(
-        BookingFailure(message: e.message ?? "Failed to submit booking."),
+        BookingFailure(
+          message: exception.message ?? 'Server Failure.',
+        ),
+      );
+    } catch (e) {
+      return const Left(
+        BookingFailure(
+          message: 'Something went wrong.',
+        ),
       );
     }
   }

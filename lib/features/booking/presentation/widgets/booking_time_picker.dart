@@ -27,24 +27,18 @@ class BookingTimePicker extends StatefulWidget {
 
 class _BookingTimePickerState extends State<BookingTimePicker> {
   late TimeOfDay start;
-  late TimeOfDay end;
   late TextEditingController startCtrl;
-  late TextEditingController endCtrl;
 
   @override
   void initState() {
     super.initState();
-    start = TimeOfDay(
-      hour: TimeOfDay.now().hour,
+    start = const TimeOfDay(
+      hour: 6,
       minute: 0,
     );
-    end = TimeOfDay(
-      hour: start.hour + 1,
-      minute: 0,
-    );
+
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       startCtrl = TextEditingController(text: start.format(context));
-      endCtrl = TextEditingController(text: end.format(context));
     });
   }
 
@@ -55,7 +49,8 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
       enabled: widget.enabled,
       enableInteractiveSelection: false,
       validator: (val) {
-        return nonEmptyValidator(val, errorMessage: 'Please select a take off time');
+        return nonEmptyValidator(val,
+            errorMessage: 'Please select a take off time');
       },
       onTap: () {
         showDialog(

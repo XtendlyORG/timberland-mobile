@@ -12,7 +12,10 @@ import 'package:timberland_biketrail/dashboard/presentation/pages/verify_otp_upd
 import 'package:timberland_biketrail/features/authentication/domain/params/register.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/pages/registration_continuation_page.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/pages/reset_password.dart';
+import 'package:timberland_biketrail/features/booking/presentation/pages/cancelled_booking.dart';
 import 'package:timberland_biketrail/features/booking/presentation/pages/checkout_page.dart';
+import 'package:timberland_biketrail/features/booking/presentation/pages/failed_booking.dart';
+import 'package:timberland_biketrail/features/booking/presentation/pages/success_booking.dart';
 
 import '../../dashboard/presentation/pages/qr_code_page.dart';
 import '../../dashboard/presentation/pages/update_profile_page.dart';
@@ -433,6 +436,59 @@ final appRouter = GoRouter(
               },
             );
           },
+          routes: [
+            GoRoute(
+              path: Routes.successfulBooking.asSubPath(),
+              name: Routes.successfulBooking.name,
+              pageBuilder: (context, routeState) {
+                return CustomTransitionPage(
+                  child: const SuccessBookingPage(),
+                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnim, child) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    );
+                  },
+                );
+              },
+            ),
+            GoRoute(
+              path: Routes.failedfulBooking.asSubPath(),
+              name: Routes.failedfulBooking.name,
+              pageBuilder: (context, routeState) {
+                return CustomTransitionPage(
+                  child: const FailedBookingPage(),
+                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnim, child) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    );
+                  },
+                );
+              },
+            ),
+            GoRoute(
+              path: Routes.cancelledfulBooking.asSubPath(),
+              name: Routes.cancelledfulBooking.name,
+              pageBuilder: (context, routeState) {
+                return CustomTransitionPage(
+                  child: const CancelledBookingPage(),
+                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnim, child) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    );
+                  },
+                );
+              },
+            ),
+          ],
         ),
       ],
     ),
