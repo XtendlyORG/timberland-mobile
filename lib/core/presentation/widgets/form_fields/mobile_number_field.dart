@@ -51,7 +51,9 @@ class MobileNumberField extends StatelessWidget {
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (number) {
               if (number == null || number.isEmpty) {
-                return allowEmpty ? null : 'Please enter your mobile number';
+                return allowEmpty
+                    ? null
+                    : 'Please enter your ${hintText?.toLowerCase()??'mobile number'}';
               }
               if (!number.startsWith('9')) {
                 return "Should start with '9'";
