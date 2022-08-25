@@ -43,7 +43,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
           appBar: AppBar(
             title: const Text('Checkout'),
             automaticallyImplyLeading: false,
-            actions: const [DrawerIconButton()],
           ),
           body: SizedBox(
             height: MediaQuery.of(context).size.height - kToolbarHeight * 2,
