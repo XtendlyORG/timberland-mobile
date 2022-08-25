@@ -32,8 +32,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
         BlocProvider.of<BookingBloc>(context).state as BookingSubmitted;
     return WillPopScope(
       onWillPop: () async {
-        Navigator.pop(context);
-        context.pushNamed(Routes.cancelledfulBooking.name);
         return false;
       },
       child: SafeArea(
@@ -44,6 +42,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
           showNavbar: false,
           appBar: AppBar(
             title: const Text('Checkout'),
+            automaticallyImplyLeading: false,
             actions: const [DrawerIconButton()],
           ),
           body: SizedBox(
