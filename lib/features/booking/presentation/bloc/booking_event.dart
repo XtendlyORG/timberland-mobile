@@ -22,11 +22,4 @@ class SubmitBookingRequest extends BookingEvent {
   List<Object> get props => super.props..add(params);
 }
 
-class CreateBookingEvent extends BookingEvent {
-  final CreateBookingParameter parameter;
-  const CreateBookingEvent({
-    required this.parameter,
-  });
-  @override
-  List<Object> get props => super.props..add(parameter);
-}
+

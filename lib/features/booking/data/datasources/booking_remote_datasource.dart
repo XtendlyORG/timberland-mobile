@@ -6,7 +6,6 @@ import 'package:timberland_biketrail/core/configs/environment_configs.dart';
 import 'package:timberland_biketrail/core/errors/exceptions.dart';
 import 'package:timberland_biketrail/features/booking/data/datasources/booking_datasource.dart';
 import 'package:timberland_biketrail/features/booking/domain/params/booking_request_params.dart';
-import 'package:timberland_biketrail/features/booking/domain/params/create_booking_params.dart';
 
 class BookingRemoteDataSource implements BookingDatasource {
   final Dio dioClient;
@@ -20,7 +19,7 @@ class BookingRemoteDataSource implements BookingDatasource {
     return this(callback: () async {
       log('test');
       final result = await dioClient.post(
-        '${environmentConfig.apihost}/payments/create-checkout-session',
+        '${environmentConfig.apihost}/payments/bookings',
         data: params.toJson(),
       );
 
@@ -30,22 +29,6 @@ class BookingRemoteDataSource implements BookingDatasource {
         }
       }
       throw const BookingException();
-    });
-  }
-
-  @override
-  Future<void> createBooking(CreateBookingParameter params) {
-    return this(callback: () async {
-      final result = await dioClient.post(
-        '${environmentConfig.apihost}/bookings/',
-        data: params.toJson(),
-      );
-
-      if (result.statusCode == 200) {
-        return;
-      } else {
-        throw const BookingException();
-      }
     });
   }
 

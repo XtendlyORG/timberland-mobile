@@ -5,7 +5,6 @@ import 'package:timberland_biketrail/core/errors/exceptions.dart';
 import 'package:timberland_biketrail/core/errors/failures.dart';
 import 'package:timberland_biketrail/features/booking/data/datasources/booking_datasource.dart';
 import 'package:timberland_biketrail/features/booking/domain/params/booking_request_params.dart';
-import 'package:timberland_biketrail/features/booking/domain/params/create_booking_params.dart';
 import 'package:timberland_biketrail/features/booking/domain/repositories/booking_repository.dart';
 
 class BookingRepositoryImpl implements BookingRepository {
@@ -19,13 +18,6 @@ class BookingRepositoryImpl implements BookingRepository {
       BookingRequestParams requestParams) {
     return this(
         request: () => bookingDatasource.submitBookingRequest(requestParams));
-  }
-
-  @override
-  Future<Either<BookingFailure, void>> createBooking(
-    CreateBookingParameter parameter,
-  ) {
-    return this(request: () => bookingDatasource.createBooking(parameter));
   }
 
   Future<Either<BookingFailure, ReturnType>> call<ReturnType>({

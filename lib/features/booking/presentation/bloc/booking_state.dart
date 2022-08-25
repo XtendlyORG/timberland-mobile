@@ -18,18 +18,15 @@ class BookingAvailabilityLoaded extends BookingState {
 
 class BookingSubmitted extends BookingState {
   final String checkoutHtml;
-  final CreateBookingParameter bookingParameter;
+
   const BookingSubmitted({
     required this.checkoutHtml,
-    required this.bookingParameter,
   });
 
   @override
   List<Object> get props => super.props
     ..addAll([
       checkoutHtml,
-      bookingParameter,
     ]);
 }
 
-class BookingCreated extends BookingState {}

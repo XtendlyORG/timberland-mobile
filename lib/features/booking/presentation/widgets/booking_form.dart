@@ -185,15 +185,11 @@ class _BookingFormState extends State<BookingForm> {
                         BlocProvider.of<BookingBloc>(context).add(
                           SubmitBookingRequest(
                             params: BookingRequestParams(
-                              firstName: widget.user.firstName,
-                              middleName: widget.user.middleName,
-                              lastName: widget.user.lastName,
-                              customerFullname: fullNameCtrl.text,
-                              mobileNumber: mobileNumberCtrl.text,
-                              email: emailCtrl.text,
-                              date: dateCtrl.text,
-                              time: timeCtrl.text
-                            ),
+                                customerFullname: fullNameCtrl.text,
+                                mobileNumber: mobileNumberCtrl.text,
+                                email: emailCtrl.text,
+                                date: dateCtrl.text,
+                                time: timeCtrl.text),
                           ),
                         );
                       }

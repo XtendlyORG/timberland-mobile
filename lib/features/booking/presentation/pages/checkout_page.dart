@@ -39,55 +39,46 @@ class _CheckoutPageState extends State<CheckoutPage> {
           title: const Text('Checkout'),
           actions: const [DrawerIconButton()],
         ),
-        body: BlocListener<BookingBloc, BookingState>(
-          listener: (context, state) {
-            if (state is BookingCreated) {
-              Navigator.pop(context);
-              context.pushNamed(Routes.successfulBooking.name);
-            }
-          },
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height - kToolbarHeight * 2,
-            child: WebView(
-              initialUrl: state.checkoutHtml,
-              javascriptMode: JavascriptMode.unrestricted,
-              // onWebViewCreated: (ctrl) {
-              //   _controller = ctrl;
-              // },
-              // onPageFinished: (val) {
-              //   // CODE LOGIC FOR GETTING THE CHECKOUT PAGE'S DATA AS JSON
+        body: SizedBox(
+          height: MediaQuery.of(context).size.height - kToolbarHeight * 2,
+          child: WebView(
+            initialUrl: state.checkoutHtml,
+            javascriptMode: JavascriptMode.unrestricted,
+            // onWebViewCreated: (ctrl) {
+            //   _controller = ctrl;
+            // },
+            // onPageFinished: (val) {
+            //   // CODE LOGIC FOR GETTING THE CHECKOUT PAGE'S DATA AS JSON
 
-              //   // _controller
-              //   //     .runJavascriptReturningResult(
-              //   //         'document.body.getElementsByTagName("script")[0].outerHTML')
-              //   //     .then((scriptTag) {
-              //   //   final _json = readCheckOutPageAsJson(scriptTag);
-              //   //   log(_json.toString());
-              //   // });
-              // },
-              navigationDelegate: (request) {
-                log(request.url);
+            //   // _controller
+            //   //     .runJavascriptReturningResult(
+            //   //         'document.body.getElementsByTagName("script")[0].outerHTML')
+            //   //     .then((scriptTag) {
+            //   //   final _json = readCheckOutPageAsJson(scriptTag);
+            //   //   log(_json.toString());
+            //   // });
+            // },
+            navigationDelegate: (request) {
+              log(request.url);
 
-                if (request.url.contains('success')) {
-                  BlocProvider.of<BookingBloc>(context).add(CreateBookingEvent(
-                    parameter: state.bookingParameter,
-                  ));
-                  return NavigationDecision.prevent;
-                }
-                if (request.url.contains('fail')) {
-                  Navigator.pop(context);
-                  context.pushNamed(Routes.failedfulBooking.name);
-                  return NavigationDecision.prevent;
-                }
-                if (request.url.contains('cancel')) {
-                  Navigator.pop(context);
-                  context.pushNamed(Routes.cancelledfulBooking.name);
-                  return NavigationDecision.prevent;
-                }
+              if (request.url.contains('success')) {
+                Navigator.pop(context);
+                context.pushNamed(Routes.successfulBooking.name);
+                return NavigationDecision.prevent;
+              }
+              if (request.url.contains('fail')) {
+                Navigator.pop(context);
+                context.pushNamed(Routes.failedfulBooking.name);
+                return NavigationDecision.prevent;
+              }
+              if (request.url.contains('cancel')) {
+                Navigator.pop(context);
+                context.pushNamed(Routes.cancelledfulBooking.name);
+                return NavigationDecision.prevent;
+              }
 
-                return NavigationDecision.navigate;
-              },
-            ),
+              return NavigationDecision.navigate;
+            },
           ),
         ),
       ),

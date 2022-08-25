@@ -4,7 +4,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:timberland_biketrail/features/booking/domain/params/booking_request_params.dart';
-import 'package:timberland_biketrail/features/booking/domain/params/create_booking_params.dart';
 import 'package:timberland_biketrail/features/booking/domain/repositories/booking_repository.dart';
 
 part 'booking_event.dart';
@@ -26,25 +25,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         (checkoutHtml) {
           emit(BookingSubmitted(
             checkoutHtml: checkoutHtml,
-            bookingParameter: CreateBookingParameter(
-              fullName: event.params.customerFullname,
-              mobileNumber: event.params.mobileNumber,
-              email: event.params.email,
-              date: event.params.date,
-              time: event.params.time,
-            ),
           ));
-        },
-      );
-    });
-
-    on<CreateBookingEvent>((event, emit) async {
-      final result = await repository.createBooking(event.parameter);
-
-      result.fold(
-        (l) {},
-        (r) {
-          emit(BookingCreated());
         },
       );
     });
