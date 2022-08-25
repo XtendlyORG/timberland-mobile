@@ -19,7 +19,7 @@ class BookingRemoteDataSource implements BookingDatasource {
     return this(callback: () async {
       log('test');
       final result = await dioClient.post(
-        '${environmentConfig.apihost}/payments/bookings',
+        '${environmentConfig.apihost}/bookings',
         data: params.toJson(),
       );
 
@@ -37,12 +37,27 @@ class BookingRemoteDataSource implements BookingDatasource {
   }) async {
     try {
       return await callback();
-    } on DioError catch (error) {
-      log(error.toString());
-      log(error.response?.data ?? '');
-      throw const BookingException();
+    } on DioError catch (dioError) {
+      log(dioError.response?.statusCode?.toString() ?? 'statuscode: -1');
+      log(dioError.response?.data.toString() ?? "no message");
+
+      if ((dioError.response?.statusCode ?? -1) == 400) {
+        throw BookingException(
+          message:
+              dioError.response?.data.toString() ?? 'Something went wrong..',
+        );
+      } else if ((dioError.response?.statusCode ?? -1) == 502) {
+        log(dioError.response?.data?.toString() ?? "No error message: 502");
+        throw const BookingException(
+          message: 'Internal Server Error',
+        );
+      }
+      throw const BookingException(
+        message: "Error Occurred",
+      );
     } catch (e) {
-      throw const BookingException();
+      log(e.toString());
+      throw const BookingException(message: "An Error Occurred");
     }
   }
 }
