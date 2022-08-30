@@ -32,7 +32,8 @@ class BookingForm extends StatefulWidget {
 
 class _BookingFormState extends State<BookingForm> {
   late final GlobalKey<FormState> formKey;
-  late DateTime? chosenDate;
+  late DateTime? selectedDate;
+  late TimeOfDay? selectedTime;
   late TextEditingController dateCtrl;
   late TextEditingController timeCtrl;
   late TextEditingController mobileNumberCtrl;
@@ -42,7 +43,8 @@ class _BookingFormState extends State<BookingForm> {
   @override
   void initState() {
     formKey = GlobalKey<FormState>();
-    chosenDate = null;
+    selectedDate = null;
+    selectedTime = null;
     dateCtrl = TextEditingController();
     timeCtrl = TextEditingController();
     mobileNumberCtrl = TextEditingController(text: widget.user.mobileNumber);
@@ -100,8 +102,7 @@ class _BookingFormState extends State<BookingForm> {
                             enabled: true,
                             onSubmit: (value) {
                               if (value is DateTime) {
-                                chosenDate = value;
-                                log(chosenDate.toString());
+                                selectedDate = value;
                                 dateCtrl.text =
                                     DateFormat.yMd('en_US').format(value);
                               }
@@ -123,7 +124,11 @@ class _BookingFormState extends State<BookingForm> {
                           child: BookingTimePicker(
                             controller: timeCtrl,
                             enabled: true,
-                            onSubmit: (value) {},
+                            onSubmit: (value) {
+                              if (value is TimeOfDay) {
+                                selectedTime = value;
+                              }
+                            },
                           ),
                         ),
                       ],
@@ -191,11 +196,18 @@ class _BookingFormState extends State<BookingForm> {
                     BlocProvider.of<BookingBloc>(context).add(
                       SubmitBookingRequest(
                         params: BookingRequestParams(
-                            customerFullname: fullNameCtrl.text,
-                            mobileNumber: mobileNumberCtrl.text,
-                            email: emailCtrl.text,
-                            date: chosenDate!.toIso8601String(),
-                            time: timeCtrl.text),
+                          customerFullname: fullNameCtrl.text,
+                          mobileNumber: mobileNumberCtrl.text,
+                          email: emailCtrl.text,
+                          date: selectedDate.toString().split(' ')[0],
+                          time: DateTime(
+                            0,
+                            0,
+                            0,
+                            selectedTime!.hour,
+                            selectedTime!.minute,
+                          ).toString().split(' ')[1],
+                        ),
                       ),
                     );
                   }

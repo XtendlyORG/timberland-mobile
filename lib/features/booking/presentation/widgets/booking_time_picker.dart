@@ -82,6 +82,7 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
                           start.minute,
                         ),
                       );
+                      widget.onSubmit(start);
                       Navigator.pop(context);
                     },
                     child: const Text('DONE'),
