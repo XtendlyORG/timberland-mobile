@@ -298,8 +298,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       _state = _state.copyWith(firstTimeUser: false);
 
-      emit(_state);
-
       if (event.skipBooking) {
         emit(Authenticated(
           message: 'User Guide Completed',
