@@ -3,7 +3,6 @@ export 'circular_icon_button.dart';
 export 'date_picker.dart';
 export 'drawer_iconbutton.dart';
 export 'filled_text_button.dart';
-export 'first_time_user_guide/first_time_user_guide.dart';
 export 'form_fields/form_fields.dart';
 export 'image_picker_options_bottomsheet.dart';
 export 'inherited_widgets/inherited_widgets.dart';
