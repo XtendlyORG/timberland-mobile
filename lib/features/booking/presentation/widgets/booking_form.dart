@@ -1,7 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
-import 'dart:ui';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +40,8 @@ class _BookingFormState extends State<BookingForm> {
   late TextEditingController timeCtrl;
   late TextEditingController mobileNumberCtrl;
   late TextEditingController emailCtrl;
-  late TextEditingController fullNameCtrl;
+  late TextEditingController firstNameCtrl;
+  late TextEditingController lastNameCtrl;
 
   @override
   void initState() {
@@ -57,8 +55,11 @@ class _BookingFormState extends State<BookingForm> {
     emailCtrl = TextEditingController(
       text: widget.user.email,
     );
-    fullNameCtrl = TextEditingController(
-      text: '${widget.user.firstName} ${widget.user.lastName}',
+    firstNameCtrl = TextEditingController(
+      text: widget.user.firstName,
+    );
+    lastNameCtrl = TextEditingController(
+      text: widget.user.lastName,
     );
 
     super.initState();
@@ -147,21 +148,50 @@ class _BookingFormState extends State<BookingForm> {
               margin: const EdgeInsets.only(
                 bottom: kVerticalPadding,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Row(
                 children: [
-                  const Text("Full Name"),
-                  TextFormField(
-                    controller: fullNameCtrl,
-                    decoration: const InputDecoration(
-                      hintText: "Full Name",
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text("First Name"),
+                        TextFormField(
+                          controller: firstNameCtrl,
+                          decoration: const InputDecoration(
+                            hintText: "First Name",
+                          ),
+                          validator: (fullName) {
+                            return nonEmptyValidator(
+                              fullName,
+                              errorMessage: 'First Name can not be empty.',
+                            );
+                          },
+                        ),
+                      ],
                     ),
-                    validator: (fullName) {
-                      return nonEmptyValidator(
-                        fullName,
-                        errorMessage: 'Name can not be empty.',
-                      );
-                    },
+                  ),
+                  const SizedBox(
+                    width: kVerticalPadding,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text("Last Name"),
+                        TextFormField(
+                          controller: lastNameCtrl,
+                          decoration: const InputDecoration(
+                            hintText: "Last Name",
+                          ),
+                          validator: (fullName) {
+                            return nonEmptyValidator(
+                              fullName,
+                              errorMessage: 'Last Name can not be empty.',
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -254,7 +284,8 @@ class _BookingFormState extends State<BookingForm> {
                     BlocProvider.of<BookingBloc>(context).add(
                       SubmitBookingRequest(
                         params: BookingRequestParams(
-                          customerFullname: fullNameCtrl.text,
+                          firstName: firstNameCtrl.text,
+                          lastName: lastNameCtrl.text,
                           mobileNumber: mobileNumberCtrl.text,
                           email: emailCtrl.text,
                           date: selectedDate.toString().split(' ')[0],
