@@ -20,7 +20,7 @@ import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.d
 import 'package:timberland_biketrail/dashboard/domain/params/update_user_detail.dart';
 import 'package:timberland_biketrail/dashboard/presentation/bloc/profile_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
-import 'package:timberland_biketrail/features/authentication/presentation/widgets/terms_of_use.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/custom_checkbox.dart';
 
 class RegistrationContinuationForm extends StatelessWidget {
   final UpdateUserDetailsParams?
@@ -389,7 +389,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   RepaintBoundary(
-                    child: TermsOfUse(
+                    child: CustomCheckbox(
                       onChange: (val) {
                         agreedToTermsOfUse = val;
                       },

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-class TermsOfUse extends StatefulWidget {
+class CustomCheckbox extends StatefulWidget {
   final void Function(bool val) onChange;
-  const TermsOfUse({
+  const CustomCheckbox({
     Key? key,
     required this.onChange,
   }) : super(key: key);
 
   @override
-  State<TermsOfUse> createState() => _TermsOfUseState();
+  State<CustomCheckbox> createState() => _CustomCheckboxState();
 }
 
-class _TermsOfUseState extends State<TermsOfUse> {
+class _CustomCheckboxState extends State<CustomCheckbox> {
   late bool agreedToTermsOfUse;
 
   @override
@@ -24,6 +24,10 @@ class _TermsOfUseState extends State<TermsOfUse> {
   Widget build(BuildContext context) {
     return Checkbox(
       value: agreedToTermsOfUse,
+      visualDensity: const VisualDensity(
+        horizontal: VisualDensity.minimumDensity,
+        vertical: VisualDensity.minimumDensity,
+      ),
       onChanged: (val) {
         setState(() {
           agreedToTermsOfUse = !agreedToTermsOfUse;
