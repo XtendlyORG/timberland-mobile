@@ -224,7 +224,10 @@ class _BookingFormState extends State<BookingForm> {
                                 color: TimberlandColor.primary,
                                 fontWeight: FontWeight.bold,
                               ),
-                              recognizer: TapGestureRecognizer()..onTap = () {},
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  context.pushNamed(Routes.bookingWaiver.name);
+                                },
                             ),
                             const TextSpan(
                               text:

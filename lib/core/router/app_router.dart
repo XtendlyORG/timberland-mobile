@@ -16,6 +16,7 @@ import 'package:timberland_biketrail/features/booking/presentation/pages/cancell
 import 'package:timberland_biketrail/features/booking/presentation/pages/checkout_page.dart';
 import 'package:timberland_biketrail/features/booking/presentation/pages/failed_booking.dart';
 import 'package:timberland_biketrail/features/booking/presentation/pages/success_booking.dart';
+import 'package:timberland_biketrail/features/booking/presentation/pages/waiver/waiver.dart';
 
 import '../../dashboard/presentation/pages/qr_code_page.dart';
 import '../../dashboard/presentation/pages/update_profile_page.dart';
@@ -437,6 +438,23 @@ final appRouter = GoRouter(
             );
           },
           routes: [
+            GoRoute(
+              path: Routes.bookingWaiver.asSubPath(),
+              name: Routes.bookingWaiver.name,
+              pageBuilder: (context, routeState) {
+                return CustomTransitionPage(
+                  child: const BookingWaiver(),
+                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnim, child) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    );
+                  },
+                );
+              },
+            ),
             GoRoute(
               path: Routes.successfulBooking.asSubPath(),
               name: Routes.successfulBooking.name,
