@@ -22,6 +22,7 @@ class OtpVerificationForm extends StatefulWidget {
 
 class _OtpVerificationFormState extends State<OtpVerificationForm> {
   late bool validOtp;
+  late FocusNode focusNode;
   late final TextEditingController otpCtrl;
   late final TextEditingController digit1;
   late final TextEditingController digit2;
@@ -31,12 +32,17 @@ class _OtpVerificationFormState extends State<OtpVerificationForm> {
   void initState() {
     super.initState();
     validOtp = false;
-
+    focusNode = FocusNode();
     otpCtrl = TextEditingController();
     digit1 = TextEditingController();
     digit2 = TextEditingController();
     digit3 = TextEditingController();
     digit4 = TextEditingController();
+  }
+  @override
+  void dispose() {
+    focusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -62,7 +68,7 @@ class _OtpVerificationFormState extends State<OtpVerificationForm> {
         Padding(
           padding: const EdgeInsets.only(bottom: kVerticalPadding),
           child: RawKeyboardListener(
-            focusNode: FocusNode(),
+            focusNode: focusNode,
             onKey: (event) {
               if (event.logicalKey == LogicalKeyboardKey.backspace &&
                   event is RawKeyUpEvent &&

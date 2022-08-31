@@ -96,84 +96,81 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     return SafeArea(
-      child: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Scaffold(
-          body: AuthPageContainer(
-            scrollBehavior: const CustomScrollBehavior(),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: kHorizontalPadding,
-                ),
-                const LoginForm(),
-                const SizedBox(
-                  height: kVerticalPadding,
-                ),
-                Text.rich(
-                  TextSpan(
-                    style: Theme.of(context).textTheme.titleSmall,
-                    children: [
-                      const TextSpan(
-                        text: "Don't have an account yet? ",
-                        style: TextStyle(fontWeight: FontWeight.normal),
-                      ),
-                      TextSpan(
-                        text: "Register",
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            log('register');
-                            context.pushNamed(Routes.register.name);
-                          },
-                      ),
-                    ],
-                  ),
-                ),
-                if (signInWithFingerprint) ...[
-                  const SizedBox(
-                    height: kVerticalPadding,
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      if (Session().lockAuthUntil == null) {
-                        authtenticateWithFingerPrint(
-                          onLockedOut: () {
-                            BlocProvider.of<AuthBloc>(context).add(
-                              const LockAuthEvent(),
-                            );
-                          },
-                          onPermanentlyLockedOut: () {},
-                        );
-                      } else {
-                        BlocProvider.of<AuthBloc>(context).add(
-                          const LockAuthEvent(),
-                        );
-                      }
-                    },
-                    icon: const Icon(
-                      Icons.fingerprint_rounded,
-                      size: 32,
+      child: Scaffold(
+        body: AuthPageContainer(
+          scrollBehavior: const CustomScrollBehavior(),
+          child: Column(
+            children: [
+              const SizedBox(
+                height: kHorizontalPadding,
+              ),
+              const LoginForm(),
+              const SizedBox(
+                height: kVerticalPadding,
+              ),
+              Text.rich(
+                TextSpan(
+                  style: Theme.of(context).textTheme.titleSmall,
+                  children: [
+                    const TextSpan(
+                      text: "Don't have an account yet? ",
+                      style: TextStyle(fontWeight: FontWeight.normal),
                     ),
-                  ),
-                ],
+                    TextSpan(
+                      text: "Register",
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          log('register');
+                          context.pushNamed(Routes.register.name);
+                        },
+                    ),
+                  ],
+                ),
+              ),
+              if (signInWithFingerprint) ...[
                 const SizedBox(
                   height: kVerticalPadding,
                 ),
-                Text.rich(
-                  TextSpan(
-                    text: 'Contact Us',
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        context.pushNamed(Routes.contacts.name);
-                      },
+                IconButton(
+                  onPressed: () {
+                    if (Session().lockAuthUntil == null) {
+                      authtenticateWithFingerPrint(
+                        onLockedOut: () {
+                          BlocProvider.of<AuthBloc>(context).add(
+                            const LockAuthEvent(),
+                          );
+                        },
+                        onPermanentlyLockedOut: () {},
+                      );
+                    } else {
+                      BlocProvider.of<AuthBloc>(context).add(
+                        const LockAuthEvent(),
+                      );
+                    }
+                  },
+                  icon: const Icon(
+                    Icons.fingerprint_rounded,
+                    size: 32,
                   ),
                 ),
               ],
-            ),
+              const SizedBox(
+                height: kVerticalPadding,
+              ),
+              Text.rich(
+                TextSpan(
+                  text: 'Contact Us',
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      context.pushNamed(Routes.contacts.name);
+                    },
+                ),
+              ),
+            ],
           ),
         ),
       ),

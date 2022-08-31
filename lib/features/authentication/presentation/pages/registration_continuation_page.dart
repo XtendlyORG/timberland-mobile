@@ -23,40 +23,37 @@ class RegistrationContinuationPage extends StatelessWidget {
         return false;
       },
       child: SafeArea(
-        child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              foregroundColor: Theme.of(context).colorScheme.primary,
-              elevation: 0,
-              leading: Tooltip(
-                message: 'Back',
-                child: IconButton(
-                  onPressed: () {
-                    if (Navigator.canPop(context)) {
-                      Navigator.pop(context);
-                    } else {
-                      context.goNamed(Routes.register.name);
-                    }
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back_rounded,
-                    color: Colors.black,
-                  ),
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            foregroundColor: Theme.of(context).colorScheme.primary,
+            elevation: 0,
+            leading: Tooltip(
+              message: 'Back',
+              child: IconButton(
+                onPressed: () {
+                  if (Navigator.canPop(context)) {
+                    Navigator.pop(context);
+                  } else {
+                    context.goNamed(Routes.register.name);
+                  }
+                },
+                icon: const Icon(
+                  Icons.arrow_back_rounded,
+                  color: Colors.black,
                 ),
               ),
             ),
-            extendBodyBehindAppBar: true,
-            body: AuthPageContainer(
-              child: Column(
-                children: const [
-                  RegistrationContinuationForm(),
-                  SizedBox(
-                    height: kVerticalPadding,
-                  ),
-                ],
-              ),
+          ),
+          extendBodyBehindAppBar: true,
+          body: AuthPageContainer(
+            child: Column(
+              children: const [
+                RegistrationContinuationForm(),
+                SizedBox(
+                  height: kVerticalPadding,
+                ),
+              ],
             ),
           ),
         ),
