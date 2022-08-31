@@ -50,6 +50,7 @@ class RegistrationForm extends StatelessWidget {
             ),
             child: TextFormField(
               controller: firstNameCtrl,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: (lastName) {
                 return nonEmptyValidator(
                   lastName,
@@ -82,6 +83,7 @@ class RegistrationForm extends StatelessWidget {
             ),
             child: TextFormField(
               controller: lastNameCtrl,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: (lastName) {
                 return nonEmptyValidator(
                   lastName,
