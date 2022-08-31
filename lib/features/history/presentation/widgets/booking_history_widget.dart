@@ -1,10 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
+import 'package:timberland_biketrail/core/utils/format_time.dart';
 import 'package:timberland_biketrail/features/history/domain/entities/entities.dart';
 
 class BookingHistoryWidget extends StatelessWidget {
@@ -25,9 +25,7 @@ class BookingHistoryWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       padding: const EdgeInsets.all(kVerticalPadding),
-      constraints: const BoxConstraints(
-        minHeight: 70
-      ),
+      constraints: const BoxConstraints(minHeight: 70),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -40,20 +38,12 @@ class BookingHistoryWidget extends StatelessWidget {
                 children: [
                   TextSpan(
                     text: DateFormat.yMMMMd('en_US').format(
-                      bookingHistory.booking.bookDate,
+                      bookingHistory.date,
                     ),
                   ),
                   const TextSpan(text: '\t\t'),
                   TextSpan(
-                    text: DateFormat('hh:mm a').format(
-                      DateTime(
-                        0,
-                        0,
-                        0,
-                        bookingHistory.booking.startTime.hour,
-                        bookingHistory.booking.startTime.minute,
-                      ),
-                    ),
+                    text: formatTime(bookingHistory.time),
                     style: const TextStyle(
                       fontWeight: FontWeight.normal,
                     ),
@@ -65,8 +55,8 @@ class BookingHistoryWidget extends StatelessWidget {
                         0,
                         0,
                         0,
-                        bookingHistory.booking.endTime.hour,
-                        bookingHistory.booking.endTime.minute,
+                        17,
+                        0,
                       ),
                     ),
                     style: const TextStyle(
@@ -80,81 +70,5 @@ class BookingHistoryWidget extends StatelessWidget {
         ],
       ),
     );
-
-    // return Row(
-    //   crossAxisAlignment: CrossAxisAlignment.center,
-    //   children: [
-    //     Container(
-    //       width: 120,
-    //       height: 120,
-    //       clipBehavior: Clip.hardEdge,
-    //       decoration: BoxDecoration(
-    //         borderRadius: BorderRadius.circular(10),
-    //       ),
-    //       child: CachedNetworkImage(
-    //         imageUrl: bookingHistory.trail.featureImageUrl,
-    //         fit: BoxFit.fitHeight,
-    //       ),
-    //     ),
-    //     const SizedBox(
-    //       width: kVerticalPadding,
-    //     ),
-    //     Expanded(
-    //       child: Column(
-    //         mainAxisAlignment: MainAxisAlignment.start,
-    //         crossAxisAlignment: CrossAxisAlignment.start,
-    //         children: [
-    //           AutoSizeText.rich(
-    //             TextSpan(
-    //               children: [
-    //                 TextSpan(
-    //                   text: '${bookingHistory.trail.difficulty.name}\n',
-    //                   style: Theme.of(context).textTheme.bodyText2!.copyWith(
-    //                         color: bookingHistory.trail.difficulty.primaryColor,
-    //                       ),
-    //                 ),
-    //                 TextSpan(
-    //                   text: bookingHistory.trail.trailName,
-    //                   style: Theme.of(context).textTheme.titleMedium,
-    //                 ),
-    //               ],
-    //             ),
-    //             maxLines: 3,
-    //           ),
-    //           Text(
-    //             '${bookingHistory.trail.distance} mi',
-    //           ),
-    //           AutoSizeText.rich(
-    //             TextSpan(
-    //               children: [
-    //                 TextSpan(
-    //                   text: DateFormat.yMd('en_US')
-    //                       .format(bookingHistory.booking.bookDate),
-    //                   style: Theme.of(context).textTheme.bodyText1?.copyWith(
-    //                         fontWeight: FontWeight.bold,
-    //                       ),
-    //                 ),
-    //                 TextSpan(
-    //                   text: ' at ',
-    //                   style: Theme.of(context).textTheme.bodyText1,
-    //                 ),
-    //                 TextSpan(
-    //                   text: "12:00 - 03:00",
-    //                   style: Theme.of(context).textTheme.bodyText1?.copyWith(
-    //                         fontWeight: FontWeight.bold,
-    //                       ),
-    //                 ),
-    //                 TextSpan(
-    //                   text: ' pm for 3 hours',
-    //                   style: Theme.of(context).textTheme.bodyText1,
-    //                 ),
-    //               ],
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   ],
-    // );
   }
 }

@@ -42,7 +42,10 @@ class PaymentHistoryPage extends StatelessWidget {
                   children: [
                     ...state.payments
                         .map(
-                          (payment) => PaymentHistoryWidget(payment: payment),
+                          (payment) => Padding(
+                            padding: const EdgeInsets.only(bottom: kVerticalPadding),
+                            child: PaymentHistoryWidget(payment: payment),
+                          ),
                         )
                         .toList()
                   ],

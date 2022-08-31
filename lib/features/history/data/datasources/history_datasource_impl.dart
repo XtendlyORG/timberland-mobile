@@ -20,7 +20,22 @@ class HistoryDataSoureImpl implements HistoryDataSoure {
   @override
   Future<List<BookingHistory>> fetchBookingHistory() {
     return this(callback: () async {
-      throw UnimplementedError();
+      final response = await dioClient.get(
+        '${environmentConfig.apihost}/bookings/${Session().currentUser!.id}/history',
+        options: Options(
+          validateStatus: (status) => true,
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        log(response.data.toString());
+        return response.data!
+            .map<BookingHistory>(
+              (data) => BookingHistory.fromMap(data),
+            )
+            .toList();
+      }
+      throw const HistoryException(message: 'Failed to retrieve payments');
     });
   }
 

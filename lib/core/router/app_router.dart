@@ -410,6 +410,12 @@ final appRouter = GoRouter(
               path: Routes.bookingHistory.asSubPath(),
               name: Routes.bookingHistory.name,
               pageBuilder: (context, routeState) {
+                 final appinfoBloc = BlocProvider.of<HistoryBloc>(context);
+                if (appinfoBloc.state is! BookingState) {
+                  appinfoBloc.add(
+                    const FetchBookingHistory(),
+                  );
+                }
                 return CustomTransitionPage(
                   child: const BookingHistoryPage(),
                   // key: routeState.pageKey,

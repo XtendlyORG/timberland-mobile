@@ -16,6 +16,19 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     on<HistoryEvent>((event, emit) {
       // TODO: implement event handler
     });
+    on<FetchBookingHistory>((event, emit) async {
+      emit(const LoadingHistory(loadingMessage: 'Loading Bookings...'));
+      final result = await repository.fetchBookingHistory();
+
+      result.fold(
+        (failure) {
+          emit(HistoryError(errorMessage: failure.message));
+        },
+        (bookings) {
+          emit(BookingHistoryLoaded(bookings: bookings));
+        },
+      );
+    });
 
     on<FetchPaymentHistory>((event, emit) async {
       emit(const LoadingHistory(loadingMessage: 'Loading Payments...'));
