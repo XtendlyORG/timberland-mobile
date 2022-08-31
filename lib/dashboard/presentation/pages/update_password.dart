@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/constants/constants.dart';
 import '../../../core/presentation/widgets/filled_text_button.dart';
 import '../../../core/presentation/widgets/form_fields/form_fields.dart';
+import '../../../core/presentation/widgets/snackbar_content/loading_snackbar_content.dart';
 import '../../../core/presentation/widgets/snackbar_content/show_snackbar.dart';
 import '../../../core/presentation/widgets/timberland_scaffold.dart';
 import '../../../core/router/router.dart';
@@ -18,6 +19,14 @@ class UpdatePasswordPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<ProfileBloc, ProfileState>(
       listener: (context, state) {
+        if (state is UpdatingProfile) {
+          showSnackBar(
+            const SnackBar(
+              content:
+                  LoadingSnackBarContent(loadingMessage: 'Updating Profile'),
+            ),
+          );
+        }
         if (state is ProfileUpdateError) {
           showSnackBar(SnackBar(
             content: Text(state.errorMessage),
@@ -120,7 +129,7 @@ class _UpdatePasswordForm extends StatelessWidget {
         children: [
           PasswordField(
             controller: oldPasswordCtrl,
-            hintText: 'Old Password',
+            hintText: 'Current Password',
           ),
           const SizedBox(
             height: kVerticalPadding,

@@ -286,13 +286,15 @@ class RegistrationContinuationForm extends StatelessWidget {
                             return null;
                           } else if (year.length != 4) {
                             return 'Invalid year';
+                          } else if (int.tryParse(year) != null) {
+                            if (int.parse(year) <= 1900) {
+                              return 'Year can not be lower than 1901';
+                            }
                           }
                           return null;
                         },
                         decoration: const InputDecoration(
-                          hintText: 'Bike (year)',
-                          counterText: ''
-                        ),
+                            hintText: 'Bike (year)', counterText: ''),
                         maxLength: 4,
                         textInputAction: TextInputAction.next,
                         textCapitalization: TextCapitalization.words,

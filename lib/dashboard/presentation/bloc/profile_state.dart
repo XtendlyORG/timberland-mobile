@@ -10,6 +10,10 @@ abstract class ProfileState extends Equatable {
 
 class ProfileInitial extends ProfileState {}
 
+class UpdatingProfile extends ProfileState {
+  const UpdatingProfile();
+}
+
 class UpdatingUserDetail extends ProfileState {
   final int pageNum;
   final UpdateUserDetailsParams updatedUser;

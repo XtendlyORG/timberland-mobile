@@ -6,9 +6,11 @@ import '../../../utils/validators/email_validator.dart';
 
 class EmailField extends StatelessWidget {
   final TextInputAction? textInputAction;
+  final String? hintText;
   const EmailField({
     Key? key,
     this.textInputAction,
+    this.hintText,
     required this.controller,
   }) : super(key: key);
 
@@ -20,8 +22,8 @@ class EmailField extends StatelessWidget {
       controller: controller,
       validator: validateEmail,
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      decoration: const InputDecoration(
-        hintText: 'Email Address',
+      decoration: InputDecoration(
+        hintText: hintText ?? 'Email Address',
       ),
       textInputAction: textInputAction ?? TextInputAction.next,
       keyboardType: TextInputType.emailAddress,
