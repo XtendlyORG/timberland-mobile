@@ -23,8 +23,6 @@ class FirstTimeUserPage extends StatelessWidget {
             colorActiveDot: TimberlandColor.primary,
             colorDot: TimberlandColor.primary,
             typeDotAnimation: DotSliderAnimation.SIZE_TRANSITION,
-            autoScroll: true,
-            autoScrollInterval: const Duration(seconds: 5),
             onDonePress: () {
               BlocProvider.of<AuthBloc>(context)
                   .add(const FinishUserGuideEvent());
