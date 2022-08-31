@@ -123,7 +123,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
 
     on<RequestRegisterEvent>((event, emit) async {
-      final initState = state;
       final email = event.parameter.email;
       emit(
         AuthLoading(
@@ -142,7 +141,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               parameter: event.parameter,
             ),
           );
-          emit(initState);
+          emit(OtpSent(
+            parameter: event.parameter,
+            message: "OTP is sent to $email",
+          ));
         },
         (r) {
           emit(

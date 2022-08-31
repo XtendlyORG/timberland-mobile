@@ -22,6 +22,7 @@ class OtpVerificationForm extends StatefulWidget {
 
 class _OtpVerificationFormState extends State<OtpVerificationForm> {
   late bool validOtp;
+  late FocusNode focusNode;
   late final TextEditingController otpCtrl;
   late final TextEditingController digit1;
   late final TextEditingController digit2;
@@ -31,12 +32,17 @@ class _OtpVerificationFormState extends State<OtpVerificationForm> {
   void initState() {
     super.initState();
     validOtp = false;
-
+    focusNode = FocusNode();
     otpCtrl = TextEditingController();
     digit1 = TextEditingController();
     digit2 = TextEditingController();
     digit3 = TextEditingController();
     digit4 = TextEditingController();
+  }
+  @override
+  void dispose() {
+    focusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -61,113 +67,114 @@ class _OtpVerificationFormState extends State<OtpVerificationForm> {
         ),
         Padding(
           padding: const EdgeInsets.only(bottom: kVerticalPadding),
-          child: Form(
-            onChanged: () {
-              otpCtrl.text =
-                  digit1.text + digit2.text + digit3.text + digit4.text;
-              if (otpCtrl.text.length != 4 && validOtp) {
-                setState(() {
-                  validOtp = false;
-                });
-              }
-              if (otpCtrl.text.length == 4 && !validOtp) {
-                setState(() {
-                  validOtp = true;
-                });
+          child: RawKeyboardListener(
+            focusNode: focusNode,
+            onKey: (event) {
+              if (event.logicalKey == LogicalKeyboardKey.backspace &&
+                  event is RawKeyUpEvent &&
+                  digit1.text.isNotEmpty) {
+                FocusManager.instance.primaryFocus?.previousFocus();
               }
             },
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextFormField(
-                    controller: digit1,
-                    maxLength: 1,
-                    onChanged: (val) {
-                      if (val.length == 1) {
-                        FocusManager.instance.primaryFocus?.nextFocus();
-                      }
-                    },
-                    onEditingComplete: (){},
-                    decoration: const InputDecoration(counterText: ''),
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                    autofocus: true,
-                    textInputAction: TextInputAction.next,
+            child: Form(
+              onChanged: () {
+                otpCtrl.text =
+                    digit1.text + digit2.text + digit3.text + digit4.text;
+                if (otpCtrl.text.length != 4 && validOtp) {
+                  setState(() {
+                    validOtp = false;
+                  });
+                }
+                if (otpCtrl.text.length == 4 && !validOtp) {
+                  setState(() {
+                    validOtp = true;
+                  });
+                }
+              },
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      controller: digit1,
+                      maxLength: 1,
+                      onChanged: (val) {
+                        if (val.length == 1) {
+                          FocusManager.instance.primaryFocus?.nextFocus();
+                        }
+                      },
+                      onEditingComplete: () {},
+                      decoration: const InputDecoration(counterText: ''),
+                      textAlign: TextAlign.center,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
+                      autofocus: true,
+                      textInputAction: TextInputAction.next,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: TextFormField(
-                    controller: digit2,
-                    maxLength: 1,
-                    onChanged: (val) {
-                      if (val.length == 1) {
-                        FocusManager.instance.primaryFocus?.nextFocus();
-                      } else {
-                        FocusManager.instance.primaryFocus?.previousFocus();
-                      }
-                    },
-                    onEditingComplete: (){},
-                    decoration: const InputDecoration(counterText: ''),
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                    autofocus: true,
-                    textInputAction: TextInputAction.next,
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: TextFormField(
+                      controller: digit2,
+                      maxLength: 1,
+                      onChanged: (val) {
+                        if (val.length == 1) {
+                          FocusManager.instance.primaryFocus?.nextFocus();
+                        }
+                      },
+                      onEditingComplete: () {},
+                      decoration: const InputDecoration(counterText: ''),
+                      textAlign: TextAlign.center,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
+                      autofocus: true,
+                      textInputAction: TextInputAction.next,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: TextFormField(
-                    controller: digit3,
-                    maxLength: 1,
-                    onChanged: (val) {
-                      if (val.length == 1) {
-                        FocusManager.instance.primaryFocus?.nextFocus();
-                      } else {
-                        FocusManager.instance.primaryFocus?.previousFocus();
-                      }
-                    },
-                    onEditingComplete: (){},
-                    decoration: const InputDecoration(counterText: ''),
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                    autofocus: true,
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: TextFormField(
+                      controller: digit3,
+                      maxLength: 1,
+                      onChanged: (val) {
+                        if (val.length == 1) {
+                          FocusManager.instance.primaryFocus?.nextFocus();
+                        }
+                      },
+                      onEditingComplete: () {},
+                      decoration: const InputDecoration(counterText: ''),
+                      textAlign: TextAlign.center,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
+                      autofocus: true,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: TextFormField(
-                    controller: digit4,
-                    maxLength: 1,
-                    onChanged: (val) {
-                      if (val.isEmpty) {
-                        FocusManager.instance.primaryFocus?.previousFocus();
-                      }
-                    },
-                    onFieldSubmitted: (_) {
-                      validOtp ? widget.onSubmit(otpCtrl.text) : null;
-                    },
-                    onEditingComplete: (){},
-                    onSaved: (_){},
-                    decoration: const InputDecoration(counterText: ''),
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                    autofocus: true,
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: TextFormField(
+                      controller: digit4,
+                      maxLength: 1,
+                      onFieldSubmitted: (_) {
+                        validOtp ? widget.onSubmit(otpCtrl.text) : null;
+                      },
+                      onEditingComplete: () {},
+                      onSaved: (_) {},
+                      decoration: const InputDecoration(counterText: ''),
+                      textAlign: TextAlign.center,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
+                      autofocus: true,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

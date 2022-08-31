@@ -133,6 +133,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     });
 
     on<UpdatePasswordRequest>((event, emit) async {
+      emit(const UpdatingProfile());
       final result = await repository.updatePasswordRequest(
         event.oldPassword,
         event.newPassword,

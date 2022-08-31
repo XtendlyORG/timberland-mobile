@@ -111,6 +111,7 @@ class _UpdateEmailForm extends StatelessWidget {
       child: Column(
         children: [
           EmailField(
+            hintText: 'New Email Address',
             controller: emailCtrl,
           ),
           const SizedBox(

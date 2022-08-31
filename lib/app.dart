@@ -113,12 +113,11 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return Listener(
-      onPointerDown: (_) {
-        FocusScopeNode currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus &&
-            currentFocus.focusedChild != null) {
-          currentFocus.focusedChild!.unfocus();
+    return GestureDetector(
+      onTap: () {
+        final currentFocus = FocusManager.instance.primaryFocus;
+        if (currentFocus != null && currentFocus.hasFocus) {
+          currentFocus.unfocus();
         }
       },
       child: MaterialApp.router(
