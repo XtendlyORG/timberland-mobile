@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/custom_checkbox.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/date_picker.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/form_fields/form_fields.dart';
@@ -20,7 +21,6 @@ import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.d
 import 'package:timberland_biketrail/dashboard/domain/params/update_user_detail.dart';
 import 'package:timberland_biketrail/dashboard/presentation/bloc/profile_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/custom_checkbox.dart';
 
 class RegistrationContinuationForm extends StatelessWidget {
   final UpdateUserDetailsParams?
@@ -166,6 +166,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                     );
                   },
                   controller: birthdayCtrl,
+                  enableInteractiveSelection: false,
                   decoration: const InputDecoration(
                     hintText: 'Date of Birth',
                   ),
@@ -245,6 +246,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                       );
                     },
                     controller: imageCtrl,
+                    enableInteractiveSelection: false,
                     decoration: InputDecoration(
                       hintText: 'Take a selfie',
                       suffixIcon: const Icon(Icons.ios_share_rounded),
