@@ -29,7 +29,7 @@ class UserModel extends User {
       },
     );
     return UserModel(
-      id: (map['user_id'] as num?).toString(),
+      id: (map['member_id'] as num?).toString(),
       firstName: map['firstname'] as String,
       middleName:
           map['middlename'] != null ? map['middlename'] as String : null,

@@ -33,7 +33,7 @@ class RemoteAuthenticator implements Authenticator {
   Future<User> login(LoginParameter loginParameter) async {
     try {
       final response = await dioClient.post(
-        '${environmentConfig.apihost}/users/login',
+        '${environmentConfig.apihost}/members/login',
         data: {
           'email': loginParameter.email,
           'password': loginParameter.password,
@@ -107,7 +107,7 @@ class RemoteAuthenticator implements Authenticator {
       final Response response;
 
       response = await dioClient.post(
-        '${environmentConfig.apihost}/users/register',
+        '${environmentConfig.apihost}/members/register',
         data: FormData.fromMap(
           registerParameter.toMap()
             ..addEntries(
@@ -167,7 +167,7 @@ class RemoteAuthenticator implements Authenticator {
         },
       );
       final response = await dioClient.post(
-        '${environmentConfig.apihost}/users/verify',
+        '${environmentConfig.apihost}/members/verify',
         data: body,
       );
       log(response.statusCode.toString());
@@ -227,7 +227,7 @@ class RemoteAuthenticator implements Authenticator {
       final Response response;
 
       response = await dioClient.put(
-        '${environmentConfig.apihost}/users/otp',
+        '${environmentConfig.apihost}/members/otp',
         data: {
           'email': email,
         },
@@ -274,7 +274,7 @@ class RemoteAuthenticator implements Authenticator {
       final Response response;
 
       response = await dioClient.post(
-        '${environmentConfig.apihost}/users/forgot',
+        '${environmentConfig.apihost}/members/forgot',
         data: body,
       );
 
@@ -319,7 +319,7 @@ class RemoteAuthenticator implements Authenticator {
         },
       );
       final response = await dioClient.put(
-        '${environmentConfig.apihost}/users/forgot/change',
+        '${environmentConfig.apihost}/members/forgot/change',
         data: body,
       );
       log(response.statusCode.toString());
