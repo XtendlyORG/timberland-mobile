@@ -106,7 +106,7 @@ class User extends Equatable {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'user_id': int.parse(id),
+      'member_id': int.parse(id),
       'firstname': firstName,
       'middlename': middleName,
       'lastname': lastName,

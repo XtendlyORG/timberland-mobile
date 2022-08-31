@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/constants/navbar_configs.dart';
@@ -61,11 +62,11 @@ class _MainPageState extends State<MainPage> {
       child: BlocBuilder<AuthBloc, AuthState>(
         buildWhen: (previous, current) {
           if (current is UserGuideFinished) {
-            Future.delayed(Duration.zero, () {
+            SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
               context.goNamed(Routes.booking.name);
             });
           }
-          return current is! UserGuideFinished && current is! UnAuthenticated;
+          return current is! UnAuthenticated;
         },
         builder: (context, state) {
           if (state is UnAuthenticated && Session().isLoggedIn) {

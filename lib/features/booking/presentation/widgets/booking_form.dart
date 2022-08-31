@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
-
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -9,8 +8,10 @@ import 'package:intl/intl.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/loading_snackbar_content.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/show_snackbar.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
+import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/custom_checkbox.dart';
 import 'package:timberland_biketrail/features/booking/domain/params/booking_request_params.dart';
 import 'package:timberland_biketrail/features/booking/presentation/widgets/booking_date_picker.dart';
 import 'package:timberland_biketrail/features/booking/presentation/widgets/booking_time_picker.dart';
@@ -31,26 +32,34 @@ class BookingForm extends StatefulWidget {
 }
 
 class _BookingFormState extends State<BookingForm> {
+  late bool waiverAccepted;
   late final GlobalKey<FormState> formKey;
-  late DateTime? chosenDate;
+  late DateTime? selectedDate;
+  late TimeOfDay? selectedTime;
   late TextEditingController dateCtrl;
   late TextEditingController timeCtrl;
   late TextEditingController mobileNumberCtrl;
   late TextEditingController emailCtrl;
-  late TextEditingController fullNameCtrl;
+  late TextEditingController firstNameCtrl;
+  late TextEditingController lastNameCtrl;
 
   @override
   void initState() {
+    waiverAccepted = false;
     formKey = GlobalKey<FormState>();
-    chosenDate = null;
+    selectedDate = null;
+    selectedTime = null;
     dateCtrl = TextEditingController();
     timeCtrl = TextEditingController();
     mobileNumberCtrl = TextEditingController(text: widget.user.mobileNumber);
     emailCtrl = TextEditingController(
       text: widget.user.email,
     );
-    fullNameCtrl = TextEditingController(
-      text: '${widget.user.firstName} ${widget.user.lastName}',
+    firstNameCtrl = TextEditingController(
+      text: widget.user.firstName,
+    );
+    lastNameCtrl = TextEditingController(
+      text: widget.user.lastName,
     );
 
     super.initState();
@@ -100,8 +109,7 @@ class _BookingFormState extends State<BookingForm> {
                             enabled: true,
                             onSubmit: (value) {
                               if (value is DateTime) {
-                                chosenDate = value;
-                                log(chosenDate.toString());
+                                selectedDate = value;
                                 dateCtrl.text =
                                     DateFormat.yMd('en_US').format(value);
                               }
@@ -123,7 +131,11 @@ class _BookingFormState extends State<BookingForm> {
                           child: BookingTimePicker(
                             controller: timeCtrl,
                             enabled: true,
-                            onSubmit: (value) {},
+                            onSubmit: (value) {
+                              if (value is TimeOfDay) {
+                                selectedTime = value;
+                              }
+                            },
                           ),
                         ),
                       ],
@@ -136,21 +148,50 @@ class _BookingFormState extends State<BookingForm> {
               margin: const EdgeInsets.only(
                 bottom: kVerticalPadding,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Row(
                 children: [
-                  const Text("Full Name"),
-                  TextFormField(
-                    controller: fullNameCtrl,
-                    decoration: const InputDecoration(
-                      hintText: "Full Name",
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text("First Name"),
+                        TextFormField(
+                          controller: firstNameCtrl,
+                          decoration: const InputDecoration(
+                            hintText: "First Name",
+                          ),
+                          validator: (fullName) {
+                            return nonEmptyValidator(
+                              fullName,
+                              errorMessage: 'First Name can not be empty.',
+                            );
+                          },
+                        ),
+                      ],
                     ),
-                    validator: (fullName) {
-                      return nonEmptyValidator(
-                        fullName,
-                        errorMessage: 'Name can not be empty.',
-                      );
-                    },
+                  ),
+                  const SizedBox(
+                    width: kVerticalPadding,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text("Last Name"),
+                        TextFormField(
+                          controller: lastNameCtrl,
+                          decoration: const InputDecoration(
+                            hintText: "Last Name",
+                          ),
+                          validator: (fullName) {
+                            return nonEmptyValidator(
+                              fullName,
+                              errorMessage: 'Last Name can not be empty.',
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -171,7 +212,7 @@ class _BookingFormState extends State<BookingForm> {
             ),
             Container(
               margin: const EdgeInsets.only(
-                bottom: kVerticalPadding,
+                bottom: kVerticalPadding / 2,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,19 +224,79 @@ class _BookingFormState extends State<BookingForm> {
                 ],
               ),
             ),
+            Container(
+              margin: const EdgeInsets.only(
+                bottom: kVerticalPadding,
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  CustomCheckbox(
+                    onChange: (val) {
+                      waiverAccepted = val;
+                    },
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 4.5),
+                      child: Text.rich(
+                        style: Theme.of(context).textTheme.titleSmall,
+                        TextSpan(
+                          children: [
+                            const TextSpan(
+                              text: 'I, hereby declare that I understand the ',
+                            ),
+                            TextSpan(
+                              text: 'nature and conditions ',
+                              style: const TextStyle(
+                                color: TimberlandColor.primary,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  context.pushNamed(Routes.bookingWaiver.name);
+                                },
+                            ),
+                            const TextSpan(
+                              text:
+                                  'of the "Timberland Mountain Bike Park" within Timberland Heights grounds and premises (hereafter the "Premises").',
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             SizedBox(
               width: double.infinity,
               child: FilledTextButton(
                 onPressed: () {
+                  if (!waiverAccepted) {
+                    showSnackBar(const SnackBar(
+                        content: AutoSizeText("Waiver not accepted.")));
+                    return;
+                  }
                   if (formKey.currentState!.validate()) {
                     BlocProvider.of<BookingBloc>(context).add(
                       SubmitBookingRequest(
                         params: BookingRequestParams(
-                            customerFullname: fullNameCtrl.text,
-                            mobileNumber: mobileNumberCtrl.text,
-                            email: emailCtrl.text,
-                            date: chosenDate!.toIso8601String(),
-                            time: timeCtrl.text),
+                          firstName: firstNameCtrl.text,
+                          lastName: lastNameCtrl.text,
+                          mobileNumber: mobileNumberCtrl.text,
+                          email: emailCtrl.text,
+                          date: selectedDate.toString().split(' ')[0],
+                          time: DateTime(
+                            0,
+                            0,
+                            0,
+                            selectedTime!.hour,
+                            selectedTime!.minute,
+                          ).toString().split(' ')[1],
+                        ),
                       ),
                     );
                   }

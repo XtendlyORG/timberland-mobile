@@ -5,13 +5,15 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 class BookingRequestParams extends Equatable {
-  final String customerFullname;
+  final String firstName;
+  final String lastName;
   final String mobileNumber;
   final String email;
   final String date;
   final String time;
   const BookingRequestParams({
-    required this.customerFullname,
+    required this.firstName,
+    required this.lastName,
     required this.mobileNumber,
     required this.email,
     required this.date,
@@ -21,7 +23,7 @@ class BookingRequestParams extends Equatable {
   @override
   List<Object> get props {
     return [
-      customerFullname,
+      lastName,
       mobileNumber,
       email,
       date,
@@ -31,7 +33,8 @@ class BookingRequestParams extends Equatable {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'fullname': customerFullname,
+      'firstname': firstName,
+      'lastname': lastName,
       'mobile_number': mobileNumber,
       'email': email,
       'date': date,

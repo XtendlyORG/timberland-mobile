@@ -3,7 +3,9 @@ import 'dart:math' as math;
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+
 import 'package:timberland_biketrail/core/constants/constants.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/custom_styled_text.dart';
 import 'package:timberland_biketrail/features/app_infos/domain/entities/faq.dart';
 
 class FAQWidget extends StatefulWidget {
@@ -70,53 +72,11 @@ class _FAQWidgetState extends State<FAQWidget> with TickerProviderStateMixin {
           bottom: kVerticalPadding,
         ),
         children: [
-          CustomeStyledText(
+          CustomStyledText(
             text: widget.faq.answer,
           ),
         ],
       ),
-    );
-  }
-}
-
-class CustomeStyledText extends StatelessWidget {
-  const CustomeStyledText({
-    Key? key,
-    required this.text,
-  }) : super(key: key);
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    final texts = text.split('<bold>');
-
-    return Text.rich(
-      TextSpan(
-        children: texts.map((text) {
-          final textWithBold = text.split('</bold>');
-          if (textWithBold.length > 1) {
-            return TextSpan(
-              children: [
-                TextSpan(
-                  text: textWithBold[0],
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                TextSpan(
-                  text: textWithBold[1],
-                  style: const TextStyle(
-                    fontWeight: FontWeight.normal,
-                  ),
-                )
-              ],
-            );
-          }
-          return TextSpan(text: text);
-        }).toList(),
-      ),
-      textAlign: TextAlign.left,
     );
   }
 }

@@ -1,8 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:flutter/material.dart';
-import 'package:timberland_biketrail/core/constants/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:intro_slider/intro_slider.dart';
+import 'package:timberland_biketrail/core/constants/onboarding.dart';
+// import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
+import 'package:timberland_biketrail/core/router/router.dart';
+import 'package:timberland_biketrail/core/themes/timberland_color.dart';
+import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 
 class FirstTimeUserPage extends StatelessWidget {
   const FirstTimeUserPage({Key? key}) : super(key: key);
@@ -11,65 +18,38 @@ class FirstTimeUserPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          foregroundColor: Theme.of(context).primaryColor,
-          backgroundColor: Colors.transparent,
-          automaticallyImplyLeading: false,
-        ),
-        extendBodyBehindAppBar: true,
         body: TimberlandContainer(
-          child: Center(
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      height: kHorizontalPadding,
+          child: IntroSlider(
+            hideStatusBar: true,
+            colorActiveDot: TimberlandColor.primary,
+            colorDot: TimberlandColor.primary,
+            typeDotAnimation: DotSliderAnimation.SIZE_TRANSITION,
+            autoScroll: true,
+            autoScrollInterval: const Duration(seconds: 5),
+            onDonePress: () {
+              BlocProvider.of<AuthBloc>(context)
+                  .add(const FinishUserGuideEvent());
+            },
+            slides: OnboardingConfigs.pages
+                .map(
+                  (page) => Slide(
+                    title: page.title,
+                    styleTitle: Theme.of(context)
+                        .textTheme
+                        .headlineSmall
+                        ?.copyWith(color: TimberlandColor.primary),
+                    description: page.description,
+                    styleDescription: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(fontWeight: FontWeight.normal),
+                    centerWidget: Image.asset(
+                      page.assetImagePath,
+                      height: 350,
                     ),
-                    Text.rich(
-                      const TextSpan(
-                        children: [
-                          TextSpan(
-                              text: 'New to Timberland Bike Trail App? ',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              )),
-                          TextSpan(
-                            text:
-                                "Here's a short video on how to navigate the app.",
-                          )
-                        ],
-                      ),
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
-                    const SizedBox(
-                      height: kHorizontalPadding,
-                    ),
-                    Container(
-                      constraints: const BoxConstraints(
-                        maxHeight: 200,
-                        maxWidth: 400,
-                      ),
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                        boxShadow: const [BoxShadow(blurRadius: 10)],
-                      ),
-                      child: const UserGuideVideo(),
-                    ),
-                    const SizedBox(
-                      height: kHorizontalPadding,
-                    ),
-                  ],
-                ),
-              ),
-            ),
+                  ),
+                )
+                .toList(),
           ),
         ),
       ),

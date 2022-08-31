@@ -55,6 +55,10 @@ abstract class Routes {
     path: '/booking',
     name: 'booking',
   );
+  static const bookingWaiver = _Route(
+    path: '/booking/waiver',
+    name: 'booking-waiver',
+  );
   static const checkout = _Route(
     path: '/booking/checkout-page',
     name: 'checkout',

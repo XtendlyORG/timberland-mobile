@@ -18,10 +18,13 @@ class BookingRemoteDataSource implements BookingDatasource {
   Future<String> submitBookingRequest(BookingRequestParams params) {
     return this(callback: () async {
       log('test');
+
+      log(params.toJson());
       final result = await dioClient.post(
         '${environmentConfig.apihost}/bookings',
         data: params.toJson(),
       );
+      log(result.statusCode.toString());
 
       if (result.statusCode == 200) {
         if (result.data is Map<String, dynamic>) {

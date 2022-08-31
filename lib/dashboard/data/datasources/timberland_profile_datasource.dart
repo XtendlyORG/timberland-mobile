@@ -30,7 +30,7 @@ class TimberlandProfileDataSource implements ProfileDataSource {
       }
 
       final response = await dioClient.put(
-        '${environmentConfig.apihost}/users/${Session().currentUser?.id}/details',
+        '${environmentConfig.apihost}/members/${Session().currentUser?.id}/details',
         data: FormData.fromMap(
           updateProfileParams.toMap()
             ..addEntries(
@@ -92,7 +92,7 @@ class TimberlandProfileDataSource implements ProfileDataSource {
   Future<void> updateEmailRequest(String email, String password) async {
     try {
       final response = await dioClient.put(
-        '${environmentConfig.apihost}/users/${Session().currentUser?.id}/email',
+        '${environmentConfig.apihost}/members/${Session().currentUser?.id}/email',
         data: json.encode(
           {
             'new_email': email,
@@ -138,7 +138,7 @@ class TimberlandProfileDataSource implements ProfileDataSource {
   Future<void> verifyEmailUpdate(String email, String otp) async {
     try {
       final response = await dioClient.put(
-        '${environmentConfig.apihost}/users/${Session().currentUser?.id}/email/verify',
+        '${environmentConfig.apihost}/members/${Session().currentUser?.id}/email/verify',
         data: json.encode(
           {
             'new_email': email,
@@ -191,7 +191,7 @@ class TimberlandProfileDataSource implements ProfileDataSource {
   Future<void> resendEmailOtp(String email) async {
     try {
       final response = await dioClient.put(
-        '${environmentConfig.apihost}/users/${Session().currentUser?.id}/update/email/otp',
+        '${environmentConfig.apihost}/members/${Session().currentUser?.id}/update/email/otp',
         data: json.encode(
           {
             'new_email': email,
@@ -237,7 +237,7 @@ class TimberlandProfileDataSource implements ProfileDataSource {
       String oldPassword, String newPassword) async {
     try {
       final response = await dioClient.put(
-        '${environmentConfig.apihost}/users/${Session().currentUser?.id}/password',
+        '${environmentConfig.apihost}/members/${Session().currentUser?.id}/password',
         data: json.encode(
           {
             'old_password': oldPassword,
