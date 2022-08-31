@@ -37,6 +37,13 @@ class ProfileException implements Exception {
   });
 }
 
+class HistoryException implements Exception {
+  final String? message;
+  const HistoryException({
+    this.message,
+  });
+}
+
 class BookingException implements Exception {
   final String? message;
   const BookingException({

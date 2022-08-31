@@ -8,6 +8,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/no_network_snackbar.dart';
 import 'package:timberland_biketrail/core/utils/internet_connection.dart';
+import 'package:timberland_biketrail/features/history/presentation/bloc/history_bloc.dart';
 
 import 'core/router/app_router.dart';
 import 'core/themes/timberland_theme.dart';
@@ -46,6 +47,9 @@ Future<void> run({
       ),
       BlocProvider<ProfileBloc>(
         create: (context) => di.serviceLocator<ProfileBloc>(),
+      ),
+      BlocProvider<HistoryBloc>(
+        create: (context) => di.serviceLocator<HistoryBloc>(),
       ),
     ],
     child: const MyApp(),
