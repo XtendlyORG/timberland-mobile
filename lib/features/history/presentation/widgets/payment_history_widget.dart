@@ -1,14 +1,17 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:timberland_biketrail/core/themes/timberland_color.dart';
+import 'package:timberland_biketrail/core/utils/string_extensions.dart';
+import 'package:timberland_biketrail/features/history/domain/entities/entities.dart';
 
 import '../../../../core/constants/constants.dart';
 
 class PaymentHistoryWidget extends StatelessWidget {
-  final String bankName;
+  final PaymentHistory payment;
   const PaymentHistoryWidget({
     Key? key,
-    required this.bankName,
+    required this.payment,
   }) : super(key: key);
 
   @override
@@ -22,42 +25,52 @@ class PaymentHistoryWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       padding: const EdgeInsets.all(kVerticalPadding),
-      child: Row(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.network(
-            'http://assets.stickpng.com/images/627bba8d2bc3a3762a1d0ba1.png',
-            height: 32,
-            width: 32,
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  DateFormat('dd MMMM yyyy').format(
+                    payment.dateCreated,
+                  ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge
+                      ?.copyWith(fontWeight: FontWeight.normal),
+                ),
+              ),
+              Text(
+                'PHP ${payment.amount % 1 == 0 ? payment.amount.toInt() : payment.amount}',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+            ],
           ),
           const SizedBox(
             width: kVerticalPadding,
           ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AutoSizeText(
-                  bankName,
-                  style: Theme.of(context).textTheme.titleMedium,
-                  maxLines: 3,
-                  minFontSize: 16,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Image.network(
+                  'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Maya_logo.svg/1200px-Maya_logo.svg.png',
+                  width: 64,
                 ),
-                AutoSizeText.rich(
-                  TextSpan(
-                    children: const [
-                      TextSpan(
-                        text: 'John Doe\n',
-                      ),
-                      TextSpan(
-                        text: '****2945',
-                      ),
-                    ],
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                ),
-              ],
-            ),
+              ),
+              const Spacer(),
+              Text(
+                payment.status.name.toTitleCase(),
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.normal,
+                      color: payment.status == PaymentStatus.successful
+                          ? Colors.green
+                          : TimberlandColor.secondaryColor,
+                    ),
+              ),
+            ],
           ),
         ],
       ),

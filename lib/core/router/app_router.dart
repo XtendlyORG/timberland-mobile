@@ -17,6 +17,7 @@ import 'package:timberland_biketrail/features/booking/presentation/pages/checkou
 import 'package:timberland_biketrail/features/booking/presentation/pages/failed_booking.dart';
 import 'package:timberland_biketrail/features/booking/presentation/pages/success_booking.dart';
 import 'package:timberland_biketrail/features/booking/presentation/pages/waiver/waiver.dart';
+import 'package:timberland_biketrail/features/history/presentation/bloc/history_bloc.dart';
 
 import '../../dashboard/presentation/pages/qr_code_page.dart';
 import '../../dashboard/presentation/pages/update_profile_page.dart';
@@ -384,6 +385,12 @@ final appRouter = GoRouter(
               path: Routes.paymentHistory.asSubPath(),
               name: Routes.paymentHistory.name,
               pageBuilder: (context, routeState) {
+                final appinfoBloc = BlocProvider.of<HistoryBloc>(context);
+                if (appinfoBloc.state is! PaymentState) {
+                  appinfoBloc.add(
+                    const FetchPaymentHistory(),
+                  );
+                }
                 return CustomTransitionPage(
                   child: const PaymentHistoryPage(),
                   // key: routeState.pageKey,

@@ -38,6 +38,13 @@ class ProfileFailure implements Failure {
   });
 }
 
+class HistoryFailure implements Failure {
+  final String message;
+  const HistoryFailure({
+    required this.message,
+  });
+}
+
 class BookingFailure implements Failure {
   final String message;
   const BookingFailure({
