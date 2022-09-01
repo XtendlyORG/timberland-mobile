@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/presentation/widgets/expanded_image.dart';
@@ -37,7 +38,7 @@ class TrailDetailTop extends StatelessWidget {
             child: Container(
               height: 300,
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
+                color: TimberlandColor.lightBlue,
                 image: DecorationImage(
                   image: NetworkImage(trail.mapImageUrl),
                   fit: BoxFit.fill,

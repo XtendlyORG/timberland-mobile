@@ -1,9 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/expanded_image.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
+import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/features/trail/domain/entities/trail.dart';
 import 'package:timberland_biketrail/features/trail/presentation/widgets/trail_specs.dart';
 
@@ -73,8 +75,23 @@ class TrailWidget extends StatelessWidget {
                 );
               },
               errorWidget: (context, url, error) {
-                return const Center(
-                  child: Icon(Icons.error_outline_rounded),
+                return Container(
+                  alignment: Alignment.center,
+                  color: TimberlandColor.lightBlue,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.error_outline_rounded,
+                        size: 48,
+                      ),
+                      Text(
+                        "Failed to load Image",
+                        style: Theme.of(context).textTheme.headlineSmall,
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
                 );
               },
             ),
