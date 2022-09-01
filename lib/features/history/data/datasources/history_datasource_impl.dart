@@ -35,7 +35,10 @@ class HistoryDataSoureImpl implements HistoryDataSoure {
             )
             .toList();
       }
-      throw const HistoryException(message: 'Failed to retrieve payments');
+      if (response.data is List) {
+        return [];
+      }
+      throw const HistoryException(message: 'Failed to retrieve bookings');
     });
   }
 
@@ -56,6 +59,9 @@ class HistoryDataSoureImpl implements HistoryDataSoure {
               (data) => PaymentHistory.fromMap(data),
             )
             .toList();
+      }
+      if (response.data is List) {
+        return [];
       }
       throw const HistoryException(message: 'Failed to retrieve payments');
     });
@@ -84,7 +90,12 @@ class HistoryDataSoureImpl implements HistoryDataSoure {
       throw const HistoryException(
         message: "Error Occurred",
       );
+    } on HistoryException {
+      rethrow;
     } catch (e) {
+      if (e is HistoryException) {
+        log(e.message ?? 'no message');
+      }
       log(e.toString());
       throw const HistoryException(message: "An Error Occurred");
     }
