@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/presentation/widgets/widgets.dart';
@@ -38,6 +39,37 @@ class PaymentHistoryPage extends StatelessWidget {
                 );
               }
               if (state is PaymentHistoryLoaded) {
+                if (state.payments.isEmpty) {
+                  return latestWidget = SizedBox(
+                    height: MediaQuery.of(context).size.height -
+                        kToolbarHeight * 5,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: kHorizontalPadding,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.history_rounded,
+                              color: TimberlandColor.primary,
+                              size: 128,
+                            ),
+                            Text(
+                              "No Payment History",
+                              style: Theme.of(context).textTheme.headlineMedium,
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(
+                              height: kToolbarHeight,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }
                 return Column(
                   children: [
                     ...state.payments

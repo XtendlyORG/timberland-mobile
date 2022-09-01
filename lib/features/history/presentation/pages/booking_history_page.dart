@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/presentation/widgets/widgets.dart';
@@ -28,8 +29,7 @@ class BookingHistoryPage extends StatelessWidget {
               if (state is LoadingHistory) {
                 return latestWidget = SizedBox(
                   height: MediaQuery.of(context).size.height -
-                      kToolbarHeight * 2 -
-                      kBottomNavigationBarHeight,
+                        kToolbarHeight * 5,
                   child: const RepaintBoundary(
                     child: Center(
                       child: CircularProgressIndicator(),
@@ -38,12 +38,44 @@ class BookingHistoryPage extends StatelessWidget {
                 );
               }
               if (state is BookingHistoryLoaded) {
+                if (state.bookings.isEmpty) {
+                  return latestWidget = SizedBox(
+                    height: MediaQuery.of(context).size.height -
+                        kToolbarHeight * 5,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: kHorizontalPadding,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.history_rounded,
+                              color: TimberlandColor.primary,
+                              size: 128,
+                            ),
+                            Text(
+                              "No Booking History",
+                              style: Theme.of(context).textTheme.headlineMedium,
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(
+                              height: kToolbarHeight,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }
                 return Column(
                   children: [
                     ...state.bookings
                         .map(
                           (booking) => Padding(
-                            padding: const EdgeInsets.only(bottom: kVerticalPadding),
+                            padding:
+                                const EdgeInsets.only(bottom: kVerticalPadding),
                             child: BookingHistoryWidget(
                               bookingHistory: booking,
                             ),
@@ -55,9 +87,8 @@ class BookingHistoryPage extends StatelessWidget {
               }
               if (state is HistoryError) {
                 return latestWidget = SizedBox(
-                  height: MediaQuery.of(context).size.height -
-                      kToolbarHeight * 2 -
-                      kBottomNavigationBarHeight,
+                   height: MediaQuery.of(context).size.height -
+                        kToolbarHeight * 5,
                   child: Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
