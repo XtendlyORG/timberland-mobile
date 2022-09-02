@@ -1,6 +1,6 @@
-const waiverContent =
+String waiverContent(String name) =>
     """
-I, ___________________________hereby declare that I understand the nature and conditions of the “Timberland Mountain Bike Park” within Timberland Heights grounds and premises (hereafter the “Premises”). I am voluntarily joining and participating in the Activities held inside the Premises. “Activities” shall cover all activities, events, use of the Premises, including but not limited to cycling, jogging, running, training, walking and all other related activities within the Premises, whether or not organized. 
+I, <bold>$name</bold> hereby declare that I understand the nature and conditions of the “Timberland Mountain Bike Park” within Timberland Heights grounds and premises (hereafter the “Premises”). I am voluntarily joining and participating in the Activities held inside the Premises. “Activities” shall cover all activities, events, use of the Premises, including but not limited to cycling, jogging, running, training, walking and all other related activities within the Premises, whether or not organized. 
 
 I shall strictly abide by the rules and regulations imposed by Nature Specialists, Inc. (“NSI”), and Switchbacks, Inc. (“SBI”) of which I have been made aware, including but not limited to the following: (1) Bike Park Safety Guide; (2) Bike Park Rules & Etiquette; and (3) Mountain Bikers Code of Conduct (collectively referred to as “Guidelines”). I hereby acknowledge and declare that I have completely read and fully understand the Guidelines, copies of which I have been provided with. 
 
