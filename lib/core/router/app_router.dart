@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/presentation/pages/404_page.dart';
+import 'package:timberland_biketrail/core/presentation/pages/first_time_user_page.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/inherited_widgets/inherited_register_parameter.dart';
 import 'package:timberland_biketrail/dashboard/presentation/pages/update_email.dart';
 import 'package:timberland_biketrail/dashboard/presentation/pages/update_password.dart';
@@ -67,6 +68,24 @@ final appRouter = GoRouter(
     return null;
   },
   routes: [
+    GoRoute(
+      path: Routes.onboarding.path,
+      name: Routes.onboarding.name,
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          restorationId: state.pageKey.value,
+          child: const OnboardingSlider(),
+          transitionDuration: const Duration(milliseconds: 500),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+    ),
     GoRoute(
       path: Routes.login.path,
       name: Routes.login.name,
@@ -410,7 +429,7 @@ final appRouter = GoRouter(
               path: Routes.bookingHistory.asSubPath(),
               name: Routes.bookingHistory.name,
               pageBuilder: (context, routeState) {
-                 final appinfoBloc = BlocProvider.of<HistoryBloc>(context);
+                final appinfoBloc = BlocProvider.of<HistoryBloc>(context);
                 if (appinfoBloc.state is! BookingState) {
                   appinfoBloc.add(
                     const FetchBookingHistory(),
