@@ -73,8 +73,7 @@ class _OnboardingSliderState extends State<OnboardingSlider> {
                           .textTheme
                           .titleMedium
                           ?.copyWith(
-                              fontWeight: FontWeight.normal,
-                              color: TimberlandColor.primary),
+                              fontWeight: FontWeight.normal),
                       centerWidget: Image.asset(
                         OnboardingConfigs.pages[index].assetImagePath,
                         height: 350,
@@ -183,35 +182,34 @@ class OnbaordingSlide extends StatelessWidget {
     return SingleChildScrollView(
       child: SizedBox(
         height: mediaquery.size.longestSide - kToolbarHeight,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          // mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Align(
-              alignment: Alignment.topCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(top: kToolbarHeight, bottom: 10),
-                child: AutoSizeText(
-                  title,
-                  style: styleTitle,
-                  textAlign: TextAlign.center,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Align(
+                alignment: Alignment.topCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: kToolbarHeight, bottom: 10),
+                  child: AutoSizeText(
+                    title,
+                    style: styleTitle,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
-            ),
-            const Spacer(),
-            centerWidget,
-            const Spacer(),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-              child: AutoSizeText(
+              const Spacer(),
+              centerWidget,
+              AutoSizeText(
                 description,
                 style: styleDescription,
                 textAlign: TextAlign.center,
               ),
-            ),
-            const Spacer(),
-          ],
+              const Spacer(
+                flex: 2,
+              ),
+            ],
+          ),
         ),
       ),
     );
