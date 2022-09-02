@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/presentation/widgets/widgets.dart';
+import '../../../../core/themes/timberland_color.dart';
 import '../bloc/history_bloc.dart';
 import '../widgets/payment_history_widget.dart';
 
@@ -57,7 +57,7 @@ class PaymentHistoryPage extends StatelessWidget {
                               size: 128,
                             ),
                             Text(
-                              "No Payment History",
+                              "No payment history to show",
                               style: Theme.of(context).textTheme.headlineMedium,
                               textAlign: TextAlign.center,
                             ),

@@ -56,7 +56,7 @@ class BookingHistoryPage extends StatelessWidget {
                               size: 128,
                             ),
                             Text(
-                              "No Booking History",
+                              "No booking history to show",
                               style: Theme.of(context).textTheme.headlineMedium,
                               textAlign: TextAlign.center,
                             ),
