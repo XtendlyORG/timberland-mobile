@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/presentation/widgets/widgets.dart';
+import '../../../../core/themes/timberland_color.dart';
 import '../bloc/history_bloc.dart';
 import '../widgets/booking_history_widget.dart';
 
