@@ -4,6 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:move_to_background/move_to_background.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/constants/onboarding.dart';
@@ -41,6 +42,8 @@ class _OnboardingSliderState extends State<OnboardingSlider> {
             duration: Duration(milliseconds: 500),
             curve: Curves.ease,
           );
+        }else{
+          MoveToBackground.moveTaskToBack();
         }
 
         return false;
