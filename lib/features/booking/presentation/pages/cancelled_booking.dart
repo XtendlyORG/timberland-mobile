@@ -16,14 +16,14 @@ class CancelledBookingPage extends StatelessWidget {
         size: 64,
       ),
       title: AutoSizeText(
-        'Payment Cancelled!',
+        'Payment Cancelled',
         style: Theme.of(context).textTheme.titleLarge?.copyWith(
               color: TimberlandColor.secondaryColor,
             ),
         maxLines: 1,
       ),
       subtitle: const AutoSizeText(
-        "Your payment was cancelled!Thanks for using our application.",
+        "Your payment has been cancelled. Thank you for booking with us!",
         textAlign: TextAlign.center,
       ),
     );
