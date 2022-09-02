@@ -42,7 +42,7 @@ class _OnboardingSliderState extends State<OnboardingSlider> {
             duration: Duration(milliseconds: 500),
             curve: Curves.ease,
           );
-        }else{
+        } else {
           MoveToBackground.moveTaskToBack();
         }
 
@@ -72,7 +72,9 @@ class _OnboardingSliderState extends State<OnboardingSlider> {
                       styleDescription: Theme.of(context)
                           .textTheme
                           .titleMedium
-                          ?.copyWith(fontWeight: FontWeight.normal),
+                          ?.copyWith(
+                              fontWeight: FontWeight.normal,
+                              color: TimberlandColor.primary),
                       centerWidget: Image.asset(
                         OnboardingConfigs.pages[index].assetImagePath,
                         height: 350,
