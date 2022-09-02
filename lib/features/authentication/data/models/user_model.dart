@@ -43,9 +43,9 @@ class UserModel extends User {
       bloodType: map['blood_type'] != null ? map['blood_type'] as String : null,
       email: map['email'] as String,
       mobileNumber: map['mobile_number'] as String,
-      bikeModel: map['model'] != null ? map['model'] as String : null,
-      bikeYear: map['year'] != null ? (map['year'] as num).toString() : null,
-      bikeColor: map['color'] != null ? map['color'] as String : null,
+      bikeModel: map['bike_model'] != null ? map['bike_model'] as String : null,
+      bikeYear: map['bike_year'] != null ? (map['bike_year'] as num).toString() : null,
+      bikeColor: map['bike_color'] != null ? map['bike_color'] as String : null,
       accessCode: map['access_code'] as String,
       emergencyContactInfo: map['emergency_number'] != null
           ? map['emergency_number'] as String

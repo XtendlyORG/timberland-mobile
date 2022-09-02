@@ -128,7 +128,12 @@ class UpdateProfileForm extends StatelessWidget {
                       List<int> reducedImageByte = await compute(
                         reduceImageByte,
                         imageFile.readAsBytesSync(),
-                      ).whenComplete(() => imageReady = true);
+                      ).whenComplete(
+                        () {
+                          imageReady = true;
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                        },
+                      );
                       newImageFile = await File(imagePath).writeAsBytes(
                         reducedImageByte,
                       );
