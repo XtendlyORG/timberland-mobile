@@ -98,5 +98,4 @@ flutter_native_splash:
     icon_background_color_dark: "#101010"
 
   
-  ios: false
   web: false
