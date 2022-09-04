@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:move_to_background/move_to_background.dart';
 import 'package:timberland_biketrail/core/constants/navbar_configs.dart';
-import 'package:timberland_biketrail/core/presentation/pages/first_time_user_page.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
@@ -55,32 +55,37 @@ class _MainPageState extends State<MainPage> {
       );
     }
 
-    return WillPopScope(
-      onWillPop: () async {
-        return false;
+    return BlocBuilder<AuthBloc, AuthState>(
+      buildWhen: (previous, current) {
+        if (current is UserGuideFinished) {
+          SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+            context.goNamed(Routes.booking.name);
+          });
+        }
+        return current is! UnAuthenticated;
       },
-      child: BlocBuilder<AuthBloc, AuthState>(
-        buildWhen: (previous, current) {
-          if (current is UserGuideFinished) {
+      builder: (context, state) {
+        if (state is UnAuthenticated && Session().isLoggedIn) {
+          Future.delayed(Duration.zero, () {
+            BlocProvider.of<AuthBloc>(context).add(
+              const FetchUserEvent(),
+            );
+          });
+        }
+        if (state is Authenticated) {
+          if (state.firstTimeUser) {
             SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-              context.goNamed(Routes.booking.name);
+              ScaffoldMessenger.of(context).clearSnackBars();
+              context.goNamed(Routes.onboarding.name);
             });
+            return const Scaffold();
           }
-          return current is! UnAuthenticated;
-        },
-        builder: (context, state) {
-          if (state is UnAuthenticated && Session().isLoggedIn) {
-            Future.delayed(Duration.zero, () {
-              BlocProvider.of<AuthBloc>(context).add(
-                const FetchUserEvent(),
-              );
-            });
-          }
-          if (state is Authenticated) {
-            if (state.firstTimeUser) {
-              return const FirstTimeUserPage();
-            }
-            return SafeArea(
+          return WillPopScope(
+            onWillPop: () async {
+              MoveToBackground.moveTaskToBack();
+              return false;
+            },
+            child: SafeArea(
               child: Scaffold(
                 endDrawer: const Dashboard(),
                 appBar: TimberlandAppbar(
@@ -142,21 +147,21 @@ class _MainPageState extends State<MainPage> {
                   ),
                 ),
               ),
-            );
-          }
-          return const SafeArea(
-            child: Scaffold(
-              body: TimberlandContainer(
-                child: Center(
-                  child: RepaintBoundary(
-                    child: CircularProgressIndicator(),
-                  ),
+            ),
+          );
+        }
+        return const SafeArea(
+          child: Scaffold(
+            body: TimberlandContainer(
+              child: Center(
+                child: RepaintBoundary(
+                  child: CircularProgressIndicator(),
                 ),
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

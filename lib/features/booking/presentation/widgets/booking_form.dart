@@ -242,7 +242,7 @@ class _BookingFormState extends State<BookingForm> {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 4.5),
                       child: Text.rich(
-                        style: Theme.of(context).textTheme.titleSmall,
+                        style: Theme.of(context).textTheme.labelLarge,
                         TextSpan(
                           children: [
                             const TextSpan(

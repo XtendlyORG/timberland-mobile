@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
+import 'package:timberland_biketrail/core/utils/format_time.dart';
 import 'package:timberland_biketrail/core/utils/string_extensions.dart';
 import 'package:timberland_biketrail/features/history/domain/entities/entities.dart';
 
@@ -47,8 +48,20 @@ class PaymentHistoryWidget extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(
-            width: kVerticalPadding,
+          Padding(
+            padding: const EdgeInsets.only(top:8.0),
+            child: Text(
+              formatTime(
+                TimeOfDay(
+                  hour: payment.dateCreated.hour,
+                  minute: payment.dateCreated.minute,
+                ),
+              ),
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge
+                  ?.copyWith(fontWeight: FontWeight.normal),
+            ),
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +70,8 @@ class PaymentHistoryWidget extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Image.network(
                   'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Maya_logo.svg/1200px-Maya_logo.svg.png',
-                  width: 64,
+                  width: 56,
+                  alignment: Alignment.center,
                 ),
               ),
               const Spacer(),

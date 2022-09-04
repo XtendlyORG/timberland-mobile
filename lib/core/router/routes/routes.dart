@@ -1,6 +1,11 @@
 part 'route.dart';
 
 abstract class Routes {
+  static const onboarding = _Route(
+    path: '/onboarding',
+    name: 'onboarding',
+  );
+
   // Authentiaction
   static const login = _Route(path: '/login', name: 'login');
   static const forgotPassword = _Route(

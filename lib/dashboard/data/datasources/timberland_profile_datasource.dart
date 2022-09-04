@@ -257,6 +257,13 @@ class TimberlandProfileDataSource implements ProfileDataSource {
       log(dioError.response?.statusCode?.toString() ?? "statuscode: null");
       log(dioError.response?.data.toString() ?? 'no data');
       if ((dioError.response?.statusCode ?? -1) == 400) {
+        if (dioError.response.toString() ==
+            'Old Password does not match with the current password') {
+          throw const ProfileException(
+            message: "Current password input does not match your password",
+          );
+        }
+
         throw ProfileException(
           message: dioError.response?.data?.toString() ??
               'Failed to Update Password',

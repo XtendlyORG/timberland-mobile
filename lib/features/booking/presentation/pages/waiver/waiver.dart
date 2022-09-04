@@ -5,6 +5,7 @@ import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/custom_styled_text.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_scaffold.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
+import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/app_infos/presentation/widgets/faq_widget.dart';
 import 'package:timberland_biketrail/features/booking/presentation/pages/waiver/waiver_content.dart';
 
@@ -37,7 +38,9 @@ class BookingWaiver extends StatelessWidget {
                     vertical: 10,
                   ),
                   child: CustomStyledText(
-                    text: waiverContent,
+                    text: waiverContent(
+                      "${Session().currentUser!.firstName} ${Session().currentUser!.lastName}",
+                    ),
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                 ),
