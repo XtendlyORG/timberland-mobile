@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/core/router/router.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/presentation/widgets/timberland_scaffold.dart';
@@ -21,62 +23,82 @@ class FAQsPage extends StatelessWidget {
         },
         child: TimberlandScaffold(
           titleText: 'FAQs',
-          body: SizedBox(
-            width: double.infinity,
-            child: BlocBuilder<AppInfoBloc, AppInfoState>(
-              builder: (context, state) {
-                if (state is LoadingFAQs) {
-                  return latestWidget = SizedBox(
-                    height: MediaQuery.of(context).size.height -
-                        kToolbarHeight * 2 -
-                        kBottomNavigationBarHeight,
-                    child: const RepaintBoundary(
-                      child: Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    ),
-                  );
-                }
-                if (state is FAQsLoaded) {
-                  return latestWidget = Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: kHorizontalPadding,
-                      vertical: kVerticalPadding * 3,
-                    ),
-                    child: Column(
-                      children: state.faqs
-                          .map<Widget>(
-                            (faq) => Padding(
-                              padding: const EdgeInsets.only(bottom: 20.0),
-                              child: FAQWidget(faq: faq),
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  );
-                }
-                if (state is FAQError) {
-                  return latestWidget = SizedBox(
-                    height: MediaQuery.of(context).size.height -
-                        kToolbarHeight * 2 -
-                        kBottomNavigationBarHeight,
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.error),
-                          const SizedBox(
-                            width: 10,
+          body: Column(
+            children: [
+              const SizedBox(height: kVerticalPadding),
+              Text(
+                'Want to know how to use the app?',
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+              GestureDetector(
+                onTap: () {
+                  context.pushNamed(Routes.onboarding.name);
+                },
+                child: Text(
+                  'Get Started',
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      color: Theme.of(context).primaryColor,
+                      decoration: TextDecoration.underline),
+                ),
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: BlocBuilder<AppInfoBloc, AppInfoState>(
+                  builder: (context, state) {
+                    if (state is LoadingFAQs) {
+                      return latestWidget = SizedBox(
+                        height: MediaQuery.of(context).size.height -
+                            kToolbarHeight * 2 -
+                            kBottomNavigationBarHeight,
+                        child: const RepaintBoundary(
+                          child: Center(
+                            child: CircularProgressIndicator(),
                           ),
-                          Text(state.message),
-                        ],
-                      ),
-                    ),
-                  );
-                }
-                return latestWidget ?? const SizedBox();
-              },
-            ),
+                        ),
+                      );
+                    }
+                    if (state is FAQsLoaded) {
+                      return latestWidget = Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: kHorizontalPadding,
+                          vertical: kVerticalPadding * 3,
+                        ),
+                        child: Column(
+                          children: state.faqs
+                              .map<Widget>(
+                                (faq) => Padding(
+                                  padding: const EdgeInsets.only(bottom: 20.0),
+                                  child: FAQWidget(faq: faq),
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      );
+                    }
+                    if (state is FAQError) {
+                      return latestWidget = SizedBox(
+                        height: MediaQuery.of(context).size.height -
+                            kToolbarHeight * 2 -
+                            kBottomNavigationBarHeight,
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(Icons.error),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Text(state.message),
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+                    return latestWidget ?? const SizedBox();
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       ),

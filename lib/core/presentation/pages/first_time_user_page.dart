@@ -72,8 +72,7 @@ class _OnboardingSliderState extends State<OnboardingSlider> {
                       styleDescription: Theme.of(context)
                           .textTheme
                           .titleMedium
-                          ?.copyWith(
-                              fontWeight: FontWeight.normal),
+                          ?.copyWith(fontWeight: FontWeight.normal),
                       centerWidget: Image.asset(
                         OnboardingConfigs.pages[index].assetImagePath,
                         height: 350,
@@ -128,6 +127,10 @@ class _OnboardingSliderState extends State<OnboardingSlider> {
                         currentIndex == OnboardingConfigs.pages.length - 1
                             ? TextButton(
                                 onPressed: () {
+                                  if (Navigator.canPop(context)) {
+                                    Navigator.pop(context);
+                                    return;
+                                  }
                                   BlocProvider.of<AuthBloc>(context).add(
                                     const FinishUserGuideEvent(),
                                   );
@@ -190,7 +193,8 @@ class OnbaordingSlide extends StatelessWidget {
               Align(
                 alignment: Alignment.topCenter,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: kToolbarHeight, bottom: 10),
+                  padding:
+                      const EdgeInsets.only(top: kToolbarHeight, bottom: 10),
                   child: AutoSizeText(
                     title,
                     style: styleTitle,
