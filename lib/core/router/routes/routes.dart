@@ -51,10 +51,19 @@ abstract class Routes {
     name: 'update-password',
   );
   static const qr = _Route(path: '/my-qr', name: 'qr');
-  static const bookingHistory =
-      _Route(path: '/booking-history', name: 'booking-history');
-  static const paymentHistory =
-      _Route(path: '/payment-history', name: 'payment-history');
+  static const bookingHistory = _Route(
+    path: '/booking-history',
+    name: 'booking-history',
+  );
+  static const bookingHistoryDetails = _Route(
+    path: '/detail',
+    name: 'booking-history-details',
+  );
+
+  static const paymentHistory = _Route(
+    path: '/payment-history',
+    name: 'payment-history',
+  );
 
   static const booking = _Route(
     path: '/booking',

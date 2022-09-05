@@ -18,7 +18,9 @@ import 'package:timberland_biketrail/features/booking/presentation/pages/checkou
 import 'package:timberland_biketrail/features/booking/presentation/pages/failed_booking.dart';
 import 'package:timberland_biketrail/features/booking/presentation/pages/success_booking.dart';
 import 'package:timberland_biketrail/features/booking/presentation/pages/waiver/waiver.dart';
+import 'package:timberland_biketrail/features/history/domain/entities/entities.dart';
 import 'package:timberland_biketrail/features/history/presentation/bloc/history_bloc.dart';
+import 'package:timberland_biketrail/features/history/presentation/pages/booking_history_details.dart';
 
 import '../../dashboard/presentation/pages/qr_code_page.dart';
 import '../../dashboard/presentation/pages/update_profile_page.dart';
@@ -426,30 +428,50 @@ final appRouter = GoRouter(
               },
             ),
             GoRoute(
-              path: Routes.bookingHistory.asSubPath(),
-              name: Routes.bookingHistory.name,
-              pageBuilder: (context, routeState) {
-                final appinfoBloc = BlocProvider.of<HistoryBloc>(context);
-                if (appinfoBloc.state is! BookingState) {
-                  appinfoBloc.add(
-                    const FetchBookingHistory(),
-                  );
-                }
-                return CustomTransitionPage(
-                  child: const BookingHistoryPage(),
-                  // key: routeState.pageKey,
-                  // restorationId: routeState.pageKey.value,
-                  transitionDuration: const Duration(milliseconds: 500),
-                  transitionsBuilder:
-                      (context, animation, secondaryAnim, child) {
-                    return FadeTransition(
-                      opacity: animation,
-                      child: child,
+                path: Routes.bookingHistory.asSubPath(),
+                name: Routes.bookingHistory.name,
+                pageBuilder: (context, routeState) {
+                  final appinfoBloc = BlocProvider.of<HistoryBloc>(context);
+                  if (appinfoBloc.state is! BookingState) {
+                    appinfoBloc.add(
+                      const FetchBookingHistory(),
                     );
-                  },
-                );
-              },
-            ),
+                  }
+                  return CustomTransitionPage(
+                    child: const BookingHistoryPage(),
+                    // key: routeState.pageKey,
+                    // restorationId: routeState.pageKey.value,
+                    transitionDuration: const Duration(milliseconds: 500),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnim, child) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
+                  );
+                },
+                routes: [
+                  GoRoute(
+                    path: Routes.bookingHistoryDetails.asSubPath(),
+                    name: Routes.bookingHistoryDetails.name,
+                    pageBuilder: (context, routeState) {
+                      return CustomTransitionPage(
+                        child: BookingHistoryDetails(
+                          bookingHistory: routeState.extra as BookingHistory,
+                        ),
+                        transitionDuration: const Duration(milliseconds: 500),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnim, child) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ]),
           ],
         ),
         GoRoute(
