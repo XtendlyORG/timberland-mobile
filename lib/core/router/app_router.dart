@@ -229,14 +229,11 @@ final appRouter = GoRouter(
           },
           routes: [
             GoRoute(
-              path: Routes.specificTrail.path,
-              name: Routes.specificTrail.name,
+              path: Routes.trailMap.path,
+              name: Routes.trailMap.name,
               pageBuilder: (context, routeState) {
                 return CustomTransitionPage(
-                  child: InheritedTrail(
-                    trail: (routeState.extra as Trail),
-                    child: const TrailDetails(),
-                  ),
+                  child: const TrailMap(),
                   transitionDuration: const Duration(milliseconds: 500),
                   transitionsBuilder:
                       (context, animation, secondaryAnimation, child) {
@@ -249,11 +246,14 @@ final appRouter = GoRouter(
               },
             ),
             GoRoute(
-              path: Routes.trailMap.asSubPath(),
-              name: Routes.trailMap.name,
+              path: Routes.specificTrail.path,
+              name: Routes.specificTrail.name,
               pageBuilder: (context, routeState) {
                 return CustomTransitionPage(
-                  child: const TrailMap(),
+                  child: InheritedTrail(
+                    trail: (routeState.extra as Trail),
+                    child: const TrailDetails(),
+                  ),
                   transitionDuration: const Duration(milliseconds: 500),
                   transitionsBuilder:
                       (context, animation, secondaryAnimation, child) {
