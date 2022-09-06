@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/constants/constants.dart';
@@ -15,10 +16,12 @@ class TrailSpecs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AutoSizeGroup autoSizeGroup = AutoSizeGroup();
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text.rich(
+        AutoSizeText.rich(
+          group: autoSizeGroup,
           TextSpan(
             children: [
               TextSpan(
@@ -26,30 +29,36 @@ class TrailSpecs extends StatelessWidget {
                 style: Theme.of(context).textTheme.caption,
               ),
               TextSpan(
-                text: '${trail.distance %1 == 0? trail.distance.toInt():trail.distance} ${trail.unit}',
+                text:
+                    '${trail.distance % 1 == 0 ? trail.distance.toInt() : trail.distance} ${trail.unit}',
                 style: Theme.of(context).textTheme.subtitle2,
               ),
             ],
           ),
           textAlign: TextAlign.start,
+          maxLines: 2,
         ),
         const SizedBox(
           width: kHorizontalPadding,
         ),
-        Text.rich(
-          TextSpan(
-            children: [
-              TextSpan(
-                text: 'Route Type\n',
-                style: Theme.of(context).textTheme.caption,
-              ),
-              TextSpan(
-                text: trail.routeType,
-                style: Theme.of(context).textTheme.subtitle2,
-              ),
-            ],
+        Expanded(
+          child: AutoSizeText.rich(
+            group: autoSizeGroup,
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: 'Route Type\n',
+                  style: Theme.of(context).textTheme.caption,
+                ),
+                TextSpan(
+                  text: trail.routeType,
+                  style: Theme.of(context).textTheme.subtitle2,
+                ),
+              ],
+            ),
+            textAlign: TextAlign.start,
+            maxLines: 2,
           ),
-          textAlign: TextAlign.start,
         ),
       ],
     );

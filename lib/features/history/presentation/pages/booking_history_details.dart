@@ -109,14 +109,16 @@ class BookingHistoryDetails extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: AutoSizeText.rich(
-                      TextSpan(
-                        children: [
-                          ..._renderTime(bookingHistory.time),
-                          const TextSpan(text: ' '),
-                          ..._renderDate(bookingHistory.date),
-                        ],
-                      ),
-                      style: Theme.of(context).textTheme.titleSmall),
+                    TextSpan(
+                      children: [
+                        ..._renderTime(bookingHistory.time),
+                        const TextSpan(text: ' '),
+                        ..._renderDate(bookingHistory.date),
+                      ],
+                    ),
+                    style: Theme.of(context).textTheme.titleSmall,
+                    maxLines: 1,
+                  ),
                 ),
                 const Spacer(),
                 FilledTextButton(
