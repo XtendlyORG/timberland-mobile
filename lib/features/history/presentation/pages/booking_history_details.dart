@@ -7,8 +7,8 @@ import '../../../../core/presentation/widgets/widgets.dart';
 import '../../../../core/themes/timberland_color.dart';
 import '../../../../core/utils/format_time.dart';
 import '../../domain/entities/entities.dart';
-import '../widgets/cancel_booking_bottomsheet.dart';
-import '../widgets/cancel_booking_dialog.dart';
+import '../widgets/cancel_booking/cancel_booking_bottomsheet.dart';
+import '../widgets/cancel_booking/cancel_booking_dialog.dart';
 
 class BookingHistoryDetails extends StatelessWidget {
   const BookingHistoryDetails({
@@ -129,7 +129,7 @@ class BookingHistoryDetails extends StatelessWidget {
                           showDialog(
                             context: context,
                             builder: (ctx) {
-                              return CancelBookingDialog();
+                              return const CancelBookingDialog();
                             },
                           ).then((value) {
                             if (value is bool && value) {
@@ -148,7 +148,7 @@ class BookingHistoryDetails extends StatelessWidget {
                                           MediaQuery.of(context).size.height *
                                               .8,
                                     ),
-                                    child: CancelBookingBottomSheet(),
+                                    child: const CancelBookingBottomSheet(),
                                   );
                                 },
                               );

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:timberland_biketrail/core/constants/padding.dart';
 
-import '../../../../core/constants/padding.dart';
-import '../../../../core/themes/timberland_color.dart';
+import '../../../../../core/constants/padding.dart';
+import '../../../../../core/themes/timberland_color.dart';
 import 'cancellation_reason_picker.dart';
 
 class CancelBookingBottomSheet extends StatelessWidget {
@@ -47,9 +48,8 @@ class CancelBookingBottomSheet extends StatelessWidget {
             Container(
               color: TimberlandColor.lightBlue,
               padding: const EdgeInsets.symmetric(
-                horizontal: kVerticalPadding * 1.5,
-                vertical: kVerticalPadding
-              ),
+                  horizontal: kVerticalPadding * 1.5,
+                  vertical: kVerticalPadding),
               child: Row(
                 children: const [
                   Icon(
@@ -73,12 +73,12 @@ class CancelBookingBottomSheet extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
-              children: [
+              children: const [
                 CancellationReasonPicker(),
-                const SizedBox(
+                SizedBox(
                   height: kVerticalPadding,
                 ),
-                const SizedBox(
+                SizedBox(
                   height: kHorizontalPadding,
                 ),
               ],
