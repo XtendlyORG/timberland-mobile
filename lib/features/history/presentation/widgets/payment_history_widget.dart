@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
@@ -17,6 +18,7 @@ class PaymentHistoryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AutoSizeGroup autoSizeGroup = AutoSizeGroup();
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).backgroundColor,
@@ -32,7 +34,8 @@ class PaymentHistoryWidget extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: Text(
+                child: AutoSizeText(
+                  group: autoSizeGroup,
                   DateFormat('dd MMMM yyyy').format(
                     payment.dateCreated,
                   ),
@@ -40,17 +43,22 @@ class PaymentHistoryWidget extends StatelessWidget {
                       .textTheme
                       .titleLarge
                       ?.copyWith(fontWeight: FontWeight.normal),
+                  maxLines: 1,
                 ),
               ),
-              Text(
+              const SizedBox(width: kVerticalPadding),
+              AutoSizeText(
+                group: autoSizeGroup,
                 'PHP ${payment.amount % 1 == 0 ? payment.amount.toInt() : payment.amount}',
                 style: Theme.of(context).textTheme.titleLarge,
+                maxLines: 1,
               ),
             ],
           ),
           Padding(
-            padding: const EdgeInsets.only(top:8.0),
-            child: Text(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: AutoSizeText(
+              group: autoSizeGroup,
               formatTime(
                 TimeOfDay(
                   hour: payment.dateCreated.hour,
@@ -75,7 +83,8 @@ class PaymentHistoryWidget extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              Text(
+              AutoSizeText(
+                group: autoSizeGroup,
                 payment.status.name.toTitleCase(),
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.normal,
