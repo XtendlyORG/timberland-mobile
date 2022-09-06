@@ -42,28 +42,31 @@ class ResetPasswordPage extends StatelessWidget {
           ),
           extendBodyBehindAppBar: true,
           body: TimberlandContainer(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: kToolbarHeight, bottom: kHorizontalPadding),
-                  child: AutoSizeText(
-                    'Create new password',
-                    style: Theme.of(context).textTheme.headlineSmall,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: kMaxWidthMobile),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: kToolbarHeight, bottom: kHorizontalPadding),
+                    child: AutoSizeText(
+                      'Create new password',
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
                   ),
-                ),
-                Text(
-                  "Please enter your password.",
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium
-                      ?.copyWith(fontWeight: FontWeight.normal),
-                ),
-                const SizedBox(
-                  height: kVerticalPadding * 2,
-                ),
-                const ResetPasswordForm(),
-              ],
+                  Text(
+                    "Please enter your password.",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(fontWeight: FontWeight.normal),
+                  ),
+                  const SizedBox(
+                    height: kVerticalPadding * 2,
+                  ),
+                  const ResetPasswordForm(),
+                ],
+              ),
             ),
           ),
         ),

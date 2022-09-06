@@ -59,10 +59,13 @@ class ContactsPage extends StatelessWidget {
       child: TimberlandScaffold(
         titleText: 'Contact Us',
         showNavbar: Session().isLoggedIn,
-        body: const Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: kHorizontalPadding, vertical: kVerticalPadding * 3),
-          child: ContactsPageForm(),
+        body: Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: kHorizontalPadding,
+            vertical: kVerticalPadding * 3,
+          ),
+          constraints: const BoxConstraints(maxWidth: kMaxWidthMobile),
+          child: const ContactsPageForm(),
         ),
       ),
     );
@@ -92,59 +95,72 @@ class ContactsPageForm extends StatelessWidget {
       key: formKey,
       child: Column(
         children: [
-          TextFormField(
-            controller: nameCtrl,
-            decoration: const InputDecoration(
-              hintText: 'Name',
+          Container(
+            constraints: const BoxConstraints(maxWidth: kMaxWidthMobile),
+            child: TextFormField(
+              controller: nameCtrl,
+              decoration: const InputDecoration(
+                hintText: 'Name',
+              ),
+              textCapitalization: TextCapitalization.words,
+              textInputAction: TextInputAction.next,
             ),
-            textCapitalization: TextCapitalization.words,
-            textInputAction: TextInputAction.next,
           ),
           const SizedBox(
             height: kVerticalPadding,
           ),
-          EmailField(
-            controller: emailCtrl,
-            textInputAction: TextInputAction.next,
+          Container(
+            constraints: const BoxConstraints(maxWidth: kMaxWidthMobile),
+            child: EmailField(
+              controller: emailCtrl,
+              textInputAction: TextInputAction.next,
+            ),
           ),
           const SizedBox(
             height: kVerticalPadding,
           ),
-          TextFormField(
-            controller: subjectCtrl,
-            validator: (subject) {
-              return nonEmptyValidator(
-                subject,
-                errorMessage: 'Please enter a subject',
-              );
-            },
-            decoration: const InputDecoration(
-              hintText: 'Subject',
+          Container(
+            constraints: const BoxConstraints(maxWidth: kMaxWidthMobile),
+            child: TextFormField(
+              controller: subjectCtrl,
+              validator: (subject) {
+                return nonEmptyValidator(
+                  subject,
+                  errorMessage: 'Please enter a subject',
+                );
+              },
+              decoration: const InputDecoration(
+                hintText: 'Subject',
+              ),
+              textCapitalization: TextCapitalization.words,
+              textInputAction: TextInputAction.next,
             ),
-            textCapitalization: TextCapitalization.words,
-            textInputAction: TextInputAction.next,
           ),
           const SizedBox(
             height: kVerticalPadding,
           ),
-          TextFormField(
-            controller: messageCtrl,
-            maxLines: 5,
-            validator: (message) {
-              return nonEmptyValidator(
-                message,
-                errorMessage: 'Please enter a subject',
-              );
-            },
-            decoration: const InputDecoration(
-              hintText: 'Message',
+          Container(
+            constraints: const BoxConstraints(maxWidth: kMaxWidthMobile),
+            child: TextFormField(
+              controller: messageCtrl,
+              maxLines: 5,
+              validator: (message) {
+                return nonEmptyValidator(
+                  message,
+                  errorMessage: 'Please enter a subject',
+                );
+              },
+              decoration: const InputDecoration(
+                hintText: 'Message',
+              ),
+              textCapitalization: TextCapitalization.sentences,
+              textInputAction: TextInputAction.newline,
             ),
-            textCapitalization: TextCapitalization.sentences,
-            textInputAction: TextInputAction.newline,
           ),
           const SizedBox(height: kVerticalPadding),
-          SizedBox(
+          Container(
             width: double.infinity,
+            constraints: const BoxConstraints(maxWidth: kMaxWidthMobile),
             child: FilledTextButton(
               onPressed: () {
                 if (formKey.currentState!.validate()) {

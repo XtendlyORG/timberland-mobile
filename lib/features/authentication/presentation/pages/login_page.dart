@@ -127,6 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ],
                 ),
+                textAlign: TextAlign.center,
               ),
               if (signInWithFingerprint) ...[
                 const SizedBox(
