@@ -399,21 +399,24 @@ class RegistrationContinuationForm extends StatelessWidget {
                       },
                     ),
                   ),
-                  Text.rich(
-                    const TextSpan(
-                      children: [
-                        TextSpan(
-                          text: 'By signing up you agree to our',
-                          style: TextStyle(fontWeight: FontWeight.normal),
-                        ),
-                        TextSpan(
-                          text: '\nTerms of Use',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                  Expanded(
+                    child: AutoSizeText.rich(
+                      const TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'By signing up you agree to our',
+                            style: TextStyle(fontWeight: FontWeight.normal),
+                          ),
+                          TextSpan(
+                            text: '\nTerms of Use',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      style: Theme.of(context).textTheme.titleSmall,
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
                     ),
-                    style: Theme.of(context).textTheme.titleSmall,
-                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
