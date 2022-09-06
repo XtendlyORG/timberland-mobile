@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:timberland_biketrail/core/constants/padding.dart';
-import 'package:timberland_biketrail/core/themes/timberland_color.dart';
+
+import '../../../../../core/constants/padding.dart';
+import '../../../../../core/themes/timberland_color.dart';
 
 class CancelBookingDialog extends StatelessWidget {
   const CancelBookingDialog({Key? key}) : super(key: key);
