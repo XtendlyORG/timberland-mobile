@@ -1,7 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class OTPResendButton extends StatefulWidget {
   const OTPResendButton({
@@ -46,36 +49,35 @@ class _OTPResendButtonState extends State<OTPResendButton> {
 
   @override
   Widget build(BuildContext context) {
-    return canResend
-        ? SizedBox.shrink(
-            child: Center(
-              child: InkWell(
-                onTap: () {
-                  widget.onTap();
-                  startTimer(duration: widget.duration);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    'Resend OTP',
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          color: Theme.of(context).primaryColor,
-                          fontWeight: FontWeight.bold,
-                        ),
+    return AutoSizeText.rich(
+      TextSpan(
+        children: [
+          const TextSpan(
+            text: "Didn't receive the code? ",
+          ),
+          canResend
+              ? TextSpan(
+                  text: 'Resend OTP',
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.bold,
                   ),
-                ),
-              ),
-            ),
-          )
-        : Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.only(left: 8.0),
-            child: Text(
-              'Resend in: ${widget.duration - _timer!.tick}',
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      widget.onTap();
+                      startTimer(duration: widget.duration);
+                    },
+                )
+              : TextSpan(
+                  text: 'Resend in: ${widget.duration - _timer!.tick}',
+                  style: TextStyle(
                     color: Theme.of(context).textTheme.bodySmall?.color,
                   ),
-            ),
-          );
+                ),
+        ],
+      ),
+      style: Theme.of(context).textTheme.titleSmall,
+      maxLines: 1,
+    );
   }
 }

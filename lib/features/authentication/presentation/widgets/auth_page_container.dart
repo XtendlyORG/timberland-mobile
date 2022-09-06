@@ -157,7 +157,10 @@ class AuthPageContainer extends StatelessWidget {
                             top: kVerticalPadding * 2,
                             bottom: kVerticalPadding,
                           ),
-                          child: child,
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: kMaxWidthMobile),
+                            child: child,
+                          ),
                         ),
                       ],
                     ),

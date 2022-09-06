@@ -39,6 +39,7 @@ class _OtpVerificationFormState extends State<OtpVerificationForm> {
     digit3 = TextEditingController();
     digit4 = TextEditingController();
   }
+
   @override
   void dispose() {
     focusNode.dispose();
@@ -183,16 +184,19 @@ class _OtpVerificationFormState extends State<OtpVerificationForm> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              AutoSizeText(
-                "Didn’t receive the code?",
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-              SizedBox(
-                width: 100,
-                height: 40,
-                child: OTPResendButton(
-                  duration: 10,
-                  onTap: widget.onResend,
+              // Expanded(
+              //   child: AutoSizeText(
+              //     "Didn’t receive the code?",
+              //     style: Theme.of(context).textTheme.titleSmall,
+              //     maxLines: 1,
+              //   ),
+              // ),
+              Expanded(
+                child: Center(
+                  child: OTPResendButton(
+                    duration: 10,
+                    onTap: widget.onResend,
+                  ),
                 ),
               ),
             ],

@@ -48,8 +48,8 @@ class ForgotPasswordPage extends StatelessWidget {
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 const Padding(
-                  padding: EdgeInsets.symmetric(vertical: kVerticalPadding * 2),
-                  child: Text("Enter your email and get help logging in."),
+                  padding: EdgeInsets.symmetric(vertical: kVerticalPadding * 2,horizontal: kVerticalPadding),
+                  child: Text("Enter your email and get help logging in.",textAlign: TextAlign.center,),
                 ),
                 const ForgotPasswordForm(),
               ],
