@@ -10,7 +10,9 @@ import 'package:timberland_biketrail/core/presentation/widgets/inherited_widgets
 import 'package:timberland_biketrail/dashboard/presentation/pages/update_email.dart';
 import 'package:timberland_biketrail/dashboard/presentation/pages/update_password.dart';
 import 'package:timberland_biketrail/dashboard/presentation/pages/verify_otp_update_page.dart';
+import 'package:timberland_biketrail/features/authentication/domain/params/login.dart';
 import 'package:timberland_biketrail/features/authentication/domain/params/register.dart';
+import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/pages/registration_continuation_page.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/pages/reset_password.dart';
 import 'package:timberland_biketrail/features/booking/presentation/pages/cancelled_booking.dart';
@@ -48,11 +50,13 @@ final appRouter = GoRouter(
   redirect: (routeState) {
     bool isAuthenticating = [
       Routes.login.path,
+      Routes.login.path + Routes.loginVerify.path,
       Routes.forgotPassword.path,
       Routes.resetPassword.path,
       Routes.register.path,
-      Routes.registerContinuation.path,
-      Routes.otpVerification.path,
+      Routes.register.path + Routes.registerContinuation.path,
+      // Routes.otpVerification.path,
+      Routes.register.path + Routes.registerVerify.path,
     ].contains(routeState.location);
     if (routeState.location == Routes.contacts.path) {
       return null;
@@ -89,15 +93,51 @@ final appRouter = GoRouter(
       },
     ),
     GoRoute(
-      path: Routes.login.path,
-      name: Routes.login.name,
-      pageBuilder: (context, state) {
-        return MaterialPage(
-          restorationId: state.pageKey.value,
-          child: const LoginPage(),
-        );
-      },
-    ),
+        path: Routes.login.path,
+        name: Routes.login.name,
+        pageBuilder: (context, state) {
+          return MaterialPage(
+            // restorationId: state.pageKey.value,
+            key: state.pageKey,
+            child: const LoginPage(),
+          );
+        },
+        routes: [
+          GoRoute(
+            path: Routes.loginVerify.asSubPath(),
+            name: Routes.loginVerify.name,
+            pageBuilder: (context, state) {
+              return CustomTransitionPage(
+                restorationId: state.pageKey.value,
+                child: OtpVerificationPage<RegisterParameter>(
+                  // routeNameOnPop: state.extra as String,
+                  onSubmit: (otp, parameter) {
+                    BlocProvider.of<AuthBloc>(context).add(
+                      VerifyRegisterEvent(
+                        parameter: RegisterParameter(
+                          firstName: '',
+                          lastName: '',
+                          email: parameter.email,
+                          mobileNumber: '',
+                          password: '',
+                        ),
+                        otp: otp,
+                      ),
+                    );
+                  },
+                ),
+                transitionDuration: const Duration(milliseconds: 500),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(
+                    opacity: animation,
+                    child: child,
+                  );
+                },
+              );
+            },
+          ),
+        ]),
     GoRoute(
       path: Routes.forgotPassword.path,
       name: Routes.forgotPassword.name,
@@ -151,45 +191,55 @@ final appRouter = GoRouter(
           },
         );
       },
-    ),
-    GoRoute(
-      path: Routes.registerContinuation.path,
-      name: Routes.registerContinuation.name,
-      pageBuilder: (context, state) {
-        return CustomTransitionPage(
-          child: InheritedRegisterParameter(
-            registerParameter: state.extra as RegisterParameter,
-            child: const RegistrationContinuationPage(),
-          ),
-          transitionDuration: const Duration(milliseconds: 500),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(
-              opacity: animation,
-              child: child,
+      routes: [
+        GoRoute(
+          path: Routes.registerContinuation.asSubPath(),
+          name: Routes.registerContinuation.name,
+          pageBuilder: (context, state) {
+            return CustomTransitionPage(
+              child: InheritedRegisterParameter(
+                registerParameter: state.extra as RegisterParameter,
+                child: const RegistrationContinuationPage(),
+              ),
+              transitionDuration: const Duration(milliseconds: 500),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              },
             );
           },
-        );
-      },
-    ),
-    GoRoute(
-      path: Routes.otpVerification.path,
-      name: Routes.otpVerification.name,
-      pageBuilder: (context, state) {
-        return CustomTransitionPage(
-          key: state.pageKey,
-          restorationId: state.pageKey.value,
-          child: OtpVerificationPage(
-            routeNameOnPop: state.extra as String,
-          ),
-          transitionDuration: const Duration(milliseconds: 500),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(
-              opacity: animation,
-              child: child,
+        ),
+        GoRoute(
+          path: Routes.registerVerify.asSubPath(),
+          name: Routes.registerVerify.name,
+          pageBuilder: (context, state) {
+            return CustomTransitionPage(
+              child: OtpVerificationPage<RegisterParameter>(
+                // routeNameOnPop: state.extra as String,
+                onSubmit: (otp, parameter) {
+                  BlocProvider.of<AuthBloc>(context).add(
+                    VerifyRegisterEvent(
+                      parameter: parameter,
+                      otp: otp,
+                    ),
+                  );
+                },
+              ),
+              transitionDuration: const Duration(milliseconds: 500),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              },
             );
           },
-        );
-      },
+        ),
+      ],
     ),
     GoRoute(
       path: Routes.home.path,

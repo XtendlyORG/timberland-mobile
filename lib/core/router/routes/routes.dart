@@ -8,6 +8,7 @@ abstract class Routes {
 
   // Authentiaction
   static const login = _Route(path: '/login', name: 'login');
+  static const loginVerify = _Route(path: '/verify', name: 'login-verify');
   static const forgotPassword = _Route(
     path: '/forgot-password',
     name: 'forgot-password',
@@ -18,18 +19,19 @@ abstract class Routes {
   );
   static const register = _Route(path: '/register', name: 'register');
   static const registerContinuation =
-      _Route(path: '/register/continuation', name: 'register-continuation');
-  static const otpVerification = _Route(
-    path: '/otp-verification',
-    name: 'otp-verification',
-  );
+      _Route(path: '/continuation', name: 'register-continuation');
+  static const registerVerify =
+      _Route(path: '/verify', name: 'register-verify');
+  // static const otpVerification = _Route(
+  //   path: '/otp-verification',
+  //   name: 'otp-verification',
+  // );
 
   //---MAIN PAGE
   static const home = _Route(path: '/', name: 'home');
   // trail-directory tab
   static const trails = _Route(path: '/trails', name: 'trails');
-  static const specificTrail =
-      _Route(path: ':id', name: 'specific-trail');
+  static const specificTrail = _Route(path: ':id', name: 'specific-trail');
   static const trailMap = _Route(path: 'trail-map', name: 'trail-map');
 
   // profile - tab
