@@ -18,12 +18,13 @@ class RegistrationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        if (Navigator.canPop(context)) {
-          Navigator.pop(context);
-        } else {
-          context.goNamed(Routes.login.name);
-        }
-        return false;
+        // if (Navigator.canPop(context)) {
+        //   Navigator.pop(context);
+        // } else {
+        //   context.goNamed(Routes.login.name);
+        // }
+        // return false;
+        return true;
       },
       child: SafeArea(
         child: Scaffold(
@@ -35,11 +36,12 @@ class RegistrationPage extends StatelessWidget {
               message: 'Back',
               child: IconButton(
                 onPressed: () {
-                  if (Navigator.canPop(context)) {
-                    Navigator.pop(context);
-                  } else {
-                    context.goNamed(Routes.login.name);
-                  }
+                  // if (Navigator.canPop(context)) {
+                  //   Navigator.pop(context);
+                  // } else {
+                  //   context.goNamed(Routes.login.name);
+                  // }
+                  Navigator.pop(context);
                 },
                 icon: const Icon(
                   Icons.arrow_back_rounded,
@@ -91,7 +93,8 @@ class RegistrationPage extends StatelessWidget {
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             log('login');
-                            context.goNamed(Routes.login.name);
+                            // context.goNamed(Routes.login.name);
+                            Navigator.pop(context);
                           },
                       ),
                     ],

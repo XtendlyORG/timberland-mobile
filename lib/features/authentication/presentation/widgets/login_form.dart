@@ -28,12 +28,15 @@ class LoginForm extends StatelessWidget {
       },
       listener: (context, state) {
         final _state = state as OtpSent;
-        context.goNamed(
-          Routes.otpVerification.name,
-          extra: _state.parameter is LoginParameter
-              ? Routes.login.name
-              : Routes.forgotPassword.name,
-        );
+        if (!Navigator.canPop(context)) {
+          context.pushNamed(Routes.loginVerify.name);
+        }
+        // context.goNamed(
+        //   Routes.otpVerification.name,
+        //   extra: _state.parameter is LoginParameter
+        //       ? Routes.login.name
+        //       : Routes.forgotPassword.name,
+        // );
       },
       child: Form(
         key: formKey,

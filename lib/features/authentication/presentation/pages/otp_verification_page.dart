@@ -11,12 +11,14 @@ import '../../../../core/router/router.dart';
 import '../bloc/auth_bloc.dart';
 import '../widgets/auth_page_container.dart';
 
-class OtpVerificationPage extends StatelessWidget {
+class OtpVerificationPage<ParamType> extends StatelessWidget {
   const OtpVerificationPage({
     Key? key,
-    required this.routeNameOnPop,
+    // required this.routeNameOnPop,
+    required this.onSubmit,
   }) : super(key: key);
-  final String routeNameOnPop;
+  final void Function(String otp, ParamType parameter) onSubmit;
+  // final String routeNameOnPop;
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +26,12 @@ class OtpVerificationPage extends StatelessWidget {
 
     return WillPopScope(
       onWillPop: () async {
-        context.goNamed(
-          routeNameOnPop,
-          extra: (authBloc.state as OtpSent).parameter,
-        );
-        return false;
+        // context.goNamed(
+        //   routeNameOnPop,
+        //   extra: (authBloc.state as OtpSent).parameter,
+        // );
+        // return false;
+        return true;
       },
       child: SafeArea(
         child: Scaffold(
@@ -40,16 +43,17 @@ class OtpVerificationPage extends StatelessWidget {
               message: 'Back',
               child: IconButton(
                 onPressed: () {
-                  var parameter;
-                  if (authBloc.state is OtpSent) {
-                    parameter = (authBloc.state as OtpSent).parameter;
-                  } else if (authBloc.state is AuthError) {
-                    parameter = (authBloc.state as AuthError).parameter!;
-                  }
-                  context.goNamed(
-                    routeNameOnPop,
-                    extra: parameter,
-                  );
+                  // var parameter;
+                  // if (authBloc.state is OtpSent) {
+                  //   parameter = (authBloc.state as OtpSent).parameter;
+                  // } else if (authBloc.state is AuthError) {
+                  //   parameter = (authBloc.state as AuthError).parameter!;
+                  // }
+                  // context.goNamed(
+                  //   routeNameOnPop,
+                  //   extra: parameter,
+                  // );
+                  Navigator.pop(context);
                 },
                 icon: const Icon(
                   Icons.arrow_back_rounded,
@@ -106,29 +110,31 @@ class OtpVerificationPage extends StatelessWidget {
                   } else if (authBloc.state is AuthError) {
                     parameter = (authBloc.state as AuthError).parameter;
                   }
-                  if (routeNameOnPop == Routes.forgotPassword.name) {
-                    authBloc.add(
-                      VerifyForgotPasswordEvent(
-                        parameter: parameter,
-                        otp: otp,
-                      ),
-                    );
-                  } else {
-                    authBloc.add(
-                      VerifyRegisterEvent(
-                        parameter: parameter is RegisterParameter
-                            ? parameter
-                            : RegisterParameter(
-                                firstName: '',
-                                lastName: '',
-                                email: parameter.email,
-                                mobileNumber: '',
-                                password: '',
-                              ),
-                        otp: otp,
-                      ),
-                    );
-                  }
+                  onSubmit(otp, parameter);
+                  
+                  // if (routeNameOnPop == Routes.forgotPassword.name) {
+                  //   authBloc.add(
+                  //     VerifyForgotPasswordEvent(
+                  //       parameter: parameter,
+                  //       otp: otp,
+                  //     ),
+                  //   );
+                  // } else {
+                  //   authBloc.add(
+                      // VerifyRegisterEvent(
+                      //   parameter: parameter is RegisterParameter
+                      //       ? parameter
+                      //       : RegisterParameter(
+                      //           firstName: '',
+                      //           lastName: '',
+                      //           email: parameter.email,
+                      //           mobileNumber: '',
+                      //           password: '',
+                      //         ),
+                      //   otp: otp,
+                      // ),
+                  //   );
+                  // }
                 },
               ),
             ),

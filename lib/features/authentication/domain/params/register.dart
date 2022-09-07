@@ -2,8 +2,9 @@ import 'dart:io';
 
 import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
+import 'package:timberland_biketrail/features/authentication/domain/params/login.dart';
 
-class RegisterParameter extends Equatable {
+class RegisterParameter extends LoginParameter {
   final String? otp;
   final String firstName;
   final String? middleName;
@@ -39,7 +40,7 @@ class RegisterParameter extends Equatable {
     this.bikeYear,
     this.bikeColor,
     required this.password,
-  });
+  }) : super(email: email, password: password);
 
   @override
   List<Object> get props {

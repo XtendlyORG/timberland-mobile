@@ -73,10 +73,10 @@ class ForgotPasswordForm extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is OtpSent) {
-          context.goNamed(
-            Routes.otpVerification.name,
-            extra: Routes.forgotPassword.name,
-          );
+          // context.goNamed(
+          //   Routes.otpVerification.name,
+          //   extra: Routes.forgotPassword.name,
+          // );
         }
       },
       child: Form(
