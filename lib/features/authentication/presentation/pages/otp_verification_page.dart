@@ -114,10 +114,10 @@ class OtpVerificationPage<ParamType> extends StatelessWidget {
                   
                   // if (routeNameOnPop == Routes.forgotPassword.name) {
                   //   authBloc.add(
-                  //     VerifyForgotPasswordEvent(
-                  //       parameter: parameter,
-                  //       otp: otp,
-                  //     ),
+                      // VerifyForgotPasswordEvent(
+                      //   parameter: parameter,
+                      //   otp: otp,
+                      // ),
                   //   );
                   // } else {
                   //   authBloc.add(

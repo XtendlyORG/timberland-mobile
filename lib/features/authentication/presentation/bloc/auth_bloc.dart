@@ -214,7 +214,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             ),
           );
           emit(
-            OtpSent(
+            OtpResent(
               message: failure.message,
               parameter: event.parameter,
             ),

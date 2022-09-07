@@ -13,6 +13,11 @@ abstract class Routes {
     path: '/forgot-password',
     name: 'forgot-password',
   );
+  static const forgotPasswordVerify = _Route(
+    path: '/verify',
+    name: 'forgot-password-verify',
+  );
+
   static const resetPassword = _Route(
     path: '/reset',
     name: 'reset-password',

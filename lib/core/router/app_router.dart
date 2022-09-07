@@ -52,6 +52,8 @@ final appRouter = GoRouter(
       Routes.login.path,
       Routes.login.path + Routes.loginVerify.path,
       Routes.forgotPassword.path,
+      Routes.forgotPassword.path + Routes.forgotPasswordVerify.path,
+      Routes.forgotPassword.path + Routes.resetPassword.path,
       Routes.resetPassword.path,
       Routes.register.path,
       Routes.register.path + Routes.registerContinuation.path,
@@ -93,58 +95,57 @@ final appRouter = GoRouter(
       },
     ),
     GoRoute(
-        path: Routes.login.path,
-        name: Routes.login.name,
-        pageBuilder: (context, state) {
-          return MaterialPage(
-            // restorationId: state.pageKey.value,
-            key: state.pageKey,
-            child: const LoginPage(),
-          );
-        },
-        routes: [
-          GoRoute(
-            path: Routes.loginVerify.asSubPath(),
-            name: Routes.loginVerify.name,
-            pageBuilder: (context, state) {
-              return CustomTransitionPage(
-                restorationId: state.pageKey.value,
-                child: OtpVerificationPage<RegisterParameter>(
-                  // routeNameOnPop: state.extra as String,
-                  onSubmit: (otp, parameter) {
-                    BlocProvider.of<AuthBloc>(context).add(
-                      VerifyRegisterEvent(
-                        parameter: RegisterParameter(
-                          firstName: '',
-                          lastName: '',
-                          email: parameter.email,
-                          mobileNumber: '',
-                          password: '',
-                        ),
-                        otp: otp,
+      path: Routes.login.path,
+      name: Routes.login.name,
+      pageBuilder: (context, state) {
+        return MaterialPage(
+          // restorationId: state.pageKey.value,
+          key: state.pageKey,
+          child: const LoginPage(),
+        );
+      },
+      routes: [
+        GoRoute(
+          path: Routes.loginVerify.asSubPath(),
+          name: Routes.loginVerify.name,
+          pageBuilder: (context, state) {
+            return CustomTransitionPage(
+              restorationId: state.pageKey.value,
+              child: OtpVerificationPage<RegisterParameter>(
+                // routeNameOnPop: state.extra as String,
+                onSubmit: (otp, parameter) {
+                  BlocProvider.of<AuthBloc>(context).add(
+                    VerifyRegisterEvent(
+                      parameter: RegisterParameter(
+                        firstName: '',
+                        lastName: '',
+                        email: parameter.email,
+                        mobileNumber: '',
+                        password: '',
                       ),
-                    );
-                  },
-                ),
-                transitionDuration: const Duration(milliseconds: 500),
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) {
-                  return FadeTransition(
-                    opacity: animation,
-                    child: child,
+                      otp: otp,
+                    ),
                   );
                 },
-              );
-            },
-          ),
-        ]),
+              ),
+              transitionDuration: const Duration(milliseconds: 500),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              },
+            );
+          },
+        ),
+      ],
+    ),
     GoRoute(
       path: Routes.forgotPassword.path,
       name: Routes.forgotPassword.name,
       pageBuilder: (context, state) {
         return CustomTransitionPage(
-          key: state.pageKey,
-          restorationId: state.pageKey.value,
           child: const ForgotPasswordPage(),
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -155,23 +156,52 @@ final appRouter = GoRouter(
           },
         );
       },
+      routes: [
+        GoRoute(
+          path: Routes.forgotPasswordVerify.asSubPath(),
+          name: Routes.forgotPasswordVerify.name,
+          pageBuilder: (context, state) {
+            return CustomTransitionPage(
+              child: OtpVerificationPage<String>(
+                onSubmit: (otp, parameter) {
+                  BlocProvider.of<AuthBloc>(context).add(
+                    VerifyForgotPasswordEvent(
+                      parameter: parameter,
+                      otp: otp,
+                    ),
+                  );
+                },
+              ),
+              transitionDuration: const Duration(milliseconds: 500),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              },
+            );
+          },
+        ),
+        GoRoute(
+          path: Routes.resetPassword.asSubPath(),
+          name: Routes.resetPassword.name,
+          pageBuilder: (context, routeState) {
+            return CustomTransitionPage(
+              child: const ResetPasswordPage(),
+              transitionDuration: const Duration(milliseconds: 500),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              },
+            );
+          },
+        ),
+      ],
     ),
-    GoRoute(
-        path: Routes.resetPassword.path,
-        name: Routes.resetPassword.name,
-        pageBuilder: (context, routeState) {
-          return CustomTransitionPage(
-            child: const ResetPasswordPage(),
-            transitionDuration: const Duration(milliseconds: 500),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              return FadeTransition(
-                opacity: animation,
-                child: child,
-              );
-            },
-          );
-        }),
     GoRoute(
       path: Routes.register.path,
       name: Routes.register.name,
