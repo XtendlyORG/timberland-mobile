@@ -42,8 +42,6 @@ class TrailDetailTop extends StatelessWidget {
                 image: DecorationImage(
                   image: NetworkImage(trail.mapImageUrl),
                   fit: BoxFit.fill,
-                  colorFilter: ColorFilter.mode(
-                      Colors.black.withOpacity(.2), BlendMode.darken),
                 ),
               ),
             ),
