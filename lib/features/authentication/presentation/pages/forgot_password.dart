@@ -91,10 +91,6 @@ class ForgotPasswordForm extends StatelessWidget {
       listener: (context, state) {
         if ((state as OtpSent).hasError == null && state is! OtpResent) {
           context.pushNamed(Routes.forgotPasswordVerify.name);
-          // context.goNamed(
-          //   Routes.otpVerification.name,
-          //   extra: Routes.forgotPassword.name,
-          // );
         }
       },
       child: Form(

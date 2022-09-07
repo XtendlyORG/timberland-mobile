@@ -24,119 +24,75 @@ class OtpVerificationPage<ParamType> extends StatelessWidget {
   Widget build(BuildContext context) {
     final authBloc = BlocProvider.of<AuthBloc>(context);
 
-    return WillPopScope(
-      onWillPop: () async {
-        // context.goNamed(
-        //   routeNameOnPop,
-        //   extra: (authBloc.state as OtpSent).parameter,
-        // );
-        // return false;
-        return true;
-      },
-      child: SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            foregroundColor: Theme.of(context).colorScheme.primary,
-            elevation: 0,
-            leading: Tooltip(
-              message: 'Back',
-              child: IconButton(
-                onPressed: () {
-                  // var parameter;
-                  // if (authBloc.state is OtpSent) {
-                  //   parameter = (authBloc.state as OtpSent).parameter;
-                  // } else if (authBloc.state is AuthError) {
-                  //   parameter = (authBloc.state as AuthError).parameter!;
-                  // }
-                  // context.goNamed(
-                  //   routeNameOnPop,
-                  //   extra: parameter,
-                  // );
-                  Navigator.pop(context);
-                },
-                icon: const Icon(
-                  Icons.arrow_back_rounded,
-                  color: Colors.black,
-                ),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          foregroundColor: Theme.of(context).colorScheme.primary,
+          elevation: 0,
+          leading: Tooltip(
+            message: 'Back',
+            child: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.arrow_back_rounded,
+                color: Colors.black,
               ),
             ),
           ),
-          extendBodyBehindAppBar: true,
-          body: BlocListener<AuthBloc, AuthState>(
-            listenWhen: (previous, current) => current is AuthError,
-            listener: (context, state) {
-              if (state is AuthError) {
-                if (state.penaltyDuration != 0) {
-                  showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (context) {
-                      return Dialog(
-                        backgroundColor: TimberlandColor.background,
-                        clipBehavior: Clip.hardEdge,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: LockUserWidget(
-                          title: 'Too many OTP verification attempts.',
-                          onFinishTimer: () {
-                            Navigator.pop(context);
-                          },
-                          duration: state.penaltyDuration!,
-                        ),
-                      );
-                    },
-                  );
-                }
+        ),
+        extendBodyBehindAppBar: true,
+        body: BlocListener<AuthBloc, AuthState>(
+          listenWhen: (previous, current) => current is AuthError,
+          listener: (context, state) {
+            if (state is AuthError) {
+              if (state.penaltyDuration != 0) {
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) {
+                    return Dialog(
+                      backgroundColor: TimberlandColor.background,
+                      clipBehavior: Clip.hardEdge,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: LockUserWidget(
+                        title: 'Too many OTP verification attempts.',
+                        onFinishTimer: () {
+                          Navigator.pop(context);
+                        },
+                        duration: state.penaltyDuration!,
+                      ),
+                    );
+                  },
+                );
               }
-            },
-            child: AuthPageContainer(
-              alignment: Alignment.center,
-              child: OtpVerificationForm(
-                onResend: () {
-                  var parameter;
-                  if (authBloc.state is OtpSent) {
-                    parameter = (authBloc.state as OtpSent).parameter;
-                  } else if (authBloc.state is AuthError) {
-                    parameter = (authBloc.state as AuthError).parameter!;
-                  }
-                  authBloc.add(ResendOTPEvent(parameter: parameter));
-                },
-                onSubmit: (otp) {
-                  var parameter;
-                  if (authBloc.state is OtpSent) {
-                    parameter = (authBloc.state as OtpSent).parameter;
-                  } else if (authBloc.state is AuthError) {
-                    parameter = (authBloc.state as AuthError).parameter;
-                  }
-                  onSubmit(otp, parameter);
-                  
-                  // if (routeNameOnPop == Routes.forgotPassword.name) {
-                  //   authBloc.add(
-                      // VerifyForgotPasswordEvent(
-                      //   parameter: parameter,
-                      //   otp: otp,
-                      // ),
-                  //   );
-                  // } else {
-                  //   authBloc.add(
-                      // VerifyRegisterEvent(
-                      //   parameter: parameter is RegisterParameter
-                      //       ? parameter
-                      //       : RegisterParameter(
-                      //           firstName: '',
-                      //           lastName: '',
-                      //           email: parameter.email,
-                      //           mobileNumber: '',
-                      //           password: '',
-                      //         ),
-                      //   otp: otp,
-                      // ),
-                  //   );
-                  // }
-                },
-              ),
+            }
+          },
+          child: AuthPageContainer(
+            alignment: Alignment.center,
+            child: OtpVerificationForm(
+              onResend: () {
+                var parameter;
+                if (authBloc.state is OtpSent) {
+                  parameter = (authBloc.state as OtpSent).parameter;
+                } else if (authBloc.state is AuthError) {
+                  parameter = (authBloc.state as AuthError).parameter!;
+                }
+                authBloc.add(ResendOTPEvent(parameter: parameter));
+              },
+              onSubmit: (otp) {
+                var parameter;
+                if (authBloc.state is OtpSent) {
+                  parameter = (authBloc.state as OtpSent).parameter;
+                } else if (authBloc.state is AuthError) {
+                  parameter = (authBloc.state as AuthError).parameter;
+                }
+                onSubmit(otp, parameter);
+              },
             ),
           ),
         ),

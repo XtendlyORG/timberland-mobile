@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/dialogs/custom_dialog.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/router/router.dart';
@@ -10,13 +11,8 @@ class EmergencyDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return CustomDialog(
       alignment: const Alignment(0, .5),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      clipBehavior: Clip.hardEdge,
-      contentPadding: EdgeInsets.zero,
       content: Container(
         constraints: const BoxConstraints(maxHeight: 200),
         decoration: BoxDecoration(
