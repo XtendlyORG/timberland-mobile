@@ -84,11 +84,11 @@ class RegistrationContinuationForm extends StatelessWidget {
     }
 
     return BlocListener<AuthBloc, AuthState>(
+      listenWhen: (previous, current) => current is OtpSent,
       listener: (context, state) {
-        if (state is OtpSent && state.hasError == null) {
-          context.goNamed(
-            Routes.otpVerification.name,
-            extra: Routes.registerContinuation.name,
+        if ((state as OtpSent).hasError == null && state is! OtpResent) {
+          context.pushNamed(
+            Routes.registerVerify.name,
           );
         }
       },

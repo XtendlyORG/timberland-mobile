@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:local_auth/error_codes.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/custom_scroll_behavior.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/dialogs/permanently_locked_dialog.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
@@ -36,8 +38,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void authtenticateWithFingerPrint({
+    required BuildContext context,
     required VoidCallback onLockedOut,
-    required VoidCallback onPermanentlyLockedOut,
   }) async {
     final LocalAuthentication auth = LocalAuthentication();
 
@@ -59,11 +61,16 @@ class _LoginPageState extends State<LoginPage> {
         }
       } on PlatformException catch (e) {
         log(e.code);
-        if (e.code == "LockedOut") {
+        if (e.code == lockedOut) {
           onLockedOut();
         }
-        if (e.code == "PermanentlyLockedOut") {
-          onPermanentlyLockedOut();
+        if (e.code == permanentlyLockedOut) {
+          showDialog(
+            context: context,
+            builder: (ctx) {
+              return const PermanentlyLockedDialog();
+            },
+          );
         }
       } catch (e) {
         log(e.toString());
@@ -79,13 +86,11 @@ class _LoginPageState extends State<LoginPage> {
     if (Session().lockAuthUntil == null) {
       if (displayFingerPrintDialog) {
         authtenticateWithFingerPrint(
+          context: context,
           onLockedOut: () {
             BlocProvider.of<AuthBloc>(context).add(
               const LockAuthEvent(),
             );
-          },
-          onPermanentlyLockedOut: () {
-            //TODO: implement permanent lockout
           },
         );
       }
@@ -137,12 +142,12 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: () {
                     if (Session().lockAuthUntil == null) {
                       authtenticateWithFingerPrint(
+                        context: context,
                         onLockedOut: () {
                           BlocProvider.of<AuthBloc>(context).add(
                             const LockAuthEvent(),
                           );
                         },
-                        onPermanentlyLockedOut: () {},
                       );
                     } else {
                       BlocProvider.of<AuthBloc>(context).add(

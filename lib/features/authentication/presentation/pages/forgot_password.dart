@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/show_snackbar.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/presentation/widgets/filled_text_button.dart';
@@ -48,8 +49,13 @@ class ForgotPasswordPage extends StatelessWidget {
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 const Padding(
-                  padding: EdgeInsets.symmetric(vertical: kVerticalPadding * 2,horizontal: kVerticalPadding),
-                  child: Text("Enter your email and get help logging in.",textAlign: TextAlign.center,),
+                  padding: EdgeInsets.symmetric(
+                      vertical: kVerticalPadding * 2,
+                      horizontal: kVerticalPadding),
+                  child: Text(
+                    "Enter your email and get help logging in.",
+                    textAlign: TextAlign.center,
+                  ),
                 ),
                 const ForgotPasswordForm(),
               ],
@@ -71,12 +77,20 @@ class ForgotPasswordForm extends StatelessWidget {
     final formKey = GlobalKey<FormState>();
     final emailCtrl = TextEditingController();
     return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) {
-        if (state is OtpSent) {
-          context.goNamed(
-            Routes.otpVerification.name,
-            extra: Routes.forgotPassword.name,
+      listenWhen: (previous, current) {
+        if (current is SettingNewPassword) {
+          context.pushNamed(Routes.resetPassword.name);
+          showSnackBar(
+            const SnackBar(
+              content: AutoSizeText('OTP Verified'),
+            ),
           );
+        }
+        return current is OtpSent;
+      },
+      listener: (context, state) {
+        if ((state as OtpSent).hasError == null && state is! OtpResent) {
+          context.pushNamed(Routes.forgotPasswordVerify.name);
         }
       },
       child: Form(

@@ -34,6 +34,13 @@ class OtpSent<ParameterType> extends AuthState {
     ]);
 }
 
+class OtpResent<ParameterType> extends OtpSent {
+  const OtpResent({
+    required super.parameter,
+    required super.message,
+  });
+}
+
 class Authenticated extends AuthState {
   final String message;
   final bool firstTimeUser;

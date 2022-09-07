@@ -64,13 +64,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       result.fold(
         (failure) {
           if (failure is UnverifiedEmailFailure) {
-            emit(AuthError(
-              errorMessage: failure.message,
-              penaltyDuration: failure.penaltyDuration,
-            ));
             emit(
               OtpSent(
-                parameter: event.loginParameter,
+                parameter: RegisterParameter(
+                  firstName: '',
+                  lastName: '',
+                  email: event.loginParameter.email,
+                  mobileNumber: '',
+                  password: event.loginParameter.password,
+                ),
                 message: 'Verify your email.',
               ),
             );
@@ -113,7 +115,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         },
         (r) {
           emit(
-            OtpSent(
+            OtpResent(
               parameter: initState.parameter,
               message: "New OTP is sent to $email",
             ),
@@ -176,7 +178,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             ),
           );
           emit(
-            OtpSent(
+            OtpResent(
               parameter: event.parameter,
               message: failure.message,
             ),
@@ -212,7 +214,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             ),
           );
           emit(
-            OtpSent(
+            OtpResent(
               message: failure.message,
               parameter: event.parameter,
             ),

@@ -81,7 +81,7 @@ class AuthPageContainer extends StatelessWidget {
             ),
           );
         }
-        if (state is OtpSent && state.hasError ==null) {
+        if (state is OtpSent && state.hasError == null) {
           showSnackBar(
             SnackBar(
               content: AutoSizeText(
@@ -103,14 +103,6 @@ class AuthPageContainer extends StatelessWidget {
         }
         if (state is UserGuideFinished) {
           context.goNamed(Routes.booking.name);
-        }
-        if (state is SettingNewPassword) {
-          context.goNamed(Routes.resetPassword.name);
-          showSnackBar(
-            const SnackBar(
-              content: AutoSizeText('OTP Verified'),
-            ),
-          );
         }
       },
       child: Stack(

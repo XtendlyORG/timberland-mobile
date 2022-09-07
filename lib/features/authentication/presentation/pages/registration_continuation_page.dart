@@ -15,12 +15,13 @@ class RegistrationContinuationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        if (Navigator.canPop(context)) {
-          Navigator.pop(context);
-        } else {
-          context.goNamed(Routes.register.name);
-        }
-        return false;
+        // if (Navigator.canPop(context)) {
+        //   Navigator.pop(context);
+        // } else {
+        //   context.goNamed(Routes.register.name);
+        // }
+        // return false;
+        return true;
       },
       child: SafeArea(
         child: Scaffold(
@@ -32,11 +33,12 @@ class RegistrationContinuationPage extends StatelessWidget {
               message: 'Back',
               child: IconButton(
                 onPressed: () {
-                  if (Navigator.canPop(context)) {
-                    Navigator.pop(context);
-                  } else {
-                    context.goNamed(Routes.register.name);
-                  }
+                  // if (Navigator.canPop(context)) {
+                  //   Navigator.pop(context);
+                  // } else {
+                  //   context.goNamed(Routes.register.name);
+                  // }
+                  Navigator.pop(context);
                 },
                 icon: const Icon(
                   Icons.arrow_back_rounded,
