@@ -1,9 +1,12 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:move_to_background/move_to_background.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/lock_user_widget.dart';
+import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../../core/router/router.dart';
@@ -33,14 +36,17 @@ class _CheckoutPageState extends State<CheckoutPage> {
         if (!(await _controller.canGoBack())) {
           Navigator.pop(context);
           context.pushNamed(Routes.cancelledfulBooking.name);
-        }
-        else{
+        } else {
           MoveToBackground.moveTaskToBack();
         }
         return false;
       },
       child: SafeArea(
         child: Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            title: const Text("Checkout"),
+          ),
           body: WebView(
             initialUrl: state.checkoutHtml,
             javascriptMode: JavascriptMode.unrestricted,
