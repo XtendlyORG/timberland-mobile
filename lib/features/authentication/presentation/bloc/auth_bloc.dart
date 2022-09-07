@@ -142,6 +142,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             ),
           );
           emit(OtpSent(
+            hasError: true,
             parameter: event.parameter,
             message: "OTP is sent to $email",
           ));

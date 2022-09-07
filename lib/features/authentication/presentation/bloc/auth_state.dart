@@ -20,7 +20,9 @@ class UnAuthenticated extends AuthState {
 class OtpSent<ParameterType> extends AuthState {
   final ParameterType parameter;
   final String message;
+  final bool? hasError;
   const OtpSent({
+    this.hasError,
     required this.parameter,
     required this.message,
   });

@@ -24,7 +24,7 @@ class LoginForm extends StatelessWidget {
                 .add(LockAuthEvent(duration: current.penaltyDuration!));
           }
         }
-        return current is OtpSent ;
+        return current is OtpSent && current.hasError == null;
       },
       listener: (context, state) {
         final _state = state as OtpSent;

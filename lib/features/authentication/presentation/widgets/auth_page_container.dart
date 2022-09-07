@@ -81,7 +81,7 @@ class AuthPageContainer extends StatelessWidget {
             ),
           );
         }
-        if (state is OtpSent) {
+        if (state is OtpSent && state.hasError ==null) {
           showSnackBar(
             SnackBar(
               content: AutoSizeText(
@@ -158,7 +158,8 @@ class AuthPageContainer extends StatelessWidget {
                             bottom: kVerticalPadding,
                           ),
                           child: ConstrainedBox(
-                            constraints: const BoxConstraints(maxWidth: kMaxWidthMobile),
+                            constraints:
+                                const BoxConstraints(maxWidth: kMaxWidthMobile),
                             child: child,
                           ),
                         ),
