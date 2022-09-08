@@ -47,7 +47,7 @@ class UpdateProfileForm extends StatelessWidget {
         if (current is ProfileUpdated) {
           showSnackBar(
             SnackBar(
-              content: const AutoSizeText('Profile Updated'),
+              content: AutoSizeText(current.message),
               behavior: SnackBarBehavior.floating,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(24),

@@ -64,7 +64,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           );
         },
         (user) {
-          emit(ProfileUpdated(user: user));
+          emit(ProfileUpdated(
+            user: user,
+            message: 'Profile Updated',
+          ));
           emit(ProfileInitial());
         },
       );
@@ -125,6 +128,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         (r) {
           emit(
             ProfileUpdated(
+              message: 'Email Updated',
               user: Session().currentUser!.copyWith(email: event.email),
             ),
           );
@@ -145,7 +149,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         },
         (r) {
           emit(
-            ProfileUpdated(user: Session().currentUser!),
+            ProfileUpdated(
+              user: Session().currentUser!,
+              message: 'Password Updated'
+            ),
           );
         },
       );
