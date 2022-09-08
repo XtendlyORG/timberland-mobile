@@ -6,7 +6,6 @@ import 'package:timberland_biketrail/core/presentation/widgets/custom_styled_tex
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_scaffold.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
-import 'package:timberland_biketrail/features/app_infos/presentation/widgets/faq_widget.dart';
 import 'package:timberland_biketrail/features/booking/presentation/pages/waiver/waiver_content.dart';
 
 class BookingWaiver extends StatelessWidget {

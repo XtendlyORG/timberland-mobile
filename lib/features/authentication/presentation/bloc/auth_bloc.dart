@@ -299,19 +299,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       // TODO: implement event handler
     });
     on<FinishUserGuideEvent>((event, emit) {
-      Authenticated _state = (state as Authenticated);
+      Authenticated initState = state as Authenticated;
 
-      _state = _state.copyWith(firstTimeUser: false);
+      initState = initState.copyWith(firstTimeUser: false);
 
       if (event.skipBooking) {
         emit(Authenticated(
           message: 'User Guide Completed',
-          user: _state.user,
+          user: initState.user,
         ));
       } else {
         emit(UserGuideFinished(
           message: 'User Guide Completed',
-          user: _state.user,
+          user: initState.user,
         ));
       }
     });
@@ -322,12 +322,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
 
     on<UpdateUser>((event, emit) {
-      final _state = state as Authenticated;
+      final initState = state as Authenticated;
       emit(
         const AuthLoading(loadingMessage: 'Updating profile'),
       );
       emit(
-        _state.copyWith(
+        initState.copyWith(
           message: 'Profile Updated',
           user: event.newUser,
         ),

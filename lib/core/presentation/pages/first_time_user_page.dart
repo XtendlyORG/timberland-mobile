@@ -39,7 +39,7 @@ class _OnboardingSliderState extends State<OnboardingSlider> {
 
           controller.animateToPage(
             currentIndex,
-            duration: Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 500),
             curve: Curves.ease,
           );
         } else {
@@ -82,7 +82,7 @@ class _OnboardingSliderState extends State<OnboardingSlider> {
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: Container(
+                  child: SizedBox(
                     height: kToolbarHeight,
                     child: SmoothPageIndicator(
                       controller: controller,
@@ -117,7 +117,7 @@ class _OnboardingSliderState extends State<OnboardingSlider> {
 
                               controller.animateToPage(
                                 currentIndex,
-                                duration: Duration(milliseconds: 500),
+                                duration: const Duration(milliseconds: 500),
                                 curve: Curves.ease,
                               );
                             },
@@ -144,7 +144,7 @@ class _OnboardingSliderState extends State<OnboardingSlider> {
 
                                   controller.animateToPage(
                                     currentIndex,
-                                    duration: Duration(milliseconds: 500),
+                                    duration: const Duration(milliseconds: 500),
                                     curve: Curves.ease,
                                   );
                                 },

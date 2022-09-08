@@ -92,7 +92,7 @@ class VerifyUpdateOtpPage extends StatelessWidget {
           ),
           child: OtpVerificationForm(
             onResend: () {
-              var email;
+              String email;
               final bloc = BlocProvider.of<ProfileBloc>(context);
               if (bloc.state is OTPToUpdateSent) {
                 email = (bloc.state as OTPToUpdateSent).email;
@@ -104,7 +104,7 @@ class VerifyUpdateOtpPage extends StatelessWidget {
               );
             },
             onSubmit: ((otp) {
-              var email;
+              String email;
               final bloc = BlocProvider.of<ProfileBloc>(context);
               if (bloc.state is OTPToUpdateSent) {
                 email = (bloc.state as OTPToUpdateSent).email;

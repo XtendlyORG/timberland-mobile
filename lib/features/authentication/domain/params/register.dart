@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 import 'package:timberland_biketrail/features/authentication/domain/params/login.dart';
 
@@ -14,6 +13,7 @@ class RegisterParameter extends LoginParameter {
   final String? address;
   final String? profession;
   final String? bloodType;
+  @override
   final String email;
   final String mobileNumber;
   final String? emergencyContactInfo;
@@ -21,6 +21,7 @@ class RegisterParameter extends LoginParameter {
   final String? bikeModel;
   final String? bikeYear;
   final String? bikeColor;
+  @override
   final String password;
   const RegisterParameter({
     this.otp,

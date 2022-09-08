@@ -4,7 +4,6 @@ import '../../../../core/errors/failures.dart';
 import '../../../../core/utils/repository.dart';
 import '../entities/user.dart';
 import '../params/params.dart';
-import '../../../../dashboard/domain/params/update_user_detail.dart';
 
 abstract class AuthRepository extends Repository {
   Future<Either<AuthFailure, User>> login(LoginParameter params);

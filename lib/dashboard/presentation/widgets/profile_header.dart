@@ -35,7 +35,7 @@ class ProfileHeader extends StatelessWidget {
             ),
           ),
           Align(
-            alignment: Alignment(-.85, 1),
+            alignment: const Alignment(-.85, 1),
             child: ProfileAvatar(
               imgUrl: user.profilePicUrl,
               radius: 27,

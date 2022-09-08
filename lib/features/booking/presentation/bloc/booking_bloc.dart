@@ -3,7 +3,6 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:timberland_biketrail/core/errors/failures.dart';
 import 'package:timberland_biketrail/features/booking/domain/params/booking_request_params.dart';
 import 'package:timberland_biketrail/features/booking/domain/repositories/booking_repository.dart';
 

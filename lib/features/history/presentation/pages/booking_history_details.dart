@@ -171,29 +171,29 @@ class BookingHistoryDetails extends StatelessWidget {
   }
 
   List<TextSpan> _renderTime(TimeOfDay time) {
-    final _time = formatTime(time).split(' ');
+    final splittedTime = formatTime(time).split(' ');
 
     return [
       TextSpan(
-        text: '${_time[0]} ',
+        text: '${splittedTime[0]} ',
         style: const TextStyle(
           fontWeight: FontWeight.bold,
         ),
       ),
       TextSpan(
-        text: _time[1],
+        text: splittedTime[1],
       ),
     ];
   }
 
   List<TextSpan> _renderDate(DateTime date) {
-    final _date = DateFormat('EEE dd MMMM yyyy').format(date).split(' ');
+    final splittedDate = DateFormat('EEE dd MMMM yyyy').format(date).split(' ');
 
     final textSpanList = <TextSpan>[];
-    for (int i = 0; i < _date.length; i++) {
+    for (int i = 0; i < splittedDate.length; i++) {
       textSpanList.add(
         TextSpan(
-          text: '${_date[i]} ',
+          text: '${splittedDate[i]} ',
           style: i != 0
               ? const TextStyle(
                   fontWeight: FontWeight.bold,

@@ -27,16 +27,9 @@ class LoginForm extends StatelessWidget {
         return current is OtpSent && current.hasError == null;
       },
       listener: (context, state) {
-        final _state = state as OtpSent;
         if (!Navigator.canPop(context)) {
           context.pushNamed(Routes.loginVerify.name);
         }
-        // context.goNamed(
-        //   Routes.otpVerification.name,
-        //   extra: _state.parameter is LoginParameter
-        //       ? Routes.login.name
-        //       : Routes.forgotPassword.name,
-        // );
       },
       child: Form(
         key: formKey,

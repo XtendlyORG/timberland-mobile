@@ -1,13 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/lock_user_widget.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
-import 'package:timberland_biketrail/features/authentication/domain/params/params.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/widgets/otp_validation_form.dart';
 
-import '../../../../core/router/router.dart';
 import '../bloc/auth_bloc.dart';
 import '../widgets/auth_page_container.dart';
 

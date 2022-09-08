@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
@@ -153,7 +152,7 @@ class _CustomNavBarState extends State<_CustomNavBar> {
             ),
           ),
           Align(
-            alignment: Alignment(0, -55),
+            alignment: const Alignment(0, -55),
             child: Container(
               height: 55,
               width: 80,
