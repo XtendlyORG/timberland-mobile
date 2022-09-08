@@ -34,6 +34,7 @@ class PaymentHistoryWidget extends StatelessWidget {
           Row(
             children: [
               Expanded(
+                flex: 2,
                 child: AutoSizeText(
                   group: autoSizeGroup,
                   DateFormat('dd MMMM yyyy').format(
@@ -47,11 +48,14 @@ class PaymentHistoryWidget extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: kVerticalPadding),
-              AutoSizeText(
-                group: autoSizeGroup,
-                'PHP ${payment.amount % 1 == 0 ? payment.amount.toInt() : payment.amount}',
-                style: Theme.of(context).textTheme.titleLarge,
-                maxLines: 1,
+              Expanded(
+                child: AutoSizeText(
+                  group: autoSizeGroup,
+                  'PHP ${payment.amount % 1 == 0 ? payment.amount.toInt() : payment.amount}',
+                  style: Theme.of(context).textTheme.titleLarge,
+                  maxLines: 1,
+                  textAlign: TextAlign.end,
+                ),
               ),
             ],
           ),
@@ -71,29 +75,36 @@ class PaymentHistoryWidget extends StatelessWidget {
                   ?.copyWith(fontWeight: FontWeight.normal),
             ),
           ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Image.network(
-                  'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Maya_logo.svg/1200px-Maya_logo.svg.png',
-                  width: 56,
-                  alignment: Alignment.center,
+          SizedBox(
+            height: 25,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Image.network(
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Maya_logo.svg/1200px-Maya_logo.svg.png',
+                    // width: 56,
+                    height: double.infinity,
+                    alignment: Alignment.centerLeft,
+                    fit: BoxFit.fitHeight,
+                  ),
                 ),
-              ),
-              const Spacer(),
-              AutoSizeText(
-                group: autoSizeGroup,
-                payment.status.name.toTitleCase(),
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.normal,
-                      color: payment.status == PaymentStatus.successful
-                          ? Colors.green
-                          : TimberlandColor.secondaryColor,
-                    ),
-              ),
-            ],
+                const Spacer(),
+                FittedBox(
+                  fit: BoxFit.fitHeight,
+                  child: AutoSizeText(
+                    payment.status.name.toTitleCase(),
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.normal,
+                          color: payment.status == PaymentStatus.successful
+                              ? Colors.green
+                              : TimberlandColor.secondaryColor,
+                        ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
