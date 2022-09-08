@@ -30,7 +30,7 @@ class TrailSpecs extends StatelessWidget {
               ),
               TextSpan(
                 text:
-                    '${trail.distance % 1 == 0 ? trail.distance.toInt() : trail.distance} ${trail.unit}',
+                    '${trail.distance % 1 == 0 ? trail.distance.toInt() : trail.distance}${trail.unit}',
                 style: Theme.of(context).textTheme.subtitle2,
               ),
             ],
