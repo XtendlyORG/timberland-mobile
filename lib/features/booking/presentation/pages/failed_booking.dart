@@ -26,7 +26,7 @@ class FailedBookingPage extends StatelessWidget {
         ),
       ),
       title: AutoSizeText(
-        'Payment Failed!',
+        'Payment Failed',
         style: Theme.of(context).textTheme.titleLarge?.copyWith(
               color: TimberlandColor.secondaryColor,
             ),

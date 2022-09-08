@@ -12,13 +12,13 @@ class CancelledBookingPage extends StatelessWidget {
     return CheckoutInformationWidget(
       icon: const Icon(
         Icons.error,
-        color: TimberlandColor.secondaryColor,
+        color: TimberlandColor.orange,
         size: 64,
       ),
       title: AutoSizeText(
         'Payment Cancelled',
         style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: TimberlandColor.secondaryColor,
+              color: TimberlandColor.orange,
             ),
         maxLines: 1,
       ),
