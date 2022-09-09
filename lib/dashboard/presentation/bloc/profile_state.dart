@@ -47,11 +47,13 @@ class ProfileUpdateError extends ProfileState {
 
 class ProfileUpdated extends ProfileState {
   final User user;
+  final String message;
   const ProfileUpdated({
     required this.user,
+    required this.message,
   });
   @override
-  List<Object> get props => super.props..add(user);
+  List<Object> get props => super.props..addAll([user, message]);
 }
 
 class OTPToUpdateSent extends ProfileState {

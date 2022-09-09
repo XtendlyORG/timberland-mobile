@@ -62,7 +62,7 @@ class VerifyUpdateOtpPage extends StatelessWidget {
         if (state is ProfileUpdated) {
           showSnackBar(
             SnackBar(
-              content: const AutoSizeText('Profile Updated'),
+              content: AutoSizeText(state.message),
               behavior: SnackBarBehavior.floating,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(24),
