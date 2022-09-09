@@ -1,8 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-
 import 'package:flutter/material.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/overflow_with_hittest.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/features/emergency/presentation/widgets/emergency_dialog.dart';
 
@@ -45,7 +45,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               context: context,
               builder: (ctx) {
                 return const EmergencyDialog();
-              },  
+              },
             );
           }
         }
@@ -72,7 +72,7 @@ class _CustomNavBar extends StatefulWidget {
 
 class _CustomNavBarState extends State<_CustomNavBar> {
   late int selectedIndex;
-
+  final overFlowKeys = <GlobalKey>[GlobalKey()];
   @override
   void initState() {
     super.initState();
@@ -84,99 +84,108 @@ class _CustomNavBarState extends State<_CustomNavBar> {
     if (selectedIndex != widget.index) {
       selectedIndex = widget.index;
     }
-    return Container(
-      height: kBottomNavigationBarHeight,
-      decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
-      ),
-      child: Stack(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: List.generate(
-              widget.items.length,
-              (index) => Expanded(
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      selectedIndex = index;
-                    });
-                    widget.onTap(index);
-                  },
-                  child: Tooltip(
-                    message: widget.items[index].tooltip,
-                    child: Column(
-                      children: [
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child: SizedBox(
-                            height: 48,
-                            child: index != widget.items.length ~/ 2
-                                ? widget.items[index].icon
-                                : null,
-                          ),
-                        ),
-                        if (widget.items[index].tooltip != null) ...[
-                          Expanded(
-                            child: Text(
-                              widget.items[index].tooltip!,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  ?.copyWith(
-                                    fontSize:
-                                        index != selectedIndex ? 12 : null,
-                                    fontWeight: index == selectedIndex
-                                        ? FontWeight.w500
-                                        : null,
-                                    color: index != selectedIndex
-                                        ? Theme.of(context)
-                                            .backgroundColor
-                                            .withOpacity(.5)
-                                        : Theme.of(context).backgroundColor,
-                                  ),
-                            ),
-                          ),
+    return OverflowWithHitTest(
+      overflowKeys: overFlowKeys,
+      child: Container(
+        height: kBottomNavigationBarHeight,
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+        ),
+        child: Stack(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: List.generate(
+                widget.items.length,
+                (index) => Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedIndex = index;
+                      });
+                      widget.onTap(index);
+                    },
+                    child: Tooltip(
+                      message: widget.items[index].tooltip,
+                      child: Column(
+                        children: [
                           const SizedBox(
                             height: 5,
                           ),
+                          Expanded(
+                            flex: 2,
+                            child: SizedBox(
+                              height: 48,
+                              child: index != widget.items.length ~/ 2
+                                  ? widget.items[index].icon
+                                  : null,
+                            ),
+                          ),
+                          if (widget.items[index].tooltip != null) ...[
+                            Expanded(
+                              child: Text(
+                                widget.items[index].tooltip!,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.copyWith(
+                                      fontSize:
+                                          index != selectedIndex ? 12 : null,
+                                      fontWeight: index == selectedIndex
+                                          ? FontWeight.w500
+                                          : null,
+                                      color: index != selectedIndex
+                                          ? Theme.of(context)
+                                              .backgroundColor
+                                              .withOpacity(.5)
+                                          : Theme.of(context).backgroundColor,
+                                    ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                          ],
                         ],
-                      ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          Align(
-            alignment: const Alignment(0, -55),
-            child: Container(
-              height: 55,
-              width: 80,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Theme.of(context).backgroundColor,
-                border:
-                    Border.all(color: Theme.of(context).primaryColor, width: 5),
-              ),
-              child: InkWell(
+            Align(
+              alignment: const Alignment(0, -55),
+              child: GestureDetector(
+                key: overFlowKeys[0],
+                behavior: HitTestBehavior.translucent,
                 onTap: () {
                   setState(() {
                     selectedIndex = 2;
                   });
                   widget.onTap(2);
                 },
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: navbarConfigs[2].icon,
+                child: Tooltip(
+                  message: navbarConfigs[2].label,
+                  child: Container(
+                    height: 55,
+                    width: 80,
+                    clipBehavior: Clip.hardEdge,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Theme.of(context).backgroundColor,
+                      border: Border.all(
+                          color: Theme.of(context).primaryColor, width: 5),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: navbarConfigs[2].icon,
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
