@@ -41,7 +41,7 @@ import '../../features/trail/presentation/pages/trail_map.dart';
 import '../../main_page.dart';
 import '../presentation/widgets/inherited_widgets/inherited_trail.dart';
 import '../utils/session.dart';
-import 'routes/routes.dart';
+import 'routes.dart';
 
 final appRouter = GoRouter(
   initialLocation: Routes.home.path,
