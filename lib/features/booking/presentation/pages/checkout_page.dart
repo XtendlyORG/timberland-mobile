@@ -18,6 +18,7 @@ class CheckoutPage extends StatefulWidget {
 
 class _CheckoutPageState extends State<CheckoutPage> {
   late WebViewController _controller;
+  int progress = 0;
   @override
   void initState() {
     super.initState();
@@ -44,42 +45,53 @@ class _CheckoutPageState extends State<CheckoutPage> {
             automaticallyImplyLeading: false,
             title: const Text("Checkout"),
           ),
-          body: WebView(
-            initialUrl: state.checkoutHtml,
-            javascriptMode: JavascriptMode.unrestricted,
-            onWebViewCreated: (ctrl) {
-              _controller = ctrl;
-            },
-            // onPageFinished: (val) {
-            //   // CODE LOGIC FOR GETTING THE CHECKOUT PAGE'S DATA AS JSON
+          body: Stack(
+            children: [
+              WebView(
+                initialUrl: state.checkoutHtml,
+                javascriptMode: JavascriptMode.unrestricted,
+                onWebViewCreated: (ctrl) {
+                  _controller = ctrl;
+                },
+                // onPageFinished: (val) {
+                //   // CODE LOGIC FOR GETTING THE CHECKOUT PAGE'S DATA AS JSON
 
-            //   // _controller
-            //   //     .runJavascriptReturningResult(
-            //   //         'document.body.getElementsByTagName("script")[0].outerHTML')
-            //   //     .then((scriptTag) {
-            //   //   final _json = readCheckOutPageAsJson(scriptTag);
-            //   //   log(_json.toString());
-            //   // });
-            // },
-            navigationDelegate: (request) {
-              if (request.url.contains('success')) {
-                Navigator.pop(context);
-                context.pushNamed(Routes.successfulBooking.name);
-                return NavigationDecision.prevent;
-              }
-              if (request.url.contains('fail')) {
-                Navigator.pop(context);
-                context.pushNamed(Routes.failedfulBooking.name);
-                return NavigationDecision.prevent;
-              }
-              if (request.url.contains('cancel')) {
-                Navigator.pop(context);
-                context.pushNamed(Routes.cancelledfulBooking.name);
-                return NavigationDecision.prevent;
-              }
+                //   // _controller
+                //   //     .runJavascriptReturningResult(
+                //   //         'document.body.getElementsByTagName("script")[0].outerHTML')
+                //   //     .then((scriptTag) {
+                //   //   final _json = readCheckOutPageAsJson(scriptTag);
+                //   //   log(_json.toString());
+                //   // });
+                // },
+                onProgress: (loadingProgress) {
+                  progress = loadingProgress;
+                },
+                navigationDelegate: (request) {
+                  if (request.url.contains('success')) {
+                    Navigator.pop(context);
+                    context.pushNamed(Routes.successfulBooking.name);
+                    return NavigationDecision.prevent;
+                  }
+                  if (request.url.contains('fail')) {
+                    Navigator.pop(context);
+                    context.pushNamed(Routes.failedfulBooking.name);
+                    return NavigationDecision.prevent;
+                  }
+                  if (request.url.contains('cancel')) {
+                    Navigator.pop(context);
+                    context.pushNamed(Routes.cancelledfulBooking.name);
+                    return NavigationDecision.prevent;
+                  }
 
-              return NavigationDecision.navigate;
-            },
+                  return NavigationDecision.navigate;
+                },
+              ),
+              if (progress < 100)
+                CircularProgressIndicator(
+                  value: progress / 100,
+                ),
+            ],
           ),
         ),
       ),
