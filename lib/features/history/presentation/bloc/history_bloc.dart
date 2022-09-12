@@ -43,5 +43,23 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         },
       );
     });
+
+    on<CancelBookingEvent>((event, emit) async {
+      emit(const CancellingBooking());
+
+      final result = await repository.cancelBooking(
+        event.bookingId,
+        event.reason,
+      );
+
+      result.fold(
+        (failure) {
+          emit(BookingCancellationError(errorMessage: failure.message));
+        },
+        (_) {
+          emit(const BookingCancelled());
+        },
+      );
+    });
   }
 }

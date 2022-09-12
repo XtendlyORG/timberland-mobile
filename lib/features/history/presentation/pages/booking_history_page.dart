@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timberland_biketrail/features/history/presentation/widgets/inherited_booking.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/presentation/widgets/widgets.dart';
@@ -28,8 +29,8 @@ class BookingHistoryPage extends StatelessWidget {
             builder: (context, state) {
               if (state is LoadingHistory) {
                 return latestWidget = SizedBox(
-                  height: MediaQuery.of(context).size.height -
-                        kToolbarHeight * 5,
+                  height:
+                      MediaQuery.of(context).size.height - kToolbarHeight * 5,
                   child: const RepaintBoundary(
                     child: Center(
                       child: CircularProgressIndicator(),
@@ -40,8 +41,8 @@ class BookingHistoryPage extends StatelessWidget {
               if (state is BookingHistoryLoaded) {
                 if (state.bookings.isEmpty) {
                   return latestWidget = SizedBox(
-                    height: MediaQuery.of(context).size.height -
-                        kToolbarHeight * 5,
+                    height:
+                        MediaQuery.of(context).size.height - kToolbarHeight * 5,
                     child: Center(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -76,8 +77,9 @@ class BookingHistoryPage extends StatelessWidget {
                           (booking) => Padding(
                             padding:
                                 const EdgeInsets.only(bottom: kVerticalPadding),
-                            child: BookingHistoryWidget(
-                              bookingHistory: booking,
+                            child: InheritedBooking(
+                              booking: booking,
+                              child: const BookingHistoryWidget(),
                             ),
                           ),
                         )
@@ -87,8 +89,8 @@ class BookingHistoryPage extends StatelessWidget {
               }
               if (state is HistoryError) {
                 return latestWidget = SizedBox(
-                   height: MediaQuery.of(context).size.height -
-                        kToolbarHeight * 5,
+                  height:
+                      MediaQuery.of(context).size.height - kToolbarHeight * 5,
                   child: Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,

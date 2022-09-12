@@ -23,6 +23,14 @@ class HistoryRepositoryImpl implements HistoryRepository {
     return this(request: dataSource.fetchPaymentHistory);
   }
 
+  @override
+  Future<Either<HistoryFailure, void>> cancelBooking(
+      String bookingId, String reason) {
+    return this(
+      request: () => dataSource.cancelBooking(bookingId, reason),
+    );
+  }
+
   Future<Either<HistoryFailure, ReturnType>> call<ReturnType>({
     required Future<ReturnType> Function() request,
   }) async {
