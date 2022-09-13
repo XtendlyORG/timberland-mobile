@@ -45,6 +45,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     });
 
     on<CancelBookingEvent>((event, emit) async {
+      final initalState = state as BookingHistoryLoaded;
       emit(const CancellingBooking());
 
       final result = await repository.cancelBooking(
@@ -57,6 +58,18 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
           emit(BookingCancellationError(errorMessage: failure.message));
         },
         (_) {
+          final booking = initalState.bookings
+              .firstWhere((element) => element.id == event.bookingId);
+          final int bookingIndex = initalState.bookings.indexOf(booking);
+          final bookings = initalState.bookings
+            ..removeAt(bookingIndex)
+            ..insert(
+              bookingIndex,
+              booking.copyWith(
+                status: BookingStatus.cancelled,
+              ),
+            );
+          emit(BookingHistoryLoaded(bookings: bookings));
           emit(const BookingCancelled());
         },
       );

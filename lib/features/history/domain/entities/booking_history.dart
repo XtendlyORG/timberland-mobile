@@ -11,6 +11,7 @@ class BookingHistory extends History {
   final String email;
   final TimeOfDay time;
   final DateTime date;
+  final BookingStatus status;
   const BookingHistory({
     required this.id,
     required this.firstName,
@@ -19,6 +20,7 @@ class BookingHistory extends History {
     required this.email,
     required this.time,
     required this.date,
+    required this.status,
   });
 
   factory BookingHistory.fromMap(Map<String, dynamic> map) {
@@ -30,6 +32,42 @@ class BookingHistory extends History {
       email: map['email'] as String,
       time: stringToTime(map['time']),
       date: DateTime.parse(map['date'] as String),
+      status: _status[map['status'] as String] ?? BookingStatus.cancelled,
     );
   }
+
+  BookingHistory copyWith({
+    String? id,
+    String? firstName,
+    String? lastName,
+    String? mobileNumber,
+    String? email,
+    TimeOfDay? time,
+    DateTime? date,
+    BookingStatus? status,
+  }) {
+    return BookingHistory(
+      id: id ?? this.id,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      mobileNumber: mobileNumber ?? this.mobileNumber,
+      email: email ?? this.email,
+      time: time ?? this.time,
+      date: date ?? this.date,
+      status: status ?? this.status,
+    );
+  }
+}
+
+const Map<String, BookingStatus> _status = {
+  'Paid': BookingStatus.paid,
+  'Cancelled': BookingStatus.cancelled,
+};
+
+enum BookingStatus {
+  paid(status: "Paid"),
+  cancelled(status: "Cancelled");
+
+  final String status;
+  const BookingStatus({required this.status});
 }
