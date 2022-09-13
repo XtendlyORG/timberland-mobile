@@ -21,10 +21,14 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         (failure) {
           emit(BookingError(errorMessage: failure.message));
         },
-        (checkoutHtml) {
-          emit(BookingSubmitted(
-            checkoutHtml: checkoutHtml,
-          ));
+        (bookingResponse) {
+          emit(
+            BookingSubmitted(
+              isFree: bookingResponse.isFree,
+              checkoutHtml: bookingResponse.redirectUrl ??
+                  'No redicrection, booking is free',
+            ),
+          );
         },
       );
     });

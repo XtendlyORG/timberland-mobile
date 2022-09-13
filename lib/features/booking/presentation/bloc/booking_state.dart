@@ -23,14 +23,17 @@ class BookingError extends BookingState {
 
 class BookingSubmitted extends BookingState {
   final String checkoutHtml;
+  final bool isFree;
 
   const BookingSubmitted({
     required this.checkoutHtml,
+    required this.isFree,
   });
 
   @override
   List<Object> get props => super.props
     ..addAll([
       checkoutHtml,
+      isFree,
     ]);
 }

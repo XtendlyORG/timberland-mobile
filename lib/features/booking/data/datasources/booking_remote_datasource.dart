@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:timberland_biketrail/core/configs/environment_configs.dart';
 import 'package:timberland_biketrail/core/errors/exceptions.dart';
 import 'package:timberland_biketrail/features/booking/data/datasources/booking_datasource.dart';
+import 'package:timberland_biketrail/features/booking/domain/entities/booking_response.dart';
 import 'package:timberland_biketrail/features/booking/domain/params/booking_request_params.dart';
 
 class BookingRemoteDataSource implements BookingDatasource {
@@ -15,7 +16,7 @@ class BookingRemoteDataSource implements BookingDatasource {
     required this.environmentConfig,
   });
   @override
-  Future<String> submitBookingRequest(BookingRequestParams params) {
+  Future<BookingResponse> submitBookingRequest(BookingRequestParams params) {
     return this(callback: () async {
       log('test');
 
@@ -28,7 +29,7 @@ class BookingRemoteDataSource implements BookingDatasource {
 
       if (result.statusCode == 200) {
         if (result.data is Map<String, dynamic>) {
-          return result.data['redirectUrl'];
+          return BookingResponse.fromMap(result.data);
         }
       }
       throw const BookingException();
