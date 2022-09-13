@@ -21,6 +21,10 @@ class BookingError extends BookingState {
   List<Object> get props => super.props..addAll([errorMessage, DateTime.now()]);
 }
 
+class DuplicateBookingError extends BookingError {
+  const DuplicateBookingError({required super.errorMessage});
+}
+
 class BookingSubmitted extends BookingState {
   final String checkoutHtml;
   final bool isFree;

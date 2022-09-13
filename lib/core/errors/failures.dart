@@ -51,3 +51,11 @@ class BookingFailure implements Failure {
     required this.message,
   });
 }
+
+class DuplicateBookingFailure implements BookingFailure {
+  @override
+  final String message;
+  const DuplicateBookingFailure({
+    required this.message,
+  });
+}

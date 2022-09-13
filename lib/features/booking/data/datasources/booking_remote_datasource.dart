@@ -18,18 +18,29 @@ class BookingRemoteDataSource implements BookingDatasource {
   @override
   Future<BookingResponse> submitBookingRequest(BookingRequestParams params) {
     return this(callback: () async {
-      log('test');
+      try {
+        final result = await dioClient.post(
+          '${environmentConfig.apihost}/bookings',
+          data: params.toJson(),
+        );
+        log(result.statusCode.toString());
 
-      log(params.toJson());
-      final result = await dioClient.post(
-        '${environmentConfig.apihost}/bookings',
-        data: params.toJson(),
-      );
-      log(result.statusCode.toString());
-
-      if (result.statusCode == 200) {
-        if (result.data is Map<String, dynamic>) {
-          return BookingResponse.fromMap(result.data);
+        if (result.statusCode == 200) {
+          if (result.data is Map<String, dynamic>) {
+            return BookingResponse.fromMap(result.data);
+          }
+        }
+      } on DioError catch (dioError) {
+        if ((dioError.response?.statusCode ?? -1) == 400) {
+          if (dioError.response?.data is Map<String, dynamic>) {
+            if ((dioError.response?.data['message'] as String) ==
+                "Sorry, You already have a completed booking for this day.") {
+              throw const DuplicateBookingException(
+                message: 'You already have a booking for that date.',
+              );
+            }
+          }
+          rethrow;
         }
       }
       throw const BookingException();
@@ -64,6 +75,8 @@ class BookingRemoteDataSource implements BookingDatasource {
       throw const BookingException(
         message: "Error Occurred",
       );
+    } on DuplicateBookingException {
+      rethrow;
     } catch (e) {
       log(e.toString());
       throw const BookingException(message: "An Error Occurred");

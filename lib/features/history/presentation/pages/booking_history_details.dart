@@ -9,7 +9,6 @@ import '../../../../core/presentation/widgets/snackbar_content/show_snackbar.dar
 import '../../../../core/presentation/widgets/widgets.dart';
 import '../../../../core/themes/timberland_color.dart';
 import '../../../../core/utils/format_time.dart';
-import '../../../../core/utils/string_extensions.dart';
 import '../../domain/entities/entities.dart';
 import '../bloc/history_bloc.dart';
 import '../widgets/cancel_booking/cancel_booking_bottomsheet.dart';
@@ -153,12 +152,9 @@ class BookingHistoryDetails extends StatelessWidget {
                       TextSpan(children: [
                         const TextSpan(text: 'Status: '),
                         TextSpan(
-                          text: bookingHistory.status.name.toTitleCase(),
+                          text: bookingHistory.status.status,
                           style: TextStyle(
-                            color:
-                                bookingHistory.status == BookingStatus.cancelled
-                                    ? TimberlandColor.orange
-                                    : TimberlandColor.accentColor,
+                            color: bookingHistory.status.color,
                           ),
                         )
                       ]),

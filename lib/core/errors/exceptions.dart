@@ -50,3 +50,11 @@ class BookingException implements Exception {
     this.message,
   });
 }
+
+class DuplicateBookingException implements BookingException {
+  @override
+  final String? message;
+  const DuplicateBookingException({
+    this.message,
+  });
+}

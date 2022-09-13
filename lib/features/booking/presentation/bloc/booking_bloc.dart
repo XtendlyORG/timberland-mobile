@@ -3,6 +3,7 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:timberland_biketrail/core/errors/failures.dart';
 import 'package:timberland_biketrail/features/booking/domain/params/booking_request_params.dart';
 import 'package:timberland_biketrail/features/booking/domain/repositories/booking_repository.dart';
 
@@ -19,7 +20,11 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       final result = await repository.submitBookingRequest(event.params);
       result.fold(
         (failure) {
-          emit(BookingError(errorMessage: failure.message));
+          if (failure is DuplicateBookingFailure) {
+            emit(DuplicateBookingError(errorMessage: failure.message));
+          } else {
+            emit(BookingError(errorMessage: failure.message));
+          }
         },
         (bookingResponse) {
           emit(

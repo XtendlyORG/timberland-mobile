@@ -78,18 +78,31 @@ class _BookingFormState extends State<BookingForm> {
           );
         }
         if (state is BookingError) {
-          showSnackBar(
-            SnackBar(
-              content: AutoSizeText(state.errorMessage),
-            ),
-          );
+          if (state is DuplicateBookingError) {
+            ScaffoldMessenger.of(context).clearSnackBars();
+            _showBookingDialog(
+              context,
+              text: state.errorMessage,
+              onPop: () {},
+            );
+          } else {
+            showSnackBar(
+              SnackBar(
+                content: AutoSizeText(state.errorMessage),
+              ),
+            );
+          }
         }
         if (state is BookingSubmitted) {
           ScaffoldMessenger.of(context).clearSnackBars();
           if (state.isFree) {
-            _showFreeBookingDialog(context, onPop: () {
-              context.pushNamed(Routes.bookingHistory.name);
-            });
+            _showBookingDialog(
+              context,
+              text: 'This booking is free',
+              onPop: () {
+                context.pushNamed(Routes.bookingHistory.name);
+              },
+            );
           } else {
             context.pushNamed(Routes.checkout.name);
           }
@@ -317,8 +330,9 @@ class _BookingFormState extends State<BookingForm> {
     );
   }
 
-  void _showFreeBookingDialog(
+  void _showBookingDialog(
     BuildContext context, {
+    required String text,
     required VoidCallback onPop,
   }) {
     showDialog(
@@ -331,8 +345,8 @@ class _BookingFormState extends State<BookingForm> {
               const SizedBox(
                 height: kHorizontalPadding,
               ),
-              const Text(
-                'This booking is free',
+              Text(
+                text,
                 textAlign: TextAlign.center,
               ),
               const SizedBox(

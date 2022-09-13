@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/core/utils/format_time.dart';
 import 'package:timberland_biketrail/features/history/domain/entities/history.dart';
 
@@ -32,7 +33,7 @@ class BookingHistory extends History {
       email: map['email'] as String,
       time: stringToTime(map['time']),
       date: DateTime.parse(map['date'] as String),
-      status: _status[map['status'] as String] ?? BookingStatus.cancelled,
+      status: _status[map['status'] as String] ?? BookingStatus.undefined,
     );
   }
 
@@ -62,12 +63,35 @@ class BookingHistory extends History {
 const Map<String, BookingStatus> _status = {
   'Paid': BookingStatus.paid,
   'Cancelled': BookingStatus.cancelled,
+  'Not Paid': BookingStatus.notPaid,
+  'Free Pass': BookingStatus.free,
+  'Done': BookingStatus.done,
 };
 
 enum BookingStatus {
-  paid(status: "Paid"),
-  cancelled(status: "Cancelled");
+  paid(
+    status: "Paid",
+    color: TimberlandColor.accentColor,
+  ),
+  cancelled(
+    status: "Cancelled",
+    color: TimberlandColor.orange,
+  ),
+  notPaid(
+    status: 'Not Paid',
+    color: TimberlandColor.secondaryColor,
+  ),
+  free(status: 'Free', color: Colors.green),
+  done(
+    status: 'Done',
+    color: TimberlandColor.primary,
+  ),
+  undefined(
+    status: 'Undefined',
+    color: TimberlandColor.primary,
+  );
 
   final String status;
-  const BookingStatus({required this.status});
+  final Color color;
+  const BookingStatus({required this.status, required this.color});
 }

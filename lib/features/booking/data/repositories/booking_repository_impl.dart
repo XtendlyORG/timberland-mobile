@@ -27,6 +27,13 @@ class BookingRepositoryImpl implements BookingRepository {
     try {
       return Right(await request());
     } on BookingException catch (exception) {
+      if (exception is DuplicateBookingException) {
+        return Left(
+          DuplicateBookingFailure(
+            message: exception.message ?? 'Server Failure.',
+          ),
+        );
+      }
       return Left(
         BookingFailure(
           message: exception.message ?? 'Server Failure.',
