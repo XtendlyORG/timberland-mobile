@@ -8,16 +8,14 @@ import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/format_time.dart';
 import 'package:timberland_biketrail/features/history/domain/entities/entities.dart';
+import 'package:timberland_biketrail/features/history/presentation/widgets/inherited_booking.dart';
 
 class BookingHistoryWidget extends StatelessWidget {
-  final BookingHistory bookingHistory;
-  const BookingHistoryWidget({
-    Key? key,
-    required this.bookingHistory,
-  }) : super(key: key);
+  const BookingHistoryWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final BookingHistory bookingHistory = InheritedBooking.of(context).booking;
     return GestureDetector(
       onTap: () {
         context.pushNamed(

@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/custom_checkbox.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/dialogs/custom_dialog.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/loading_snackbar_content.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/show_snackbar.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/custom_checkbox.dart';
 import 'package:timberland_biketrail/features/booking/domain/params/booking_request_params.dart';
 import 'package:timberland_biketrail/features/booking/presentation/widgets/booking_date_picker.dart';
 import 'package:timberland_biketrail/features/booking/presentation/widgets/booking_time_picker.dart';
@@ -77,15 +78,34 @@ class _BookingFormState extends State<BookingForm> {
           );
         }
         if (state is BookingError) {
-          showSnackBar(
-            SnackBar(
-              content: AutoSizeText(state.errorMessage),
-            ),
-          );
+          if (state is DuplicateBookingError) {
+            ScaffoldMessenger.of(context).clearSnackBars();
+            _showBookingDialog(
+              context,
+              text: state.errorMessage,
+              onPop: () {},
+            );
+          } else {
+            showSnackBar(
+              SnackBar(
+                content: AutoSizeText(state.errorMessage),
+              ),
+            );
+          }
         }
         if (state is BookingSubmitted) {
           ScaffoldMessenger.of(context).clearSnackBars();
-          context.pushNamed(Routes.checkout.name);
+          if (state.isFree) {
+            _showBookingDialog(
+              context,
+              text: 'This booking is free',
+              onPop: () {
+                context.pushNamed(Routes.bookingHistory.name);
+              },
+            );
+          } else {
+            context.pushNamed(Routes.checkout.name);
+          }
         }
       },
       child: Form(
@@ -308,5 +328,49 @@ class _BookingFormState extends State<BookingForm> {
         ),
       ),
     );
+  }
+
+  void _showBookingDialog(
+    BuildContext context, {
+    required String text,
+    required VoidCallback onPop,
+  }) {
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return CustomDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(
+                height: kHorizontalPadding,
+              ),
+              Text(
+                text,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(
+                height: kVerticalPadding,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.pop(context, true);
+                      },
+                      child: const Text('Okay'),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    ).then((value) {
+      onPop();
+    });
   }
 }
