@@ -1,12 +1,19 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:timberland_biketrail/features/history/presentation/bloc/history_bloc.dart';
+import 'package:timberland_biketrail/features/history/presentation/widgets/inherited_booking.dart';
 
 import '../../../../../core/constants/padding.dart';
 import '../../../../../core/presentation/widgets/widgets.dart';
 
 class CancellationReasonPicker extends StatefulWidget {
-  const CancellationReasonPicker({Key? key}) : super(key: key);
+  const CancellationReasonPicker({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<CancellationReasonPicker> createState() =>
@@ -94,9 +101,15 @@ class _CancellationReasonPickerState extends State<CancellationReasonPicker> {
             ),
             child: FilledTextButton(
               onPressed: () {
-                textFieldEnabled ? reason = otherReasonCtrl.text : null;
+                textFieldEnabled ? reason = otherReasonCtrl.text : reason;
+
+                BlocProvider.of<HistoryBloc>(context).add(
+                  CancelBookingEvent(
+                    bookingId: InheritedBooking.of(context).booking.id,
+                    reason: reason ?? "Not Specified",
+                  ),
+                );
                 Navigator.pop(context);
-                log(reason ?? "Not specifeid");
               },
               child: const Text(
                 'Confirm',

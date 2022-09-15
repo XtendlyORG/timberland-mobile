@@ -23,8 +23,9 @@ import 'features/trail/presentation/bloc/trail_bloc.dart';
 Future<void> run({
   required String dotEnvFileName,
 }) async {
-  di.initializeDependencies();
   WidgetsFlutterBinding.ensureInitialized();
+  di.initializeDependencies();
+  
 
   await dotenv.load(fileName: dotEnvFileName);
 

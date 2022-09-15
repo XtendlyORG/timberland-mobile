@@ -1,5 +1,7 @@
-import 'package:timberland_biketrail/features/booking/domain/params/booking_request_params.dart';
+import '../../domain/entities/booking_response.dart';
+import '../../domain/params/booking_request_params.dart';
 
 abstract class BookingDatasource {
-  Future<String> submitBookingRequest(BookingRequestParams params);
+  Future<BookingResponse> submitBookingRequest(BookingRequestParams params);
 }
+  

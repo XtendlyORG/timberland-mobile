@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:timberland_biketrail/core/configs/environment_configs.dart';
 import 'package:timberland_biketrail/core/errors/exceptions.dart';
 import 'package:timberland_biketrail/features/booking/data/datasources/booking_datasource.dart';
+import 'package:timberland_biketrail/features/booking/domain/entities/booking_response.dart';
 import 'package:timberland_biketrail/features/booking/domain/params/booking_request_params.dart';
 
 class BookingRemoteDataSource implements BookingDatasource {
@@ -15,20 +16,31 @@ class BookingRemoteDataSource implements BookingDatasource {
     required this.environmentConfig,
   });
   @override
-  Future<String> submitBookingRequest(BookingRequestParams params) {
+  Future<BookingResponse> submitBookingRequest(BookingRequestParams params) {
     return this(callback: () async {
-      log('test');
+      try {
+        final result = await dioClient.post(
+          '${environmentConfig.apihost}/bookings',
+          data: params.toJson(),
+        );
+        log(result.statusCode.toString());
 
-      log(params.toJson());
-      final result = await dioClient.post(
-        '${environmentConfig.apihost}/bookings',
-        data: params.toJson(),
-      );
-      log(result.statusCode.toString());
-
-      if (result.statusCode == 200) {
-        if (result.data is Map<String, dynamic>) {
-          return result.data['redirectUrl'];
+        if (result.statusCode == 200) {
+          if (result.data is Map<String, dynamic>) {
+            return BookingResponse.fromMap(result.data);
+          }
+        }
+      } on DioError catch (dioError) {
+        if ((dioError.response?.statusCode ?? -1) == 400) {
+          if (dioError.response?.data is Map<String, dynamic>) {
+            if ((dioError.response?.data['message'] as String) ==
+                "Sorry, You already have a completed booking for this day.") {
+              throw const DuplicateBookingException(
+                message: 'You already have a booking for that date.',
+              );
+            }
+          }
+          rethrow;
         }
       }
       throw const BookingException();
@@ -63,7 +75,12 @@ class BookingRemoteDataSource implements BookingDatasource {
       throw const BookingException(
         message: "Error Occurred",
       );
-    } catch (e) {
+    } on DuplicateBookingException {
+      rethrow;
+    } on BookingException{
+      rethrow;
+    } 
+    catch (e) {
       log(e.toString());
       throw const BookingException(message: "An Error Occurred");
     }

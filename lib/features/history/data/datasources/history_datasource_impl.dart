@@ -67,6 +67,26 @@ class HistoryDataSoureImpl implements HistoryDataSoure {
     });
   }
 
+  @override
+  Future<void> cancelBooking(String bookingId, String reason) {
+    return this(callback: () async {
+      final response = await dioClient.post(
+        '${environmentConfig.apihost}/bookings/$bookingId/cancel',
+        options: Options(
+          validateStatus: (status) => true,
+        ),
+        data: {"reason": reason},
+      );
+
+      if (response.statusCode == 200) {
+        log(response.data.toString());
+        return;
+      }
+      log(response.data.toString());
+      throw const HistoryException(message: 'Failed to retrieve payments');
+    });
+  }
+
   Future<ReturnType> call<ReturnType>({
     required Future<ReturnType> Function() callback,
   }) async {

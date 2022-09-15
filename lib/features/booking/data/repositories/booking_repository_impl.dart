@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:timberland_biketrail/core/errors/exceptions.dart';
 import 'package:timberland_biketrail/core/errors/failures.dart';
 import 'package:timberland_biketrail/features/booking/data/datasources/booking_datasource.dart';
+import 'package:timberland_biketrail/features/booking/domain/entities/booking_response.dart';
 import 'package:timberland_biketrail/features/booking/domain/params/booking_request_params.dart';
 import 'package:timberland_biketrail/features/booking/domain/repositories/booking_repository.dart';
 
@@ -14,7 +15,7 @@ class BookingRepositoryImpl implements BookingRepository {
   });
 
   @override
-  Future<Either<BookingFailure, String>> submitBookingRequest(
+  Future<Either<BookingFailure, BookingResponse>> submitBookingRequest(
       BookingRequestParams requestParams) {
     return this(
         request: () => bookingDatasource.submitBookingRequest(requestParams));
@@ -26,6 +27,13 @@ class BookingRepositoryImpl implements BookingRepository {
     try {
       return Right(await request());
     } on BookingException catch (exception) {
+      if (exception is DuplicateBookingException) {
+        return Left(
+          DuplicateBookingFailure(
+            message: exception.message ?? 'Server Failure.',
+          ),
+        );
+      }
       return Left(
         BookingFailure(
           message: exception.message ?? 'Server Failure.',

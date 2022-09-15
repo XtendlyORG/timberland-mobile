@@ -13,6 +13,7 @@ class HistoryInitial extends HistoryState {}
 abstract class PaymentState extends HistoryState {
   const PaymentState();
 }
+
 abstract class BookingState extends HistoryState {
   const BookingState();
 }
@@ -47,6 +48,27 @@ class BookingHistoryLoaded extends BookingState {
 class HistoryError extends HistoryState {
   final String errorMessage;
   const HistoryError({
+    required this.errorMessage,
+  });
+  @override
+  List<Object> get props => super.props..add(errorMessage);
+}
+
+abstract class BookingCancellationState extends HistoryState {
+  const BookingCancellationState();
+}
+
+class CancellingBooking extends BookingCancellationState{
+  const CancellingBooking();
+}
+
+class BookingCancelled extends BookingCancellationState {
+  const BookingCancelled();
+}
+
+class BookingCancellationError extends BookingCancellationState {
+  final String errorMessage;
+  const BookingCancellationError({
     required this.errorMessage,
   });
   @override
