@@ -339,33 +339,49 @@ class _BookingFormState extends State<BookingForm> {
       context: context,
       builder: (ctx) {
         return CustomDialog(
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(
-                height: kHorizontalPadding,
-              ),
-              Text(
-                text,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(
-                height: kVerticalPadding,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.pop(context, true);
-                      },
-                      child: const Text('Okay'),
+          content: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: kVerticalPadding,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(
+                  height: kHorizontalPadding,
+                ),
+                Text(
+                  text,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(
+                  height: kVerticalPadding,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(
+                        color: Theme.of(context).disabledColor,
+                      ),
                     ),
                   ),
-                ],
-              ),
-            ],
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pop(context, true);
+                          },
+                          child: const Text('OKAY'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },
