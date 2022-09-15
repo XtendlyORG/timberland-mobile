@@ -67,10 +67,8 @@ class TrailWidget extends StatelessWidget {
               fit: BoxFit.fitWidth,
               alignment: Alignment.center,
               placeholder: (context, url) {
-                return const Center(
-                  child: RepaintBoundary(
-                    child: CircularProgressIndicator(),
-                  ),
+                return Container(
+                  color: TimberlandColor.lightBlue,
                 );
               },
               errorWidget: (context, url, error) {

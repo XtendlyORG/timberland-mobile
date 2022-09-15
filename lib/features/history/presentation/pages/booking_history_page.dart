@@ -33,7 +33,7 @@ class BookingHistoryPage extends StatelessWidget {
                       MediaQuery.of(context).size.height - kToolbarHeight * 5,
                   child: const RepaintBoundary(
                     child: Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator.adaptive(),
                     ),
                   ),
                 );

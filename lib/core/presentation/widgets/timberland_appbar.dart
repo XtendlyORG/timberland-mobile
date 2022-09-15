@@ -21,6 +21,7 @@ class TimberlandAppbar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.transparent,
       foregroundColor: Theme.of(context).colorScheme.primary,
       leading: backButton,
+      automaticallyImplyLeading: backButton != null,
       actions: showEndDrawerButton
           ? [
               if (actions != null) ...actions!,

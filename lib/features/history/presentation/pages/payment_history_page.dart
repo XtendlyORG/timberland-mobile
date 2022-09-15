@@ -33,7 +33,7 @@ class PaymentHistoryPage extends StatelessWidget {
                       kBottomNavigationBarHeight,
                   child: const RepaintBoundary(
                     child: Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator.adaptive(),
                     ),
                   ),
                 );

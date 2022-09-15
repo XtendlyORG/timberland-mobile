@@ -18,7 +18,7 @@ class LoadingSnackBarContent extends StatelessWidget {
           height: 24,
           width: 24,
           child: RepaintBoundary(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator.adaptive(),
           ),
         ),
         const SizedBox(width: kVerticalPadding),
