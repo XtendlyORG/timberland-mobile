@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import '../../../../core/presentation/widgets/date_picker.dart';
@@ -21,16 +23,28 @@ class BookingDatePicker extends StatelessWidget {
       controller: controller,
       enabled: enabled,
       enableInteractiveSelection: false,
-      validator: (val){
-        return nonEmptyValidator(val,errorMessage: 'Please select a date');
+      validator: (val) {
+        return nonEmptyValidator(val, errorMessage: 'Please select a date');
       },
       onTap: () {
+        DateTime? minDate;
+
+        if (TimeOfDay.now().hour > 14 ||
+            (TimeOfDay.now().hour == 14 && TimeOfDay.now().minute > 30)) {
+          minDate = DateTime(
+            DateTime.now().year,
+            DateTime.now().month,
+            DateTime.now().day + 1,
+          );
+        }
+
         showDialog(
           context: context,
           builder: (context) {
             return Dialog(
               child: CustomDatePicker(
                 enablePastDates: false,
+                minDate: minDate,
                 onSumbit: onSubmit,
               ),
             );
