@@ -77,7 +77,10 @@ class BookingRemoteDataSource implements BookingDatasource {
       );
     } on DuplicateBookingException {
       rethrow;
-    } catch (e) {
+    } on BookingException{
+      rethrow;
+    } 
+    catch (e) {
       log(e.toString());
       throw const BookingException(message: "An Error Occurred");
     }
