@@ -166,7 +166,7 @@ class BookingHistoryDetails extends StatelessWidget {
                                       .difference(DateTime.now())
                                       .inHours <=
                                   48) ||
-                              bookingHistory.status == BookingStatus.cancelled
+                              bookingHistory.status != BookingStatus.paid
                           ? null
                           : () {
                               cancelButtonHandler(context);
