@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
+
 import 'package:timberland_biketrail/core/presentation/widgets/time_picker.dart';
 import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
 
@@ -15,11 +16,13 @@ class BookingTimePicker extends StatefulWidget {
     this.enabled = false,
     required this.controller,
     required this.onSubmit,
+    required this.selectedDate,
   }) : super(key: key);
 
   final bool enabled;
   final TextEditingController controller;
   final void Function(Object?) onSubmit;
+  final DateTime? selectedDate;
 
   @override
   State<BookingTimePicker> createState() => _BookingTimePickerState();
@@ -28,6 +31,7 @@ class BookingTimePicker extends StatefulWidget {
 class _BookingTimePickerState extends State<BookingTimePicker> {
   late TimeOfDay start;
   late TextEditingController startCtrl;
+  bool isTimeValid = true;
 
   @override
   void initState() {
@@ -44,6 +48,7 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
 
   @override
   Widget build(BuildContext context) {
+    log("rebuilt");
     return TextFormField(
       controller: widget.controller,
       enabled: widget.enabled,
@@ -53,6 +58,7 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
             errorMessage: 'Please select a take off time');
       },
       onTap: () {
+        _checkTimeValidity((_) {});
         showDialog(
             context: context,
             builder: (ctx) {
@@ -64,52 +70,66 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
                       color: Theme.of(context).primaryColor);
 
               return AlertDialog(
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text('CANCEL'),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      widget.controller.text = DateFormat('hh:mm a').format(
-                        DateTime(
-                          0,
-                          0,
-                          0,
-                          start.hour,
-                          start.minute,
-                        ),
-                      );
-                      widget.onSubmit(start);
-                      Navigator.pop(context);
-                    },
-                    child: const Text('DONE'),
-                  ),
-                ],
                 contentPadding: const EdgeInsets.only(
                   left: kVerticalPadding,
                   right: kVerticalPadding,
                   top: kVerticalPadding,
                 ),
-                content: SizedBox(
-                  width: double.infinity,
-                  child: Row(
+                content: StatefulBuilder(builder: (context, stateSetter) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Expanded(
-                        child: TimePickerSpinner(
-                          initialTime: start,
-                          textStyle: style,
-                          onChange: (time) {
-                            start = time;
-                            log('start :${start.format(context)}');
-                          },
+                      SizedBox(
+                        width: double.infinity,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TimePickerSpinner(
+                                initialTime: start,
+                                textStyle: style,
+                                onChange: (time) {
+                                  start = time;
+                                  _checkTimeValidity(stateSetter);
+                                  // log('start :${start.format(context)}');
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('CANCEL'),
+                          ),
+                          TextButton(
+                            onPressed: isTimeValid
+                                ? () {
+                                    widget.controller.text =
+                                        DateFormat('hh:mm a').format(
+                                      DateTime(
+                                        0,
+                                        0,
+                                        0,
+                                        start.hour,
+                                        start.minute,
+                                      ),
+                                    );
+                                    widget.onSubmit(start);
+                                    Navigator.pop(context);
+                                  }
+                                : null,
+                            child: const Text('DONE'),
+                          ),
+                        ],
+                      )
                     ],
-                  ),
-                ),
+                  );
+                }),
               );
             });
       },
@@ -121,5 +141,34 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
         ),
       ),
     );
+  }
+
+  void _checkTimeValidity(StateSetter stateSetter) {
+    DateTime currentDate = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+    );
+    TimeOfDay currentTime = TimeOfDay.now();
+
+    if (widget.selectedDate != null && widget.selectedDate == currentDate) {
+      if (currentTime.hour == start.hour && currentTime.minute > start.minute ||
+          currentTime.hour > start.hour) {
+        if (isTimeValid) {
+          setState(() {
+            isTimeValid = false;
+            stateSetter(() {});
+          });
+        }
+      } else {
+        if (!isTimeValid) {
+          setState(() {
+            isTimeValid = true;
+          });
+
+          stateSetter(() {});
+        }
+      }
+    }
   }
 }
