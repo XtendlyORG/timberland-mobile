@@ -84,7 +84,8 @@ class _BookingFormState extends State<BookingForm> {
             ScaffoldMessenger.of(context).clearSnackBars();
             _showBookingDialog(
               context,
-              text: state.errorMessage,
+              text:
+                  "You already have a booking schedule for that date. Please try to book on a different date.",
               onPop: () {},
             );
           } else {
