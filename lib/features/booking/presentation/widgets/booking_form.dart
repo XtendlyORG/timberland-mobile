@@ -132,7 +132,9 @@ class _BookingFormState extends State<BookingForm> {
                             enabled: true,
                             onSubmit: (value) {
                               if (value is DateTime) {
-                                selectedDate = value;
+                                setState(() {
+                                  selectedDate = value;
+                                });
                                 dateCtrl.text =
                                     DateFormat.yMd('en_US').format(value);
                               }
@@ -153,6 +155,7 @@ class _BookingFormState extends State<BookingForm> {
                         ExcludeFocus(
                           child: BookingTimePicker(
                             controller: timeCtrl,
+                            selectedDate: selectedDate,
                             enabled: true,
                             onSubmit: (value) {
                               if (value is TimeOfDay) {
