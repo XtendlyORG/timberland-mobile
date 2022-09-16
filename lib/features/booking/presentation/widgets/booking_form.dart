@@ -278,7 +278,9 @@ class _BookingFormState extends State<BookingForm> {
                               ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  context.pushNamed(Routes.bookingWaiver.name);
+                                  context.pushNamed(Routes.bookingWaiver.name,
+                                      extra:
+                                          "${firstNameCtrl.text} ${lastNameCtrl.text}");
                                 },
                             ),
                             const TextSpan(

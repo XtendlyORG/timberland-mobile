@@ -575,8 +575,13 @@ final appRouter = GoRouter(
               path: Routes.bookingWaiver.asSubPath(),
               name: Routes.bookingWaiver.name,
               pageBuilder: (context, routeState) {
+                final String? name = routeState.extra != null
+                    ? routeState.extra as String
+                    : null;
                 return CustomTransitionPage(
-                  child: const BookingWaiver(),
+                  child: BookingWaiver(
+                    name: name,
+                  ),
                   transitionDuration: const Duration(milliseconds: 500),
                   transitionsBuilder:
                       (context, animation, secondaryAnim, child) {
