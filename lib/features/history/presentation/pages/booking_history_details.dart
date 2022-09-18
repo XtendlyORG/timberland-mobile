@@ -4,8 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/constants/padding.dart';
-import '../../../../core/presentation/widgets/snackbar_content/loading_snackbar_content.dart';
-import '../../../../core/presentation/widgets/snackbar_content/show_snackbar.dart';
+import '../../../../core/presentation/widgets/state_indicators/state_indicators.dart';
 import '../../../../core/presentation/widgets/widgets.dart';
 import '../../../../core/themes/timberland_color.dart';
 import '../../../../core/utils/format_time.dart';
@@ -27,18 +26,10 @@ class BookingHistoryDetails extends StatelessWidget {
     return BlocListener<HistoryBloc, HistoryState>(
       listener: (context, state) {
         if (state is CancellingBooking) {
-          showSnackBar(
-            const SnackBar(
-              content: LoadingSnackBarContent(
-                loadingMessage: 'Cancelling booking...',
-              ),
-            ),
-          );
+          showLoading("Cancelling Booking...");
         }
         if (state is BookingCancelled) {
-          showSnackBar(
-            const SnackBar(content: Text("Booking cancelled.")),
-          );
+          showSuccess('Booking Cancelled');
           Navigator.pop(context);
         }
       },

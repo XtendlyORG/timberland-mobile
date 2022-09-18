@@ -18,8 +18,7 @@ class FilledTextButton extends StatelessWidget {
       onPressed: onPressed,
       style: style ??
           TextButton.styleFrom(
-            backgroundColor: onPressed!=null?Theme.of(context).primaryColor:Theme.of(context).disabledColor,
-            primary: Theme.of(context).backgroundColor,
+            foregroundColor: Theme.of(context).backgroundColor, backgroundColor: onPressed!=null?Theme.of(context).primaryColor:Theme.of(context).disabledColor,
           ),
       child: child,
     );

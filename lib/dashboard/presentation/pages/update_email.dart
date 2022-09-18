@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -8,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/constants/constants.dart';
 import '../../../core/presentation/widgets/filled_text_button.dart';
 import '../../../core/presentation/widgets/form_fields/form_fields.dart';
-import '../../../core/presentation/widgets/snackbar_content/show_snackbar.dart';
+import '../../../core/presentation/widgets/state_indicators/state_indicators.dart';
 import '../../../core/presentation/widgets/timberland_scaffold.dart';
 import '../../../core/router/router.dart';
 import '../bloc/profile_bloc.dart';
@@ -21,16 +18,11 @@ class UpdateEmailPage extends StatelessWidget {
     return BlocListener<ProfileBloc, ProfileState>(
       listener: (context, state) {
         if (state is OTPToUpdateSent) {
-          log("message");
-          showSnackBar(SnackBar(
-            content: AutoSizeText('OTP is sent to ${state.email}'),
-          ));
+          showInfo('OTP is sent to ${state.email}');
           context.pushNamed(Routes.verifyUpdateOtp.name);
         }
         if (state is ProfileUpdateError) {
-          showSnackBar(SnackBar(
-            content: Text(state.errorMessage),
-          ));
+          showError(state.errorMessage);
         }
       },
       child: WillPopScope(
@@ -129,6 +121,7 @@ class _UpdateEmailForm extends StatelessWidget {
             child: FilledTextButton(
               onPressed: () {
                 if (formKey.currentState!.validate()) {
+                  showLoading('Updating email');
                   BlocProvider.of<ProfileBloc>(context).add(
                     UpdateEmailRequest(
                       email: emailCtrl.text,

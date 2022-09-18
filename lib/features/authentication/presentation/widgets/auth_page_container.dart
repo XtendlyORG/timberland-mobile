@@ -1,14 +1,9 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
-
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/lock_user_widget.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/loading_snackbar_content.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/show_snackbar.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_logo.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
@@ -30,7 +25,6 @@ class AuthPageContainer extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthLocked) {
-          log('AuthState: $state');
           showDialog(
             context: context,
             barrierDismissible: false,
@@ -61,45 +55,18 @@ class AuthPageContainer extends StatelessWidget {
           }
         }
         if (state is Authenticated) {
-          showSnackBar(
-            SnackBar(
-              content: AutoSizeText(
-                state.message,
-                maxLines: 1,
-              ),
-            ),
-          );
+          showSuccess(state.message);
 
           context.goNamed(Routes.home.name);
         }
         if (state is AuthLoading) {
-          showSnackBar(
-            SnackBar(
-              content: LoadingSnackBarContent(
-                loadingMessage: state.loadingMessage,
-              ),
-            ),
-          );
+          showLoading(state.loadingMessage);
         }
         if (state is OtpSent && state.hasError == null) {
-          showSnackBar(
-            SnackBar(
-              content: AutoSizeText(
-                state.message,
-                maxLines: 1,
-              ),
-            ),
-          );
+          showInfo(state.message);
         }
         if (state is AuthError) {
-          showSnackBar(
-            SnackBar(
-              content: AutoSizeText(
-                state.errorMessage,
-                maxLines: 1,
-              ),
-            ),
-          );
+          showError(state.errorMessage);
         }
         if (state is UserGuideFinished) {
           context.goNamed(Routes.booking.name);
