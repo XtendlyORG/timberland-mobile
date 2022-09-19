@@ -10,16 +10,12 @@ class InternetConnectivity extends ChangeNotifier {
 
   late bool _internetConnected;
   bool get internetConnected => _internetConnected;
-  late GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey;
-  GlobalKey<ScaffoldMessengerState> get scaffoldMessengerKey =>
-      _scaffoldMessengerKey;
 
   final _connectivity = Connectivity();
 
   Future<void> init() async {
     ConnectivityResult result = await _connectivity.checkConnectivity();
 
-    _scaffoldMessengerKey = GlobalKey();
     await _checkStatus(result);
     _connectivity.onConnectivityChanged.listen((result) async {
       await _checkStatus(result);

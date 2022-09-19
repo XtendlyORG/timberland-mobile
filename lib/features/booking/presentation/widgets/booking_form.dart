@@ -1,16 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/custom_checkbox.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/dialogs/custom_dialog.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/loading_snackbar_content.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/show_snackbar.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
@@ -73,11 +71,7 @@ class _BookingFormState extends State<BookingForm> {
     return BlocListener<BookingBloc, BookingState>(
       listener: (context, state) {
         if (state is SubmittingBookingRequest) {
-          showSnackBar(
-            const SnackBar(
-              content: LoadingSnackBarContent(loadingMessage: 'Processing...'),
-            ),
-          );
+          showLoading('Processing...');
         }
         if (state is BookingError) {
           if (state is DuplicateBookingError) {
@@ -89,15 +83,11 @@ class _BookingFormState extends State<BookingForm> {
               onPop: () {},
             );
           } else {
-            showSnackBar(
-              SnackBar(
-                content: AutoSizeText(state.errorMessage),
-              ),
-            );
+            showError(state.errorMessage);
           }
         }
         if (state is BookingSubmitted) {
-          ScaffoldMessenger.of(context).clearSnackBars();
+          EasyLoading.dismiss();
           if (state.isFree) {
             _showBookingDialog(
               context,
@@ -304,8 +294,7 @@ class _BookingFormState extends State<BookingForm> {
               child: FilledTextButton(
                 onPressed: () {
                   if (!waiverAccepted) {
-                    showSnackBar(const SnackBar(
-                        content: AutoSizeText("Waiver not accepted.")));
+                    showToast('Waiver not accepted.');
                     return;
                   }
                   if (formKey.currentState!.validate()) {

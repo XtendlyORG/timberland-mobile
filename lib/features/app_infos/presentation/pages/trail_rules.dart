@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:ui';
 
+import 'package:auto_animated/auto_animated.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -77,17 +78,37 @@ class TrailRulesPage extends StatelessWidget {
                               horizontal: 20,
                               vertical: 10,
                             ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: state.trailRules
-                                  .map<Widget>(
-                                    (rule) => Padding(
+                            child: LiveList.options(
+                              // crossAxisAlignment: CrossAxisAlignment.start,
+                              options: const LiveOptions(
+                                showItemInterval: Duration(milliseconds: 100),
+                                visibleFraction: 0.05,
+                              ),
+                              shrinkWrap: true,
+                              itemCount: state.trailRules.length,
+                              physics: const NeverScrollableScrollPhysics(),
+                              padding: EdgeInsets.zero,
+                              itemBuilder: (context, index, animation) {
+                                return FadeTransition(
+                                  opacity: Tween<double>(
+                                    begin: 0,
+                                    end: 1,
+                                  ).animate(animation),
+                                  child: SlideTransition(
+                                    position: Tween<Offset>(
+                                      begin: const Offset(-.5, 0),
+                                      end: Offset.zero,
+                                    ).animate(animation),
+                                    child: Padding(
                                       padding:
                                           const EdgeInsets.only(bottom: 20.0),
-                                      child: TrailRuleWidget(trailRule: rule),
+                                      child: TrailRuleWidget(
+                                        trailRule: state.trailRules[index],
+                                      ),
                                     ),
-                                  )
-                                  .toList(),
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         ),

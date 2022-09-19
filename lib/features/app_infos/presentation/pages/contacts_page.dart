@@ -1,10 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/loading_snackbar_content.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
@@ -23,37 +22,14 @@ class ContactsPage extends StatelessWidget {
       listenWhen: (previous, current) => current is ContactState,
       listener: (context, state) {
         if (state is SendingInquiry) {
-          ScaffoldMessenger.of(context)
-            ..clearSnackBars()
-            ..showSnackBar(
-              const SnackBar(
-                content: LoadingSnackBarContent(
-                    loadingMessage: 'Sending your message...'),
-              ),
-            );
+          showLoading('Sending your message...');
         }
 
         if (state is InquiryError) {
-          ScaffoldMessenger.of(context)
-            ..clearSnackBars()
-            ..showSnackBar(
-              SnackBar(
-                content: AutoSizeText(
-                  state.errorMessage,
-                ),
-              ),
-            );
+          showError(state.errorMessage);
         }
         if (state is InquirySent) {
-          ScaffoldMessenger.of(context)
-            ..clearSnackBars()
-            ..showSnackBar(
-              const SnackBar(
-                content: AutoSizeText(
-                  'Your message was sent.',
-                ),
-              ),
-            );
+          showSuccess('Your message was sent');
         }
       },
       child: TimberlandScaffold(

@@ -1,3 +1,4 @@
+import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -63,15 +64,36 @@ class FAQsPage extends StatelessWidget {
                           horizontal: kHorizontalPadding,
                           vertical: kVerticalPadding * 3,
                         ),
-                        child: Column(
-                          children: state.faqs
-                              .map<Widget>(
-                                (faq) => Padding(
+                        child: LiveList.options(
+                          // crossAxisAlignment: CrossAxisAlignment.start,
+                          options: const LiveOptions(
+                            showItemInterval: Duration(milliseconds: 100),
+                            visibleFraction: 0.05,
+                          ),
+                          shrinkWrap: true,
+                          itemCount: state.faqs.length,
+                          physics: const NeverScrollableScrollPhysics(),
+                          padding: EdgeInsets.zero,
+                          itemBuilder: (context, index, animation) {
+                            return FadeTransition(
+                              opacity: Tween<double>(
+                                begin: 0,
+                                end: 1,
+                              ).animate(animation),
+                              child: SlideTransition(
+                                position: Tween<Offset>(
+                                  begin: const Offset(-.5, 0),
+                                  end: Offset.zero,
+                                ).animate(animation),
+                                child: Padding(
                                   padding: const EdgeInsets.only(bottom: 20.0),
-                                  child: FAQWidget(faq: faq),
+                                  child: FAQWidget(
+                                    faq: state.faqs[index],
+                                  ),
                                 ),
-                              )
-                              .toList(),
+                              ),
+                            );
+                          },
                         ),
                       );
                     }

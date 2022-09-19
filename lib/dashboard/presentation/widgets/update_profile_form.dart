@@ -1,16 +1,14 @@
-import 'dart:developer';
 import 'dart:io';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/constants/constants.dart';
 import '../../../core/presentation/widgets/inherited_widgets/inherited_register_parameter.dart';
-import '../../../core/presentation/widgets/snackbar_content/loading_snackbar_content.dart';
-import '../../../core/presentation/widgets/snackbar_content/show_snackbar.dart';
+import '../../../core/presentation/widgets/state_indicators/state_indicators.dart';
 import '../../../core/router/router.dart';
 import '../../../core/utils/reduce_image_byte.dart';
 import '../../../features/authentication/domain/entities/user.dart';
@@ -36,29 +34,10 @@ class UpdateProfileForm extends StatelessWidget {
     return BlocBuilder<ProfileBloc, ProfileState>(
       buildWhen: (previous, current) {
         if (current is ProfileUpdateRequestSent) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: LoadingSnackBarContent(
-                loadingMessage: current.loadingMessage,
-              ),
-            ),
-          );
+          showLoading(current.loadingMessage);
         }
         if (current is ProfileUpdated) {
-          showSnackBar(
-            SnackBar(
-              content: AutoSizeText(current.message),
-              behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24),
-              ),
-              margin: const EdgeInsets.only(
-                right: 20,
-                left: 20,
-                bottom: kHorizontalPadding,
-              ),
-            ),
-          );
+          showSuccess(current.message);
 
           BlocProvider.of<AuthBloc>(context).add(
             UpdateUser(newUser: current.user),
@@ -70,20 +49,7 @@ class UpdateProfileForm extends StatelessWidget {
           context.pushNamed(Routes.verifyUpdateOtp.name);
         }
         if (current is ProfileUpdateError) {
-          showSnackBar(
-            SnackBar(
-              content: AutoSizeText(current.errorMessage),
-              behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24),
-              ),
-              margin: const EdgeInsets.only(
-                right: 20,
-                left: 20,
-                bottom: kHorizontalPadding,
-              ),
-            ),
-          );
+          showError(current.errorMessage);
           context.goNamed(Routes.profile.name);
         }
 
@@ -131,7 +97,8 @@ class UpdateProfileForm extends StatelessWidget {
                       ).whenComplete(
                         () {
                           imageReady = true;
-                          ScaffoldMessenger.of(context).clearSnackBars();
+                          EasyLoading.dismiss();
+                          showInfo('Image is ready');
                         },
                       );
                       newImageFile = await File(imagePath).writeAsBytes(
@@ -153,7 +120,6 @@ class UpdateProfileForm extends StatelessWidget {
                         String password,
                         String mobileNumber,
                       ) async {
-                        log(newImageFile?.path.toString() ?? "no image");
                         if (imageReady) {
                           BlocProvider.of<ProfileBloc>(context).add(
                             NavigateToNextPage(
@@ -168,22 +134,7 @@ class UpdateProfileForm extends StatelessWidget {
                             ),
                           );
                         } else {
-                          showSnackBar(
-                            SnackBar(
-                              content: const AutoSizeText(
-                                'Processing Image...',
-                              ),
-                              behavior: SnackBarBehavior.floating,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(24),
-                              ),
-                              margin: const EdgeInsets.only(
-                                right: 20,
-                                left: 20,
-                                bottom: kHorizontalPadding,
-                              ),
-                            ),
-                          );
+                          showLoading('Processing Image...');
                         }
                       },
                     );
