@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 import 'package:timberland_biketrail/core/utils/device_storage/get_media_folder.dart';
 import 'package:timberland_biketrail/core/utils/internet_connection.dart';
 import 'package:timberland_biketrail/features/trail/domain/entities/trail.dart';
@@ -24,7 +25,7 @@ class TrailBloc extends Bloc<TrailEvent, TrailState> {
     });
 
     on<FetchTrailsEvent>((event, emit) async {
-      if(!InternetConnectivity().internetConnected){
+      if (!InternetConnectivity().internetConnected) {
         return;
       }
       emit(const LoadingTrails());
@@ -39,7 +40,7 @@ class TrailBloc extends Bloc<TrailEvent, TrailState> {
     });
 
     on<SearchTrailsEvent>((event, emit) async {
-      if(!InternetConnectivity().internetConnected){
+      if (!InternetConnectivity().internetConnected) {
         return;
       }
       emit(const SearchingTrails());
@@ -53,25 +54,33 @@ class TrailBloc extends Bloc<TrailEvent, TrailState> {
           emit(SearchResultsLoaded(
             searchParams: event.searchParams,
             trails: trails,
-            
           ));
         },
       );
     });
 
     on<SaveTrailMapEvent>((event, emit) async {
-      if(!InternetConnectivity().internetConnected){
+      if (!InternetConnectivity().internetConnected) {
         return;
       }
       emit(SavingTrailMap());
-      final imgPath = await getPhotoDirectory('Timberland');
+      // final imgPath = await getPhotoDirectory('Timberland');
       try {
-        await event.imageFile.copy("$imgPath/trail-map.png");
-        emit(
-          TrailMapSaved(
-            path: imgPath,
-          ),
+        // await event.imageFile.copy("$imgPath/trail-map.png");
+        final bool? didSave = await GallerySaver.saveImage(
+          event.imageFile.path,
+          albumName: "Timberland",
+          toDcim: true,
         );
+        if (didSave != null && didSave) {
+          emit(
+            const TrailMapSaved(
+              path: "Gallery",
+            ),
+          );
+        } else {
+          throw Exception("Failed to save image");
+        }
       } catch (e) {
         emit(
           const TrailMapSaveError(

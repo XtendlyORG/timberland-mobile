@@ -40,8 +40,8 @@ class TrailMap extends StatelessWidget {
                 PhotoView(
                   basePosition: const Alignment(.5, 0),
                   initialScale: PhotoViewComputedScale.covered,
-                  maxScale: .50,
-                  minScale: .125,
+                  maxScale: 2.0,
+                  minScale: PhotoViewComputedScale.covered,
                   imageProvider: const AssetImage(
                     'assets/images/trail-map.png',
                   ),
@@ -79,19 +79,19 @@ class TrailMap extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Align(
-                //   alignment: Alignment.topLeft,
-                //   child: Padding(
-                //     padding: const EdgeInsets.only(
-                //         top: kToolbarHeight, left: kVerticalPadding),
-                //     child: Image.asset(
-                //       'assets/images/compass.png',
-                //       height: 70,
-                //       width: 70,
-                //       fit: BoxFit.fill,
-                //     ),
-                //   ),
-                // ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: kToolbarHeight, left: kVerticalPadding),
+                    child: Image.asset(
+                      'assets/images/compass.png',
+                      height: 70,
+                      width: 70,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
                 Align(
                   alignment: Alignment.bottomLeft,
                   child: Padding(
@@ -99,17 +99,17 @@ class TrailMap extends StatelessWidget {
                         bottom: kToolbarHeight, left: kVerticalPadding),
                     child: Row(
                       children: [
-                        // Image.asset(
-                        //   'assets/images/trail-map-footer-2.png',
-                        //   scale: 1.5,
-                        // ),
-                        // const SizedBox(
-                        //   width: kVerticalPadding,
-                        // ),
-                        // Image.asset(
-                        //   'assets/images/trail-map-footer-1.png',
-                        //   scale: 1.5,
-                        // ),
+                        Image.asset(
+                          'assets/images/trail-map-footer-2.png',
+                          scale: 1.5,
+                        ),
+                        const SizedBox(
+                          width: kVerticalPadding,
+                        ),
+                        Image.asset(
+                          'assets/images/trail-map-footer-1.png',
+                          scale: 1.5,
+                        ),
                         const Spacer(),
                         IconButton(
                           onPressed: () async {
