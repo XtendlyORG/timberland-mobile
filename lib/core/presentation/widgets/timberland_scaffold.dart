@@ -79,10 +79,15 @@ class TimberlandScaffold extends StatelessWidget {
               physics: physics,
               children: [
                 if (titleText != null)
-                  Center(
-                    child: AutoSizeText(
-                      titleText!,
-                      style: Theme.of(context).textTheme.headlineSmall,
+                  Padding(
+                    padding: extendBodyBehindAppbar
+                        ? const EdgeInsets.only(top: kToolbarHeight)
+                        : EdgeInsets.zero,
+                    child: Center(
+                      child: AutoSizeText(
+                        titleText!,
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
                     ),
                   ),
                 body,

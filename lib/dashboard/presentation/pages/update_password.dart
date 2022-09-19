@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/dialogs/custom_dialog.dart';
 
 import '../../../core/constants/constants.dart';
 import '../../../core/presentation/widgets/filled_text_button.dart';
@@ -35,6 +36,7 @@ class UpdatePasswordPage extends StatelessWidget {
         },
         child: TimberlandScaffold(
           titleText: 'Update Password',
+          extendBodyBehindAppbar: true,
           showNavbar: false,
           appBar: AppBar(
             backgroundColor: Colors.transparent,
@@ -59,26 +61,69 @@ class UpdatePasswordPage extends StatelessWidget {
     showDialog(
       context: context,
       builder: (ctx) {
-        return AlertDialog(
-          content: const SizedBox(
-            child: Text("Discard profile updates?"),
+        return CustomDialog(
+          content: Padding(
+            padding: const EdgeInsets.only(
+              top: kVerticalPadding,
+              left: kVerticalPadding,
+              right: kVerticalPadding,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: kHorizontalPadding,
+                    vertical: kVerticalPadding,
+                  ),
+                  child: Text(
+                    "Discard password updates?",
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                const Divider(),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(
+                        color: Theme.of(context).disabledColor,
+                      ),
+                    ),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pop(ctx);
+                          },
+                          child: const Text('Cancel'),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                        child: VerticalDivider(
+                          thickness: 1.5,
+                          color: Theme.of(context).disabledColor,
+                        ),
+                      ),
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pop(ctx, true);
+                            BlocProvider.of<ProfileBloc>(context)
+                                .add(const CancelUpdateRequest());
+                          },
+                          child: const Text('Discard'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(ctx);
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(ctx, true);
-                BlocProvider.of<ProfileBloc>(context)
-                    .add(const CancelUpdateRequest());
-              },
-              child: const Text('Discard'),
-            ),
-          ],
         );
       },
     ).then(

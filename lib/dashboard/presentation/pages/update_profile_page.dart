@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/dialogs/custom_dialog.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_scaffold.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/dashboard/domain/params/update_user_detail.dart';
@@ -51,6 +52,7 @@ class UpdateProfilePage extends StatelessWidget {
           child: TimberlandScaffold(
             index: 3,
             showNavbar: false,
+            extendBodyBehindAppbar: true,
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
@@ -82,26 +84,69 @@ class UpdateProfilePage extends StatelessWidget {
       showDialog(
         context: context,
         builder: (ctx) {
-          return AlertDialog(
-            content: const SizedBox(
-              child: Text("Discard profile updates?"),
+          return CustomDialog(
+            content: Padding(
+              padding: const EdgeInsets.only(
+                top: kVerticalPadding,
+                left: kVerticalPadding,
+                right: kVerticalPadding,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: kHorizontalPadding,
+                      vertical: kVerticalPadding,
+                    ),
+                    child: Text(
+                      "Discard profile updates?",
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  const Divider(),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        top: BorderSide(
+                          color: Theme.of(context).disabledColor,
+                        ),
+                      ),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.pop(ctx);
+                            },
+                            child: const Text('Cancel'),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 30,
+                          child: VerticalDivider(
+                            thickness: 1.5,
+                            color: Theme.of(context).disabledColor,
+                          ),
+                        ),
+                        Expanded(
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.pop(ctx, true);
+                              BlocProvider.of<ProfileBloc>(context)
+                                  .add(const CancelUpdateRequest());
+                            },
+                            child: const Text('Discard'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(ctx);
-                },
-                child: const Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(ctx, true);
-                  BlocProvider.of<ProfileBloc>(context)
-                      .add(const CancelUpdateRequest());
-                },
-                child: const Text('Discard'),
-              ),
-            ],
           );
         },
       ).then(
