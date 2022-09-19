@@ -24,6 +24,7 @@ class FAQsPage extends StatelessWidget {
         },
         child: TimberlandScaffold(
           titleText: 'FAQs',
+          extendBodyBehindAppbar: true,
           body: Column(
             children: [
               const SizedBox(height: kVerticalPadding),

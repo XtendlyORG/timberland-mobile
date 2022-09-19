@@ -34,6 +34,7 @@ class ContactsPage extends StatelessWidget {
       },
       child: TimberlandScaffold(
         titleText: 'Contact Us',
+        extendBodyBehindAppbar: true,
         showNavbar: Session().isLoggedIn,
         body: Container(
           padding: const EdgeInsets.symmetric(

@@ -21,6 +21,7 @@ class CheckoutInformationWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TimberlandScaffold(
+      extendBodyBehindAppbar: true,
       body: Container(
         height: MediaQuery.of(context).size.height - kToolbarHeight * 2.75,
         constraints: const BoxConstraints(

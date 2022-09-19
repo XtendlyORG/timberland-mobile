@@ -34,6 +34,7 @@ class _EmergencyPageState extends State<EmergencyPage>
   Widget build(BuildContext context) {
     return TimberlandScaffold(
       titleText: "Emergency",
+      extendBodyBehindAppbar: true,
       disableBackButton: true,
       endDrawer: const Dashboard(
          disableEmergency: true,

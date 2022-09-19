@@ -62,8 +62,10 @@ class VerifyUpdateOtpPage extends StatelessWidget {
       },
       child: TimberlandScaffold(
         showNavbar: false,
+        extendBodyBehindAppbar: true,
         body: Padding(
           padding: const EdgeInsets.only(
+            top: kToolbarHeight,
             left: kHorizontalPadding,
             right: kHorizontalPadding,
             bottom: kHorizontalPadding,

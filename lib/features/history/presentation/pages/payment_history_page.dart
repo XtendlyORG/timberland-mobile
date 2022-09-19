@@ -22,6 +22,7 @@ class PaymentHistoryPage extends StatelessWidget {
       },
       child: TimberlandScaffold(
         titleText: 'Payment History',
+        extendBodyBehindAppbar: true,
         body: Padding(
           padding: const EdgeInsets.symmetric(
               horizontal: kHorizontalPadding, vertical: kHorizontalPadding),
