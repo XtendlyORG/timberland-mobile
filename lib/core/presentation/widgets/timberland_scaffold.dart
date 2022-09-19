@@ -10,6 +10,7 @@ class TimberlandScaffold extends StatelessWidget {
   final Widget body;
   final String? titleText;
   final bool extendBodyBehindAppbar;
+  final bool extendBody;
   final ScrollPhysics? physics;
   final List<Widget>? actions;
   final bool showNavbar;
@@ -23,6 +24,7 @@ class TimberlandScaffold extends StatelessWidget {
     required this.body,
     this.titleText,
     this.extendBodyBehindAppbar = false,
+    this.extendBody = false,
     this.physics,
     this.actions,
     this.showNavbar = true,
@@ -37,7 +39,8 @@ class TimberlandScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        extendBodyBehindAppBar: true,
+        extendBodyBehindAppBar: extendBodyBehindAppbar,
+        extendBody: extendBody,
         appBar: appBar ??
             TimberlandAppbar(
               showEndDrawerButton: showNavbar,

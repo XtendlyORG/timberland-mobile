@@ -34,14 +34,14 @@ class TrailMap extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           backButtonColor: Theme.of(context).backgroundColor,
           body: SizedBox(
-            height: MediaQuery.of(context).size.height,
+            height: MediaQuery.of(context).size.height - kToolbarHeight,
             child: Stack(
               children: [
                 PhotoView(
                   basePosition: const Alignment(.5, 0),
                   initialScale: PhotoViewComputedScale.covered,
-                  maxScale: 1.0,
-                  minScale: .5,
+                  maxScale: .50,
+                  minScale: .125,
                   imageProvider: const AssetImage(
                     'assets/images/trail-map.png',
                   ),
@@ -79,37 +79,37 @@ class TrailMap extends StatelessWidget {
                     ),
                   ),
                 ),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        top: kToolbarHeight, left: kVerticalPadding),
-                    child: Image.asset(
-                      'assets/images/compass.png',
-                      height: 70,
-                      width: 70,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                ),
+                // Align(
+                //   alignment: Alignment.topLeft,
+                //   child: Padding(
+                //     padding: const EdgeInsets.only(
+                //         top: kToolbarHeight, left: kVerticalPadding),
+                //     child: Image.asset(
+                //       'assets/images/compass.png',
+                //       height: 70,
+                //       width: 70,
+                //       fit: BoxFit.fill,
+                //     ),
+                //   ),
+                // ),
                 Align(
                   alignment: Alignment.bottomLeft,
                   child: Padding(
                     padding: const EdgeInsets.only(
-                        bottom: kToolbarHeight * 2, left: kVerticalPadding),
+                        bottom: kToolbarHeight, left: kVerticalPadding),
                     child: Row(
                       children: [
-                        Image.asset(
-                          'assets/images/trail-map-footer-2.png',
-                          scale: 1.5,
-                        ),
-                        const SizedBox(
-                          width: kVerticalPadding,
-                        ),
-                        Image.asset(
-                          'assets/images/trail-map-footer-1.png',
-                          scale: 1.5,
-                        ),
+                        // Image.asset(
+                        //   'assets/images/trail-map-footer-2.png',
+                        //   scale: 1.5,
+                        // ),
+                        // const SizedBox(
+                        //   width: kVerticalPadding,
+                        // ),
+                        // Image.asset(
+                        //   'assets/images/trail-map-footer-1.png',
+                        //   scale: 1.5,
+                        // ),
                         const Spacer(),
                         IconButton(
                           onPressed: () async {
