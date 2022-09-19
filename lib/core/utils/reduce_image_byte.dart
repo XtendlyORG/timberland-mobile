@@ -4,7 +4,7 @@ import 'package:image/image.dart' as img;
 
 Future<List<int>> reduceImageByte(
   Uint8List imageByte, {
-  double minimumSize = 512,
+  double minimumSize = 1024,
 }) async {
   final image = img.decodeImage(imageByte);
   int reducedWidth = image?.width ?? 0 ~/ 3;
