@@ -81,7 +81,6 @@ class UpdatePasswordPage extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                const Divider(),
                 Container(
                   decoration: BoxDecoration(
                     border: Border(
