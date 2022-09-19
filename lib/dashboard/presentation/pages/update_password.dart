@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -6,8 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/constants/constants.dart';
 import '../../../core/presentation/widgets/filled_text_button.dart';
 import '../../../core/presentation/widgets/form_fields/form_fields.dart';
-import '../../../core/presentation/widgets/snackbar_content/loading_snackbar_content.dart';
-import '../../../core/presentation/widgets/snackbar_content/show_snackbar.dart';
+import '../../../core/presentation/widgets/state_indicators/state_indicators.dart';
 import '../../../core/presentation/widgets/timberland_scaffold.dart';
 import '../../../core/router/router.dart';
 import '../bloc/profile_bloc.dart';
@@ -20,33 +18,13 @@ class UpdatePasswordPage extends StatelessWidget {
     return BlocListener<ProfileBloc, ProfileState>(
       listener: (context, state) {
         if (state is UpdatingProfile) {
-          showSnackBar(
-            const SnackBar(
-              content:
-                  LoadingSnackBarContent(loadingMessage: 'Updating Profile'),
-            ),
-          );
+          showLoading('Updating Profile');
         }
         if (state is ProfileUpdateError) {
-          showSnackBar(SnackBar(
-            content: Text(state.errorMessage),
-          ));
+          showError(state.errorMessage);
         }
         if (state is ProfileUpdated) {
-          showSnackBar(
-            SnackBar(
-              content: AutoSizeText(state.message),
-              behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24),
-              ),
-              margin: const EdgeInsets.only(
-                right: 20,
-                left: 20,
-                bottom: kHorizontalPadding,
-              ),
-            ),
-          );
+          showSuccess(state.message);
           context.goNamed(Routes.profile.name);
         }
       },

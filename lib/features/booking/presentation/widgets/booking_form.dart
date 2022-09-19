@@ -1,16 +1,16 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+
 import 'dart:developer';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/custom_checkbox.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/dialogs/custom_dialog.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/loading_snackbar_content.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/show_snackbar.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
@@ -73,15 +73,10 @@ class _BookingFormState extends State<BookingForm> {
     return BlocListener<BookingBloc, BookingState>(
       listener: (context, state) {
         if (state is SubmittingBookingRequest) {
-          showSnackBar(
-            const SnackBar(
-              content: LoadingSnackBarContent(loadingMessage: 'Processing...'),
-            ),
-          );
+          showLoading('Processing...');
         }
         if (state is BookingError) {
           if (state is DuplicateBookingError) {
-            ScaffoldMessenger.of(context).clearSnackBars();
             _showBookingDialog(
               context,
               text:
@@ -89,19 +84,16 @@ class _BookingFormState extends State<BookingForm> {
               onPop: () {},
             );
           } else {
-            showSnackBar(
-              SnackBar(
-                content: AutoSizeText(state.errorMessage),
-              ),
-            );
+            showError(state.errorMessage);
           }
         }
         if (state is BookingSubmitted) {
-          ScaffoldMessenger.of(context).clearSnackBars();
+          EasyLoading.dismiss();
           if (state.isFree) {
             _showBookingDialog(
               context,
               text: 'This booking is free',
+              isDecisionTypeActions: true,
               onPop: () {
                 context.pushNamed(Routes.bookingHistory.name);
               },
@@ -129,6 +121,7 @@ class _BookingFormState extends State<BookingForm> {
                         ExcludeFocus(
                           child: BookingDatePicker(
                             controller: dateCtrl,
+                            selectedTime: selectedTime,
                             enabled: true,
                             onSubmit: (value) {
                               if (value is DateTime) {
@@ -156,10 +149,12 @@ class _BookingFormState extends State<BookingForm> {
                           child: BookingTimePicker(
                             controller: timeCtrl,
                             selectedDate: selectedDate,
-                            enabled: true,
+                            enabled: selectedDate != null,
                             onSubmit: (value) {
                               if (value is TimeOfDay) {
-                                selectedTime = value;
+                                setState(() {
+                                  selectedTime = value;
+                                });
                               }
                             },
                           ),
@@ -304,8 +299,7 @@ class _BookingFormState extends State<BookingForm> {
               child: FilledTextButton(
                 onPressed: () {
                   if (!waiverAccepted) {
-                    showSnackBar(const SnackBar(
-                        content: AutoSizeText("Waiver not accepted.")));
+                    showToast('Waiver not accepted.');
                     return;
                   }
                   if (formKey.currentState!.validate()) {
@@ -342,7 +336,9 @@ class _BookingFormState extends State<BookingForm> {
     BuildContext context, {
     required String text,
     required VoidCallback onPop,
+    bool isDecisionTypeActions = false,
   }) {
+    EasyLoading.dismiss();
     showDialog(
       context: context,
       builder: (ctx) {
@@ -377,6 +373,23 @@ class _BookingFormState extends State<BookingForm> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
+                      if (isDecisionTypeActions) ...[
+                        Expanded(
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('CANCEL'),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 30,
+                          child: VerticalDivider(
+                            thickness: 1.5,
+                            color: Theme.of(context).disabledColor,
+                          ),
+                        ),
+                      ],
                       Expanded(
                         child: TextButton(
                           onPressed: () {
@@ -394,7 +407,9 @@ class _BookingFormState extends State<BookingForm> {
         );
       },
     ).then((value) {
-      onPop();
+      if (value is bool && value) {
+        onPop();
+      }
     });
   }
 }

@@ -1,11 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/expanded_image.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/loading_snackbar_content.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_scaffold.dart';
 import 'package:timberland_biketrail/core/utils/device_storage/create_file_from_asset.dart';
 import 'package:timberland_biketrail/features/trail/presentation/bloc/trail_bloc.dart';
@@ -21,55 +20,13 @@ class TrailMap extends StatelessWidget {
       child: BlocListener<TrailBloc, TrailState>(
         listener: (context, state) {
           if (state is SavingTrailMap) {
-            ScaffoldMessenger.of(context)
-              ..clearSnackBars()
-              ..showSnackBar(
-                const SnackBar(
-                  duration: Duration(milliseconds: 300),
-                  content: LoadingSnackBarContent(
-                      loadingMessage: 'Saving trail map image...'),
-                ),
-              );
+            showToast("Saving trail map image...");
           }
           if (state is TrailMapSaved) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: AutoSizeText(
-                  'Image saved to ${state.path}',
-                  textAlign: TextAlign.center,
-                ),
-                behavior: SnackBarBehavior.floating,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24),
-                ),
-                margin: const EdgeInsets.only(
-                  right: 20,
-                  left: 20,
-                  bottom: kBottomNavigationBarHeight,
-                ),
-              ),
-            );
+            showSuccess('Image saved to ${state.path}');
           }
           if (state is TrailMapSaveError) {
-            ScaffoldMessenger.of(context)
-              ..clearSnackBars()
-              ..showSnackBar(
-                SnackBar(
-                  content: AutoSizeText(
-                    state.errorMessage,
-                    maxLines: 1,
-                  ),
-                  behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  margin: const EdgeInsets.only(
-                    right: 20,
-                    left: 20,
-                    bottom: kBottomNavigationBarHeight,
-                  ),
-                ),
-              );
+            showToast(state.errorMessage);
           }
         },
         child: TimberlandScaffold(

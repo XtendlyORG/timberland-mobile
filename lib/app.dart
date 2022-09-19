@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/no_network_snackbar.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
 import 'package:timberland_biketrail/core/utils/internet_connection.dart';
 import 'package:timberland_biketrail/features/history/presentation/bloc/history_bloc.dart';
 
@@ -25,7 +26,6 @@ Future<void> run({
 }) async {
   WidgetsFlutterBinding.ensureInitialized();
   di.initializeDependencies();
-  
 
   await dotenv.load(fileName: dotEnvFileName);
 
@@ -65,7 +65,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late final GlobalKey<ScaffoldMessengerState> _messengerKey;
   @override
   void initState() {
     super.initState();
@@ -73,24 +72,19 @@ class _MyAppState extends State<MyApp> {
     FlutterNativeSplash.remove();
 
     final InternetConnectivity internetConnectivity = InternetConnectivity();
-    _messengerKey = internetConnectivity.scaffoldMessengerKey;
 
     if (!internetConnectivity.internetConnected) {
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        _messengerKey.currentState?.showSnackBar(noNetworkSnackBar);
+        noNetworkToast();
       });
     }
     internetConnectivity.addListener(() async {
-      log(internetConnectivity.internetConnected.toString());
-      if (!internetConnectivity.internetConnected) {
-        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          _messengerKey.currentState?.showSnackBar(noNetworkSnackBar);
-        });
-      } else {
-        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          _messengerKey.currentState?.clearSnackBars();
-        });
-      }
+      log(internetConnectivity.internetConnected
+          ? "Internet Connected"
+          : "No Internet Connected");
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        _networkListener();
+      });
     });
 
     BlocProvider.of<AuthBloc>(context).stream.listen((state) {
@@ -104,6 +98,14 @@ class _MyAppState extends State<MyApp> {
         }
       }
     });
+  }
+
+  _networkListener() {
+    if (InternetConnectivity().internetConnected) {
+      EasyLoading.dismiss();
+    } else {
+      noNetworkToast();
+    }
   }
 
   @override
@@ -122,13 +124,13 @@ class _MyAppState extends State<MyApp> {
         }
       },
       child: MaterialApp.router(
-        scaffoldMessengerKey: _messengerKey,
         title: 'Timberland Mountain BikeTrail',
         debugShowCheckedModeBanner: false,
         theme: TimberlandTheme.lightTheme,
         routeInformationParser: appRouter.routeInformationParser,
         routeInformationProvider: appRouter.routeInformationProvider,
         routerDelegate: appRouter.routerDelegate,
+        builder: EasyLoading.init(),
       ),
     );
   }

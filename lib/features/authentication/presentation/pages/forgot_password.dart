@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/snackbar_content/show_snackbar.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/presentation/widgets/filled_text_button.dart';
@@ -80,11 +80,7 @@ class ForgotPasswordForm extends StatelessWidget {
       listenWhen: (previous, current) {
         if (current is SettingNewPassword) {
           context.pushNamed(Routes.resetPassword.name);
-          showSnackBar(
-            const SnackBar(
-              content: AutoSizeText('OTP Verified'),
-            ),
-          );
+          showSuccess('OTP Verified');
         }
         return current is OtpSent;
       },

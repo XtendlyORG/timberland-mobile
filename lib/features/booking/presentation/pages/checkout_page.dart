@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:move_to_background/move_to_background.dart';
 import 'package:timberland_biketrail/core/constants/padding.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/dialogs/custom_dialog.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../../core/router/router.dart';
@@ -67,9 +66,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 //   // });
                 // },
                 onProgress: (loadingProgress) {
-                  setState(() {
-                    progress = loadingProgress;
-                  });
+                  if (mounted && progress != 100) {
+                    setState(() {
+                      progress = loadingProgress;
+                    });
+                  }
                 },
                 navigationDelegate: (request) {
                   if (request.url.contains('success')) {

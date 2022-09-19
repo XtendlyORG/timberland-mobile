@@ -1,3 +1,4 @@
+import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -41,8 +42,8 @@ class PaymentHistoryPage extends StatelessWidget {
               if (state is PaymentHistoryLoaded) {
                 if (state.payments.isEmpty) {
                   return latestWidget = SizedBox(
-                    height: MediaQuery.of(context).size.height -
-                        kToolbarHeight * 5,
+                    height:
+                        MediaQuery.of(context).size.height - kToolbarHeight * 5,
                     child: Center(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -70,17 +71,36 @@ class PaymentHistoryPage extends StatelessWidget {
                     ),
                   );
                 }
-                return Column(
-                  children: [
-                    ...state.payments
-                        .map(
-                          (payment) => Padding(
-                            padding: const EdgeInsets.only(bottom: kVerticalPadding),
-                            child: PaymentHistoryWidget(payment: payment),
-                          ),
-                        )
-                        .toList()
-                  ],
+                return LiveList.options(
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  options: const LiveOptions(
+                    showItemInterval: Duration(milliseconds: 100),
+                    visibleFraction: 0.05,
+                  ),
+                  shrinkWrap: true,
+                  itemCount: state.payments.length,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.zero,
+                  itemBuilder: (context, index, animation) {
+                    return FadeTransition(
+                      opacity: Tween<double>(
+                        begin: 0,
+                        end: 1,
+                      ).animate(animation),
+                      child: SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(-.5, 0),
+                          end: Offset.zero,
+                        ).animate(animation),
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.only(bottom: kVerticalPadding),
+                          child: PaymentHistoryWidget(
+                              payment: state.payments[index]),
+                        ),
+                      ),
+                    );
+                  },
                 );
               }
               if (state is HistoryError) {

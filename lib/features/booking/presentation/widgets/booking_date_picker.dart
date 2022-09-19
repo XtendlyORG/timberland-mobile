@@ -1,4 +1,4 @@
-import 'dart:developer';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:flutter/material.dart';
 
@@ -11,11 +11,13 @@ class BookingDatePicker extends StatelessWidget {
     this.enabled = false,
     required this.controller,
     required this.onSubmit,
+    this.selectedTime,
   }) : super(key: key);
 
   final bool enabled;
   final TextEditingController controller;
   final void Function(Object?) onSubmit;
+  final TimeOfDay? selectedTime;
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +31,15 @@ class BookingDatePicker extends StatelessWidget {
       onTap: () {
         DateTime? minDate;
 
-        if (TimeOfDay.now().hour > 14 ||
-            (TimeOfDay.now().hour == 14 && TimeOfDay.now().minute > 30)) {
+        bool isPast230Pm = TimeOfDay.now().hour > 14 ||
+            (TimeOfDay.now().hour == 14 && TimeOfDay.now().minute > 30);
+
+        bool currentTimeIsPastSelectedTime = (selectedTime != null &&
+            (selectedTime!.hour < TimeOfDay.now().hour ||
+                (selectedTime!.hour == TimeOfDay.now().hour &&
+                    selectedTime!.minute < TimeOfDay.now().minute)));
+
+        if (isPast230Pm || currentTimeIsPastSelectedTime) {
           minDate = DateTime(
             DateTime.now().year,
             DateTime.now().month,

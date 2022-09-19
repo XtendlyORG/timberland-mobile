@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +25,7 @@ class _CancellationReasonPickerState extends State<CancellationReasonPicker> {
   late bool textFieldEnabled;
   final reasons = [
     'Change of mind',
-    'Weather Reasons',
+    'Weather reasons',
     "Change of booking date",
     'Others (Please specify):',
   ];
@@ -71,6 +70,10 @@ class _CancellationReasonPickerState extends State<CancellationReasonPicker> {
                     controller: otherReasonCtrl,
                     enabled: textFieldEnabled,
                     maxLines: 2,
+                    maxLength: 255,
+                    validator: (value) => value == null || value.isEmpty
+                        ? 'Field can not be empty.'
+                        : null,
                   ),
                 ),
               ],

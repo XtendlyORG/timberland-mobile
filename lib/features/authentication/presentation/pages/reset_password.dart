@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/presentation/widgets/filled_text_button.dart';
@@ -87,16 +88,7 @@ class ResetPasswordForm extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is PasswordUpdated) {
-          ScaffoldMessenger.of(context)
-            ..clearSnackBars()
-            ..showSnackBar(
-              const SnackBar(
-                content: AutoSizeText(
-                  'Password Updated',
-                  maxLines: 1,
-                ),
-              ),
-            );
+          showSuccess('Password Updated');
           context.goNamed(Routes.login.name);
         }
       },

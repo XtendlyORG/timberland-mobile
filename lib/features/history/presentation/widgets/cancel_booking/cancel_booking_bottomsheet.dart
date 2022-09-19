@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:timberland_biketrail/core/constants/padding.dart';
 
-import '../../../../../core/constants/padding.dart';
 import '../../../../../core/themes/timberland_color.dart';
 import 'cancellation_reason_picker.dart';
 

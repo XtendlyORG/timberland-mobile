@@ -16,6 +16,7 @@ import 'package:timberland_biketrail/core/presentation/widgets/filled_text_butto
 import 'package:timberland_biketrail/core/presentation/widgets/form_fields/form_fields.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/image_picker_options_bottomsheet.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/inherited_widgets/inherited_register_parameter.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
 import 'package:timberland_biketrail/dashboard/domain/params/update_user_detail.dart';
@@ -373,15 +374,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                     }
                   }
                   if (!agreedToTermsOfUse) {
-                    ScaffoldMessenger.of(context).clearSnackBars();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: AutoSizeText(
-                          'Terms of Use not accepted.',
-                          maxLines: 1,
-                        ),
-                      ),
-                    );
+                    showToast('Terms of User not accepted');
                   }
                 },
                 child:
