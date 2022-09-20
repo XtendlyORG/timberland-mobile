@@ -15,6 +15,11 @@ class BookingRepositoryImpl implements BookingRepository {
   });
 
   @override
+  Future<Either<Failure, int>> getFreePassCount() {
+    return this(request: bookingDatasource.getFreePassCount);
+  }
+
+  @override
   Future<Either<BookingFailure, BookingResponse>> submitBookingRequest(
       BookingRequestParams requestParams) {
     return this(

@@ -9,6 +9,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
 import 'package:timberland_biketrail/core/utils/internet_connection.dart';
+import 'package:timberland_biketrail/features/booking/domain/repositories/booking_repository.dart';
+import 'package:timberland_biketrail/features/booking/presentation/cubit/free_pass_counter_cubit.dart';
 import 'package:timberland_biketrail/features/history/presentation/bloc/history_bloc.dart';
 
 import 'core/router/app_router.dart';
@@ -51,6 +53,11 @@ Future<void> run({
       ),
       BlocProvider<HistoryBloc>(
         create: (context) => di.serviceLocator<HistoryBloc>(),
+      ),
+      BlocProvider<FreePassCounterCubit>(
+        create: (context) => FreePassCounterCubit(
+          repository: di.serviceLocator<BookingRepository>(),
+        )..getFreePassCount(),
       ),
     ],
     child: const MyApp(),

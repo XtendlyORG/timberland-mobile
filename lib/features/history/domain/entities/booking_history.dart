@@ -79,7 +79,7 @@ enum BookingStatus {
     color: TimberlandColor.accentColor,
   ),
   cancelled(
-    status: "Cancelled",
+    status: "Booking Cancelled",
     color: TimberlandColor.orange,
   ),
   notPaid(

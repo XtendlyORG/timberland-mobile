@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:timberland_biketrail/features/booking/presentation/cubit/free_pass_counter_cubit.dart';
 
 import '../../../../core/constants/padding.dart';
 import '../../../../core/presentation/widgets/state_indicators/state_indicators.dart';
@@ -30,6 +31,7 @@ class BookingHistoryDetails extends StatelessWidget {
         }
         if (state is BookingCancelled) {
           showSuccess('Booking Cancelled');
+          BlocProvider.of<FreePassCounterCubit>(context).increment();
           Navigator.pop(context);
         }
       },

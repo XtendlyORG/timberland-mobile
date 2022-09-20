@@ -5,10 +5,12 @@ class CustomStyledText extends StatelessWidget {
     Key? key,
     required this.text,
     this.style,
+    this.textAlign,
   }) : super(key: key);
 
   final String text;
   final TextStyle? style;
+  final TextAlign? textAlign;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,7 @@ class CustomStyledText extends StatelessWidget {
           return TextSpan(text: text);
         }).toList(),
       ),
-      textAlign: TextAlign.left,
+      textAlign: textAlign ?? TextAlign.left,
     );
   }
 }
