@@ -19,31 +19,31 @@ class AppInfoBloc extends Bloc<AppInfoEvent, AppInfoState> {
     on<AppInfoEvent>((event, emit) {
       // TODO: implement event handler
     });
-    on<FetchTrailRulesEvent>((event, emit) async {
-      emit(const LoadingTrailRules());
-      final result = await repository.fetchTrailRules();
-      result.fold(
-        (failure) {
-          emit(TrailRulesError(message: failure.message));
-        },
-        (trailRules) {
-          emit(TrailRulesLoaded(trailRules: trailRules));
-        },
-      );
-    });
+    // on<FetchTrailRulesEvent>((event, emit) async {
+    //   emit(const LoadingTrailRules());
+    //   final result = await repository.fetchTrailRules();
+    //   result.fold(
+    //     (failure) {
+    //       emit(TrailRulesError(message: failure.message));
+    //     },
+    //     (trailRules) {
+    //       emit(TrailRulesLoaded(trailRules: trailRules));
+    //     },
+    //   );
+    // });
 
-    on<FetchFAQSEvent>((event, emit) async {
-      emit(const LoadingFAQs());
-      final result = await repository.fetchFAQs();
-      result.fold(
-        (failure) {
-          emit(FAQError(message: failure.message));
-        },
-        (faqs) {
-          emit(FAQsLoaded(faqs: faqs));
-        },
-      );
-    });
+    // on<FetchFAQSEvent>((event, emit) async {
+    //   emit(const LoadingFAQs());
+    //   final result = await repository.fetchFAQs();
+    //   result.fold(
+    //     (failure) {
+    //       emit(FAQError(message: failure.message));
+    //     },
+    //     (faqs) {
+    //       emit(FAQsLoaded(faqs: faqs));
+    //     },
+    //   );
+    // });
 
     on<SendInquiryEvent>((event, emit) async {
       emit(SendingInquiry());

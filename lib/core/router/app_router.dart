@@ -350,12 +350,12 @@ final appRouter = GoRouter(
           path: Routes.rules.asSubPath(),
           name: Routes.rules.name,
           pageBuilder: (context, routeState) {
-            final appinfoBloc = BlocProvider.of<AppInfoBloc>(context);
-            if (appinfoBloc.state is! TrailRulesState) {
-              appinfoBloc.add(
-                const FetchTrailRulesEvent(),
-              );
-            }
+            // final appinfoBloc = BlocProvider.of<AppInfoBloc>(context);
+            // if (appinfoBloc.state is! TrailRulesState) {
+            //   appinfoBloc.add(
+            //     const FetchTrailRulesEvent(),
+            //   );
+            // }
             return CustomTransitionPage(
               child: const MainPage(
                 selectedTabIndex: 1,
@@ -652,12 +652,12 @@ final appRouter = GoRouter(
       path: Routes.faqs.path,
       name: Routes.faqs.name,
       pageBuilder: (context, routeState) {
-        final appinfoBloc = BlocProvider.of<AppInfoBloc>(context);
-        if (appinfoBloc.state is! FAQState) {
-          appinfoBloc.add(
-            const FetchFAQSEvent(),
-          );
-        }
+        // final appinfoBloc = BlocProvider.of<AppInfoBloc>(context);
+        // if (appinfoBloc.state is! FAQState) {
+        //   appinfoBloc.add(
+        //     const FetchFAQSEvent(),
+        //   );
+        // }
         return CustomTransitionPage(
           child: const FAQsPage(),
           // key: routeState.pageKey,

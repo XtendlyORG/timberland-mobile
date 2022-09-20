@@ -2,15 +2,15 @@
 import 'package:equatable/equatable.dart';
 
 class FAQ extends Equatable {
-  final String faqId;
   final String question;
-  final String answer;
+  final String? answer;
+  final List<FAQ>? subCategory;
   const FAQ({
-    required this.faqId,
     required this.question,
-    required this.answer,
+    this.answer,
+    this.subCategory,
   });
 
   @override
-  List<Object> get props => [faqId, question, answer];
+  List<Object> get props => [question];
 }

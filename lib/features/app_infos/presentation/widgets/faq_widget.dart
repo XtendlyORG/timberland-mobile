@@ -71,11 +71,22 @@ class _FAQWidgetState extends State<FAQWidget> with TickerProviderStateMixin {
           right: kVerticalPadding,
           bottom: kVerticalPadding,
         ),
-        children: [
-          CustomStyledText(
-            text: widget.faq.answer,
-          ),
-        ],
+        children: widget.faq.answer != null
+            ? [
+                CustomStyledText(
+                  text: widget.faq.answer!,
+                ),
+              ]
+            : widget.faq.subCategory!
+                .map(
+                  (subCategory) => Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: FAQWidget(
+                      faq: subCategory,
+                    ),
+                  ),
+                )
+                .toList(),
       ),
     );
   }

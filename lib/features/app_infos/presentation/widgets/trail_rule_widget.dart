@@ -4,7 +4,7 @@ import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/features/app_infos/domain/entities/trail_rule.dart';
 
 class TrailRuleWidget extends StatelessWidget {
-  final TrailRule trailRule;
+  final String trailRule;
   const TrailRuleWidget({
     Key? key,
     required this.trailRule,
@@ -30,7 +30,7 @@ class TrailRuleWidget extends StatelessWidget {
             TextSpan(
               children: [
                 TextSpan(
-                  text: trailRule.note.trim(),
+                  text: trailRule.trim(),
                 ),
               ],
             ),
