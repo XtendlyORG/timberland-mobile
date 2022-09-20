@@ -63,6 +63,7 @@ class TrailBloc extends Bloc<TrailEvent, TrailState> {
       if (!InternetConnectivity().internetConnected) {
         return;
       }
+      final initState = state;
       emit(SavingTrailMap());
       // final imgPath = await getPhotoDirectory('Timberland');
       try {
@@ -88,6 +89,7 @@ class TrailBloc extends Bloc<TrailEvent, TrailState> {
           ),
         );
       }
+      emit(initState);
     });
   }
 }
