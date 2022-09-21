@@ -57,7 +57,7 @@ Future<void> run({
       BlocProvider<FreePassCounterCubit>(
         create: (context) => FreePassCounterCubit(
           repository: di.serviceLocator<BookingRepository>(),
-        )..getFreePassCount(),
+        ),
       ),
     ],
     child: const MyApp(),
@@ -99,8 +99,10 @@ class _MyAppState extends State<MyApp> {
         log(state.toString());
       } else if (state is Authenticated) {
         session.login(state.user);
+         BlocProvider.of<FreePassCounterCubit>(context).getFreePassCount();
       } else if (state is UnAuthenticated) {
         if (!state.keepCurrentUser) {
+         
           session.logout();
         }
       }
