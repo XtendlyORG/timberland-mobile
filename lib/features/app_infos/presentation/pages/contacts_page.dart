@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
@@ -49,25 +50,38 @@ class ContactsPage extends StatelessWidget {
   }
 }
 
-class ContactsPageForm extends StatelessWidget {
+class ContactsPageForm extends StatefulWidget {
   const ContactsPageForm({
     Key? key,
   }) : super(key: key);
 
   @override
+  State<ContactsPageForm> createState() => _ContactsPageFormState();
+}
+
+class _ContactsPageFormState extends State<ContactsPageForm> {
+  late final AuthState authState;
+  final formKey = GlobalKey<FormState>();
+  final nameCtrl = TextEditingController();
+  final emailCtrl = TextEditingController();
+  final messageCtrl = TextEditingController();
+  String? selectedSubject;
+
+  @override
+  void initState() {
+    super.initState();
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      authState = BlocProvider.of<AuthBloc>(context).state;
+      if (authState is Authenticated) {
+        nameCtrl.text =
+            '${(authState as Authenticated).user.firstName} ${(authState as Authenticated).user.lastName}';
+        emailCtrl.text = (authState as Authenticated).user.email;
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final authState = BlocProvider.of<AuthBloc>(context).state;
-    final formKey = GlobalKey<FormState>();
-    final nameCtrl = TextEditingController();
-    final emailCtrl = TextEditingController();
-    final subjectCtrl = TextEditingController();
-    final messageCtrl = TextEditingController();
-
-    if (authState is Authenticated) {
-      nameCtrl.text = '${authState.user.firstName} ${authState.user.lastName}';
-      emailCtrl.text = authState.user.email;
-    }
-
     return Form(
       key: formKey,
       child: Column(
@@ -98,19 +112,26 @@ class ContactsPageForm extends StatelessWidget {
           ),
           Container(
             constraints: const BoxConstraints(maxWidth: kMaxWidthMobile),
-            child: TextFormField(
-              controller: subjectCtrl,
-              validator: (subject) {
-                return nonEmptyValidator(
-                  subject,
-                  errorMessage: 'Please enter a subject',
-                );
+            child: DropdownButtonFormField<String>(
+              items: kSubjects
+                  .map(
+                    (category) => DropdownMenuItem<String>(
+                      value: category,
+                      child: Text(category),
+                    ),
+                  )
+                  .toList(),
+              onChanged: (selected) {
+                selectedSubject = selected ?? selectedSubject;
               },
-              decoration: const InputDecoration(
-                hintText: 'Subject',
-              ),
-              textCapitalization: TextCapitalization.words,
-              textInputAction: TextInputAction.next,
+              value: selectedSubject,
+              borderRadius: BorderRadius.circular(10),
+              hint: const Text('Subject'),
+              decoration: const InputDecoration(),
+              validator: (gender) {
+                return nonEmptyValidator(gender,
+                    errorMessage: 'Please select a subject');
+              },
             ),
           ),
           const SizedBox(
@@ -147,7 +168,7 @@ class ContactsPageForm extends StatelessWidget {
                       inquiry: Inquiry(
                         email: emailCtrl.text,
                         fullName: nameCtrl.text,
-                        subject: subjectCtrl.text,
+                        subject: selectedSubject!,
                         message: messageCtrl.text,
                       ),
                     ),
