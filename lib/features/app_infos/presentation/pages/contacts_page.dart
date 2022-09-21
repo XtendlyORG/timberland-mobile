@@ -121,10 +121,11 @@ class ContactsPageForm extends StatelessWidget {
             child: TextFormField(
               controller: messageCtrl,
               maxLines: 5,
+              maxLength: 255,
               validator: (message) {
                 return nonEmptyValidator(
                   message,
-                  errorMessage: 'Please enter a subject',
+                  errorMessage: 'Please enter a message',
                 );
               },
               decoration: const InputDecoration(
