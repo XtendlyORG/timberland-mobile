@@ -93,9 +93,10 @@ class _BookingFormState extends State<BookingForm> {
           EasyLoading.dismiss();
           if (state.isFree) {
             BlocProvider.of<FreePassCounterCubit>(context).decrement();
-            context.pushNamed(Routes.bookingHistory.name);
+            showSuccess('Free booking completed');
+            Navigator.pop(context);
           } else {
-            context.pushNamed(Routes.checkout.name);
+            context.goNamed(Routes.checkout.name);
           }
         }
       },
@@ -243,65 +244,13 @@ class _BookingFormState extends State<BookingForm> {
                     ],
                   ),
                 ),
-                Container(
-                  margin: const EdgeInsets.only(
-                    bottom: kVerticalPadding,
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      CustomCheckbox(
-                        onChange: (val) {
-                          waiverAccepted = val;
-                        },
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 4.5),
-                          child: Text.rich(
-                            style: Theme.of(context).textTheme.labelLarge,
-                            TextSpan(
-                              children: [
-                                const TextSpan(
-                                  text:
-                                      'I, hereby declare that I understand the ',
-                                ),
-                                TextSpan(
-                                  text: 'nature and conditions ',
-                                  style: const TextStyle(
-                                    color: TimberlandColor.primary,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      context.pushNamed(
-                                          Routes.bookingWaiver.name,
-                                          extra:
-                                              "${firstNameCtrl.text} ${lastNameCtrl.text}");
-                                    },
-                                ),
-                                const TextSpan(
-                                  text:
-                                      'of the "Timberland Mountain Bike Park" within Timberland Heights grounds and premises (hereafter the "Premises").',
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                const SizedBox(
+                  height: kVerticalPadding,
                 ),
                 SizedBox(
                   width: double.infinity,
                   child: FilledTextButton(
                     onPressed: () {
-                      if (!waiverAccepted) {
-                        showToast('Waiver not accepted.');
-                        return;
-                      }
                       if (formKey.currentState!.validate()) {
                         if (freePassCount != null && freePassCount > 0) {
                           _showBookingDialog(
@@ -332,22 +281,21 @@ class _BookingFormState extends State<BookingForm> {
   }
 
   void onSumbit(BuildContext context) {
-    BlocProvider.of<BookingBloc>(context).add(
-      SubmitBookingRequest(
-        params: BookingRequestParams(
-          firstName: firstNameCtrl.text,
-          lastName: lastNameCtrl.text,
-          mobileNumber: mobileNumberCtrl.text,
-          email: emailCtrl.text,
-          date: selectedDate.toString().split(' ')[0],
-          time: DateTime(
-            0,
-            0,
-            0,
-            selectedTime!.hour,
-            selectedTime!.minute,
-          ).toString().split(' ')[1],
-        ),
+    context.pushNamed(
+      Routes.bookingWaiver.name,
+      extra: BookingRequestParams(
+        firstName: firstNameCtrl.text,
+        lastName: lastNameCtrl.text,
+        mobileNumber: mobileNumberCtrl.text,
+        email: emailCtrl.text,
+        date: selectedDate.toString().split(' ')[0],
+        time: DateTime(
+          0,
+          0,
+          0,
+          selectedTime!.hour,
+          selectedTime!.minute,
+        ).toString().split(' ')[1],
       ),
     );
   }

@@ -14,6 +14,7 @@ import 'package:timberland_biketrail/features/authentication/domain/params/regis
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/pages/registration_continuation_page.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/pages/reset_password.dart';
+import 'package:timberland_biketrail/features/booking/domain/params/booking_request_params.dart';
 import 'package:timberland_biketrail/features/booking/presentation/pages/cancelled_booking.dart';
 import 'package:timberland_biketrail/features/booking/presentation/pages/checkout_page.dart';
 import 'package:timberland_biketrail/features/booking/presentation/pages/failed_booking.dart';
@@ -575,13 +576,29 @@ final appRouter = GoRouter(
               path: Routes.bookingWaiver.asSubPath(),
               name: Routes.bookingWaiver.name,
               pageBuilder: (context, routeState) {
-                final String? name = routeState.extra != null
-                    ? routeState.extra as String
-                    : null;
+                final BookingRequestParams name =
+                    routeState.extra as BookingRequestParams;
                 return CustomTransitionPage(
                   child: BookingWaiver(
-                    name: name,
+                    bookingRequestParams: name,
                   ),
+                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnim, child) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    );
+                  },
+                );
+              },
+            ),
+            GoRoute(
+              path: Routes.checkout.asSubPath(),
+              name: Routes.checkout.name,
+              pageBuilder: (context, routeState) {
+                return CustomTransitionPage(
+                  child: const CheckoutPage(),
                   transitionDuration: const Duration(milliseconds: 500),
                   transitionsBuilder:
                       (context, animation, secondaryAnim, child) {
@@ -698,24 +715,6 @@ final appRouter = GoRouter(
           key: routeState.pageKey,
           restorationId: routeState.pageKey.value,
           child: const EmergencyPage(),
-          transitionDuration: const Duration(milliseconds: 500),
-          transitionsBuilder: (context, animation, secondaryAnim, child) {
-            return FadeTransition(
-              opacity: animation,
-              child: child,
-            );
-          },
-        );
-      },
-    ),
-    GoRoute(
-      path: Routes.checkout.path,
-      name: Routes.checkout.name,
-      pageBuilder: (context, routeState) {
-        return CustomTransitionPage(
-          // key: routeState.pageKey,
-          // restorationId: routeState.pageKey.value,
-          child: const CheckoutPage(),
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnim, child) {
             return FadeTransition(
