@@ -40,26 +40,24 @@ class BookingHistoryWidget extends StatelessWidget {
               DateFormat.yMMMMd('en_US').format(
                 bookingHistory.date,
               ),
-              style: Theme.of(context).textTheme.titleLarge,
+              style: Theme.of(context).textTheme.titleMedium,
               maxLines: 1,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AutoSizeText(
-                  DateFormat('hh:mm a').format(
-                    DateTime(0, 0, 0, 17, 0),
-                  ),
+                  formatTime(bookingHistory.time),
                   style: Theme.of(context)
                       .textTheme
-                      .titleMedium
+                      .titleSmall
                       ?.copyWith(fontWeight: FontWeight.normal),
                   textAlign: TextAlign.center,
                   maxLines: 1,
                 ),
                 AutoSizeText(
                   bookingHistory.status.status,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
                       color: bookingHistory.status.color,
                       fontWeight: FontWeight.normal),
                   textAlign: TextAlign.center,
