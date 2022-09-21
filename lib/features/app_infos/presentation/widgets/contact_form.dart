@@ -233,7 +233,7 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
   void showImagePicker(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Theme.of(context).backgroundColor.withOpacity(.5),
       barrierColor: Colors.transparent,
       clipBehavior: Clip.hardEdge,
       shape: const RoundedRectangleBorder(
