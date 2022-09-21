@@ -75,25 +75,28 @@ enum BookingStatus {
     color: TimberlandColor.accentColor,
   ),
   onGoing(
-    status: "Ongoing",
-    color: TimberlandColor.accentColor,
+    status: "Checked In",
+    color: TimberlandColor.primary,
   ),
   cancelled(
-    status: "Booking Cancelled",
+    status: "Cancelled",
     color: TimberlandColor.orange,
   ),
   notPaid(
     status: 'Not Paid',
     color: TimberlandColor.secondaryColor,
   ),
-  free(status: 'Free', color: Colors.green),
+  free(
+    status: 'Free',
+    color: TimberlandColor.accentColor,
+  ),
   done(
-    status: 'Done',
+    status: 'Checked Out',
     color: TimberlandColor.primary,
   ),
   undefined(
     status: 'Undefined',
-    color: TimberlandColor.primary,
+    color: TimberlandColor.subtext,
   );
 
   final String status;

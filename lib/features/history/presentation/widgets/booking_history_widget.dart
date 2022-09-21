@@ -33,46 +33,39 @@ class BookingHistoryWidget extends StatelessWidget {
         ),
         padding: const EdgeInsets.all(kVerticalPadding),
         constraints: const BoxConstraints(minHeight: 70),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              child: AutoSizeText.rich(
-                style: Theme.of(context).textTheme.titleLarge,
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text: DateFormat.yMMMMd('en_US').format(
-                        bookingHistory.date,
-                      ),
-                    ),
-                    const TextSpan(text: '\t\t'),
-                    TextSpan(
-                      text: formatTime(bookingHistory.time),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                    const TextSpan(text: ' - '),
-                    TextSpan(
-                      text: DateFormat('hh:mm a').format(
-                        DateTime(
-                          0,
-                          0,
-                          0,
-                          17,
-                          0,
-                        ),
-                      ),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                  ],
-                ),
+            AutoSizeText(
+              DateFormat.yMMMMd('en_US').format(
+                bookingHistory.date,
               ),
+              style: Theme.of(context).textTheme.titleLarge,
+              maxLines: 1,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AutoSizeText(
+                  DateFormat('hh:mm a').format(
+                    DateTime(0, 0, 0, 17, 0),
+                  ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(fontWeight: FontWeight.normal),
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                ),
+                AutoSizeText(
+                  bookingHistory.status.status,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: bookingHistory.status.color,
+                      fontWeight: FontWeight.normal),
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                ),
+              ],
             ),
           ],
         ),
