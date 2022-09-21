@@ -23,6 +23,7 @@ class BookingHistoryPage extends StatelessWidget {
       },
       child: TimberlandScaffold(
         titleText: 'Booking History',
+        index: 3,
         extendBodyBehindAppbar: true,
         body: Padding(
           padding: const EdgeInsets.symmetric(

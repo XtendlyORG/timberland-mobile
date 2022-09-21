@@ -20,6 +20,7 @@ class QrCodePage extends StatelessWidget {
     return SafeArea(
       child: TimberlandScaffold(
         titleText: 'My QR Code',
+        index: 3,
         extendBodyBehindAppbar: true,
         body: SizedBox(
           height: mediaQuery.size.longestSide - kToolbarHeight * 4,
