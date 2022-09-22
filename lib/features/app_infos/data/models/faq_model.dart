@@ -13,7 +13,7 @@ class FAQModel extends FAQ {
       // faqId: (map['faq_id'] as num).toString(),
       question: map['question'] as String,
       answer: map['answer'] as String,
-      subCategory: [],
+      subCategory: const [],
     );
   }
 }

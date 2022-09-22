@@ -13,16 +13,14 @@ class RegisterParameter extends LoginParameter {
   final String? address;
   final String? profession;
   final String? bloodType;
-  @override
-  final String email;
+
   final String mobileNumber;
   final String? emergencyContactInfo;
   final File? profilePic;
   final String? bikeModel;
   final String? bikeYear;
   final String? bikeColor;
-  @override
-  final String password;
+
   const RegisterParameter({
     this.otp,
     required this.firstName,
@@ -33,15 +31,15 @@ class RegisterParameter extends LoginParameter {
     this.address,
     this.profession,
     this.bloodType,
-    required this.email,
+    required super.email,
     required this.mobileNumber,
     this.emergencyContactInfo,
     this.profilePic,
     this.bikeModel,
     this.bikeYear,
     this.bikeColor,
-    required this.password,
-  }) : super(email: email, password: password);
+    required super.password,
+  });
 
   @override
   List<Object> get props {

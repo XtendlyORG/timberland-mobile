@@ -26,7 +26,6 @@ import 'package:timberland_biketrail/features/history/presentation/pages/booking
 
 import '../../dashboard/presentation/pages/qr_code_page.dart';
 import '../../dashboard/presentation/pages/update_profile_page.dart';
-import '../../features/app_infos/presentation/bloc/app_info_bloc.dart';
 import '../../features/app_infos/presentation/pages/contacts_page.dart';
 import '../../features/app_infos/presentation/pages/faqs_page.dart';
 import '../../features/authentication/domain/entities/user.dart';

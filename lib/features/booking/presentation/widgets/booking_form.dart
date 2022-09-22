@@ -1,19 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'dart:developer';
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/custom_checkbox.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/custom_styled_text.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/dialogs/custom_dialog.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
-import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
 import 'package:timberland_biketrail/features/booking/domain/params/booking_request_params.dart';

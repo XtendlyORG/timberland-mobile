@@ -1,13 +1,10 @@
 import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timberland_biketrail/core/constants/faqs.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/presentation/widgets/timberland_scaffold.dart';
-import '../bloc/app_info_bloc.dart';
 import '../widgets/faq_widget.dart';
 
 class FAQsPage extends StatelessWidget {

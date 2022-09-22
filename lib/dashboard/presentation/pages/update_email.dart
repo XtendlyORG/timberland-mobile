@@ -152,7 +152,7 @@ class _UpdateEmailForm extends StatelessWidget {
             enabled: false,
             decoration: InputDecoration(
               hintText: Session().currentUser!.email,
-              hintStyle: TextStyle(color: TimberlandColor.text),
+              hintStyle: const TextStyle(color: TimberlandColor.text),
               disabledBorder:
                   Theme.of(context).inputDecorationTheme.enabledBorder,
             ),
