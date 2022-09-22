@@ -398,12 +398,19 @@ final appRouter = GoRouter(
                   child: UpdateProfilePage(
                     user: (routeState.extra as User),
                   ),
-                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionDuration: const Duration(milliseconds: 250),
                   transitionsBuilder:
                       (context, animation, secondaryAnimation, child) {
                     return FadeTransition(
                       opacity: animation,
-                      child: child,
+                      child: SlideTransition(
+                        // opacity: animation,
+                        position: Tween<Offset>(
+                          begin: const Offset(1, 0),
+                          end: const Offset(0, 0),
+                        ).animate(animation),
+                        child: child,
+                      ),
                     );
                   },
                 );
@@ -415,12 +422,19 @@ final appRouter = GoRouter(
               pageBuilder: (context, routeState) {
                 return CustomTransitionPage(
                   child: const UpdateEmailPage(),
-                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionDuration: const Duration(milliseconds: 250),
                   transitionsBuilder:
                       (context, animation, secondaryAnimation, child) {
                     return FadeTransition(
                       opacity: animation,
-                      child: child,
+                      child: SlideTransition(
+                        // opacity: animation,
+                        position: Tween<Offset>(
+                          begin: const Offset(1, 0),
+                          end: const Offset(0, 0),
+                        ).animate(animation),
+                        child: child,
+                      ),
                     );
                   },
                 );
@@ -432,12 +446,19 @@ final appRouter = GoRouter(
                   pageBuilder: (context, routeState) {
                     return CustomTransitionPage(
                       child: const VerifyUpdateOtpPage(),
-                      transitionDuration: const Duration(milliseconds: 500),
+                      transitionDuration: const Duration(milliseconds: 250),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) {
                         return FadeTransition(
                           opacity: animation,
-                          child: child,
+                          child: SlideTransition(
+                            // opacity: animation,
+                            position: Tween<Offset>(
+                              begin: const Offset(1, 0),
+                              end: const Offset(0, 0),
+                            ).animate(animation),
+                            child: child,
+                          ),
                         );
                       },
                     );
@@ -451,12 +472,19 @@ final appRouter = GoRouter(
               pageBuilder: (context, routeState) {
                 return CustomTransitionPage(
                   child: const UpdatePasswordPage(),
-                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionDuration: const Duration(milliseconds: 250),
                   transitionsBuilder:
                       (context, animation, secondaryAnimation, child) {
                     return FadeTransition(
                       opacity: animation,
-                      child: child,
+                      child: SlideTransition(
+                        // opacity: animation,
+                        position: Tween<Offset>(
+                          begin: const Offset(1, 0),
+                          end: const Offset(0, 0),
+                        ).animate(animation),
+                        child: child,
+                      ),
                     );
                   },
                 );
