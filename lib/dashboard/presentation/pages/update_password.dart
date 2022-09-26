@@ -71,13 +71,14 @@ class UpdatePasswordPage extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(
+                Padding(
+                  padding: const EdgeInsets.symmetric(
                     horizontal: kHorizontalPadding,
                     vertical: kVerticalPadding,
                   ),
                   child: Text(
                     "Discard password updates?",
+                    style: Theme.of(context).textTheme.bodyLarge,
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -97,7 +98,12 @@ class UpdatePasswordPage extends StatelessWidget {
                           onPressed: () {
                             Navigator.pop(ctx);
                           },
-                          child: const Text('Cancel'),
+                          child: const Text(
+                            'Cancel',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -114,7 +120,12 @@ class UpdatePasswordPage extends StatelessWidget {
                             BlocProvider.of<ProfileBloc>(context)
                                 .add(const CancelUpdateRequest());
                           },
-                          child: const Text('Discard'),
+                          child: const Text(
+                            'Discard',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
                       ),
                     ],

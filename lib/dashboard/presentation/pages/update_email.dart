@@ -70,13 +70,14 @@ class UpdateEmailPage extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(
+                Padding(
+                  padding: const EdgeInsets.symmetric(
                     horizontal: kHorizontalPadding,
                     vertical: kVerticalPadding,
                   ),
                   child: Text(
                     "Discard email updates?",
+                    style: Theme.of(context).textTheme.bodyLarge,
                     textAlign: TextAlign.center,
                   ),
                 ),

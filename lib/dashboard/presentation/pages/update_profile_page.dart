@@ -94,13 +94,14 @@ class UpdateProfilePage extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.symmetric(
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: kHorizontalPadding,
                       vertical: kVerticalPadding,
                     ),
                     child: Text(
                       "Discard profile updates?",
+                      style: Theme.of(context).textTheme.bodyLarge,
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -120,7 +121,12 @@ class UpdateProfilePage extends StatelessWidget {
                             onPressed: () {
                               Navigator.pop(ctx);
                             },
-                            child: const Text('Cancel'),
+                            child: const Text(
+                              'Cancel',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                           ),
                         ),
                         SizedBox(
@@ -137,7 +143,12 @@ class UpdateProfilePage extends StatelessWidget {
                               BlocProvider.of<ProfileBloc>(context)
                                   .add(const CancelUpdateRequest());
                             },
-                            child: const Text('Discard'),
+                            child: const Text(
+                              'Discard',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                           ),
                         ),
                       ],

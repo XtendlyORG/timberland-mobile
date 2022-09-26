@@ -50,7 +50,12 @@ class EmergencyDialog extends StatelessWidget {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: const Text('CANCEL'),
+                      child: const Text(
+                        'CANCEL',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -66,7 +71,12 @@ class EmergencyDialog extends StatelessWidget {
                         context.goNamed(Routes.emergency.name);
                         Navigator.pop(context);
                       },
-                      child: const Text('YES'),
+                      child: const Text(
+                        'YES',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                     ),
                   ),
                 ],
