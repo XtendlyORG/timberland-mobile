@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_area.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/expanded_image.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_scaffold.dart';
@@ -16,19 +17,19 @@ class TrailMap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: BlocListener<TrailBloc, TrailState>(
-        listener: (context, state) {
-          if (state is SavingTrailMap) {
-            showToast("Saving trail map image...");
-          }
-          if (state is TrailMapSaved) {
-            showSuccess('Image saved to ${state.path}');
-          }
-          if (state is TrailMapSaveError) {
-            showToast(state.errorMessage);
-          }
-        },
+    return BlocListener<TrailBloc, TrailState>(
+      listener: (context, state) {
+        if (state is SavingTrailMap) {
+          showToast("Saving trail map image...");
+        }
+        if (state is TrailMapSaved) {
+          showSuccess('Image saved to ${state.path}');
+        }
+        if (state is TrailMapSaveError) {
+          showToast(state.errorMessage);
+        }
+      },
+      child: DecoratedSafeArea(
         child: TimberlandScaffold(
           extendBodyBehindAppbar: true,
           physics: const NeverScrollableScrollPhysics(),

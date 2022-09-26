@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_area.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/dialogs/custom_dialog.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
@@ -28,28 +29,30 @@ class UpdateEmailPage extends StatelessWidget {
           showError(state.errorMessage);
         }
       },
-      child: WillPopScope(
-        onWillPop: () async {
-          handleBackButton(context);
-          return false;
-        },
-        child: TimberlandScaffold(
-          titleText: 'Update Email',
-          extendBodyBehindAppbar: true,
-          showNavbar: false,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            leading: BackButton(
-              color: Colors.black,
-              onPressed: () {
-                handleBackButton(context);
-              },
+      child: DecoratedSafeArea(
+        child: WillPopScope(
+          onWillPop: () async {
+            handleBackButton(context);
+            return false;
+          },
+          child: TimberlandScaffold(
+            titleText: 'Update Email',
+            extendBodyBehindAppbar: true,
+            showNavbar: false,
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              leading: BackButton(
+                color: Colors.black,
+                onPressed: () {
+                  handleBackButton(context);
+                },
+              ),
             ),
-          ),
-          body: const Padding(
-            padding: EdgeInsets.all(kHorizontalPadding),
-            child: _UpdateEmailForm(),
+            body: const Padding(
+              padding: EdgeInsets.all(kHorizontalPadding),
+              child: _UpdateEmailForm(),
+            ),
           ),
         ),
       ),

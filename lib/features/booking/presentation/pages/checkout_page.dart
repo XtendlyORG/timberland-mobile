@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:move_to_background/move_to_background.dart';
 import 'package:timberland_biketrail/core/constants/padding.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_area.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../../core/router/router.dart';
@@ -40,7 +41,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
         }
         return false;
       },
-      child: SafeArea(
+      child: DecoratedSafeArea(
         child: Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,

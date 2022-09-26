@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:move_to_background/move_to_background.dart';
 import 'package:timberland_biketrail/core/constants/navbar_configs.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_area.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
@@ -85,7 +86,7 @@ class _MainPageState extends State<MainPage> {
               MoveToBackground.moveTaskToBack();
               return false;
             },
-            child: SafeArea(
+            child: DecoratedSafeArea(
               child: Scaffold(
                 endDrawer: const Dashboard(),
                 appBar: TimberlandAppbar(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_area.dart';
 import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard.dart';
 
 import '../../../../core/constants/constants.dart';
@@ -32,55 +33,57 @@ class _EmergencyPageState extends State<EmergencyPage>
 
   @override
   Widget build(BuildContext context) {
-    return TimberlandScaffold(
-      titleText: "Emergency",
-      extendBodyBehindAppbar: true,
-      disableBackButton: true,
-      endDrawer: const Dashboard(
-         disableEmergency: true,
-      ),
-      index: 4,
-      body: Padding(
-        padding: const EdgeInsets.all(kHorizontalPadding),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 300,
-              child: AnimatedBuilder(
-                animation: CurvedAnimation(
-                    parent: _controller, curve: Curves.fastLinearToSlowEaseIn),
-                builder: (context, child) {
-                  return Stack(
-                    alignment: Alignment.center,
-                    children: <Widget>[
-                      // _buildContainer(50 * (1 + _controller.value)),
-                      _buildContainer(100 * (1 + _controller.value)),
-                      _buildContainer(120 * (1 + _controller.value)),
-                      Container(
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: TimberlandColor.secondaryColor),
-                        padding: const EdgeInsets.all(kHorizontalPadding),
-                        child: const Image(
-                          image: AssetImage('assets/icons/emergency-icon.png'),
-                          height: 64,
-                          width: 64,
+    return DecoratedSafeArea(
+      child: TimberlandScaffold(
+        titleText: "Emergency",
+        extendBodyBehindAppbar: true,
+        disableBackButton: true,
+        endDrawer: const Dashboard(
+           disableEmergency: true,
+        ),
+        index: 4,
+        body: Padding(
+          padding: const EdgeInsets.all(kHorizontalPadding),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 300,
+                child: AnimatedBuilder(
+                  animation: CurvedAnimation(
+                      parent: _controller, curve: Curves.fastLinearToSlowEaseIn),
+                  builder: (context, child) {
+                    return Stack(
+                      alignment: Alignment.center,
+                      children: <Widget>[
+                        // _buildContainer(50 * (1 + _controller.value)),
+                        _buildContainer(100 * (1 + _controller.value)),
+                        _buildContainer(120 * (1 + _controller.value)),
+                        Container(
+                          decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: TimberlandColor.secondaryColor),
+                          padding: const EdgeInsets.all(kHorizontalPadding),
+                          child: const Image(
+                            image: AssetImage('assets/icons/emergency-icon.png'),
+                            height: 64,
+                            width: 64,
+                          ),
                         ),
-                      ),
-                    ],
-                  );
-                },
+                      ],
+                    );
+                  },
+                ),
               ),
-            ),
-            Text(
-              'After pressing the emergency button, we will contact our nearest admin station to your current location.',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.normal
+              Text(
+                'After pressing the emergency button, we will contact our nearest admin station to your current location.',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.normal
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

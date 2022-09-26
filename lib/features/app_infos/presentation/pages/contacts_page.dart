@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_area.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
@@ -30,17 +31,19 @@ class ContactsPage extends StatelessWidget {
           showSuccess('Your message was sent');
         }
       },
-      child: TimberlandScaffold(
-        titleText: 'Contact Us',
-        extendBodyBehindAppbar: true,
-        showNavbar: Session().isLoggedIn,
-        body: Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: kHorizontalPadding,
-            vertical: kVerticalPadding * 3,
+      child: DecoratedSafeArea(
+        child: TimberlandScaffold(
+          titleText: 'Contact Us',
+          extendBodyBehindAppbar: true,
+          showNavbar: Session().isLoggedIn,
+          body: Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: kHorizontalPadding,
+              vertical: kVerticalPadding * 3,
+            ),
+            constraints: const BoxConstraints(maxWidth: kMaxWidthMobile),
+            child: const ContactsPageForm(),
           ),
-          constraints: const BoxConstraints(maxWidth: kMaxWidthMobile),
-          child: const ContactsPageForm(),
         ),
       ),
     );

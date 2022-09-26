@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:move_to_background/move_to_background.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_area.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
@@ -47,7 +48,7 @@ class _OnboardingSliderState extends State<OnboardingSlider> {
 
         return false;
       },
-      child: SafeArea(
+      child: DecoratedSafeArea(
         child: Scaffold(
           body: TimberlandContainer(
             child: Stack(

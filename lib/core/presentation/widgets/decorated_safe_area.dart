@@ -13,7 +13,7 @@ class DecoratedSafeArea extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: const BoxDecoration(
-        color: TimberlandColor.background,
+        color: TimberlandColor.primary,
       ),
       child: SafeArea(
         child: child,

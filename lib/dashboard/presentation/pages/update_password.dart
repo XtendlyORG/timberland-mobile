@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_area.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/dialogs/custom_dialog.dart';
 
 import '../../../core/constants/constants.dart';
@@ -34,23 +35,25 @@ class UpdatePasswordPage extends StatelessWidget {
           handleBackButton(context);
           return false;
         },
-        child: TimberlandScaffold(
-          titleText: 'Update Password',
-          extendBodyBehindAppbar: true,
-          showNavbar: false,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            leading: BackButton(
-              color: Colors.black,
-              onPressed: () {
-                handleBackButton(context);
-              },
+        child: DecoratedSafeArea(
+          child: TimberlandScaffold(
+            titleText: 'Update Password',
+            extendBodyBehindAppbar: true,
+            showNavbar: false,
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              leading: BackButton(
+                color: Colors.black,
+                onPressed: () {
+                  handleBackButton(context);
+                },
+              ),
             ),
-          ),
-          body: const Padding(
-            padding: EdgeInsets.all(kHorizontalPadding),
-            child: _UpdatePasswordForm(),
+            body: const Padding(
+              padding: EdgeInsets.all(kHorizontalPadding),
+              child: _UpdatePasswordForm(),
+            ),
           ),
         ),
       ),

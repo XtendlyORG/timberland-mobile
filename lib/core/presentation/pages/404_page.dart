@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_area.dart';
 
 import '../../constants/constants.dart';
 import '../../router/router.dart';
@@ -17,7 +18,7 @@ class RouteNotFoundPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return DecoratedSafeArea(
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,

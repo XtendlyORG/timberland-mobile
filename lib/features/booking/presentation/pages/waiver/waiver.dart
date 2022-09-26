@@ -3,10 +3,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/custom_checkbox.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/custom_styled_text.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_area.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
@@ -29,7 +29,7 @@ class _BookingWaiverState extends State<BookingWaiver> {
   bool waiverAccepted = false;
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return DecoratedSafeArea(
       child: TimberlandScaffold(
         titleText: 'Waiver',
         extendBodyBehindAppbar: true,
