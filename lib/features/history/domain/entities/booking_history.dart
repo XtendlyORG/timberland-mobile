@@ -62,11 +62,11 @@ class BookingHistory extends History {
 
 const Map<String, BookingStatus> _status = {
   'Paid': BookingStatus.paid,
-  'Ongoing': BookingStatus.onGoing,
+  'Checked In': BookingStatus.onGoing,
   'Cancelled': BookingStatus.cancelled,
   'Not Paid': BookingStatus.notPaid,
   'Free Pass': BookingStatus.free,
-  'Done': BookingStatus.done,
+  'Checked Out': BookingStatus.done,
 };
 
 enum BookingStatus {
