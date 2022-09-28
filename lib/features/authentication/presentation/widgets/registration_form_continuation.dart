@@ -349,7 +349,7 @@ class RegistrationContinuationForm extends StatelessWidget {
               width: double.infinity,
               child: FilledTextButton(
                 onPressed: () {
-                  if (formKey.currentState!.validate() && agreedToTermsOfUse) {
+                  if (formKey.currentState!.validate()) {
                     if (!agreedToTermsOfUse) {
                       showToast('Terms of Use not accepted');
                       return;

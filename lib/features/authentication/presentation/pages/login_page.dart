@@ -10,6 +10,7 @@ import 'package:local_auth/error_codes.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/custom_scroll_behavior.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_area.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/dialogs/permanently_locked_dialog.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
@@ -100,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
 
-    return SafeArea(
+    return DecoratedSafeArea(
       child: Scaffold(
         body: AuthPageContainer(
           scrollBehavior: const CustomScrollBehavior(),
