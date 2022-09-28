@@ -14,6 +14,7 @@ import 'package:timberland_biketrail/features/authentication/domain/params/regis
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/pages/registration_continuation_page.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/pages/reset_password.dart';
+import 'package:timberland_biketrail/features/booking/domain/params/booking_request_params.dart';
 import 'package:timberland_biketrail/features/booking/presentation/pages/cancelled_booking.dart';
 import 'package:timberland_biketrail/features/booking/presentation/pages/checkout_page.dart';
 import 'package:timberland_biketrail/features/booking/presentation/pages/failed_booking.dart';
@@ -25,7 +26,6 @@ import 'package:timberland_biketrail/features/history/presentation/pages/booking
 
 import '../../dashboard/presentation/pages/qr_code_page.dart';
 import '../../dashboard/presentation/pages/update_profile_page.dart';
-import '../../features/app_infos/presentation/bloc/app_info_bloc.dart';
 import '../../features/app_infos/presentation/pages/contacts_page.dart';
 import '../../features/app_infos/presentation/pages/faqs_page.dart';
 import '../../features/authentication/domain/entities/user.dart';
@@ -350,12 +350,12 @@ final appRouter = GoRouter(
           path: Routes.rules.asSubPath(),
           name: Routes.rules.name,
           pageBuilder: (context, routeState) {
-            final appinfoBloc = BlocProvider.of<AppInfoBloc>(context);
-            if (appinfoBloc.state is! TrailRulesState) {
-              appinfoBloc.add(
-                const FetchTrailRulesEvent(),
-              );
-            }
+            // final appinfoBloc = BlocProvider.of<AppInfoBloc>(context);
+            // if (appinfoBloc.state is! TrailRulesState) {
+            //   appinfoBloc.add(
+            //     const FetchTrailRulesEvent(),
+            //   );
+            // }
             return CustomTransitionPage(
               child: const MainPage(
                 selectedTabIndex: 1,
@@ -398,12 +398,19 @@ final appRouter = GoRouter(
                   child: UpdateProfilePage(
                     user: (routeState.extra as User),
                   ),
-                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionDuration: const Duration(milliseconds: 250),
                   transitionsBuilder:
                       (context, animation, secondaryAnimation, child) {
                     return FadeTransition(
                       opacity: animation,
-                      child: child,
+                      child: SlideTransition(
+                        // opacity: animation,
+                        position: Tween<Offset>(
+                          begin: const Offset(1, 0),
+                          end: const Offset(0, 0),
+                        ).animate(animation),
+                        child: child,
+                      ),
                     );
                   },
                 );
@@ -415,12 +422,19 @@ final appRouter = GoRouter(
               pageBuilder: (context, routeState) {
                 return CustomTransitionPage(
                   child: const UpdateEmailPage(),
-                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionDuration: const Duration(milliseconds: 250),
                   transitionsBuilder:
                       (context, animation, secondaryAnimation, child) {
                     return FadeTransition(
                       opacity: animation,
-                      child: child,
+                      child: SlideTransition(
+                        // opacity: animation,
+                        position: Tween<Offset>(
+                          begin: const Offset(1, 0),
+                          end: const Offset(0, 0),
+                        ).animate(animation),
+                        child: child,
+                      ),
                     );
                   },
                 );
@@ -432,12 +446,19 @@ final appRouter = GoRouter(
                   pageBuilder: (context, routeState) {
                     return CustomTransitionPage(
                       child: const VerifyUpdateOtpPage(),
-                      transitionDuration: const Duration(milliseconds: 500),
+                      transitionDuration: const Duration(milliseconds: 250),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) {
                         return FadeTransition(
                           opacity: animation,
-                          child: child,
+                          child: SlideTransition(
+                            // opacity: animation,
+                            position: Tween<Offset>(
+                              begin: const Offset(1, 0),
+                              end: const Offset(0, 0),
+                            ).animate(animation),
+                            child: child,
+                          ),
                         );
                       },
                     );
@@ -451,12 +472,19 @@ final appRouter = GoRouter(
               pageBuilder: (context, routeState) {
                 return CustomTransitionPage(
                   child: const UpdatePasswordPage(),
-                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionDuration: const Duration(milliseconds: 250),
                   transitionsBuilder:
                       (context, animation, secondaryAnimation, child) {
                     return FadeTransition(
                       opacity: animation,
-                      child: child,
+                      child: SlideTransition(
+                        // opacity: animation,
+                        position: Tween<Offset>(
+                          begin: const Offset(1, 0),
+                          end: const Offset(0, 0),
+                        ).animate(animation),
+                        child: child,
+                      ),
                     );
                   },
                 );
@@ -575,13 +603,29 @@ final appRouter = GoRouter(
               path: Routes.bookingWaiver.asSubPath(),
               name: Routes.bookingWaiver.name,
               pageBuilder: (context, routeState) {
-                final String? name = routeState.extra != null
-                    ? routeState.extra as String
-                    : null;
+                final BookingRequestParams name =
+                    routeState.extra as BookingRequestParams;
                 return CustomTransitionPage(
                   child: BookingWaiver(
-                    name: name,
+                    bookingRequestParams: name,
                   ),
+                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnim, child) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    );
+                  },
+                );
+              },
+            ),
+            GoRoute(
+              path: Routes.checkout.asSubPath(),
+              name: Routes.checkout.name,
+              pageBuilder: (context, routeState) {
+                return CustomTransitionPage(
+                  child: const CheckoutPage(),
                   transitionDuration: const Duration(milliseconds: 500),
                   transitionsBuilder:
                       (context, animation, secondaryAnim, child) {
@@ -652,12 +696,12 @@ final appRouter = GoRouter(
       path: Routes.faqs.path,
       name: Routes.faqs.name,
       pageBuilder: (context, routeState) {
-        final appinfoBloc = BlocProvider.of<AppInfoBloc>(context);
-        if (appinfoBloc.state is! FAQState) {
-          appinfoBloc.add(
-            const FetchFAQSEvent(),
-          );
-        }
+        // final appinfoBloc = BlocProvider.of<AppInfoBloc>(context);
+        // if (appinfoBloc.state is! FAQState) {
+        //   appinfoBloc.add(
+        //     const FetchFAQSEvent(),
+        //   );
+        // }
         return CustomTransitionPage(
           child: const FAQsPage(),
           // key: routeState.pageKey,
@@ -698,24 +742,6 @@ final appRouter = GoRouter(
           key: routeState.pageKey,
           restorationId: routeState.pageKey.value,
           child: const EmergencyPage(),
-          transitionDuration: const Duration(milliseconds: 500),
-          transitionsBuilder: (context, animation, secondaryAnim, child) {
-            return FadeTransition(
-              opacity: animation,
-              child: child,
-            );
-          },
-        );
-      },
-    ),
-    GoRoute(
-      path: Routes.checkout.path,
-      name: Routes.checkout.name,
-      pageBuilder: (context, routeState) {
-        return CustomTransitionPage(
-          // key: routeState.pageKey,
-          // restorationId: routeState.pageKey.value,
-          child: const CheckoutPage(),
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnim, child) {
             return FadeTransition(

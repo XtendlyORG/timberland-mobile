@@ -3,9 +3,8 @@ import 'dart:math' as math;
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-
 import 'package:timberland_biketrail/core/constants/constants.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/custom_styled_text.dart';
+import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/features/app_infos/domain/entities/faq.dart';
 
 class FAQWidget extends StatefulWidget {
@@ -41,41 +40,55 @@ class _FAQWidgetState extends State<FAQWidget> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: Theme.of(context).primaryColor,
-          style: BorderStyle.solid,
-        ),
-      ),
-      child: ExpansionTile(
-        onExpansionChanged: (isExpanded) {
-          isExpanded ? _controller.forward() : _controller.reverse();
-          setState(() {
-            _isExpanded = isExpanded;
-          });
-        },
-        title: AutoSizeText(
-          widget.faq.question,
-          maxLines: _isExpanded ? 10 : 2,
-          minFontSize: Theme.of(context).textTheme.titleSmall!.fontSize!,
-          overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.titleSmall,
-        ),
-        trailing: FAQTrailing(
-          angle: _angle,
-        ),
-        childrenPadding: const EdgeInsets.only(
-          left: kVerticalPadding,
-          right: kVerticalPadding,
-          bottom: kVerticalPadding,
-        ),
-        children: [
-          CustomStyledText(
-            text: widget.faq.answer,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: Theme.of(context).primaryColor,
+            style: BorderStyle.solid,
           ),
-        ],
+          color: TimberlandColor.background),
+      child: Theme(
+        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+        child: ExpansionTile(
+          onExpansionChanged: (isExpanded) {
+            isExpanded ? _controller.forward() : _controller.reverse();
+            setState(() {
+              _isExpanded = isExpanded;
+            });
+          },
+          title: AutoSizeText(
+            widget.faq.question,
+            maxLines: _isExpanded ? 10 : 2,
+            minFontSize: Theme.of(context).textTheme.titleSmall!.fontSize!,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
+          trailing: FAQTrailing(
+            angle: _angle,
+          ),
+          childrenPadding: const EdgeInsets.only(
+            left: kVerticalPadding,
+            right: kVerticalPadding,
+            bottom: kVerticalPadding,
+          ),
+          children: widget.faq.answer != null
+              ? [
+                  AutoSizeText(
+                    widget.faq.answer!,
+                  ),
+                ]
+              : widget.faq.subCategory!
+                  .map(
+                    (subCategory) => Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: FAQWidget(
+                        faq: subCategory,
+                      ),
+                    ),
+                  )
+                  .toList(),
+        ),
       ),
     );
   }

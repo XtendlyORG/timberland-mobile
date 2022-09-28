@@ -5,13 +5,13 @@ abstract class AppInfoEvent {
   const AppInfoEvent();
 }
 
-class FetchTrailRulesEvent extends AppInfoEvent {
-  const FetchTrailRulesEvent();
-}
+// class FetchTrailRulesEvent extends AppInfoEvent {
+//   const FetchTrailRulesEvent();
+// }
 
-class FetchFAQSEvent extends AppInfoEvent {
-  const FetchFAQSEvent();
-}
+// class FetchFAQSEvent extends AppInfoEvent {
+//   const FetchFAQSEvent();
+// }
 
 class SendInquiryEvent extends AppInfoEvent{
   final Inquiry inquiry;

@@ -1,19 +1,19 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'package:flutter/gestures.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/custom_checkbox.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/custom_styled_text.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/dialogs/custom_dialog.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
-import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
 import 'package:timberland_biketrail/features/booking/domain/params/booking_request_params.dart';
+import 'package:timberland_biketrail/features/booking/presentation/cubit/free_pass_counter_cubit.dart';
 import 'package:timberland_biketrail/features/booking/presentation/widgets/booking_date_picker.dart';
 import 'package:timberland_biketrail/features/booking/presentation/widgets/booking_time_picker.dart';
 
@@ -75,7 +75,6 @@ class _BookingFormState extends State<BookingForm> {
         }
         if (state is BookingError) {
           if (state is DuplicateBookingError) {
-            ScaffoldMessenger.of(context).clearSnackBars();
             _showBookingDialog(
               context,
               text:
@@ -89,240 +88,210 @@ class _BookingFormState extends State<BookingForm> {
         if (state is BookingSubmitted) {
           EasyLoading.dismiss();
           if (state.isFree) {
-            _showBookingDialog(
-              context,
-              text: 'This booking is free',
-              onPop: () {
-                context.pushNamed(Routes.bookingHistory.name);
-              },
-            );
+            BlocProvider.of<FreePassCounterCubit>(context).decrement();
+            showSuccess('Free booking completed');
+            Navigator.pop(context);
           } else {
-            context.pushNamed(Routes.checkout.name);
+            context.goNamed(Routes.checkout.name);
           }
         }
       },
-      child: Form(
-        key: formKey,
-        child: Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.only(
-                bottom: kVerticalPadding,
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text('Date'),
-                        ExcludeFocus(
-                          child: BookingDatePicker(
-                            controller: dateCtrl,
-                            enabled: true,
-                            onSubmit: (value) {
-                              if (value is DateTime) {
-                                setState(() {
-                                  selectedDate = value;
-                                });
-                                dateCtrl.text =
-                                    DateFormat.yMd('en_US').format(value);
-                              }
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
+      child: BlocBuilder<FreePassCounterCubit, int?>(
+        builder: (context, freePassCount) {
+          return Form(
+            key: formKey,
+            child: Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(
+                    bottom: kVerticalPadding,
                   ),
-                  const SizedBox(
-                    width: kVerticalPadding,
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text('Take Off Time'),
-                        ExcludeFocus(
-                          child: BookingTimePicker(
-                            controller: timeCtrl,
-                            selectedDate: selectedDate,
-                            enabled: true,
-                            onSubmit: (value) {
-                              if (value is TimeOfDay) {
-                                selectedTime = value;
-                              }
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(
-                bottom: kVerticalPadding,
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("First Name"),
-                        TextFormField(
-                          controller: firstNameCtrl,
-                          decoration: const InputDecoration(
-                            hintText: "First Name",
-                          ),
-                          validator: (fullName) {
-                            return nonEmptyValidator(
-                              fullName,
-                              errorMessage: 'First Name can not be empty.',
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    width: kVerticalPadding,
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("Last Name"),
-                        TextFormField(
-                          controller: lastNameCtrl,
-                          decoration: const InputDecoration(
-                            hintText: "Last Name",
-                          ),
-                          validator: (fullName) {
-                            return nonEmptyValidator(
-                              fullName,
-                              errorMessage: 'Last Name can not be empty.',
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(
-                bottom: kVerticalPadding,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('Mobile Number'),
-                  MobileNumberField(
-                    controller: mobileNumberCtrl,
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(
-                bottom: kVerticalPadding / 2,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text("Email Address"),
-                  EmailField(
-                    controller: emailCtrl,
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(
-                bottom: kVerticalPadding,
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  CustomCheckbox(
-                    onChange: (val) {
-                      waiverAccepted = val;
-                    },
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 4.5),
-                      child: Text.rich(
-                        style: Theme.of(context).textTheme.labelLarge,
-                        TextSpan(
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const TextSpan(
-                              text: 'I, hereby declare that I understand the ',
-                            ),
-                            TextSpan(
-                              text: 'nature and conditions ',
-                              style: const TextStyle(
-                                color: TimberlandColor.primary,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  context.pushNamed(Routes.bookingWaiver.name,
-                                      extra:
-                                          "${firstNameCtrl.text} ${lastNameCtrl.text}");
+                            const Text('Date'),
+                            ExcludeFocus(
+                              child: BookingDatePicker(
+                                controller: dateCtrl,
+                                selectedTime: selectedTime,
+                                enabled: true,
+                                onSubmit: (value) {
+                                  if (value is DateTime) {
+                                    setState(() {
+                                      selectedDate = value;
+                                    });
+                                    dateCtrl.text =
+                                        DateFormat.yMd('en_US').format(value);
+                                  }
                                 },
-                            ),
-                            const TextSpan(
-                              text:
-                                  'of the "Timberland Mountain Bike Park" within Timberland Heights grounds and premises (hereafter the "Premises").',
+                              ),
                             ),
                           ],
                         ),
                       ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: FilledTextButton(
-                onPressed: () {
-                  if (!waiverAccepted) {
-                    showToast('Waiver not accepted.');
-                    return;
-                  }
-                  if (formKey.currentState!.validate()) {
-                    BlocProvider.of<BookingBloc>(context).add(
-                      SubmitBookingRequest(
-                        params: BookingRequestParams(
-                          firstName: firstNameCtrl.text,
-                          lastName: lastNameCtrl.text,
-                          mobileNumber: mobileNumberCtrl.text,
-                          email: emailCtrl.text,
-                          date: selectedDate.toString().split(' ')[0],
-                          time: DateTime(
-                            0,
-                            0,
-                            0,
-                            selectedTime!.hour,
-                            selectedTime!.minute,
-                          ).toString().split(' ')[1],
+                      const SizedBox(
+                        width: kVerticalPadding,
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text('Take Off Time'),
+                            ExcludeFocus(
+                              child: BookingTimePicker(
+                                controller: timeCtrl,
+                                selectedDate: selectedDate,
+                                enabled: selectedDate != null,
+                                onSubmit: (value) {
+                                  if (value is TimeOfDay) {
+                                    setState(() {
+                                      selectedTime = value;
+                                    });
+                                  }
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    );
-                  }
-                },
-                child: const Text("Submit"),
-              ),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(
+                    bottom: kVerticalPadding,
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("First Name"),
+                            TextFormField(
+                              controller: firstNameCtrl,
+                              decoration: const InputDecoration(
+                                hintText: "First Name",
+                              ),
+                              validator: (fullName) {
+                                return nonEmptyValidator(
+                                  fullName,
+                                  errorMessage: 'First Name can not be empty.',
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        width: kVerticalPadding,
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("Last Name"),
+                            TextFormField(
+                              controller: lastNameCtrl,
+                              decoration: const InputDecoration(
+                                hintText: "Last Name",
+                              ),
+                              validator: (fullName) {
+                                return nonEmptyValidator(
+                                  fullName,
+                                  errorMessage: 'Last Name can not be empty.',
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(
+                    bottom: kVerticalPadding,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text('Mobile Number'),
+                      MobileNumberField(
+                        controller: mobileNumberCtrl,
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(
+                    bottom: kVerticalPadding / 2,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text("Email Address"),
+                      EmailField(
+                        controller: emailCtrl,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: kVerticalPadding,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledTextButton(
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        if (freePassCount != null && freePassCount > 0) {
+                          _showBookingDialog(
+                            context,
+                            text:
+                                'You have a FREE Pass. Your set booking at <bold>${DateFormat('MMM dd, yyyy').format(selectedDate!)}</bold> will be free.',
+                            isDecisionTypeActions: true,
+                            onPop: () {
+                              onSumbit(context);
+                            },
+                          );
+                        } else {
+                          onSumbit(context);
+                        }
+                      }
+                    },
+                    child: freePassCount != null && freePassCount > 0
+                        ? Text('Free Booking (x$freePassCount)')
+                        : const Text("Submit"),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
+      ),
+    );
+  }
+
+  void onSumbit(BuildContext context) {
+    context.pushNamed(
+      Routes.bookingWaiver.name,
+      extra: BookingRequestParams(
+        firstName: firstNameCtrl.text,
+        lastName: lastNameCtrl.text,
+        mobileNumber: mobileNumberCtrl.text,
+        email: emailCtrl.text,
+        date: selectedDate.toString().split(' ')[0],
+        time: DateTime(
+          0,
+          0,
+          0,
+          selectedTime!.hour,
+          selectedTime!.minute,
+        ).toString().split(' ')[1],
       ),
     );
   }
@@ -331,7 +300,9 @@ class _BookingFormState extends State<BookingForm> {
     BuildContext context, {
     required String text,
     required VoidCallback onPop,
+    bool isDecisionTypeActions = false,
   }) {
+    EasyLoading.dismiss();
     showDialog(
       context: context,
       builder: (ctx) {
@@ -346,8 +317,8 @@ class _BookingFormState extends State<BookingForm> {
                 const SizedBox(
                   height: kHorizontalPadding,
                 ),
-                Text(
-                  text,
+                CustomStyledText(
+                  text: text,
                   style: Theme.of(context).textTheme.bodyLarge,
                   textAlign: TextAlign.center,
                 ),
@@ -366,6 +337,23 @@ class _BookingFormState extends State<BookingForm> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
+                      if (isDecisionTypeActions) ...[
+                        Expanded(
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('CANCEL'),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 30,
+                          child: VerticalDivider(
+                            thickness: 1.5,
+                            color: Theme.of(context).disabledColor,
+                          ),
+                        ),
+                      ],
                       Expanded(
                         child: TextButton(
                           onPressed: () {
@@ -383,7 +371,9 @@ class _BookingFormState extends State<BookingForm> {
         );
       },
     ).then((value) {
-      onPop();
+      if (value is bool && value) {
+        onPop();
+      }
     });
   }
 }

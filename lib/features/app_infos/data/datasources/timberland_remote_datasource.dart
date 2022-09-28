@@ -70,7 +70,7 @@ class TimberlandRemoteDatasource implements AppInfoDataSource {
   Future<void> sendInquiry(Inquiry inquiry) async {
     try {
       final response = await dioClient.post(
-        '${environmentConfig.apihost}/users/contacts',
+        '${environmentConfig.apihost}/members/contacts',
         data: inquiry.toJson(),
       );
       log(response.data.toString());

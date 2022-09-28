@@ -1,10 +1,22 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 
 import '../../../utils/internet_connection.dart';
 
 void showLoading(String loadingMessage) {
-  _easyLoading(callback: () => EasyLoading.show(status: loadingMessage));
+  _easyLoading(
+    callback: () => EasyLoading.show(
+      status: loadingMessage,
+      indicator: Platform.isIOS
+          ? const CircularProgressIndicator.adaptive(
+              backgroundColor: TimberlandColor.background,
+            )
+          : null,
+    ),
+  );
 }
 
 void showError(String errorMessage) {

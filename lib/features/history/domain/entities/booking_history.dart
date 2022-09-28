@@ -62,11 +62,11 @@ class BookingHistory extends History {
 
 const Map<String, BookingStatus> _status = {
   'Paid': BookingStatus.paid,
-  'Ongoing': BookingStatus.onGoing,
+  'Checked In': BookingStatus.onGoing,
   'Cancelled': BookingStatus.cancelled,
   'Not Paid': BookingStatus.notPaid,
   'Free Pass': BookingStatus.free,
-  'Done': BookingStatus.done,
+  'Checked Out': BookingStatus.done,
 };
 
 enum BookingStatus {
@@ -75,8 +75,8 @@ enum BookingStatus {
     color: TimberlandColor.accentColor,
   ),
   onGoing(
-    status: "Ongoing",
-    color: TimberlandColor.accentColor,
+    status: "Checked In",
+    color: TimberlandColor.primary,
   ),
   cancelled(
     status: "Cancelled",
@@ -86,14 +86,17 @@ enum BookingStatus {
     status: 'Not Paid',
     color: TimberlandColor.secondaryColor,
   ),
-  free(status: 'Free', color: Colors.green),
+  free(
+    status: 'Free',
+    color: TimberlandColor.accentColor,
+  ),
   done(
-    status: 'Done',
+    status: 'Checked Out',
     color: TimberlandColor.primary,
   ),
   undefined(
     status: 'Undefined',
-    color: TimberlandColor.primary,
+    color: TimberlandColor.subtext,
   );
 
   final String status;

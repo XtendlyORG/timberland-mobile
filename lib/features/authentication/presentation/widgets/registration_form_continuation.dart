@@ -3,9 +3,11 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -18,6 +20,7 @@ import 'package:timberland_biketrail/core/presentation/widgets/image_picker_opti
 import 'package:timberland_biketrail/core/presentation/widgets/inherited_widgets/inherited_register_parameter.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
+import 'package:timberland_biketrail/core/utils/reduce_image_byte.dart';
 import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
 import 'package:timberland_biketrail/dashboard/domain/params/update_user_detail.dart';
 import 'package:timberland_biketrail/dashboard/presentation/bloc/profile_bloc.dart';
@@ -33,6 +36,7 @@ class RegistrationContinuationForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool imageReady = true;
     final registerParameter =
         InheritedRegisterParameter.of(context).registerParameter!;
     final formKey = GlobalKey<FormState>();
@@ -237,6 +241,20 @@ class RegistrationContinuationForm extends StatelessWidget {
                               imageCtrl.text =
                                   'profile_pic${image.name.substring(image.name.lastIndexOf('.'))}';
                               imageFile = File(image.path);
+                              imageReady = false;
+                              List<int> reducedImageByte = await compute(
+                                reduceImageByte,
+                                imageFile!.readAsBytesSync(),
+                              ).whenComplete(
+                                () {
+                                  imageReady = true;
+                                  EasyLoading.dismiss();
+                                  showInfo('Image is ready');
+                                },
+                              );
+                              imageFile = await File(image.path).writeAsBytes(
+                                reducedImageByte,
+                              );
                             }
                           }
 
@@ -331,7 +349,15 @@ class RegistrationContinuationForm extends StatelessWidget {
               width: double.infinity,
               child: FilledTextButton(
                 onPressed: () {
-                  if (formKey.currentState!.validate() && agreedToTermsOfUse) {
+                  if (formKey.currentState!.validate()) {
+                    if (!agreedToTermsOfUse) {
+                      showToast('Terms of Use not accepted');
+                      return;
+                    }
+                    if (!imageReady) {
+                      showLoading('Processing Image...');
+                      return;
+                    }
                     final registerParams = registerParameter.copyWith(
                       profession: professionCtrl.text.isNotEmpty
                           ? professionCtrl.text
@@ -372,9 +398,6 @@ class RegistrationContinuationForm extends StatelessWidget {
                         ),
                       );
                     }
-                  }
-                  if (!agreedToTermsOfUse) {
-                    showToast('Terms of User not accepted');
                   }
                 },
                 child:

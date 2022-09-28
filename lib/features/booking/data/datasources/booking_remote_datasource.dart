@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:timberland_biketrail/core/configs/environment_configs.dart';
 import 'package:timberland_biketrail/core/errors/exceptions.dart';
+import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/booking/data/datasources/booking_datasource.dart';
 import 'package:timberland_biketrail/features/booking/domain/entities/booking_response.dart';
 import 'package:timberland_biketrail/features/booking/domain/params/booking_request_params.dart';
@@ -47,6 +48,21 @@ class BookingRemoteDataSource implements BookingDatasource {
     });
   }
 
+  @override
+  Future<int> getFreePassCount() {
+    return this(callback: () async {
+      final response = await dioClient.get(
+        '${environmentConfig.apihost}/members/${Session().currentUser!.id}/passes',
+      );
+
+      if (response.statusCode == 200) {
+        log(response.data.toString());
+        return response.data['free_pass_count'] as int;
+      }
+      throw Exception('Failed to fetch free pass count');
+    });
+  }
+
   Future<ReturnType> call<ReturnType>({
     required Future<ReturnType> Function() callback,
   }) async {
@@ -77,10 +93,9 @@ class BookingRemoteDataSource implements BookingDatasource {
       );
     } on DuplicateBookingException {
       rethrow;
-    } on BookingException{
+    } on BookingException {
       rethrow;
-    } 
-    catch (e) {
+    } catch (e) {
       log(e.toString());
       throw const BookingException(message: "An Error Occurred");
     }

@@ -2,6 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_area.dart';
+import 'package:timberland_biketrail/features/booking/presentation/cubit/free_pass_counter_cubit.dart';
 
 import '../../../../core/constants/padding.dart';
 import '../../../../core/presentation/widgets/state_indicators/state_indicators.dart';
@@ -30,145 +32,149 @@ class BookingHistoryDetails extends StatelessWidget {
         }
         if (state is BookingCancelled) {
           showSuccess('Booking Cancelled');
+          BlocProvider.of<FreePassCounterCubit>(context).increment();
           Navigator.pop(context);
         }
       },
-      child: InheritedBooking(
-        booking: bookingHistory,
-        child: TimberlandScaffold(
-          titleText: 'Booking Details',
-          body: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 37,
-                vertical: 40,
-              ),
-              child: Container(
-                constraints: const BoxConstraints(
-                  maxWidth: 400,
-                  minHeight: 380,
-                ),
-                height: MediaQuery.of(context).size.height -
-                    (kToolbarHeight * 2) -
-                    kHorizontalPadding * 4,
-                clipBehavior: Clip.hardEdge,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  gradient: TimberlandColor.linearGradient,
-                ),
+      child: DecoratedSafeArea(
+        child: InheritedBooking(
+          booking: bookingHistory,
+          child: TimberlandScaffold(
+            titleText: 'Booking Details',
+            extendBodyBehindAppbar: true,
+            body: Center(
+              child: Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: kVerticalPadding,
-                  vertical: kVerticalPadding * 2,
+                  horizontal: 37,
+                  vertical: 40,
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AutoSizeText.rich(
-                      TextSpan(
-                        children: [
-                          TextSpan(
-                            text: '${bookingHistory.firstName} ',
-                          ),
-                          TextSpan(
-                            text: bookingHistory.lastName,
-                          ),
-                        ],
+                child: Container(
+                  constraints: const BoxConstraints(
+                    maxWidth: 400,
+                    minHeight: 380,
+                  ),
+                  height: MediaQuery.of(context).size.height -
+                      (kToolbarHeight * 2) -
+                      kHorizontalPadding * 4,
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    gradient: TimberlandColor.linearGradient,
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: kVerticalPadding,
+                    vertical: kVerticalPadding * 2,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AutoSizeText.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: '${bookingHistory.firstName} ',
+                            ),
+                            TextSpan(
+                              text: bookingHistory.lastName,
+                            ),
+                          ],
+                        ),
+                        style: Theme.of(context).textTheme.titleLarge,
                       ),
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Row(
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.phone_outlined,
+                              color: TimberlandColor.lightBlue,
+                            ),
+                            const SizedBox(
+                              width: kVerticalPadding,
+                            ),
+                            AutoSizeText(
+                              '63${bookingHistory.mobileNumber}',
+                              style: Theme.of(context).textTheme.titleSmall,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Row(
                         children: [
                           const Icon(
-                            Icons.phone_outlined,
+                            Icons.email_outlined,
                             color: TimberlandColor.lightBlue,
                           ),
                           const SizedBox(
                             width: kVerticalPadding,
                           ),
-                          AutoSizeText(
-                            '63${bookingHistory.mobileNumber}',
-                            style: Theme.of(context).textTheme.titleSmall,
+                          Expanded(
+                            child: AutoSizeText(
+                              bookingHistory.email,
+                              style: Theme.of(context).textTheme.titleSmall,
+                              maxLines: 1,
+                              minFontSize: 14,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.email_outlined,
-                          color: TimberlandColor.lightBlue,
-                        ),
-                        const SizedBox(
-                          width: kVerticalPadding,
-                        ),
-                        Expanded(
-                          child: AutoSizeText(
-                            bookingHistory.email,
-                            style: Theme.of(context).textTheme.titleSmall,
-                            maxLines: 1,
-                            minFontSize: 14,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: kHorizontalPadding,
-                    ),
-                    AutoSizeText(
-                      'Date and Time',
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: AutoSizeText.rich(
-                        TextSpan(
-                          children: [
-                            ..._renderTime(bookingHistory.time),
-                            const TextSpan(text: ' '),
-                            ..._renderDate(bookingHistory.date),
-                          ],
-                        ),
-                        style: Theme.of(context).textTheme.titleSmall,
-                        maxLines: 1,
+                      const SizedBox(
+                        height: kHorizontalPadding,
                       ),
-                    ),
-                    const SizedBox(
-                      height: kHorizontalPadding,
-                    ),
-                    AutoSizeText.rich(
-                      TextSpan(children: [
-                        const TextSpan(text: 'Status: '),
-                        TextSpan(
-                          text: bookingHistory.status.status,
-                          style: TextStyle(
-                            color: bookingHistory.status.color,
-                          ),
-                        )
-                      ]),
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    const Spacer(),
-                    FilledTextButton(
-                      onPressed: (bookingHistory.date
-                                      .difference(DateTime.now())
-                                      .inHours <=
-                                  48) ||
-                              bookingHistory.status != BookingStatus.paid
-                          ? null
-                          : () {
-                              cancelButtonHandler(context);
-                            },
-                      child: const Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: kVerticalPadding),
-                        child: Text('Cancel Booking'),
+                      AutoSizeText(
+                        'Date and Time',
+                        style: Theme.of(context).textTheme.titleLarge,
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: AutoSizeText.rich(
+                          TextSpan(
+                            children: [
+                              ..._renderTime(bookingHistory.time),
+                              const TextSpan(text: ' '),
+                              ..._renderDate(bookingHistory.date),
+                            ],
+                          ),
+                          style: Theme.of(context).textTheme.titleSmall,
+                          maxLines: 1,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: kHorizontalPadding,
+                      ),
+                      AutoSizeText.rich(
+                        TextSpan(children: [
+                          const TextSpan(text: 'Status: '),
+                          TextSpan(
+                            text: bookingHistory.status.status,
+                            style: TextStyle(
+                              color: bookingHistory.status.color,
+                            ),
+                          )
+                        ]),
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      const Spacer(),
+                      FilledTextButton(
+                        onPressed: (bookingHistory.date
+                                        .difference(DateTime.now())
+                                        .inHours <=
+                                    48) ||
+                                bookingHistory.status != BookingStatus.paid
+                            ? null
+                            : () {
+                                cancelButtonHandler(context);
+                              },
+                        child: const Padding(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: kVerticalPadding),
+                          child: Text('Cancel Booking'),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
