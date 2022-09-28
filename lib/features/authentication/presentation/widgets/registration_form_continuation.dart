@@ -349,11 +349,15 @@ class RegistrationContinuationForm extends StatelessWidget {
               width: double.infinity,
               child: FilledTextButton(
                 onPressed: () {
-                  if (!imageReady) {
-                    showLoading('Processing Image...');
-                    return;
-                  }
                   if (formKey.currentState!.validate() && agreedToTermsOfUse) {
+                    if (!agreedToTermsOfUse) {
+                      showToast('Terms of Use not accepted');
+                      return;
+                    }
+                    if (!imageReady) {
+                      showLoading('Processing Image...');
+                      return;
+                    }
                     final registerParams = registerParameter.copyWith(
                       profession: professionCtrl.text.isNotEmpty
                           ? professionCtrl.text
@@ -394,9 +398,6 @@ class RegistrationContinuationForm extends StatelessWidget {
                         ),
                       );
                     }
-                  }
-                  if (!agreedToTermsOfUse) {
-                    showToast('Terms of User not accepted');
                   }
                 },
                 child:

@@ -77,104 +77,107 @@ class _OtpVerificationFormState extends State<OtpVerificationForm> {
                 FocusManager.instance.primaryFocus?.previousFocus();
               }
             },
-            child: Form(
-              onChanged: () {
-                otpCtrl.text =
-                    digit1.text + digit2.text + digit3.text + digit4.text;
-                if (otpCtrl.text.length != 4 && validOtp) {
-                  setState(() {
-                    validOtp = false;
-                  });
-                }
-                if (otpCtrl.text.length == 4 && !validOtp) {
-                  setState(() {
-                    validOtp = true;
-                  });
-                }
-              },
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: digit1,
-                      maxLength: 1,
-                      onChanged: (val) {
-                        if (val.length == 1) {
-                          FocusManager.instance.primaryFocus?.nextFocus();
-                        }
-                      },
-                      onEditingComplete: () {},
-                      decoration: const InputDecoration(counterText: ''),
-                      textAlign: TextAlign.center,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                      autofocus: true,
-                      textInputAction: TextInputAction.next,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 220),
+              child: Form(
+                onChanged: () {
+                  otpCtrl.text =
+                      digit1.text + digit2.text + digit3.text + digit4.text;
+                  if (otpCtrl.text.length != 4 && validOtp) {
+                    setState(() {
+                      validOtp = false;
+                    });
+                  }
+                  if (otpCtrl.text.length == 4 && !validOtp) {
+                    setState(() {
+                      validOtp = true;
+                    });
+                  }
+                },
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: digit1,
+                        maxLength: 1,
+                        onChanged: (val) {
+                          if (val.length == 1) {
+                            FocusManager.instance.primaryFocus?.nextFocus();
+                          }
+                        },
+                        onEditingComplete: () {},
+                        decoration: const InputDecoration(counterText: ''),
+                        textAlign: TextAlign.center,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                        autofocus: true,
+                        textInputAction: TextInputAction.next,
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: TextFormField(
-                      controller: digit2,
-                      maxLength: 1,
-                      onChanged: (val) {
-                        if (val.length == 1) {
-                          FocusManager.instance.primaryFocus?.nextFocus();
-                        }
-                      },
-                      onEditingComplete: () {},
-                      decoration: const InputDecoration(counterText: ''),
-                      textAlign: TextAlign.center,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                      autofocus: true,
-                      textInputAction: TextInputAction.next,
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: TextFormField(
+                        controller: digit2,
+                        maxLength: 1,
+                        onChanged: (val) {
+                          if (val.length == 1) {
+                            FocusManager.instance.primaryFocus?.nextFocus();
+                          }
+                        },
+                        onEditingComplete: () {},
+                        decoration: const InputDecoration(counterText: ''),
+                        textAlign: TextAlign.center,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                        autofocus: true,
+                        textInputAction: TextInputAction.next,
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: TextFormField(
-                      controller: digit3,
-                      maxLength: 1,
-                      onChanged: (val) {
-                        if (val.length == 1) {
-                          FocusManager.instance.primaryFocus?.nextFocus();
-                        }
-                      },
-                      onEditingComplete: () {},
-                      decoration: const InputDecoration(counterText: ''),
-                      textAlign: TextAlign.center,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                      autofocus: true,
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: TextFormField(
+                        controller: digit3,
+                        maxLength: 1,
+                        onChanged: (val) {
+                          if (val.length == 1) {
+                            FocusManager.instance.primaryFocus?.nextFocus();
+                          }
+                        },
+                        onEditingComplete: () {},
+                        decoration: const InputDecoration(counterText: ''),
+                        textAlign: TextAlign.center,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                        autofocus: true,
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: TextFormField(
-                      controller: digit4,
-                      maxLength: 1,
-                      onFieldSubmitted: (_) {
-                        validOtp ? widget.onSubmit(otpCtrl.text) : null;
-                      },
-                      onEditingComplete: () {},
-                      onSaved: (_) {},
-                      decoration: const InputDecoration(counterText: ''),
-                      textAlign: TextAlign.center,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                      autofocus: true,
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: TextFormField(
+                        controller: digit4,
+                        maxLength: 1,
+                        onFieldSubmitted: (_) {
+                          validOtp ? widget.onSubmit(otpCtrl.text) : null;
+                        },
+                        onEditingComplete: () {},
+                        onSaved: (_) {},
+                        decoration: const InputDecoration(counterText: ''),
+                        textAlign: TextAlign.center,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                        autofocus: true,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
