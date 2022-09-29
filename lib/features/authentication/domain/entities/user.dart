@@ -119,6 +119,7 @@ class User extends Equatable {
       'blood_type': bloodType,
       'email': email,
       'mobile_number': mobileNumber,
+      'emergency_number': emergencyContactInfo,
       'bike_model': bikeModel,
       'bike_year': int.tryParse(bikeYear ?? ''),
       'bike_color': bikeColor,
