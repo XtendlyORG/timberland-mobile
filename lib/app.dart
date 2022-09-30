@@ -11,6 +11,8 @@ import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/
 import 'package:timberland_biketrail/core/utils/internet_connection.dart';
 import 'package:timberland_biketrail/features/booking/domain/repositories/booking_repository.dart';
 import 'package:timberland_biketrail/features/booking/presentation/cubit/free_pass_counter_cubit.dart';
+import 'package:timberland_biketrail/features/emergency/domain/repositories/emergency_repository.dart';
+import 'package:timberland_biketrail/features/emergency/presentation/bloc/emergency_bloc.dart';
 import 'package:timberland_biketrail/features/history/presentation/bloc/history_bloc.dart';
 
 import 'core/router/app_router.dart';
@@ -59,6 +61,11 @@ Future<void> run({
           repository: di.serviceLocator<BookingRepository>(),
         ),
       ),
+      BlocProvider<EmergencyBloc>(
+        create: (context) => EmergencyBloc(
+          repository: di.serviceLocator<EmergencyRepository>(),
+        ),
+      ),
     ],
     child: const MyApp(),
   ));
@@ -99,10 +106,9 @@ class _MyAppState extends State<MyApp> {
         log(state.toString());
       } else if (state is Authenticated) {
         session.login(state.user);
-         BlocProvider.of<FreePassCounterCubit>(context).getFreePassCount();
+        BlocProvider.of<FreePassCounterCubit>(context).getFreePassCount();
       } else if (state is UnAuthenticated) {
         if (!state.keepCurrentUser) {
-         
           session.logout();
         }
       }
