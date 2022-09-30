@@ -58,3 +58,10 @@ class DuplicateBookingException implements BookingException {
     this.message,
   });
 }
+
+class EmergencyException implements Exception{
+ final String? message;
+  const EmergencyException({
+    this.message,
+  });
+}
