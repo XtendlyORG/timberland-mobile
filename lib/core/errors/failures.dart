@@ -59,3 +59,10 @@ class DuplicateBookingFailure implements BookingFailure {
     required this.message,
   });
 }
+
+class EmergencyFailure implements Failure {
+  final String message;
+  const EmergencyFailure({
+    required this.message,
+  });
+}
