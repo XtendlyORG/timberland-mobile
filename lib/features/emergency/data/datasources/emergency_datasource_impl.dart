@@ -18,14 +18,23 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
   @override
   Future<EmergencyConfigs> fetchToken(String channelID) {
     return this(callback: () async {
-      //TODO: implement api request
-      
-      return EmergencyConfigs(
-        appID: '41ac45a81b9a4f298c1341bcafe8bc5c',
-        token: '007eJxTYFA9vtki+baIZZQAV73kYRWjV/P+WTn29EW8PcbR8Mj6xUIFBhPDxGQT00QLwyTLRJM0I0uLZENjE8Ok5MS0VIukZNPkOm/T5H9zzJLfBFexMDJAIIjPw1CSWlyim5yRmJeXmsPAAABRsCS9',
-        channelID: channelID,
-        uid: 0,
+      final response = await dioClient.post(
+        '${environmentConfig.apihost}/emergencies/rtctoken',
+        data: {
+          'channel': channelID,
+          'isPublisher': true,
+        },
       );
+
+      if (response.statusCode == 200) {
+        return EmergencyConfigs(
+          token: response.data['token'],
+          channelID: channelID,
+          uid: 0,
+        );
+      }
+
+      throw Exception('Failed to request a token');
     });
   }
 
