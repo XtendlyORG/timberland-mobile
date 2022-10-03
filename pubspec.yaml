@@ -64,6 +64,8 @@ dependencies:
   auto_animated: ^3.1.0
   gallery_saver: ^2.3.2
   agora_rtc_engine: ^6.0.0
+  flutter_ringtone_player: ^3.2.0
+  vibration: ^1.7.6
 
 dev_dependencies:
   flutter_test:
