@@ -3,21 +3,23 @@ import 'dart:developer';
 
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:timberland_biketrail/core/configs/environment_configs.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_area.dart';
 import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard.dart';
-import 'package:timberland_biketrail/features/emergency/domain/entities/emergency_configs.dart';
+import 'package:timberland_biketrail/dependency_injection/dependency_injection.dart';
+import 'package:timberland_biketrail/features/emergency/presentation/bloc/emergency_bloc.dart';
+import 'package:vibration/vibration.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/presentation/widgets/timberland_scaffold.dart';
 import '../../../../core/themes/timberland_color.dart';
 
 class EmergencyPage extends StatefulWidget {
-  final EmergencyConfigs configs;
-  const EmergencyPage({
-    Key? key,
-    required this.configs,
-  }) : super(key: key);
+  const EmergencyPage({Key? key}) : super(key: key);
 
   @override
   State<EmergencyPage> createState() => _EmergencyPageState();
@@ -34,28 +36,36 @@ class _EmergencyPageState extends State<EmergencyPage>
   @override
   void initState() {
     super.initState();
-    initialize();
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1500),
     )..repeat();
+
+    initialize().then((value) =>
+        SchedulerBinding.instance.addPostFrameCallback((timeStamp) async {
+          BlocProvider.of<EmergencyBloc>(context)
+              .add(const FetchEmergencyTokenEvent(channelID: 'test-channel-1'));
+        }));
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _engine.leaveChannel();
+    _engine.release();
     super.dispose();
   }
 
   Future<void> initialize() async {
+    final String appID = serviceLocator<EnvironmentConfig>().agoraAppId;
     await [Permission.microphone].request();
-    if (widget.configs.appID.isEmpty) {
+    if (appID.isEmpty) {
       return;
     }
     _engine = createAgoraRtcEngine();
 
     await _engine.initialize(RtcEngineContext(
-      appId: widget.configs.appID,
+      appId: appID,
       channelProfile: ChannelProfileType.channelProfileCommunication1v1,
       audioScenario: AudioScenarioType.audioScenarioMeeting,
     ));
@@ -68,42 +78,61 @@ class _EmergencyPageState extends State<EmergencyPage>
     );
     await _engine.setDefaultAudioRouteToSpeakerphone(true);
     await _engine.disableVideo();
-
-    await _engine.joinChannel(
-      token: widget.configs.token,
-      channelId: widget.configs.channelID,
-      options: const ChannelMediaOptions(
-        clientRoleType: ClientRoleType.clientRoleBroadcaster,
-        autoSubscribeAudio: true,
-      ),
-      uid: widget.configs.uid,
-    );
   }
 
   void _addAgoraEventHandlers() {
     _engine.registerEventHandler(RtcEngineEventHandler(
       onError: (code, message) {
         log("$code - $message");
+        Vibration.cancel();
+        FlutterRingtonePlayer.stop();
       },
       onJoinChannelSuccess: (connection, elapsed) {
-        setState(() {
-          _localUserJoined = true;
-        });
+        FlutterRingtonePlayer.play(
+          android: AndroidSounds.ringtone,
+          ios: IosSounds.alarm,
+          looping: true,
+          volume: 1,
+          // asAlarm: true,
+        );
+        Vibration.vibrate(
+          pattern: [500, 1000, 500, 1000],
+          intensities: [1, 255],
+          duration: 1000,
+          repeat: 1,
+          // repeat: 20
+        );
+        if (mounted) {
+          setState(() {
+            _localUserJoined = true;
+          });
+        }
       },
       onLeaveChannel: (connection, stats) {
-        setState(() {
-          _remoteUid = null;
-        });
+        Vibration.cancel();
+        FlutterRingtonePlayer.stop();
+        if (mounted) {
+          setState(() {
+            _remoteUid = null;
+          });
+        }
       },
       onUserJoined: (connection, uid, elapsed) {
-        setState(() {
-          _remoteUid = uid;
-        });
+        Vibration.cancel();
+        FlutterRingtonePlayer.stop();
+        log("Answered");
+        if (mounted) {
+          setState(() {
+            _remoteUid = uid;
+          });
+        }
       },
       onUserOffline: (connection, uid, reason) {
-        setState(() {
-          _remoteUid = null;
-        });
+        if (mounted) {
+          setState(() {
+            _remoteUid = null;
+          });
+        }
       },
       onTokenPrivilegeWillExpire: (connection, token) {
         // TODO: Generate new token
@@ -114,59 +143,74 @@ class _EmergencyPageState extends State<EmergencyPage>
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedSafeArea(
-      child: TimberlandScaffold(
-        titleText: "Emergency",
-        extendBodyBehindAppbar: true,
-        disableBackButton: true,
-        endDrawer: const Dashboard(
-          disableEmergency: true,
-        ),
-        index: 4,
-        body: Padding(
-          padding: const EdgeInsets.all(kHorizontalPadding),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 300,
-                child: AnimatedBuilder(
-                  animation: CurvedAnimation(
-                      parent: _controller,
-                      curve: Curves.fastLinearToSlowEaseIn),
-                  builder: (context, child) {
-                    return Stack(
-                      alignment: Alignment.center,
-                      children: <Widget>[
-                        // _buildContainer(50 * (1 + _controller.value)),
-                        _buildContainer(100 * (1 + _controller.value)),
-                        _buildContainer(120 * (1 + _controller.value)),
-                        Container(
-                          decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: TimberlandColor.secondaryColor),
-                          padding: const EdgeInsets.all(kHorizontalPadding),
-                          child: const Image(
-                            image:
-                                AssetImage('assets/icons/emergency-icon.png'),
-                            height: 64,
-                            width: 64,
+    return BlocListener<EmergencyBloc, EmergencyState>(
+      listener: (context, state) async {
+        if (state is EmergencyTokenFetched) {
+          await _engine.joinChannel(
+            token: state.configs.token,
+            channelId: state.configs.channelID,
+            options: const ChannelMediaOptions(
+              clientRoleType: ClientRoleType.clientRoleBroadcaster,
+              autoSubscribeAudio: true,
+            ),
+            uid: state.configs.uid,
+          );
+        }
+      },
+      child: DecoratedSafeArea(
+        child: TimberlandScaffold(
+          titleText: "Emergency",
+          extendBodyBehindAppbar: true,
+          disableBackButton: true,
+          endDrawer: const Dashboard(
+            disableEmergency: true,
+          ),
+          index: 4,
+          body: Padding(
+            padding: const EdgeInsets.all(kHorizontalPadding),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 300,
+                  child: AnimatedBuilder(
+                    animation: CurvedAnimation(
+                        parent: _controller,
+                        curve: Curves.fastLinearToSlowEaseIn),
+                    builder: (context, child) {
+                      return Stack(
+                        alignment: Alignment.center,
+                        children: <Widget>[
+                          // _buildContainer(50 * (1 + _controller.value)),
+                          _buildContainer(100 * (1 + _controller.value)),
+                          _buildContainer(120 * (1 + _controller.value)),
+                          Container(
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: TimberlandColor.secondaryColor),
+                            padding: const EdgeInsets.all(kHorizontalPadding),
+                            child: const Image(
+                              image:
+                                  AssetImage('assets/icons/emergency-icon.png'),
+                              height: 64,
+                              width: 64,
+                            ),
                           ),
-                        ),
-                      ],
-                    );
-                  },
+                        ],
+                      );
+                    },
+                  ),
                 ),
-              ),
-              Text(
-                'After pressing the emergency button, we will contact our nearest admin station to your current location.',
-                textAlign: TextAlign.center,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium
-                    ?.copyWith(fontWeight: FontWeight.normal),
-              ),
-            ],
+                Text(
+                  'After pressing the emergency button, we will contact our nearest admin station to your current location.',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(fontWeight: FontWeight.normal),
+                ),
+              ],
+            ),
           ),
         ),
       ),

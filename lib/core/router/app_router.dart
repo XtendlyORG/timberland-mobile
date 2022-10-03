@@ -20,7 +20,6 @@ import 'package:timberland_biketrail/features/booking/presentation/pages/checkou
 import 'package:timberland_biketrail/features/booking/presentation/pages/failed_booking.dart';
 import 'package:timberland_biketrail/features/booking/presentation/pages/success_booking.dart';
 import 'package:timberland_biketrail/features/booking/presentation/pages/waiver/waiver.dart';
-import 'package:timberland_biketrail/features/emergency/domain/entities/emergency_configs.dart';
 import 'package:timberland_biketrail/features/history/domain/entities/entities.dart';
 import 'package:timberland_biketrail/features/history/presentation/bloc/history_bloc.dart';
 import 'package:timberland_biketrail/features/history/presentation/pages/booking_history_details.dart';
@@ -742,9 +741,7 @@ final appRouter = GoRouter(
         return CustomTransitionPage(
           key: routeState.pageKey,
           restorationId: routeState.pageKey.value,
-          child:  EmergencyPage(
-            configs: routeState.extra as EmergencyConfigs,
-          ),
+          child: const EmergencyPage(),
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnim, child) {
             return FadeTransition(
