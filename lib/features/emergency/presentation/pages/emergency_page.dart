@@ -9,6 +9,7 @@ import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:timberland_biketrail/core/configs/environment_configs.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_area.dart';
+import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard.dart';
 import 'package:timberland_biketrail/dependency_injection/dependency_injection.dart';
 import 'package:timberland_biketrail/features/emergency/presentation/bloc/emergency_bloc.dart';
@@ -29,8 +30,6 @@ class _EmergencyPageState extends State<EmergencyPage>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   bool muted = false;
-  int? _remoteUid;
-  bool _localUserJoined = false;
 
   late RtcEngine _engine;
   @override
@@ -43,8 +42,11 @@ class _EmergencyPageState extends State<EmergencyPage>
 
     initialize().then((value) =>
         SchedulerBinding.instance.addPostFrameCallback((timeStamp) async {
-          BlocProvider.of<EmergencyBloc>(context)
-              .add(const FetchEmergencyTokenEvent(channelID: 'test-channel-1'));
+          BlocProvider.of<EmergencyBloc>(context).add(
+            FetchEmergencyTokenEvent(
+              channelID: 'tmbt-emergency-${Session().currentUser!.id}',
+            ),
+          );
         }));
   }
 
@@ -53,11 +55,14 @@ class _EmergencyPageState extends State<EmergencyPage>
     _controller.dispose();
     _engine.leaveChannel();
     _engine.release();
+    FlutterRingtonePlayer.stop();
+    Vibration.cancel();
     super.dispose();
   }
 
   Future<void> initialize() async {
     final String appID = serviceLocator<EnvironmentConfig>().agoraAppId;
+    log(appID);
     await [Permission.microphone].request();
     if (appID.isEmpty) {
       return;
@@ -71,7 +76,6 @@ class _EmergencyPageState extends State<EmergencyPage>
     ));
 
     _addAgoraEventHandlers();
-
     await _engine.setAudioProfile(
       profile: AudioProfileType.audioProfileSpeechStandard,
       scenario: AudioScenarioType.audioScenarioMeeting,
@@ -102,37 +106,18 @@ class _EmergencyPageState extends State<EmergencyPage>
           repeat: 1,
           // repeat: 20
         );
-        if (mounted) {
-          setState(() {
-            _localUserJoined = true;
-          });
-        }
       },
       onLeaveChannel: (connection, stats) {
         Vibration.cancel();
         FlutterRingtonePlayer.stop();
-        if (mounted) {
-          setState(() {
-            _remoteUid = null;
-          });
-        }
       },
       onUserJoined: (connection, uid, elapsed) {
         Vibration.cancel();
         FlutterRingtonePlayer.stop();
-        log("Answered");
-        if (mounted) {
-          setState(() {
-            _remoteUid = uid;
-          });
-        }
       },
       onUserOffline: (connection, uid, reason) {
-        if (mounted) {
-          setState(() {
-            _remoteUid = null;
-          });
-        }
+        // Remote user left;
+        Navigator.pop(context);
       },
       onTokenPrivilegeWillExpire: (connection, token) {
         // TODO: Generate new token

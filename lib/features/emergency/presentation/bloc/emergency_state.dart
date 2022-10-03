@@ -16,4 +16,7 @@ class EmergencyTokenFetched extends EmergencyState {
   const EmergencyTokenFetched({
     required this.configs,
   });
+  @override
+  // TODO: implement props
+  List<Object> get props => super.props..addAll([configs,DateTime.now()]);
 }

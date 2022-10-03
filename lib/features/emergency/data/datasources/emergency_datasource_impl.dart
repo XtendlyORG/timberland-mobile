@@ -30,7 +30,7 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
         return EmergencyConfigs(
           token: response.data['token'],
           channelID: channelID,
-          uid: 0,
+          uid: response.data['uid'],
         );
       }
 
