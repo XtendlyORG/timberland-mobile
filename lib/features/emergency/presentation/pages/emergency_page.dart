@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+import 'package:move_to_background/move_to_background.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:timberland_biketrail/core/configs/environment_configs.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_area.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard.dart';
 import 'package:timberland_biketrail/dependency_injection/dependency_injection.dart';
@@ -16,7 +18,6 @@ import 'package:timberland_biketrail/features/emergency/presentation/bloc/emerge
 import 'package:vibration/vibration.dart';
 
 import '../../../../core/constants/constants.dart';
-import '../../../../core/presentation/widgets/timberland_scaffold.dart';
 import '../../../../core/themes/timberland_color.dart';
 
 class EmergencyPage extends StatefulWidget {
@@ -128,73 +129,103 @@ class _EmergencyPageState extends State<EmergencyPage>
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<EmergencyBloc, EmergencyState>(
-      listener: (context, state) async {
-        if (state is EmergencyTokenFetched) {
-          await _engine.joinChannel(
-            token: state.configs.token,
-            channelId: state.configs.channelID,
-            options: const ChannelMediaOptions(
-              clientRoleType: ClientRoleType.clientRoleBroadcaster,
-              autoSubscribeAudio: true,
-            ),
-            uid: state.configs.uid,
-          );
-        }
+    return WillPopScope(
+      onWillPop: () async {
+        MoveToBackground.moveTaskToBack();
+        return false;
       },
-      child: DecoratedSafeArea(
-        child: TimberlandScaffold(
-          titleText: "Emergency",
-          extendBodyBehindAppbar: true,
-          disableBackButton: true,
-          endDrawer: const Dashboard(
-            disableEmergency: true,
-          ),
-          index: 4,
-          body: Padding(
-            padding: const EdgeInsets.all(kHorizontalPadding),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 300,
-                  child: AnimatedBuilder(
-                    animation: CurvedAnimation(
-                        parent: _controller,
-                        curve: Curves.fastLinearToSlowEaseIn),
-                    builder: (context, child) {
-                      return Stack(
-                        alignment: Alignment.center,
-                        children: <Widget>[
-                          // _buildContainer(50 * (1 + _controller.value)),
-                          _buildContainer(100 * (1 + _controller.value)),
-                          _buildContainer(120 * (1 + _controller.value)),
-                          Container(
-                            decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: TimberlandColor.secondaryColor),
-                            padding: const EdgeInsets.all(kHorizontalPadding),
-                            child: const Image(
-                              image:
-                                  AssetImage('assets/icons/emergency-icon.png'),
-                              height: 64,
-                              width: 64,
+      child: BlocListener<EmergencyBloc, EmergencyState>(
+        listener: (context, state) async {
+          if (state is EmergencyTokenFetched) {
+            await _engine.joinChannel(
+              token: state.configs.token,
+              channelId: state.configs.channelID,
+              options: const ChannelMediaOptions(
+                clientRoleType: ClientRoleType.clientRoleBroadcaster,
+                autoSubscribeAudio: true,
+              ),
+              uid: state.configs.uid,
+            );
+          }
+        },
+        child: DecoratedSafeArea(
+          child: TimberlandScaffold(
+            titleText: "Emergency",
+            extendBodyBehindAppbar: true,
+            disableBackButton: true,
+            endDrawer: const Dashboard(
+              disableEmergency: true,
+            ),
+            index: 4,
+            body: Padding(
+              padding: const EdgeInsets.all(kHorizontalPadding),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 300,
+                    child: AnimatedBuilder(
+                      animation: CurvedAnimation(
+                          parent: _controller,
+                          curve: Curves.fastLinearToSlowEaseIn),
+                      builder: (context, child) {
+                        return Stack(
+                          alignment: Alignment.center,
+                          children: <Widget>[
+                            // _buildContainer(50 * (1 + _controller.value)),
+                            _buildContainer(100 * (1 + _controller.value)),
+                            _buildContainer(120 * (1 + _controller.value)),
+                            Container(
+                              decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: TimberlandColor.secondaryColor),
+                              padding: const EdgeInsets.all(kHorizontalPadding),
+                              child: const Image(
+                                image: AssetImage(
+                                    'assets/icons/emergency-icon.png'),
+                                height: 64,
+                                width: 64,
+                              ),
                             ),
-                          ),
-                        ],
-                      );
-                    },
+                          ],
+                        );
+                      },
+                    ),
                   ),
-                ),
-                Text(
-                  'After pressing the emergency button, we will contact our nearest admin station to your current location.',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium
-                      ?.copyWith(fontWeight: FontWeight.normal),
-                ),
-              ],
+                  Text(
+                    'After pressing the emergency button, we will contact our nearest admin station to your current location.',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(fontWeight: FontWeight.normal),
+                  ),
+                  const SizedBox(
+                    height: kHorizontalPadding,
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: FilledTextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.red,
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: kVerticalPadding,
+                        ),
+                        child: Icon(
+                          Icons.call_end,
+                          color: TimberlandColor.background,
+                          size: 32,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

@@ -68,7 +68,7 @@ class EmergencyDialog extends StatelessWidget {
                   Expanded(
                     child: TextButton(
                       onPressed: () {
-                        context.goNamed(Routes.emergency.name);
+                        context.pushNamed(Routes.emergency.name);
                         Navigator.pop(context);
                       },
                       child: const Text(
