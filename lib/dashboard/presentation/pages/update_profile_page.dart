@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_area.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/dialogs/custom_dialog.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_scaffold.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/dashboard/domain/params/update_user_detail.dart';
 import 'package:timberland_biketrail/dashboard/presentation/bloc/profile_bloc.dart';
+import 'package:timberland_biketrail/dashboard/presentation/widgets/discard_update_dialog.dart';
 import 'package:timberland_biketrail/dashboard/presentation/widgets/update_profile_form.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
 
@@ -87,84 +87,13 @@ class UpdateProfilePage extends StatelessWidget {
       showDialog(
         context: context,
         builder: (ctx) {
-          return CustomDialog(
-            content: Padding(
-              padding: const EdgeInsets.only(
-                top: kVerticalPadding,
-                left: kVerticalPadding,
-                right: kVerticalPadding,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: kHorizontalPadding,
-                      vertical: kVerticalPadding,
-                    ),
-                    child: Text(
-                      "Discard profile updates?",
-                      style: Theme.of(context).textTheme.bodyLarge,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        top: BorderSide(
-                          color: Theme.of(context).disabledColor,
-                        ),
-                      ),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.pop(ctx);
-                            },
-                            child: const Text(
-                              'Cancel',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 30,
-                          child: VerticalDivider(
-                            thickness: 1.5,
-                            color: Theme.of(context).disabledColor,
-                          ),
-                        ),
-                        Expanded(
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.pop(ctx, true);
-                              BlocProvider.of<ProfileBloc>(context)
-                                  .add(const CancelUpdateRequest());
-                            },
-                            child: const Text(
-                              'Discard',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          return const DiscardUpdatesDialog(
+            promptMessage: 'Discard profile updates?',
           );
         },
       ).then(
         (value) {
-          if (value) {
+          if (value is bool && value) {
             Navigator.pop(context);
           }
         },
