@@ -2,6 +2,7 @@
 import 'dart:developer';
 
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,6 +32,8 @@ class _EmergencyPageState extends State<EmergencyPage>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   bool muted = false;
+  bool remoteUserJoined = false;
+  String status = 'Connecting...';
 
   late RtcEngine _engine;
   @override
@@ -93,6 +96,9 @@ class _EmergencyPageState extends State<EmergencyPage>
         FlutterRingtonePlayer.stop();
       },
       onJoinChannelSuccess: (connection, elapsed) {
+        setState(() {
+          status = 'Calling...';
+        });
         FlutterRingtonePlayer.play(
           android: AndroidSounds.ringtone,
           ios: IosSounds.alarm,
@@ -113,6 +119,9 @@ class _EmergencyPageState extends State<EmergencyPage>
         FlutterRingtonePlayer.stop();
       },
       onUserJoined: (connection, uid, elapsed) {
+        setState(() {
+          remoteUserJoined = true;
+        });
         Vibration.cancel();
         FlutterRingtonePlayer.stop();
       },
@@ -164,33 +173,43 @@ class _EmergencyPageState extends State<EmergencyPage>
                 children: [
                   SizedBox(
                     height: 300,
-                    child: AnimatedBuilder(
-                      animation: CurvedAnimation(
-                          parent: _controller,
-                          curve: Curves.fastLinearToSlowEaseIn),
-                      builder: (context, child) {
-                        return Stack(
-                          alignment: Alignment.center,
-                          children: <Widget>[
-                            // _buildContainer(50 * (1 + _controller.value)),
-                            _buildContainer(100 * (1 + _controller.value)),
-                            _buildContainer(120 * (1 + _controller.value)),
-                            Container(
-                              decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: TimberlandColor.secondaryColor),
-                              padding: const EdgeInsets.all(kHorizontalPadding),
-                              child: const Image(
-                                image: AssetImage(
-                                    'assets/icons/emergency-icon.png'),
-                                height: 64,
-                                width: 64,
-                              ),
+                    child: remoteUserJoined
+                        ? AnimatedBuilder(
+                            animation: CurvedAnimation(
+                                parent: _controller,
+                                curve: Curves.fastLinearToSlowEaseIn),
+                            builder: (context, child) {
+                              return Stack(
+                                alignment: Alignment.center,
+                                children: <Widget>[
+                                  _buildContainer(
+                                      100 * (1 + _controller.value)),
+                                  _buildContainer(
+                                      120 * (1 + _controller.value)),
+                                  Container(
+                                    decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: TimberlandColor.secondaryColor),
+                                    padding: const EdgeInsets.all(
+                                        kHorizontalPadding),
+                                    child: const Image(
+                                      image: AssetImage(
+                                          'assets/icons/emergency-icon.png'),
+                                      height: 64,
+                                      width: 64,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          )
+                        : Center(
+                            child: AutoSizeText(
+                              status,
+                              style: Theme.of(context).textTheme.displaySmall,
+                              maxLines: 1,
                             ),
-                          ],
-                        );
-                      },
-                    ),
+                          ),
                   ),
                   Text(
                     'After pressing the emergency button, we will contact our nearest admin station to your current location.',
