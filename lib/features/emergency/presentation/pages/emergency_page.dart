@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:move_to_background/move_to_background.dart';
@@ -15,6 +14,7 @@ import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard.dart';
 import 'package:timberland_biketrail/dependency_injection/dependency_injection.dart';
+import 'package:timberland_biketrail/features/emergency/domain/entities/emergency_configs.dart';
 import 'package:timberland_biketrail/features/emergency/presentation/bloc/emergency_bloc.dart';
 import 'package:vibration/vibration.dart';
 
@@ -33,6 +33,7 @@ class _EmergencyPageState extends State<EmergencyPage>
   late AnimationController _controller;
   bool muted = false;
   bool remoteUserJoined = false;
+  int? remoteUID;
   String status = 'Connecting...';
 
   late RtcEngine _engine;
@@ -41,17 +42,21 @@ class _EmergencyPageState extends State<EmergencyPage>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1500),
-    )..repeat();
+      duration: const Duration(milliseconds: 240),
+    );
 
-    initialize().then((value) =>
-        SchedulerBinding.instance.addPostFrameCallback((timeStamp) async {
-          BlocProvider.of<EmergencyBloc>(context).add(
-            FetchEmergencyTokenEvent(
-              channelID: 'tmbt-emergency-${Session().currentUser!.id}',
-            ),
-          );
-        }));
+    initialize().then((value) {
+      final bloc = BlocProvider.of<EmergencyBloc>(context);
+      if (bloc.state is EmergencyTokenFetched) {
+        _joinChannel((bloc.state as EmergencyTokenFetched).configs);
+      } else {
+        bloc.add(
+          FetchEmergencyTokenEvent(
+            channelID: 'tmbt-emergency-${Session().currentUser!.id}',
+          ),
+        );
+      }
+    });
   }
 
   @override
@@ -80,17 +85,41 @@ class _EmergencyPageState extends State<EmergencyPage>
     ));
 
     _addAgoraEventHandlers();
-    await _engine.setAudioProfile(
+    _engine.setAudioProfile(
       profile: AudioProfileType.audioProfileSpeechStandard,
       scenario: AudioScenarioType.audioScenarioMeeting,
     );
-    await _engine.setDefaultAudioRouteToSpeakerphone(true);
-    await _engine.disableVideo();
+    _engine.enableAudioVolumeIndication(
+      interval: 250,
+      smooth: 3,
+      reportVad: true,
+    );
+
+    _engine.setDefaultAudioRouteToSpeakerphone(true);
+    _engine.disableVideo();
+    return;
   }
 
   void _addAgoraEventHandlers() {
     _engine.registerEventHandler(RtcEngineEventHandler(
+      onAudioVolumeIndication:
+          (connection, speakers, speakerNumber, totalVolume) {
+        if (remoteUserJoined) {
+          for (AudioVolumeInfo e in speakers) {
+            if (e.uid == remoteUID && (e.volume ?? 0) > 100) {
+              _controller.forward().then((value) => _controller.reset());
+            }
+          }
+        }
+      },
       onError: (code, message) {
+        if (code == ErrorCodeType.errTokenExpired) {
+          BlocProvider.of<EmergencyBloc>(context).add(
+            FetchEmergencyTokenEvent(
+              channelID: 'tmbt-emergency-${Session().currentUser!.id}',
+            ),
+          );
+        }
         log("$code - $message");
         Vibration.cancel();
         FlutterRingtonePlayer.stop();
@@ -121,6 +150,7 @@ class _EmergencyPageState extends State<EmergencyPage>
       onUserJoined: (connection, uid, elapsed) {
         setState(() {
           remoteUserJoined = true;
+          remoteUID = uid;
         });
         Vibration.cancel();
         FlutterRingtonePlayer.stop();
@@ -136,6 +166,18 @@ class _EmergencyPageState extends State<EmergencyPage>
     ));
   }
 
+  void _joinChannel(EmergencyConfigs configs) {
+    _engine.joinChannel(
+      token: configs.token,
+      channelId: configs.channelID,
+      options: const ChannelMediaOptions(
+        clientRoleType: ClientRoleType.clientRoleBroadcaster,
+        autoSubscribeAudio: true,
+      ),
+      uid: configs.uid,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -144,17 +186,10 @@ class _EmergencyPageState extends State<EmergencyPage>
         return false;
       },
       child: BlocListener<EmergencyBloc, EmergencyState>(
-        listener: (context, state) async {
+        listener: (context, state) {
+          log(state.toString());
           if (state is EmergencyTokenFetched) {
-            await _engine.joinChannel(
-              token: state.configs.token,
-              channelId: state.configs.channelID,
-              options: const ChannelMediaOptions(
-                clientRoleType: ClientRoleType.clientRoleBroadcaster,
-                autoSubscribeAudio: true,
-              ),
-              uid: state.configs.uid,
-            );
+            _joinChannel(state.configs);
           }
         },
         child: DecoratedSafeArea(

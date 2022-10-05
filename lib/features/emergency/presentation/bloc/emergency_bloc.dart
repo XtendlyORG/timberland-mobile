@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:timberland_biketrail/features/emergency/domain/entities/emergency_configs.dart';
@@ -16,8 +18,11 @@ class EmergencyBloc extends Bloc<EmergencyEvent, EmergencyState> {
       final result = await repository.fetchToken(event.channelID);
 
       result.fold(
-        (failure) {},
+        (failure) {
+          log('Emergency Bloc', error: failure.message);
+        },
         (emergencyConfigs) {
+          log(emergencyConfigs.token, name: 'Emergency Bloc');
           emit(EmergencyTokenFetched(configs: emergencyConfigs));
         },
       );

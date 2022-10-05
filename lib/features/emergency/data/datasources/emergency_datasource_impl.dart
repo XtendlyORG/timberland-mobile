@@ -34,7 +34,7 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
         );
       }
 
-      throw Exception('Failed to request a token');
+      throw const EmergencyException(message: 'Failed to request a token');
     });
   }
 
