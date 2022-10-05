@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_area.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/dialogs/custom_dialog.dart';
+import 'package:timberland_biketrail/dashboard/presentation/widgets/discard_update_dialog.dart';
 
 import '../../../core/constants/constants.dart';
 import '../../../core/presentation/widgets/filled_text_button.dart';
@@ -64,84 +64,13 @@ class UpdatePasswordPage extends StatelessWidget {
     showDialog(
       context: context,
       builder: (ctx) {
-        return CustomDialog(
-          content: Padding(
-            padding: const EdgeInsets.only(
-              top: kVerticalPadding,
-              left: kVerticalPadding,
-              right: kVerticalPadding,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: kHorizontalPadding,
-                    vertical: kVerticalPadding,
-                  ),
-                  child: Text(
-                    "Discard password updates?",
-                    style: Theme.of(context).textTheme.bodyLarge,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      top: BorderSide(
-                        color: Theme.of(context).disabledColor,
-                      ),
-                    ),
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pop(ctx);
-                          },
-                          child: const Text(
-                            'Cancel',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 30,
-                        child: VerticalDivider(
-                          thickness: 1.5,
-                          color: Theme.of(context).disabledColor,
-                        ),
-                      ),
-                      Expanded(
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pop(ctx, true);
-                            BlocProvider.of<ProfileBloc>(context)
-                                .add(const CancelUpdateRequest());
-                          },
-                          child: const Text(
-                            'Discard',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+        return const DiscardUpdatesDialog(
+          promptMessage: 'Discard password updates?',
         );
       },
     ).then(
       (value) {
-        if (value) {
+        if (value is bool && value) {
           Navigator.pop(context);
         }
       },

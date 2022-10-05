@@ -1,38 +1,39 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timberland_biketrail/core/constants/padding.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/dialogs/custom_dialog.dart';
+import 'package:timberland_biketrail/dashboard/presentation/bloc/profile_bloc.dart';
 
-import '../../../../core/constants/constants.dart';
-import '../../../../core/router/router.dart';
-import '../../../../core/themes/timberland_color.dart';
-
-class EmergencyDialog extends StatelessWidget {
-  const EmergencyDialog({Key? key}) : super(key: key);
+class DiscardUpdatesDialog extends StatelessWidget {
+  final String promptMessage;
+  const DiscardUpdatesDialog({
+    Key? key,
+    required this.promptMessage,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
-      alignment: const Alignment(0, .5),
-      content: Container(
-        constraints: const BoxConstraints(maxHeight: 200),
-        decoration: BoxDecoration(
-          gradient: TimberlandColor.linearGradient,
-        ),
+      content: Padding(
         padding: const EdgeInsets.only(
           top: kVerticalPadding,
           left: kVerticalPadding,
           right: kVerticalPadding,
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            const Spacer(),
-            Text(
-              'By pressing YES, the application will look into the nearest admin that will assist you for emergency purposes.',
-              style: Theme.of(context).textTheme.bodyLarge,
-              textAlign: TextAlign.center,
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: kVerticalPadding,
+              ),
+              child: Text(
+                promptMessage,
+                style: const TextStyle(fontWeight: FontWeight.normal),
+                textAlign: TextAlign.center,
+              ),
             ),
-            const Spacer(),
             Container(
               decoration: BoxDecoration(
                 border: Border(
@@ -43,7 +44,6 @@ class EmergencyDialog extends StatelessWidget {
               ),
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Expanded(
                     child: TextButton(
@@ -51,7 +51,7 @@ class EmergencyDialog extends StatelessWidget {
                         Navigator.pop(context);
                       },
                       child: const Text(
-                        'CANCEL',
+                        'Cancel',
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                         ),
@@ -68,11 +68,12 @@ class EmergencyDialog extends StatelessWidget {
                   Expanded(
                     child: TextButton(
                       onPressed: () {
-                        context.pushNamed(Routes.emergency.name);
-                        Navigator.pop(context);
+                        Navigator.pop(context, true);
+                        BlocProvider.of<ProfileBloc>(context)
+                            .add(const CancelUpdateRequest());
                       },
                       child: const Text(
-                        'YES',
+                        'Discard',
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                         ),

@@ -32,7 +32,7 @@ class BookingHistory extends History {
       mobileNumber: map['mobile_number'] as String,
       email: map['email'] as String,
       time: stringToTime(map['time']),
-      date: DateTime.parse(map['date'] as String),
+      date: DateTime.parse(map['date'] as String).toLocal(),
       status: _status[map['status'] as String] ?? BookingStatus.undefined,
     );
   }

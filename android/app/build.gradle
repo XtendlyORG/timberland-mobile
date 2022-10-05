@@ -33,6 +33,14 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+     packagingOptions {
+        exclude 'lib/arm64-v8a/libagora_dav1d_extensiokn.so'
+        exclude 'lib/arm64-v8a/libagora_segmentation_extension.so'
+        exclude 'lib/arm64-v8a/libagora_fd_extension.so'
+        exclude 'lib/armeabi-v7a/libagora_dav1d_extension.so'
+        exclude 'lib/armeabi-v7a/libagora_segmentation_extension.so'
+        exclude 'lib/armeabi-v7a/libagora_fd_extension.so'
+    }
 
     kotlinOptions {
         jvmTarget = '1.8'
@@ -51,6 +59,9 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        ndk {
+            abiFilters 'arm64-v8a', 'x86_64'
+        }
     }
 
     buildTypes {
