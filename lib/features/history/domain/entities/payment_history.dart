@@ -18,7 +18,7 @@ class PaymentHistory extends History {
       id: map['payment_id'] as String,
       status: _parseStatus(map['status'] as String),
       amount: double.tryParse(map['amount'] as String) ?? 0,
-      dateCreated: DateTime.parse(map['created_at'] as String),
+      dateCreated: DateTime.parse(map['created_at'] as String).toLocal(),
     );
   }
 
