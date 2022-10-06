@@ -60,15 +60,24 @@ void showToast(String message, {EasyLoadingToastPosition? toastPosition}) {
   );
 }
 
-void noNetworkToast(BuildContext context) {
-  showFloatingToast(
-    context,
-    "No Internet Connection",
+void noNetworkToast() {
+  EasyLoading.instance.infoWidget = const Icon(
+    Icons.signal_wifi_connected_no_internet_4_rounded,
+    color: Colors.white,
+    size: 48,
   );
+  EasyLoading.showInfo(
+    'No Internet Connection',
+  );
+  EasyLoading.instance.infoWidget = null;
 }
 
 void _easyLoading({required VoidCallback callback}) {
   EasyLoading.dismiss();
-  callback();
-  if (!InternetConnectivity().internetConnected) {}
+
+  if (!InternetConnectivity().internetConnected) {
+    noNetworkToast();
+  } else {
+    callback();
+  }
 }
