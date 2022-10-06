@@ -12,14 +12,21 @@ import 'package:timberland_biketrail/core/configs/environment_configs.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_area.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
-import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard.dart';
+import 'package:timberland_biketrail/core/utils/string_extensions.dart';
 import 'package:timberland_biketrail/dependency_injection/dependency_injection.dart';
 import 'package:timberland_biketrail/features/emergency/domain/entities/emergency_configs.dart';
 import 'package:timberland_biketrail/features/emergency/presentation/bloc/emergency_bloc.dart';
+import 'package:timberland_biketrail/features/emergency/presentation/widgets/animated_circular_splash.dart';
 import 'package:vibration/vibration.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/themes/timberland_color.dart';
+
+enum CallStatus {
+  initializing,
+  ringing,
+  connected;
+}
 
 class EmergencyPage extends StatefulWidget {
   const EmergencyPage({Key? key}) : super(key: key);
@@ -32,9 +39,14 @@ class _EmergencyPageState extends State<EmergencyPage>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   bool muted = false;
-  bool remoteUserJoined = false;
   int? remoteUID;
-  String status = 'Connecting...';
+  CallStatus status = CallStatus.initializing;
+  Widget callStatusIcon = const Icon(
+    Icons.call_end_rounded,
+    size: 64,
+    color: TimberlandColor.secondaryColor,
+    key: ValueKey(1),
+  );
 
   late RtcEngine _engine;
   @override
@@ -104,7 +116,7 @@ class _EmergencyPageState extends State<EmergencyPage>
     _engine.registerEventHandler(RtcEngineEventHandler(
       onAudioVolumeIndication:
           (connection, speakers, speakerNumber, totalVolume) {
-        if (remoteUserJoined) {
+        if (status == CallStatus.connected) {
           for (AudioVolumeInfo e in speakers) {
             if (e.uid == remoteUID && (e.volume ?? 0) > 100) {
               _controller.forward().then((value) => _controller.reset());
@@ -126,7 +138,13 @@ class _EmergencyPageState extends State<EmergencyPage>
       },
       onJoinChannelSuccess: (connection, elapsed) {
         setState(() {
-          status = 'Calling...';
+          status = CallStatus.ringing;
+          callStatusIcon = const Icon(
+            Icons.ring_volume_rounded,
+            size: 64,
+            color: TimberlandColor.secondaryColor,
+            key: ValueKey(2),
+          );
         });
         FlutterRingtonePlayer.play(
           android: AndroidSounds.ringtone,
@@ -149,8 +167,8 @@ class _EmergencyPageState extends State<EmergencyPage>
       },
       onUserJoined: (connection, uid, elapsed) {
         setState(() {
-          remoteUserJoined = true;
           remoteUID = uid;
+          status = CallStatus.connected;
         });
         Vibration.cancel();
         FlutterRingtonePlayer.stop();
@@ -187,7 +205,6 @@ class _EmergencyPageState extends State<EmergencyPage>
       },
       child: BlocListener<EmergencyBloc, EmergencyState>(
         listener: (context, state) {
-          log(state.toString());
           if (state is EmergencyTokenFetched) {
             _joinChannel(state.configs);
           }
@@ -197,9 +214,7 @@ class _EmergencyPageState extends State<EmergencyPage>
             titleText: "Emergency",
             extendBodyBehindAppbar: true,
             disableBackButton: true,
-            endDrawer: const Dashboard(
-              disableEmergency: true,
-            ),
+            showNavbar: false,
             index: 4,
             body: Padding(
               padding: const EdgeInsets.all(kHorizontalPadding),
@@ -208,19 +223,24 @@ class _EmergencyPageState extends State<EmergencyPage>
                 children: [
                   SizedBox(
                     height: 300,
-                    child: remoteUserJoined
+                    child: status == CallStatus.connected
                         ? AnimatedBuilder(
                             animation: CurvedAnimation(
-                                parent: _controller,
-                                curve: Curves.fastLinearToSlowEaseIn),
+                              parent: _controller,
+                              curve: Curves.linear,
+                            ),
                             builder: (context, child) {
                               return Stack(
                                 alignment: Alignment.center,
                                 children: <Widget>[
-                                  _buildContainer(
-                                      100 * (1 + _controller.value)),
-                                  _buildContainer(
-                                      120 * (1 + _controller.value)),
+                                  AnimatedCircularSplash(
+                                    controller: _controller,
+                                    radius: 100,
+                                  ),
+                                  AnimatedCircularSplash(
+                                    controller: _controller,
+                                    radius: 120,
+                                  ),
                                   Container(
                                     decoration: const BoxDecoration(
                                         shape: BoxShape.circle,
@@ -239,15 +259,33 @@ class _EmergencyPageState extends State<EmergencyPage>
                             },
                           )
                         : Center(
-                            child: AutoSizeText(
-                              status,
-                              style: Theme.of(context).textTheme.displaySmall,
-                              maxLines: 1,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                AnimatedSwitcher(
+                                  duration: const Duration(milliseconds: 250),
+                                  child: callStatusIcon,
+                                  transitionBuilder: (child, animation) {
+                                    return ScaleTransition(
+                                      scale: animation,
+                                      child: child,
+                                    );
+                                  },
+                                ),
+                                AutoSizeText(
+                                  '${status.name.toTitleCase()}...',
+                                  style:
+                                      Theme.of(context).textTheme.displaySmall,
+                                  maxLines: 1,
+                                ),
+                              ],
                             ),
                           ),
                   ),
                   Text(
-                    'After pressing the emergency button, we will contact our nearest admin station to your current location.',
+                    status == CallStatus.connected
+                        ? 'Incididunt cillum non aute non reprehenderit commodo tempor.\n(message when call status is connected)'
+                        : 'After pressing the emergency button, we will contact our nearest admin station to your current location.',
                     textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
@@ -255,7 +293,7 @@ class _EmergencyPageState extends State<EmergencyPage>
                         ?.copyWith(fontWeight: FontWeight.normal),
                   ),
                   const SizedBox(
-                    height: kHorizontalPadding,
+                    height: kVerticalPadding,
                   ),
                   SizedBox(
                     width: double.infinity,
@@ -264,37 +302,20 @@ class _EmergencyPageState extends State<EmergencyPage>
                         Navigator.pop(context);
                       },
                       style: TextButton.styleFrom(
-                        backgroundColor: Colors.red,
+                        backgroundColor: TimberlandColor.lightRed,
+                        foregroundColor: TimberlandColor.background,
                       ),
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: kVerticalPadding,
-                        ),
-                        child: Icon(
-                          Icons.call_end,
-                          color: TimberlandColor.background,
-                          size: 32,
-                        ),
+                      child: const Icon(
+                        Icons.call_end_rounded,
+                        size: 32,
                       ),
                     ),
-                  ),
+                  )
                 ],
               ),
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildContainer(double radius) {
-    return Container(
-      width: radius,
-      height: radius,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color:
-            TimberlandColor.secondaryColor.withOpacity(1 - _controller.value),
       ),
     );
   }
