@@ -31,21 +31,39 @@ void showSuccess(String message) {
   _easyLoading(callback: () => EasyLoading.showSuccess(message));
 }
 
-void showToast(String message) {
+void showFloatingToast(BuildContext context, String message) {
+  _easyLoading(callback: () {
+    ScaffoldMessenger.of(context)
+      ..clearSnackBars
+      ..showSnackBar(
+        SnackBar(
+          elevation: 2,
+          margin: const EdgeInsets.all(20),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+          backgroundColor: Colors.black.withOpacity(.9),
+          content: Text(
+            message,
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
+  });
+}
+
+void showToast(String message, {EasyLoadingToastPosition? toastPosition}) {
   _easyLoading(
     callback: () => EasyLoading.showToast(
       message,
-      toastPosition: EasyLoadingToastPosition.bottom,
+      toastPosition: toastPosition ?? EasyLoadingToastPosition.bottom,
     ),
   );
 }
 
-void noNetworkToast() {
-  EasyLoading.showToast(
+void noNetworkToast(BuildContext context) {
+  showFloatingToast(
+    context,
     "No Internet Connection",
-    duration: const Duration(days: 1),
-    dismissOnTap: false,
-    toastPosition: EasyLoadingToastPosition.bottom,
   );
 }
 

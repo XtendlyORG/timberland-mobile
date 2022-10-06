@@ -89,7 +89,7 @@ class _MyAppState extends State<MyApp> {
 
     if (!internetConnectivity.internetConnected) {
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        noNetworkToast();
+        noNetworkToast(context);
       });
     }
     internetConnectivity.addListener(() async {
@@ -97,7 +97,7 @@ class _MyAppState extends State<MyApp> {
           ? "Internet Connected"
           : "No Internet Connected");
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        _networkListener();
+        _networkListener(context);
       });
     });
 
@@ -115,11 +115,11 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  _networkListener() {
+  _networkListener(BuildContext context) {
     if (InternetConnectivity().internetConnected) {
-      EasyLoading.dismiss();
+      ScaffoldMessenger.of(context).clearSnackBars();
     } else {
-      noNetworkToast();
+      noNetworkToast(context);
     }
   }
 
