@@ -1,4 +1,9 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+
+import 'package:flutter/material.dart';
 import 'package:timberland_biketrail/features/app_infos/domain/entities/faq.dart';
+import 'package:timberland_biketrail/features/app_infos/presentation/widgets/faq_diamond_icon.dart';
+import 'package:timberland_biketrail/features/app_infos/presentation/widgets/faq_icon_wrapper.dart';
 
 const faqs = [
   FAQ(
@@ -11,26 +16,50 @@ const faqs = [
     subCategory: [
       FAQ(
         question: "GRADE 1 (EASIEST)",
+        icon: FaqIconWrapper(
+          shape: BoxShape.circle,
+          icon: Icon(
+            Icons.circle,
+            color: Colors.white,
+          ),
+        ),
         answer:
             "Also identified by a white circle\n\nSuitable for novice riders, families and others seeking an easy, relaxing cycling experience. Trails are smooth, with only gentle climbs and generally wide enough for side-by-side riding.",
       ),
       FAQ(
         question: "GRADE 2 (EASY)",
+        icon: FaqIconWrapper(
+          shape: BoxShape.circle,
+          icon: Icon(
+            Icons.circle,
+            color: Colors.green,
+          ),
+        ),
         answer:
             "Also identified by a green circle\n\nSuitable for most riders including beginners, occasional cyclists and families with limited cycling experience. A multi-geared bike with medium to wide knobbly tyres is recommended.\n\nTrails are usually wide and smooth with some gentle climbs. These trails are predictable, i.e. have no surprises.",
       ),
       FAQ(
         question: "GRADE 3 (INTERMEDIATE)",
+        icon: FaqIconWrapper(
+          icon: Icon(
+            Icons.square,
+            color: Colors.blue,
+          ),
+        ),
         answer:
             "Also identified with a light blue square\n\nSuitable for regular experienced cyclists with a good level of fitness and over 12 years old; children should be accompanied by an adult.\n\nTrails can be narrow and may include hills, rollable drop-offs and small water crossings. Trail surfaces are mainly firm but may include muddy or loose sections, and obstacles such as rocks or tree roots.",
       ),
       FAQ(
         question: "GRADE 4 (ADVANCED)",
+        icon: FaqDiamondIcon(
+          count: 1,
+        ),
         answer:
             "Also identified with a dark blue square\n\nSuitable for fit, experienced cyclists with excellent off-road skills and a high level of fitness. Not suitable for children.\n\nA quality, well-maintained, full-suspension mountain bike is recommended. Trails are likely to be challenging with steep climbs and descents, as well as drops.",
       ),
       FAQ(
         question: "GRADE 5 (EXPERT)",
+        icon: FaqDiamondIcon(count: 2),
         answer:
             "Also identified with a black diamond\n\nSuitable for fit, experienced cyclists with excellent off-road skills and a high level of fitness. Not suitable for children.\n\nA well-maintained, full-suspension mountain bike is recommended, features will be more technical and difficult than a Grade 4 trail. A full-face helmet and additional body protection is recommended.",
       ),
