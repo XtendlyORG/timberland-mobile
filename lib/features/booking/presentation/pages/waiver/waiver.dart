@@ -41,7 +41,7 @@ class _BookingWaiverState extends State<BookingWaiver> {
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start  ,
             children: [
               Container(
                 clipBehavior: Clip.hardEdge,
@@ -68,13 +68,13 @@ class _BookingWaiverState extends State<BookingWaiver> {
                   ),
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.symmetric(
+              Padding(
+                padding: const EdgeInsets.symmetric(
                   vertical: kVerticalPadding,
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CustomCheckbox(
@@ -83,7 +83,7 @@ class _BookingWaiverState extends State<BookingWaiver> {
                       },
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 4.5),
+                      padding: const EdgeInsets.only(top: 0),
                       child: Text(
                         'I agree with the nature and conditions ',
                         style: Theme.of(context).textTheme.labelLarge,
