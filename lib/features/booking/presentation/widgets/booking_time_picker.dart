@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
-
 import 'package:timberland_biketrail/core/presentation/widgets/time_picker.dart';
 import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
 
@@ -131,6 +130,7 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
       },
       decoration: InputDecoration(
         hintText: 'Choose Time',
+        contentPadding: const EdgeInsets.symmetric(vertical: kVerticalPadding, horizontal: 2),  
         prefixIcon: Icon(
           Icons.watch_later_outlined,
           color: Theme.of(context).primaryColor,
