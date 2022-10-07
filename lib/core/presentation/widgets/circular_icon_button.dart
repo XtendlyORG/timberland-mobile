@@ -18,9 +18,9 @@ class CircularIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: onTap,
-      icon: Container(
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
         height: size,
         width: size,
         clipBehavior: Clip.hardEdge,
@@ -32,8 +32,8 @@ class CircularIconButton extends StatelessWidget {
         child: assetImagePath != null
             ? Image(
                 image: AssetImage(assetImagePath!),
-                height: size / 2,
-                width: size / 2,
+                height: size * .75,
+                width: size * .75,
               )
             : icon!,
       ),
