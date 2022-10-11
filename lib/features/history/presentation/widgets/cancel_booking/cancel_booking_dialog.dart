@@ -1,10 +1,15 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 import '../../../../../core/constants/padding.dart';
 import '../../../../../core/themes/timberland_color.dart';
 
 class CancelBookingDialog extends StatelessWidget {
-  const CancelBookingDialog({Key? key}) : super(key: key);
+  final Widget content;
+  const CancelBookingDialog({
+    Key? key,
+    required this.content,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +20,6 @@ class CancelBookingDialog extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       contentPadding: EdgeInsets.zero,
       content: Container(
-        constraints: const BoxConstraints(maxHeight: 200),
         decoration: BoxDecoration(
           gradient: TimberlandColor.linearGradient,
         ),
@@ -26,18 +30,13 @@ class CancelBookingDialog extends StatelessWidget {
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            const Spacer(),
             Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-              child: Text(
-                'Are you sure, you want to cancel this booking?',
-                style: Theme.of(context).textTheme.titleSmall,
-                textAlign: TextAlign.center,
-              ),
+                  const EdgeInsets.symmetric(horizontal: kHorizontalPadding,vertical: kVerticalPadding),
+              child: content,
             ),
-            const Spacer(),
             Container(
               decoration: BoxDecoration(
                 border: Border(
@@ -53,7 +52,7 @@ class CancelBookingDialog extends StatelessWidget {
                   Expanded(
                     child: TextButton(
                       onPressed: () {
-                        Navigator.pop(context,true);
+                        Navigator.pop(context, true);
                       },
                       child: const Text('Yes'),
                     ),

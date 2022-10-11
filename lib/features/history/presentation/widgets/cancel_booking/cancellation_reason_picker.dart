@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:timberland_biketrail/features/history/presentation/bloc/history_bloc.dart';
+import 'package:timberland_biketrail/features/history/presentation/widgets/cancel_booking/cancel_booking_dialog.dart';
 import 'package:timberland_biketrail/features/history/presentation/widgets/inherited_booking.dart';
 
 import '../../../../../core/constants/padding.dart';
@@ -104,15 +104,40 @@ class _CancellationReasonPickerState extends State<CancellationReasonPicker> {
             ),
             child: FilledTextButton(
               onPressed: () {
-                textFieldEnabled ? reason = otherReasonCtrl.text : reason;
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return CancelBookingDialog(
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "When you cancel a booking, you will get a free pass that you can consume within four months.",
+                            style: Theme.of(context).textTheme.titleSmall,
+                            textAlign: TextAlign.center,
+                          ),
+                          Text(
+                            "Are you sure you want to cancel this booking?",
+                            style: Theme.of(context).textTheme.titleSmall,
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ).then((value) {
+                  if (value is bool && value) {
+                    textFieldEnabled ? reason = otherReasonCtrl.text : reason;
 
-                BlocProvider.of<HistoryBloc>(context).add(
-                  CancelBookingEvent(
-                    bookingId: InheritedBooking.of(context).booking.id,
-                    reason: reason ?? "Not Specified",
-                  ),
-                );
-                Navigator.pop(context);
+                    BlocProvider.of<HistoryBloc>(context).add(
+                      CancelBookingEvent(
+                        bookingId: InheritedBooking.of(context).booking.id,
+                        reason: reason ?? "Not Specified",
+                      ),
+                    );
+                  }
+                  Navigator.pop(context);
+                });
               },
               child: const Text(
                 'Confirm',
