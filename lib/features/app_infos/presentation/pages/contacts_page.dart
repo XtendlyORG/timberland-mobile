@@ -47,7 +47,7 @@ class ContactsPage extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       launchUrl(
-                        Uri.parse('https://www.facebook.com/'),
+                        Uri.parse('https://www.facebook.com/ridetimberland.ph'),
                         mode: LaunchMode.externalApplication,
                       );
                     },
@@ -60,7 +60,7 @@ class ContactsPage extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       launchUrl(
-                        Uri.parse('https://www.twitter.com/'),
+                        Uri.parse('https://www.twitter.com/ridetimberland.ph'),
                         mode: LaunchMode.externalApplication,
                       );
                     },
@@ -73,7 +73,7 @@ class ContactsPage extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       launchUrl(
-                        Uri.parse('https://www.youtube.com/'),
+                        Uri.parse('https://www.instagram.com/ridetimberland.ph'),
                         mode: LaunchMode.externalApplication,
                       );
                     },
