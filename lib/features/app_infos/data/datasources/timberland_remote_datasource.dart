@@ -67,8 +67,8 @@ class TimberlandRemoteDatasource implements AppInfoDataSource {
   }
 
   @override
-  Future<void> sendInquiry(Inquiry inquiry) async {
-    try {
+  Future<void> sendInquiry(Inquiry inquiry) {
+    return this(callback: () async {
       final response = await dioClient.post(
         '${environmentConfig.apihost}/members/contacts',
         data: inquiry.toJson(),
@@ -78,6 +78,32 @@ class TimberlandRemoteDatasource implements AppInfoDataSource {
         return;
       }
       throw const AppInfoException(message: "Server Error");
+    });
+  }
+
+  Future<ReturnType> call<ReturnType>({
+    required Future<ReturnType> Function() callback,
+  }) async {
+    try {
+      return await callback();
+    } on DioError catch (dioError) {
+      log(dioError.response?.statusCode?.toString() ?? 'statuscode: -1');
+      log(dioError.response?.data.toString() ?? "no message");
+
+      if ((dioError.response?.statusCode ?? -1) == 400) {
+        throw AppInfoException(
+          message:
+              dioError.response?.data.toString() ?? 'Something went wrong..',
+        );
+      } else if ((dioError.response?.statusCode ?? -1) == 502) {
+        log(dioError.response?.data?.toString() ?? "No error message: 502");
+        throw const AppInfoException(
+          message: 'Internal Server Error',
+        );
+      }
+      throw const AppInfoException(
+        message: "Error Occurred",
+      );
     } on AppInfoException {
       rethrow;
     } catch (e) {
