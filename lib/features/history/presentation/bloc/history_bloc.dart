@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: public_member_api_docs, sort_constructors_first, depend_on_referenced_packages
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -13,9 +13,6 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
   HistoryBloc({
     required this.repository,
   }) : super(HistoryInitial()) {
-    on<HistoryEvent>((event, emit) {
-      // TODO: implement event handler
-    });
     on<FetchBookingHistory>((event, emit) async {
       emit(const LoadingHistory(loadingMessage: 'Loading Bookings...'));
       final result = await repository.fetchBookingHistory();

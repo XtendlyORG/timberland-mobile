@@ -323,7 +323,7 @@ class _BookingFormState extends State<BookingForm> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(
-                  height: kVerticalPadding,
+                  height: kVerticalPadding + 5,
                 ),
                 Container(
                   decoration: BoxDecoration(
@@ -333,7 +333,7 @@ class _BookingFormState extends State<BookingForm> {
                       ),
                     ),
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  padding: const EdgeInsets.symmetric(vertical: 5),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -343,7 +343,12 @@ class _BookingFormState extends State<BookingForm> {
                             onPressed: () {
                               Navigator.pop(context);
                             },
-                            child: const Text('CANCEL'),
+                            child: const Text(
+                              'CANCEL',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                           ),
                         ),
                         SizedBox(
@@ -359,7 +364,12 @@ class _BookingFormState extends State<BookingForm> {
                           onPressed: () {
                             Navigator.pop(context, true);
                           },
-                          child: const Text('OKAY'),
+                          child: const Text(
+                            'OKAY',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
                       ),
                     ],

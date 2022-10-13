@@ -351,7 +351,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
                     if (!agreedToTermsOfUse) {
-                      showToast('Terms of Use not accepted');
+                      showFloatingToast(context, 'Terms of Use not accepted');
                       return;
                     }
                     if (!imageReady) {

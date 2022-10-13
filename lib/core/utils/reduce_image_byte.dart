@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+// ignore: depend_on_referenced_packages
 import 'package:image/image.dart' as img;
 
 Future<List<int>> reduceImageByte(

@@ -53,5 +53,9 @@
 		<string>Allow access to photo library to upload a photo</string>
 		<key>NSMicrophoneUsageDescription </key>
 		<string>Allow access to microphone to use emergency feature</string>
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>audio</string>
+		</array>
 	</dict>
 </plist>

@@ -9,6 +9,7 @@ import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/app_infos/presentation/bloc/app_info_bloc.dart';
 import 'package:timberland_biketrail/features/app_infos/presentation/widgets/contact_form.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactsPage extends StatelessWidget {
   const ContactsPage({
@@ -36,13 +37,62 @@ class ContactsPage extends StatelessWidget {
           titleText: 'Contact Us',
           extendBodyBehindAppbar: true,
           showNavbar: Session().isLoggedIn,
-          body: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: kHorizontalPadding,
-              vertical: kVerticalPadding * 3,
-            ),
-            constraints: const BoxConstraints(maxWidth: kMaxWidthMobile),
-            child: const ContactsPageForm(),
+          body: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: kVerticalPadding),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      launchUrl(
+                        Uri.parse('https://www.facebook.com/ridetimberland.ph'),
+                        mode: LaunchMode.externalApplication,
+                      );
+                    },
+                    child: Image.asset(
+                      'assets/icons/facebook-icon.png',
+                      scale: 2,
+                    ),
+                  ),
+                  const SizedBox(width: kVerticalPadding),
+                  GestureDetector(
+                    onTap: () {
+                      launchUrl(
+                        Uri.parse('https://www.twitter.com/ridetimberland.ph'),
+                        mode: LaunchMode.externalApplication,
+                      );
+                    },
+                    child: Image.asset(
+                      'assets/icons/twitter-icon.png',
+                      scale: 2,
+                    ),
+                  ),
+                  const SizedBox(width: kVerticalPadding),
+                  GestureDetector(
+                    onTap: () {
+                      launchUrl(
+                        Uri.parse('https://www.instagram.com/ridetimberland.ph'),
+                        mode: LaunchMode.externalApplication,
+                      );
+                    },
+                    child: Image.asset(
+                      'assets/icons/youtube-icon.png',
+                      scale: 2,
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                constraints: const BoxConstraints(maxWidth: kMaxWidthMobile),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: kHorizontalPadding,
+                  vertical: kHorizontalPadding,
+                ),
+                child: const ContactsPageForm(),
+              ),
+            ],
           ),
         ),
       ),

@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -6,9 +8,9 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
 
 import '../../../../core/constants/constants.dart';
-import '../../../../core/presentation/widgets/state_indicators/state_indicators.dart';
 import '../../../../core/presentation/widgets/widgets.dart';
 import '../../../../core/themes/timberland_color.dart';
 import '../../../../core/utils/reduce_image_byte.dart';
@@ -32,11 +34,16 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
   final nameCtrl = TextEditingController();
   final emailCtrl = TextEditingController();
   final messageCtrl = TextEditingController();
-  final imageCtrl = TextEditingController();
+  // final imagesCtrls = [
+  //   TextEditingController(text: null),
+  //   TextEditingController(text: null),
+  //   TextEditingController(text: null)
+  // ];
+  // List<File> imageFiles = [];
+  List<ImageConfig> imageConfigs = [];
   String? selectedSubject;
-  File? imageFile;
-  bool imageReady = true;
-  bool didCancelImageUpload = false;
+  bool imagesReady = true;
+  // bool didCancelImageUpload = false;
 
   @override
   void initState() {
@@ -132,18 +139,18 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
                   alignment: Alignment.centerRight,
                   child: PopupMenuButton(
                     padding: EdgeInsets.zero,
-                    enabled: imageFile == null,
+                    enabled: imageConfigs.length < 3,
                     icon: const Icon(
                       Icons.attach_file,
                     ),
                     onSelected: (_) {
-                      didCancelImageUpload = false;
+                      // didCancelImageUpload = false;
                       showImagePicker(context);
                     },
                     itemBuilder: (ctx) {
                       return [
                         PopupMenuItem(
-                          enabled: imageFile == null,
+                          enabled: imageConfigs.length < 3,
                           value: '',
                           child: const Text('Attach Image'),
                         ),
@@ -154,45 +161,53 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
               ],
             ),
           ),
-          if (imageFile != null)
+          if (imageConfigs.isNotEmpty)
             Padding(
               padding: const EdgeInsets.only(top: kVerticalPadding),
-              child: ExcludeFocus(
-                child: TextFormField(
-                  controller: imageCtrl,
-                  enableInteractiveSelection: false,
-                  decoration: InputDecoration(
-                    prefixIcon: imageReady
-                        ? const Icon(
-                            Icons.image_outlined,
-                            size: 24,
-                            color: TimberlandColor.primary,
-                          )
-                        : const SizedBox(
-                            height: 16,
-                            width: 16,
-                            child: Padding(
-                              padding: EdgeInsets.all(15),
-                              child: CircularProgressIndicator.adaptive(
-                                strokeWidth: 2,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: imageConfigs
+                    .map(
+                      (image) => ExcludeFocus(
+                        child: TextFormField(
+                          controller: image.ctrl,
+                          enableInteractiveSelection: false,
+                          decoration: InputDecoration(
+                            prefixIcon: image.imageReady
+                                ? const Icon(
+                                    Icons.image_outlined,
+                                    size: 24,
+                                    color: TimberlandColor.primary,
+                                  )
+                                : const SizedBox(
+                                    height: 16,
+                                    width: 16,
+                                    child: Padding(
+                                      padding: EdgeInsets.all(15),
+                                      child: CircularProgressIndicator.adaptive(
+                                        strokeWidth: 2,
+                                      ),
+                                    ),
+                                  ),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                imageConfigs.remove(image);
+                                // didCancelImageUpload = true;
+                                if (imageConfigs.isEmpty) {
+                                  imagesReady = true;
+                                }
+                                setState(() {});
+                              },
+                              icon: const Icon(
+                                Icons.close,
+                                color: TimberlandColor.text,
                               ),
                             ),
                           ),
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        imageFile = null;
-                        imageCtrl.clear();
-                        didCancelImageUpload = true;
-                        imageReady = true;
-                        setState(() {});
-                      },
-                      icon: const Icon(
-                        Icons.close,
-                        color: TimberlandColor.text,
+                        ),
                       ),
-                    ),
-                  ),
-                ),
+                    )
+                    .toList(),
               ),
             ),
           const SizedBox(
@@ -202,7 +217,7 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
             width: double.infinity,
             constraints: const BoxConstraints(maxWidth: kMaxWidthMobile),
             child: FilledTextButton(
-              onPressed: imageReady
+              onPressed: imagesReady
                   ? () {
                       if (formKey.currentState!.validate()) {
                         BlocProvider.of<AppInfoBloc>(context).add(
@@ -239,32 +254,46 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
       ),
       builder: (context) {
         void chooseFrom({required ImageSource source}) async {
-          XFile? image = await ImagePicker().pickImage(
-            source: source,
-          );
-          if (image != null) {
-            imageCtrl.text = image.name;
-            imageFile = File(image.path);
-            imageReady = false;
-            setState(() {});
-            List<int> reducedImageByte = await compute(
-              reduceImageByte,
-              imageFile!.readAsBytesSync(),
-            ).whenComplete(
-              () {
-                if (!didCancelImageUpload) {
-                  imageReady = true;
-                  EasyLoading.dismiss();
-                  showToast('Image is ready');
-                  setState(() {});
-                }
-              },
+          List<XFile> images = [];
+          if (source == ImageSource.camera) {
+            final temp = await ImagePicker().pickImage(source: source);
+            images.addAll([if (temp != null) temp]);
+          } else {
+            images.addAll(
+                await ImagePicker().pickMultiImage(imageQuality: 10) ?? []);
+          }
+
+          if (images.length + imageConfigs.length > 3) {
+            showError("You can only choose up to 3 images,");
+            return;
+          }
+          log("message");
+
+          for (XFile element in images) {
+            imageConfigs.add(
+              ImageConfig(
+                imageFile: File(element.path),
+              )..ctrl.text = element.name,
             );
-            if (!didCancelImageUpload) {
-              imageFile = await File(image.path).writeAsBytes(
-                reducedImageByte,
-              );
-            }
+          }
+
+          imagesReady = false;
+          showLoading(
+            'Processing image/s...',
+          );
+          setState(() {});
+
+          for (ImageConfig imageConfig in imageConfigs) {
+            imageConfig.reduceImage(callback: () {
+              if (imageConfigs.contains(imageConfig)) {
+                setState(() {});
+              }
+              if (imageConfig == imageConfigs.last) {
+                EasyLoading.dismiss();
+                showToast('Image/s are ready');
+                imagesReady = true;
+              }
+            });
           }
         }
 
@@ -273,5 +302,32 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
         );
       },
     );
+  }
+}
+
+class ImageConfig {
+  final TextEditingController ctrl = TextEditingController();
+  bool imageReady = false;
+  File? imageFile;
+  ImageConfig({
+    this.imageFile,
+  });
+
+  reduceImage({
+    required VoidCallback callback,
+  }) async {
+    List<int> reducedImageByte = await compute(
+      reduceImageByte,
+      imageFile!.readAsBytesSync(),
+    ).whenComplete(
+      () {
+        imageReady = true;
+      },
+    );
+    imageFile = await File(imageFile!.path).writeAsBytes(
+      reducedImageByte,
+    );
+
+    callback();
   }
 }

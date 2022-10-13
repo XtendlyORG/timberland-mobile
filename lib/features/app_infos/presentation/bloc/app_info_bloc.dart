@@ -16,9 +16,6 @@ class AppInfoBloc extends Bloc<AppInfoEvent, AppInfoState> {
   AppInfoBloc({
     required this.repository,
   }) : super(AppInfoInitial()) {
-    on<AppInfoEvent>((event, emit) {
-      // TODO: implement event handler
-    });
     // on<FetchTrailRulesEvent>((event, emit) async {
     //   emit(const LoadingTrailRules());
     //   final result = await repository.fetchTrailRules();

@@ -65,7 +65,6 @@ class OTPToUpdateSent extends ProfileState {
   });
 
   @override
-  // TODO: implement props
   List<Object> get props => super.props
     ..addAll([
       email,

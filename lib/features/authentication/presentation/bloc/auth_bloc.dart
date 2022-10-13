@@ -22,10 +22,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({
     required this.repository,
   }) : super(const UnAuthenticated()) {
-    on<AuthEvent>((event, emit) {
-      // TODO: implement event handler
-    });
-
     on<FetchUserEvent>((event, emit) async {
       emit(
         const AuthLoading(loadingMessage: "Logging in to your account."),

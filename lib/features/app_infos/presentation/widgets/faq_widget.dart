@@ -64,6 +64,7 @@ class _FAQWidgetState extends State<FAQWidget> with TickerProviderStateMixin {
             overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.titleSmall,
           ),
+          leading: widget.faq.icon,
           trailing: FAQTrailing(
             angle: _angle,
           ),

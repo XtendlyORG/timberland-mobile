@@ -31,26 +31,53 @@ void showSuccess(String message) {
   _easyLoading(callback: () => EasyLoading.showSuccess(message));
 }
 
-void showToast(String message) {
+void showFloatingToast(BuildContext context, String message) {
+  _easyLoading(callback: () {
+    ScaffoldMessenger.of(context)
+      ..clearSnackBars
+      ..showSnackBar(
+        SnackBar(
+          elevation: 2,
+          margin: const EdgeInsets.all(20),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+          backgroundColor: Colors.black.withOpacity(.9),
+          content: Text(
+            message,
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
+  });
+}
+
+void showToast(String message, {EasyLoadingToastPosition? toastPosition}) {
   _easyLoading(
     callback: () => EasyLoading.showToast(
       message,
-      toastPosition: EasyLoadingToastPosition.bottom,
+      toastPosition: toastPosition ?? EasyLoadingToastPosition.bottom,
     ),
   );
 }
 
 void noNetworkToast() {
-  EasyLoading.showToast(
-    "No Internet Connection",
-    duration: const Duration(days: 1),
-    dismissOnTap: false,
-    toastPosition: EasyLoadingToastPosition.bottom,
+  EasyLoading.instance.infoWidget = const Icon(
+    Icons.signal_wifi_connected_no_internet_4_rounded,
+    color: Colors.white,
+    size: 48,
   );
+  EasyLoading.showInfo(
+    'No Internet Connection',
+  );
+  EasyLoading.instance.infoWidget = null;
 }
 
 void _easyLoading({required VoidCallback callback}) {
   EasyLoading.dismiss();
-  callback();
-  if (!InternetConnectivity().internetConnected) {}
+
+  if (!InternetConnectivity().internetConnected) {
+    noNetworkToast();
+  } else {
+    callback();
+  }
 }

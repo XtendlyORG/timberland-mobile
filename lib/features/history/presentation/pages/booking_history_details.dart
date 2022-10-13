@@ -168,8 +168,8 @@ class BookingHistoryDetails extends StatelessWidget {
                                 cancelButtonHandler(context);
                               },
                         child: const Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: kVerticalPadding),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: kVerticalPadding),
                           child: Text('Cancel Booking'),
                         ),
                       ),
@@ -223,7 +223,13 @@ class BookingHistoryDetails extends StatelessWidget {
     showDialog(
       context: context,
       builder: (ctx) {
-        return const CancelBookingDialog();
+        return CancelBookingDialog(
+          content: Text(
+            'Are you sure, you want to cancel this booking?',
+            style: Theme.of(context).textTheme.titleSmall,
+            textAlign: TextAlign.center,
+          ),
+        );
       },
     ).then((value) {
       if (value is bool && value) {
