@@ -3,13 +3,12 @@ part of 'emergency_bloc.dart';
 
 abstract class EmergencyState extends Equatable {
   const EmergencyState();
-  
+
   @override
   List<Object> get props => [];
 }
 
 class EmergencyInitial extends EmergencyState {}
-
 
 class EmergencyTokenFetched extends EmergencyState {
   final EmergencyConfigs configs;
@@ -17,6 +16,5 @@ class EmergencyTokenFetched extends EmergencyState {
     required this.configs,
   });
   @override
-  // TODO: implement props
-  List<Object> get props => super.props..addAll([configs,DateTime.now()]);
+  List<Object> get props => super.props..addAll([configs, DateTime.now()]);
 }

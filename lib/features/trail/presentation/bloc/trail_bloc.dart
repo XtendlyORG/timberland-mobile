@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: public_member_api_docs, sort_constructors_first, depend_on_referenced_packages
 
 import 'dart:io';
 
@@ -19,10 +19,6 @@ class TrailBloc extends Bloc<TrailEvent, TrailState> {
   TrailBloc({
     required this.repository,
   }) : super(TrailInitial()) {
-    on<TrailEvent>((event, emit) {
-      // TODO: implement event handler
-    });
-
     on<FetchTrailsEvent>((event, emit) async {
       if (!InternetConnectivity().internetConnected) {
         return;
