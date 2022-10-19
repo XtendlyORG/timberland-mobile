@@ -90,6 +90,10 @@ enum Routes {
   ),
   rules(path: '/rules', name: 'rules'),
   contacts(path: '/contacts', name: 'contacts'),
+  contactSuccess(
+    path: '/inquiry-sent',
+    name: 'inquirey-sent',
+  ),
   faqs(path: '/faqs', name: 'faqs'),
   emergency(path: '/emergency', name: 'emergency');
 

@@ -10,6 +10,7 @@ import 'package:timberland_biketrail/core/presentation/widgets/inherited_widgets
 import 'package:timberland_biketrail/dashboard/presentation/pages/update_email.dart';
 import 'package:timberland_biketrail/dashboard/presentation/pages/update_password.dart';
 import 'package:timberland_biketrail/dashboard/presentation/pages/verify_otp_update_page.dart';
+import 'package:timberland_biketrail/features/app_infos/presentation/widgets/contact_us_success.dart';
 import 'package:timberland_biketrail/features/authentication/domain/params/register.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/pages/registration_continuation_page.dart';
@@ -733,6 +734,26 @@ final appRouter = GoRouter(
           },
         );
       },
+      routes: [
+        GoRoute(
+          path: Routes.contactSuccess.asSubPath(),
+          name: Routes.contactSuccess.name,
+          pageBuilder: (context, routeState) {
+            return CustomTransitionPage(
+              key: routeState.pageKey,
+              restorationId: routeState.pageKey.value,
+              child: const ContactUsThankyouPage(),
+              transitionDuration: const Duration(milliseconds: 500),
+              transitionsBuilder: (context, animation, secondaryAnim, child) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              },
+            );
+          },
+        ),
+      ],
     ),
     GoRoute(
       path: Routes.emergency.path,
