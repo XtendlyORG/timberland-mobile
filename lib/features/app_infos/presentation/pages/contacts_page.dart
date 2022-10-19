@@ -78,7 +78,7 @@ class ContactsPage extends StatelessWidget {
                       );
                     },
                     child: Image.asset(
-                      'assets/icons/youtube-icon.png',
+                      'assets/icons/instagram-icon.png',
                       scale: 2,
                     ),
                   ),
