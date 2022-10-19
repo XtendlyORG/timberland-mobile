@@ -53,7 +53,7 @@ class TrailMap extends StatelessWidget {
                     padding: const EdgeInsets.only(
                         top: kToolbarHeight, right: kVerticalPadding),
                     child: Hero(
-                      tag: 'trail-map-legends',
+                      tag: 'trail-map-readme',
                       child: GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -63,18 +63,17 @@ class TrailMap extends StatelessWidget {
                               builder: (context) {
                                 return const ExpandedImage(
                                   imageProvider: AssetImage(
-                                    'assets/images/trail-map-legends.png',
+                                    'assets/images/trail-map-readme.png',
                                   ),
-                                  tag: 'trail-map-legends',
+                                  tag: 'trail-map-readme',
                                 );
                               },
                             ),
                           );
                         },
                         child: Image.asset(
-                          'assets/images/trail-map-legends.png',
-                          height: 100,
-                          width: 180,
+                          'assets/images/trail-map-readme.png',
+                          height: 150,
                         ),
                       ),
                     ),
@@ -99,17 +98,62 @@ class TrailMap extends StatelessWidget {
                     padding: const EdgeInsets.only(
                         bottom: kToolbarHeight, left: kVerticalPadding),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Image.asset(
-                          'assets/images/trail-map-footer-2.png',
-                          scale: 1.5,
-                        ),
-                        const SizedBox(
-                          width: kVerticalPadding,
-                        ),
-                        Image.asset(
-                          'assets/images/trail-map-footer-1.png',
-                          scale: 1.5,
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Hero(
+                              tag: 'trail-map-legends',
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      fullscreenDialog: true,
+                                      builder: (context) {
+                                        return const ExpandedImage(
+                                          imageProvider: AssetImage(
+                                            'assets/images/trail-map-legends.png',
+                                          ),
+                                          tag: 'trail-map-legends',
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: Image.asset(
+                                  'assets/images/trail-map-legends.png',
+                                  scale: 3.5,
+                                ),
+                              ),
+                            ),
+                            Hero(
+                              tag: 'trail-map-symbols',
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      fullscreenDialog: true,
+                                      builder: (context) {
+                                        return const ExpandedImage(
+                                          imageProvider: AssetImage(
+                                            'assets/images/trail-map-symbols.png',
+                                          ),
+                                          tag: 'trail-map-symbols',
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: Image.asset(
+                                  'assets/images/trail-map-symbols.png',
+                                  scale: 3.5,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                         const Spacer(),
                         IconButton(
