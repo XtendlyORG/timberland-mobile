@@ -31,7 +31,8 @@ void showSuccess(String message) {
   _easyLoading(callback: () => EasyLoading.showSuccess(message));
 }
 
-void showFloatingToast(BuildContext context, String message) {
+void showFloatingToast(BuildContext context, String message,
+    {Duration? duration}) {
   _easyLoading(callback: () {
     ScaffoldMessenger.of(context)
       ..clearSnackBars
@@ -42,6 +43,7 @@ void showFloatingToast(BuildContext context, String message) {
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           backgroundColor: Colors.black.withOpacity(.9),
+          duration: duration ?? const Duration(seconds: 4),
           content: Text(
             message,
             textAlign: TextAlign.center,
