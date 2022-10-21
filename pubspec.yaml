@@ -67,6 +67,7 @@ dependencies:
   flutter_ringtone_player: ^3.2.0
   vibration: ^1.7.6
   url_launcher: ^6.1.6
+  video_player: ^2.4.7
 
 dev_dependencies:
   flutter_test:
