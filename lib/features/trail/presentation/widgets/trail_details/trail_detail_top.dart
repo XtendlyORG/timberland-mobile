@@ -1,9 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
+import 'package:video_player/video_player.dart';
 
 import '../../../../../core/constants/constants.dart';
-import '../../../../../core/presentation/widgets/expanded_image.dart';
 import '../../../../../core/presentation/widgets/inherited_widgets/inherited_trail.dart';
 import '../../../domain/entities/trail.dart';
 
@@ -15,35 +15,44 @@ class TrailDetailTop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Trail trail = InheritedTrail.of(context).trail!;
+
+    final isVideo = trail.mapImageUrl.split('.').last == 'mp4';
     return Stack(
       children: [
         Hero(
           tag: trail.trailId,
           child: GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return ExpandedImage(
-                      imageProvider: CachedNetworkImageProvider(
-                        trail.mapImageUrl,
-                      ),
-                      tag: trail.trailId,
-                    );
-                  },
-                ),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) {
+              //       return ExpandedImage(
+              //         imageProvider: CachedNetworkImageProvider(
+              //           trail.mapImageUrl,
+              //         ),
+              //         tag: trail.trailId,
+              //       );
+              //     },
+              //   ),
+              // );
             },
             child: Container(
               height: 300,
               decoration: BoxDecoration(
                 color: TimberlandColor.lightBlue,
-                image: DecorationImage(
-                  image: NetworkImage(trail.mapImageUrl),
-                  fit: BoxFit.fill,
-                ),
+                image: isVideo
+                    ? null
+                    : DecorationImage(
+                        image: NetworkImage(trail.mapImageUrl),
+                        fit: BoxFit.fill,
+                      ),
               ),
+              child: isVideo
+                  ? TrailVideo(
+                      url: trail.mapImageUrl,
+                    )
+                  : null,
             ),
           ),
         ),
@@ -85,5 +94,46 @@ class TrailDetailTop extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class TrailVideo extends StatefulWidget {
+  final String url;
+  const TrailVideo({
+    Key? key,
+    required this.url,
+  }) : super(key: key);
+
+  @override
+  State<TrailVideo> createState() => _TrailVideoState();
+}
+
+class _TrailVideoState extends State<TrailVideo> {
+  late VideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = VideoPlayerController.network(widget.url)
+      ..initialize().then((_) {
+        setState(() {});
+        _controller.play();
+      });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _controller.value.isInitialized
+        ? VideoPlayer(
+            _controller,
+          )
+        : Container();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
   }
 }

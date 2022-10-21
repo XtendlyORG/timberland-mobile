@@ -26,7 +26,7 @@ class TrailModel extends Trail {
       distance: (map['distance'] as num?)?.toDouble() ?? 0,
       routeType: map['route_type'] as String,
       featureImageUrl: map['featured_image'] as String,
-      mapImageUrl: map['map_image'] as String,
+      mapImageUrl: map['trail_video'] as String,
       expectedDescription: map['expected'] as String?,
     );
   }
