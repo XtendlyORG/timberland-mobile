@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 
 class User extends Equatable {
   final String id;
+  final String prettierID;
   final String firstName;
   final String? middleName;
   final String lastName;
@@ -24,6 +25,7 @@ class User extends Equatable {
   final String accessCode;
   const User({
     required this.id,
+    required this.prettierID,
     required this.firstName,
     this.middleName,
     required this.lastName,
@@ -66,6 +68,7 @@ class User extends Equatable {
 
   User copyWith({
     String? id,
+    String? prettierID,
     String? firstName,
     String? middleName,
     String? lastName,
@@ -85,6 +88,7 @@ class User extends Equatable {
   }) {
     return User(
       id: id ?? this.id,
+      prettierID: prettierID ?? this.prettierID,
       firstName: firstName ?? this.firstName,
       middleName: middleName ?? this.middleName,
       lastName: lastName ?? this.lastName,
@@ -107,6 +111,7 @@ class User extends Equatable {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'member_id': int.parse(id),
+      'long_id': prettierID,
       'firstname': firstName,
       'middlename': middleName,
       'lastname': lastName,
