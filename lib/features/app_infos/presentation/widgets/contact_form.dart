@@ -227,6 +227,10 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
                               fullName: nameCtrl.text,
                               subject: selectedSubject!,
                               message: messageCtrl.text,
+                              images: imageConfigs
+                                  .where((imageConfig) => imageConfig.imageFile != null)
+                                  .map<File>((imageConfig) => imageConfig.imageFile!)
+                                  .toList(),
                             ),
                           ),
                         );

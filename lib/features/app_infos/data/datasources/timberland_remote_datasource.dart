@@ -69,9 +69,27 @@ class TimberlandRemoteDatasource implements AppInfoDataSource {
   @override
   Future<void> sendInquiry(Inquiry inquiry) {
     return this(callback: () async {
+      List<String> imageFieldNames = [
+        'first_image',
+        'second_image',
+        'third_image'
+      ];
+      List<MultipartFile?> images = [];
+      for (var element in inquiry.images) {
+        images.add(await MultipartFile.fromFile(element.path));
+      }
+
       final response = await dioClient.post(
         '${environmentConfig.apihost}/members/contacts',
-        data: inquiry.toJson(),
+        data: FormData.fromMap(
+          inquiry.toMap()
+            ..addEntries(
+              Map.fromIterables(
+                imageFieldNames.getRange(0, images.length),
+                images,
+              ).entries,
+            ),
+        ),
       );
       log(response.data.toString());
       if (response.statusCode == 200) {

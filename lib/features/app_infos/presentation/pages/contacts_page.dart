@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_area.dart';
@@ -31,6 +32,7 @@ class ContactsPage extends StatelessWidget {
           showError(state.errorMessage);
         }
         if (state is InquirySent) {
+          EasyLoading.dismiss();
           context.pushNamed(Routes.contactSuccess.name);
         }
       },

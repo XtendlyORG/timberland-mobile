@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:equatable/equatable.dart';
 
@@ -8,15 +9,17 @@ class Inquiry extends Equatable {
   final String fullName;
   final String subject;
   final String message;
+  final List<File> images;
   const Inquiry({
     required this.email,
     required this.fullName,
     required this.subject,
     required this.message,
+    required this.images,
   });
 
   @override
-  List<Object> get props => [email, fullName, subject, message];
+  List<Object> get props => [email, fullName, subject, message, images];
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
