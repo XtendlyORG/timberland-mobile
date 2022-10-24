@@ -144,11 +144,9 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
                       errorMessage: 'Please enter a message',
                     );
                   },
-                  
                   decoration: const InputDecoration(
-                    hintText: 'Message',
-                    contentPadding: EdgeInsets.fromLTRB(12, 8, 32, 8)
-                  ),
+                      hintText: 'Message',
+                      contentPadding: EdgeInsets.fromLTRB(12, 8, 32, 8)),
                   textCapitalization: TextCapitalization.sentences,
                   textInputAction: TextInputAction.newline,
                 ),
@@ -179,13 +177,14 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
             ),
           ),
           if (imageConfigs.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(top: kVerticalPadding),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: imageConfigs
-                    .map(
-                      (image) => ExcludeFocus(
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: imageConfigs
+                  .map(
+                    (image) => ExcludeFocus(
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.only(top: kVerticalPadding / 2),
                         child: TextFormField(
                           controller: image.ctrl,
                           enableInteractiveSelection: false,
@@ -223,9 +222,9 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
                           ),
                         ),
                       ),
-                    )
-                    .toList(),
-              ),
+                    ),
+                  )
+                  .toList(),
             ),
           const SizedBox(
             height: kVerticalPadding,
