@@ -128,9 +128,13 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
               );
             });
       },
+      textAlignVertical: TextAlignVertical.bottom,
       decoration: InputDecoration(
         hintText: 'Choose Time',
-        contentPadding: const EdgeInsets.symmetric(vertical: kVerticalPadding, horizontal: 2),  
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: kVerticalPadding,
+          horizontal: 2,
+        ),
         prefixIcon: Icon(
           Icons.watch_later_outlined,
           color: Theme.of(context).primaryColor,
