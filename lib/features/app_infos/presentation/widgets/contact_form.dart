@@ -144,8 +144,10 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
                       errorMessage: 'Please enter a message',
                     );
                   },
+                  
                   decoration: const InputDecoration(
                     hintText: 'Message',
+                    contentPadding: EdgeInsets.fromLTRB(12, 8, 32, 8)
                   ),
                   textCapitalization: TextCapitalization.sentences,
                   textInputAction: TextInputAction.newline,
