@@ -1,4 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:video_player/video_player.dart';
@@ -110,6 +113,9 @@ class TrailVideo extends StatefulWidget {
 
 class _TrailVideoState extends State<TrailVideo> {
   late VideoPlayerController _controller;
+  double _opacity = 0;
+  late Timer _timer;
+  AnimationController? iconCtrl;
 
   @override
   void initState() {
@@ -120,20 +126,126 @@ class _TrailVideoState extends State<TrailVideo> {
         setState(() {});
         _controller.play();
       });
+
+    _timer = Timer.periodic(const Duration(seconds: 2), (_) {
+      setState(() {
+        _opacity = 0;
+      });
+      _timer.cancel();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return _controller.value.isInitialized
-        ? VideoPlayer(
-            _controller,
+        ? GestureDetector(
+            onTap: () {
+              setState(() {
+                _opacity = 1;
+              });
+              _timer = Timer.periodic(const Duration(seconds: 2), (_) {
+                setState(() {
+                  _opacity = 0;
+                });
+                _timer.cancel();
+              });
+            },
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                VideoPlayer(
+                  _controller,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _opacity = 1;
+                    });
+                    if (_controller.value.isPlaying) {
+                      log(iconCtrl.toString());
+                      _timer.cancel();
+                      iconCtrl?.reverse();
+                      _controller.pause();
+                    } else {
+                      iconCtrl?.forward();
+                      _controller.play();
+
+                      _timer = Timer.periodic(const Duration(seconds: 2), (_) {
+                        setState(() {
+                          _opacity = 0;
+                        });
+                        _timer.cancel();
+                      });
+                    }
+                  },
+                  child: Opacity(
+                    opacity: _opacity,
+                    child: AnimatedPausePlayIcon(
+                      onCreate: (ctrl) {
+                        iconCtrl ??= ctrl;
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
           )
         : Container();
   }
 
   @override
   void dispose() {
-    super.dispose();
     _controller.dispose();
+    _timer.cancel();
+    super.dispose();
+  }
+}
+
+class AnimatedPausePlayIcon extends StatefulWidget {
+  const AnimatedPausePlayIcon({
+    Key? key,
+    required this.onCreate,
+  }) : super(key: key);
+  final void Function(AnimationController ctrl) onCreate;
+
+  @override
+  State<AnimatedPausePlayIcon> createState() => _AnimatedPausePlayIconState();
+}
+
+class _AnimatedPausePlayIconState extends State<AnimatedPausePlayIcon>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController controller;
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    )..forward();
+
+    widget.onCreate(controller);
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        color: Theme.of(context).backgroundColor.withOpacity(.7),
+        shape: BoxShape.circle,
+      ),
+      child: AnimatedIcon(
+        icon: AnimatedIcons.play_pause,
+        size: 48,
+        color: Theme.of(context).primaryColor,
+        progress: controller,
+      ),
+    );
   }
 }
