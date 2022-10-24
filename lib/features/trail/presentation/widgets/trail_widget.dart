@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/expanded_image.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
+import 'package:timberland_biketrail/features/trail/domain/entities/difficulty.dart';
 import 'package:timberland_biketrail/features/trail/domain/entities/trail.dart';
 import 'package:timberland_biketrail/features/trail/presentation/widgets/trail_specs.dart';
 
@@ -101,7 +102,9 @@ class TrailWidget extends StatelessWidget {
                   TextSpan(
                       text: '${trail.difficulty.name}\n',
                       style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                            color: trail.difficulty.primaryColor,
+                            color: trail.difficulty != Difficulties.easiest
+                                ? trail.difficulty.primaryColor
+                                : trail.difficulty.secondaryColor,
                           )),
                   TextSpan(
                     text: trail.trailName,
