@@ -2,6 +2,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:timberland_biketrail/core/configs/environment_configs.dart';
 import 'package:timberland_biketrail/core/errors/exceptions.dart';
 import 'package:timberland_biketrail/features/emergency/data/datasources/emergency_datasource.dart';
@@ -10,6 +11,14 @@ import 'package:timberland_biketrail/features/emergency/domain/entities/emergenc
 class EmergencyDataSourceImpl implements EmergencyDataSource {
   final Dio dioClient;
   final EnvironmentConfig environmentConfig;
+  final socket = IO.io(
+    // TODO: Refactor this, move ip address to .env
+    'http://146.190.194.170:3001/',
+    IO.OptionBuilder()
+        .setTransports(['websocket'])
+        .disableAutoConnect()
+        .build(),
+  );
 
   EmergencyDataSourceImpl({
     required this.dioClient,
@@ -27,6 +36,11 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
       );
 
       if (response.statusCode == 200) {
+        _initSocketEventHandlers(
+          tokenToSendWhenConnected: response.data['token'],
+        );
+        socket.connect();
+
         return EmergencyConfigs(
           token: response.data['token'],
           channelID: channelID,
@@ -36,6 +50,17 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
 
       throw const EmergencyException(message: 'Failed to request a token');
     });
+  }
+
+  @override
+  Future<void> reconnectToChannel(String token) async {
+    _initSocketEventHandlers(tokenToSendWhenConnected: token);
+    socket.connect();
+  }
+
+  @override
+  Future<void> disconnectFromSocket() async {
+    _disposeSocket();
   }
 
   Future<ReturnType> call<ReturnType>({
@@ -54,5 +79,39 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
       log(e.toString());
       throw const EmergencyException(message: "An Error Occurred");
     }
+  }
+
+  void _initSocketEventHandlers({required String tokenToSendWhenConnected}) {
+    socket.onConnect((data) {
+      log(socket.connected ? 'Connected to Socket' : 'Not Connected');
+      socket.emit('token', tokenToSendWhenConnected);
+    });
+    socket.on(
+      'received-token',
+      (data) {
+        log('Token Received: $data');
+      },
+    );
+    socket.onConnectError((data) {
+      log('On Connect Error: $data');
+      _disposeSocket();
+    });
+    socket.onError((data) {
+      log('Socket Error: $data');
+      _disposeSocket();
+    });
+    socket.onConnectTimeout((data) {
+      log('Connection TimeOut: $data');
+      _disposeSocket();
+    });
+    socket.onDisconnect((data) {
+      log("Disconnected from Socket: $data");
+    });
+  }
+
+  void _disposeSocket() {
+    log("Dispose Called");
+    socket.dispose();
+    socket.destroy();
   }
 }
