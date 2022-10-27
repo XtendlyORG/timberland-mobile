@@ -13,7 +13,6 @@ import '../../../../core/utils/format_time.dart';
 import '../../domain/entities/entities.dart';
 import '../bloc/history_bloc.dart';
 import '../widgets/cancel_booking/cancel_booking_bottomsheet.dart';
-import '../widgets/cancel_booking/cancel_booking_dialog.dart';
 import '../widgets/inherited_booking.dart';
 
 class BookingHistoryDetails extends StatelessWidget {
@@ -29,6 +28,10 @@ class BookingHistoryDetails extends StatelessWidget {
       listener: (context, state) {
         if (state is CancellingBooking) {
           showLoading("Cancelling Booking...");
+        }
+        if (state is BookingCancellationError) {
+          showError('Booking Cancellation Failed.');
+          Navigator.pop(context);
         }
         if (state is BookingCancelled) {
           showSuccess('Booking Cancelled');
@@ -162,7 +165,8 @@ class BookingHistoryDetails extends StatelessWidget {
                                         .difference(DateTime.now())
                                         .inHours <=
                                     48) ||
-                                bookingHistory.status != BookingStatus.paid
+                                ![BookingStatus.paid, BookingStatus.free]
+                                    .contains(bookingHistory.status)
                             ? null
                             : () {
                                 cancelButtonHandler(context);
@@ -220,39 +224,24 @@ class BookingHistoryDetails extends StatelessWidget {
   }
 
   void cancelButtonHandler(context) {
-    showDialog(
+    showModalBottomSheet(
       context: context,
-      builder: (ctx) {
-        return CancelBookingDialog(
-          content: Text(
-            'Are you sure, you want to cancel this booking?',
-            style: Theme.of(context).textTheme.titleSmall,
-            textAlign: TextAlign.center,
+      clipBehavior: Clip.hardEdge,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      isScrollControlled: true,
+      builder: (context) {
+        return InheritedBooking(
+          booking: bookingHistory,
+          child: Container(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * .8,
+            ),
+            child: const CancelBookingBottomSheet(),
           ),
         );
       },
-    ).then((value) {
-      if (value is bool && value) {
-        showModalBottomSheet(
-          context: context,
-          clipBehavior: Clip.hardEdge,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          isScrollControlled: true,
-          builder: (context) {
-            return InheritedBooking(
-              booking: bookingHistory,
-              child: Container(
-                constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height * .8,
-                ),
-                child: const CancelBookingBottomSheet(),
-              ),
-            );
-          },
-        );
-      }
-    });
+    );
   }
 }

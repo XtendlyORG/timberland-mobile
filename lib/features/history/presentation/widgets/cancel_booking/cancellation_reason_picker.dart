@@ -108,20 +108,10 @@ class _CancellationReasonPickerState extends State<CancellationReasonPicker> {
                   context: context,
                   builder: (context) {
                     return CancelBookingDialog(
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            "When you cancel a booking, you will get a free pass that you can consume within four months.",
-                            style: Theme.of(context).textTheme.titleSmall,
-                            textAlign: TextAlign.center,
-                          ),
-                          Text(
-                            "Are you sure you want to cancel this booking?",
-                            style: Theme.of(context).textTheme.titleSmall,
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
+                      content: Text(
+                        "Are you sure you want to cancel this booking?",
+                        style: Theme.of(context).textTheme.titleSmall,
+                        textAlign: TextAlign.center,
                       ),
                     );
                   },
