@@ -113,7 +113,7 @@ class TrailVideo extends StatefulWidget {
 
 class _TrailVideoState extends State<TrailVideo> {
   late VideoPlayerController _controller;
-  double _opacity = 0;
+  double _opacity = 1;
   late Timer _timer;
   AnimationController? iconCtrl;
 
@@ -143,12 +143,22 @@ class _TrailVideoState extends State<TrailVideo> {
               setState(() {
                 _opacity = 1;
               });
-              _timer = Timer.periodic(const Duration(seconds: 2), (_) {
-                setState(() {
-                  _opacity = 0;
-                });
+              if (_controller.value.isPlaying) {
+                log(iconCtrl.toString());
                 _timer.cancel();
-              });
+                iconCtrl?.reverse();
+                _controller.pause();
+              } else {
+                iconCtrl?.forward();
+                _controller.play();
+
+                _timer = Timer.periodic(const Duration(seconds: 2), (_) {
+                  setState(() {
+                    _opacity = 0;
+                  });
+                  _timer.cancel();
+                });
+              }
             },
             child: Stack(
               alignment: Alignment.center,
@@ -156,35 +166,12 @@ class _TrailVideoState extends State<TrailVideo> {
                 VideoPlayer(
                   _controller,
                 ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _opacity = 1;
-                    });
-                    if (_controller.value.isPlaying) {
-                      log(iconCtrl.toString());
-                      _timer.cancel();
-                      iconCtrl?.reverse();
-                      _controller.pause();
-                    } else {
-                      iconCtrl?.forward();
-                      _controller.play();
-
-                      _timer = Timer.periodic(const Duration(seconds: 2), (_) {
-                        setState(() {
-                          _opacity = 0;
-                        });
-                        _timer.cancel();
-                      });
-                    }
-                  },
-                  child: Opacity(
-                    opacity: _opacity,
-                    child: AnimatedPausePlayIcon(
-                      onCreate: (ctrl) {
-                        iconCtrl ??= ctrl;
-                      },
-                    ),
+                Opacity(
+                  opacity: _opacity,
+                  child: AnimatedPausePlayIcon(
+                    onCreate: (ctrl) {
+                      iconCtrl ??= ctrl;
+                    },
                   ),
                 ),
               ],
@@ -220,7 +207,7 @@ class _AnimatedPausePlayIconState extends State<AnimatedPausePlayIcon>
     super.initState();
     controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 300),
     )..forward();
 
     widget.onCreate(controller);
