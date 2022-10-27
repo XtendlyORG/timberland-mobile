@@ -211,6 +211,7 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
                                 // didCancelImageUpload = true;
                                 if (imageConfigs.isEmpty) {
                                   imagesReady = true;
+                                  EasyLoading.dismiss();
                                 }
                                 setState(() {});
                               },
@@ -308,13 +309,15 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
 
           for (ImageConfig imageConfig in imageConfigs) {
             imageConfig.reduceImage(callback: () {
-              if (imageConfigs.contains(imageConfig)) {
-                setState(() {});
-              }
-              if (imageConfig == imageConfigs.last) {
-                EasyLoading.dismiss();
-                showToast('Image/s are ready');
-                imagesReady = true;
+              if (imageConfigs.isNotEmpty) {
+                if (imageConfigs.contains(imageConfig)) {
+                  setState(() {});
+                }
+                if (imageConfig == imageConfigs.last) {
+                  EasyLoading.dismiss();
+                  showToast('Image/s are ready');
+                  imagesReady = true;
+                }
               }
             });
           }
