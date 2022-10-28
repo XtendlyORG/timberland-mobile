@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -117,9 +116,9 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
     socket.destroy();
   }
 
-  String toJson(String token) {
+  toJson(String token) {
     final user = Session().currentUser!;
-    return json.encode({
+    return {
       'token': token,
       'member_id': int.parse(user.id),
       'firstname': user.firstName,
@@ -128,6 +127,6 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
       'mobile_number': user.mobileNumber,
       'emergency_number': user.emergencyContactInfo,
       'address': user.address,
-    });
+    };
   }
 }
