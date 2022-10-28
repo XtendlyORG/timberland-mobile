@@ -65,7 +65,7 @@ const Map<String, BookingStatus> _status = {
   'Checked In': BookingStatus.onGoing,
   'Cancelled': BookingStatus.cancelled,
   'Not Paid': BookingStatus.notPaid,
-  'Free Pass': BookingStatus.free,
+  'Free': BookingStatus.free,
   'Checked Out': BookingStatus.done,
   'No Show': BookingStatus.noShow,
 };
