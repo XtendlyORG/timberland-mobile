@@ -47,6 +47,7 @@ class _EmergencyPageState extends State<EmergencyPage>
     color: TimberlandColor.secondaryColor,
     key: ValueKey(1),
   );
+  late final EmergencyBloc bloc;
 
   late RtcEngine _engine;
   @override
@@ -58,9 +59,13 @@ class _EmergencyPageState extends State<EmergencyPage>
     );
 
     initialize().then((value) {
-      final bloc = BlocProvider.of<EmergencyBloc>(context);
+      bloc = BlocProvider.of<EmergencyBloc>(context);
       if (bloc.state is EmergencyTokenFetched) {
-        _joinChannel((bloc.state as EmergencyTokenFetched).configs);
+        bloc.add(
+          ReconnectToSocket(
+            token: (bloc.state as EmergencyTokenFetched).configs.token,
+          ),
+        );
       } else {
         bloc.add(
           FetchEmergencyTokenEvent(
@@ -78,12 +83,12 @@ class _EmergencyPageState extends State<EmergencyPage>
     _engine.release();
     FlutterRingtonePlayer.stop();
     Vibration.cancel();
+    bloc.add(DisconnectFromSocket());
     super.dispose();
   }
 
   Future<void> initialize() async {
     final String appID = serviceLocator<EnvironmentConfig>().agoraAppId;
-    log(appID);
     await [Permission.microphone].request();
     if (appID.isEmpty) {
       return;

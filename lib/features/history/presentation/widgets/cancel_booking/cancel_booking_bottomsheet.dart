@@ -60,7 +60,7 @@ class CancelBookingBottomSheet extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      "Please select a cancellation reason. Please take note that your cancellation will be subject to the admin’s approval.",
+                      "Please select a cancellation reason. When you cancel a booking, you will get a free pass that you can consume within four months.",
                     ),
                   ),
                 ],
