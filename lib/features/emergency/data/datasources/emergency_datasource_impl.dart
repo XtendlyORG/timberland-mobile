@@ -1,10 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:timberland_biketrail/core/configs/environment_configs.dart';
 import 'package:timberland_biketrail/core/errors/exceptions.dart';
+import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/emergency/data/datasources/emergency_datasource.dart';
 import 'package:timberland_biketrail/features/emergency/domain/entities/emergency_configs.dart';
 
@@ -84,10 +86,10 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
   void _initSocketEventHandlers({required String tokenToSendWhenConnected}) {
     socket.onConnect((data) {
       log(socket.connected ? 'Connected to Socket' : 'Not Connected');
-      socket.emit('token', tokenToSendWhenConnected);
+      socket.emit('client-data', toJson(tokenToSendWhenConnected));
     });
     socket.on(
-      'received-token',
+      'received-client-data',
       (data) {
         log('Token Received: $data');
       },
@@ -113,5 +115,19 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
     log("Dispose Called");
     socket.dispose();
     socket.destroy();
+  }
+
+  String toJson(String token) {
+    final user = Session().currentUser!;
+    return json.encode({
+      'token': token,
+      'member_id': int.parse(user.id),
+      'firstname': user.firstName,
+      'lastname': user.lastName,
+      'email': user.email,
+      'mobile_number': user.mobileNumber,
+      'emergency_number': user.emergencyContactInfo,
+      'address': user.address,
+    });
   }
 }
