@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 
 class CustomCheckbox extends StatefulWidget {
   final void Function(bool val) onChange;
+  final bool initValue;
   const CustomCheckbox({
     Key? key,
     required this.onChange,
+    this.initValue = false,
     this.child,
   }) : super(key: key);
   final Widget? child;
@@ -15,12 +17,12 @@ class CustomCheckbox extends StatefulWidget {
 }
 
 class _CustomCheckboxState extends State<CustomCheckbox> {
-  late bool agreedToTermsOfUse;
+  late bool value;
 
   @override
   void initState() {
     super.initState();
-    agreedToTermsOfUse = false;
+    value = widget.initValue;
   }
 
   @override
@@ -31,25 +33,25 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Checkbox(
-          value: agreedToTermsOfUse,
+          value: value,
           visualDensity: const VisualDensity(
             horizontal: VisualDensity.minimumDensity,
             vertical: VisualDensity.minimumDensity,
           ),
           onChanged: (val) {
             setState(() {
-              agreedToTermsOfUse = !agreedToTermsOfUse;
+              value = !value;
             });
-            widget.onChange(agreedToTermsOfUse);
+            widget.onChange(value);
           },
         ),
         if (widget.child != null)
           GestureDetector(
             onTap: () {
               setState(() {
-                agreedToTermsOfUse = !agreedToTermsOfUse;
+                value = !value;
               });
-              widget.onChange(agreedToTermsOfUse);
+              widget.onChange(value);
             },
             child: widget.child!,
           ),
