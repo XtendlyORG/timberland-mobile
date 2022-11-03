@@ -63,7 +63,7 @@ class _EmergencyPageState extends State<EmergencyPage>
       if (bloc.state is EmergencyTokenFetched) {
         bloc.add(
           ReconnectToSocket(
-            token: (bloc.state as EmergencyTokenFetched).configs.token,
+            channelID: (bloc.state as EmergencyTokenFetched).configs.channelID,
           ),
         );
       } else {
@@ -190,6 +190,8 @@ class _EmergencyPageState extends State<EmergencyPage>
   }
 
   void _joinChannel(EmergencyConfigs configs) {
+    log(configs.uid.toString());
+    log(configs.token);
     _engine.joinChannel(
       token: configs.token,
       channelId: configs.channelID,

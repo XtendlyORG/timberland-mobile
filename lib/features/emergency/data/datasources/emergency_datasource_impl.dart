@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -39,10 +38,9 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
 
       if (response.statusCode == 200) {
         _initSocketEventHandlers(
-          tokenToSendWhenConnected: response.data['token'],
+          channelID: channelID,
         );
         socket.connect();
-
         return EmergencyConfigs(
           token: response.data['token'],
           channelID: channelID,
@@ -55,8 +53,8 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
   }
 
   @override
-  Future<void> reconnectToChannel(String token) async {
-    _initSocketEventHandlers(tokenToSendWhenConnected: token);
+  Future<void> reconnectToChannel(String channelID) async {
+    _initSocketEventHandlers(channelID: channelID);
     socket.connect();
   }
 
@@ -83,10 +81,12 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
     }
   }
 
-  void _initSocketEventHandlers({required String tokenToSendWhenConnected}) {
+  void _initSocketEventHandlers({
+    required String channelID,
+  }) {
     socket.onConnect((data) {
       log(socket.connected ? 'Connected to Socket' : 'Not Connected');
-      socket.emit('client-data', toJson(tokenToSendWhenConnected));
+      socket.emit('client-data', _toJson(channelID));
     });
     socket.on(
       'received-client-data',
@@ -117,10 +117,10 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
     socket.destroy();
   }
 
-  String toJson(String token) {
+  _toJson(String channelID) {
     final user = Session().currentUser!;
-    return json.encode({
-      'token': token,
+    return {
+      'channel': channelID,
       'member_id': int.parse(user.id),
       'firstname': user.firstName,
       'lastname': user.lastName,
@@ -128,6 +128,7 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
       'mobile_number': user.mobileNumber,
       'emergency_number': user.emergencyContactInfo,
       'address': user.address,
-    });
+      'isPublisher': true,
+    };
   }
 }

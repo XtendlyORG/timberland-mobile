@@ -21,11 +21,11 @@ class FetchEmergencyTokenEvent extends EmergencyEvent {
 class DisconnectFromSocket extends EmergencyEvent {}
 
 class ReconnectToSocket extends EmergencyEvent {
-  final String token;
+  final String channelID;
   const ReconnectToSocket({
-    required this.token,
+    required this.channelID,
   });
 
   @override
-  List<Object> get props => super.props..add(token);
+  List<Object> get props => super.props..add(channelID);
 }
