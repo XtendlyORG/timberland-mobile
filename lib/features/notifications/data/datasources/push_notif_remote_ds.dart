@@ -45,7 +45,7 @@ class PushNotificationRemoteDataSourceImpl
     try {
       final response = await dioClient.put(
         '${environmentConfig.apihost}/members/$memberId/notification-token',
-        data: {'fcm_token': token},
+        data: {'token': token},
       );
 
       if (response.statusCode == 200) {
