@@ -8,6 +8,7 @@ import 'package:timberland_biketrail/core/presentation/widgets/timberland_logo.d
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:timberland_biketrail/features/notifications/presentation/bloc/notifications_bloc.dart';
 
 class AuthPageContainer extends StatelessWidget {
   final Widget child;
@@ -56,7 +57,8 @@ class AuthPageContainer extends StatelessWidget {
         }
         if (state is Authenticated) {
           showSuccess(state.message);
-
+          BlocProvider.of<NotificationsBloc>(context)
+              .add(CheckForFCMTokenUpdate());
           context.goNamed(Routes.home.name);
         }
         if (state is AuthLoading) {

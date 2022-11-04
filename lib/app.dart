@@ -14,6 +14,9 @@ import 'package:timberland_biketrail/features/booking/presentation/cubit/free_pa
 import 'package:timberland_biketrail/features/emergency/domain/repositories/emergency_repository.dart';
 import 'package:timberland_biketrail/features/emergency/presentation/bloc/emergency_bloc.dart';
 import 'package:timberland_biketrail/features/history/presentation/bloc/history_bloc.dart';
+import 'package:timberland_biketrail/features/notifications/domain/repositories/push_notif_repository.dart';
+import 'package:timberland_biketrail/features/notifications/presentation/bloc/notifications_bloc.dart';
+import 'package:timberland_biketrail/push_notif_configs.dart';
 
 import 'core/router/app_router.dart';
 import 'core/themes/timberland_theme.dart';
@@ -36,6 +39,7 @@ Future<void> run({
   await Session().init();
   await InternetConnectivity().init();
 
+  await initFirebaseMessaging();
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider<AuthBloc>(
@@ -64,6 +68,11 @@ Future<void> run({
       BlocProvider<EmergencyBloc>(
         create: (context) => EmergencyBloc(
           repository: di.serviceLocator<EmergencyRepository>(),
+        ),
+      ),
+      BlocProvider<NotificationsBloc>(
+        create: (context) => NotificationsBloc(
+          repository: di.serviceLocator<PushNotificationRepository>(),
         ),
       ),
     ],

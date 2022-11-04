@@ -4,6 +4,11 @@ enum Routes {
     name: 'onboarding',
   ),
 
+  checkoutNotification(
+    name: 'checkout-notification',
+    path: '/checkout',
+  ),
+
   // Authentiaction
   login(path: '/login', name: 'login'),
   loginVerify(path: '/verify', name: 'login-verify'),

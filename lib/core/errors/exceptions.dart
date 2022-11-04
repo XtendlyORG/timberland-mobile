@@ -59,9 +59,16 @@ class DuplicateBookingException implements BookingException {
   });
 }
 
-class EmergencyException implements Exception{
- final String? message;
+class EmergencyException implements Exception {
+  final String? message;
   const EmergencyException({
+    this.message,
+  });
+}
+
+class PushNotificationException implements Exception {
+  final String? message;
+  const PushNotificationException({
     this.message,
   });
 }
