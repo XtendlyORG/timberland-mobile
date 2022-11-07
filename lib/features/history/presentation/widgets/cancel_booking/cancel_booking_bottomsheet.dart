@@ -60,7 +60,7 @@ class CancelBookingBottomSheet extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      "Please select a cancellation reason. When you cancel a booking, you will get a free pass that you can consume within four months.",
+                      "Please select a cancellation reason. When you cancel a booking, you will get a FREE pass that you can consume within four months.",
                     ),
                   ),
                 ],
