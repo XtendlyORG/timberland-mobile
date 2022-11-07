@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,7 +55,6 @@ class TrailMap extends StatelessWidget {
                     padding: const EdgeInsets.only(
                         top: kToolbarHeight, right: kVerticalPadding),
                     child: ExpandableWidget(
-                      percentageWhenMinimized: .37,
                       alignment: Alignment.topCenter,
                       child: Hero(
                         tag: 'trail-map-readme',
@@ -108,7 +106,6 @@ class TrailMap extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         ExpandableWidget(
-                          percentageWhenMinimized: .18,
                           alignment: Alignment.bottomCenter,
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -199,87 +196,77 @@ class ExpandableWidget extends StatefulWidget {
   const ExpandableWidget({
     Key? key,
     required this.child,
-    required this.percentageWhenMinimized,
     required this.alignment,
   }) : super(key: key);
 
   final Widget child;
-  final double percentageWhenMinimized;
+
   final AlignmentGeometry alignment;
 
   @override
   State<ExpandableWidget> createState() => _ExpandableWidgetState();
 }
 
-class _ExpandableWidgetState extends State<ExpandableWidget>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController controller;
-  bool imageVisible = false;
-  double _angle = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
-    controller.addListener(() {
-      setState(() {
-        setState(() {
-          _angle = controller.value * 45 / 360 * pi * 2;
-        });
-      });
-    });
-    controller.forward();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
+class _ExpandableWidgetState extends State<ExpandableWidget> {
+  bool isMinimized = false;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: widget.alignment == Alignment.bottomCenter
-          ? Alignment.bottomRight
-          : Alignment.topRight,
-      children: [
-        Transform.scale(
-          alignment: widget.alignment,
-          scaleY: ((1 - widget.percentageWhenMinimized) * controller.value) +
-              widget.percentageWhenMinimized,
-          child: Container(
-            foregroundDecoration: BoxDecoration(
-              color:
-                  Colors.black.withOpacity(.5 * (1 - controller.value.floor())),
-            ),
-            child: widget.child,
-          ),
-        ),
-        Container(
-          color: Colors.black.withOpacity(.5*(controller.value.floor())),
-          child: GestureDetector(
-            onTap: () {
-              if (controller.status == AnimationStatus.dismissed) {
-                controller.forward();
-              }
-              if (controller.status == AnimationStatus.completed) {
-                controller.reverse();
-              }
-            },
-            child: Transform.rotate(
-              angle: _angle,
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      transitionBuilder: (child, animation) {
+        return ScaleTransition(
+          scale: animation,
+          alignment: widget.alignment == Alignment.bottomCenter
+              ? Alignment.bottomLeft
+              : Alignment.topRight,
+          child: child,
+        );
+      },
+      layoutBuilder: (currentChild, previousChildren) {
+        return Stack(
+          alignment: widget.alignment == Alignment.bottomCenter
+              ? Alignment.bottomLeft
+              : Alignment.topRight,
+          children: <Widget>[
+            ...previousChildren,
+            if (currentChild != null) currentChild,
+          ],
+        );
+      },
+      child: isMinimized
+          ? GestureDetector(
+              onTap: () {
+                setState(() {
+                  isMinimized = false;
+                });
+              },
               child: const Icon(
-                Icons.add,
+                Icons.image_outlined,
                 color: TimberlandColor.background,
+                size: 32,
               ),
+            )
+          : Stack(
+              alignment: Alignment.topRight,
+              children: [
+                widget.child,
+                Container(
+                  color: Colors.black.withOpacity(.5),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isMinimized = true;
+                      });
+                    },
+                    child: const Icon(
+                      Icons.close,
+                      color: TimberlandColor.background,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ),
-      ],
     );
   }
 }
