@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:timberland_biketrail/core/configs/environment_configs.dart';
 import 'package:timberland_biketrail/core/errors/exceptions.dart';
+import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/emergency/data/datasources/emergency_datasource.dart';
 import 'package:timberland_biketrail/features/emergency/domain/entities/emergency_configs.dart';
 
@@ -37,10 +38,9 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
 
       if (response.statusCode == 200) {
         _initSocketEventHandlers(
-          tokenToSendWhenConnected: response.data['token'],
+          channelID: channelID,
         );
         socket.connect();
-
         return EmergencyConfigs(
           token: response.data['token'],
           channelID: channelID,
@@ -53,8 +53,8 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
   }
 
   @override
-  Future<void> reconnectToChannel(String token) async {
-    _initSocketEventHandlers(tokenToSendWhenConnected: token);
+  Future<void> reconnectToChannel(String channelID) async {
+    _initSocketEventHandlers(channelID: channelID);
     socket.connect();
   }
 
@@ -81,13 +81,15 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
     }
   }
 
-  void _initSocketEventHandlers({required String tokenToSendWhenConnected}) {
+  void _initSocketEventHandlers({
+    required String channelID,
+  }) {
     socket.onConnect((data) {
       log(socket.connected ? 'Connected to Socket' : 'Not Connected');
-      socket.emit('token', tokenToSendWhenConnected);
+      socket.emit('client-data', _toJson(channelID));
     });
     socket.on(
-      'received-token',
+      'received-client-data',
       (data) {
         log('Token Received: $data');
       },
@@ -113,5 +115,20 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
     log("Dispose Called");
     socket.dispose();
     socket.destroy();
+  }
+
+  _toJson(String channelID) {
+    final user = Session().currentUser!;
+    return {
+      'channel': channelID,
+      'member_id': int.parse(user.id),
+      'firstname': user.firstName,
+      'lastname': user.lastName,
+      'email': user.email,
+      'mobile_number': user.mobileNumber,
+      'emergency_number': user.emergencyContactInfo,
+      'address': user.address,
+      'isPublisher': true,
+    };
   }
 }

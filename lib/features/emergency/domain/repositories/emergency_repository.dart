@@ -9,6 +9,6 @@ abstract class EmergencyRepository extends Repository {
   );
   Future<Either<EmergencyFailure, void>> disconnectFromSocket();
   Future<Either<EmergencyFailure, void>> reconnectToChannel(
-    String token,
+    String channelID,
   );
 }
