@@ -14,4 +14,11 @@ class EnvironmentConfig {
     }
     return dotenv.env['AGORA_APP_ID']!;
   }
+
+  String get timberlandServerIP {
+    if (dotenv.env['TIMBERLAND_SERVER_IP'] == null) {
+      throw Exception('NO ENVIRONMENT VARIABLE FOUND');
+    }
+    return dotenv.env['TIMBERLAND_SERVER_IP']!;
+  }
 }

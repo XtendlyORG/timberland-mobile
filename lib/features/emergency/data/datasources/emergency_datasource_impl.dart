@@ -12,19 +12,19 @@ import 'package:timberland_biketrail/features/emergency/domain/entities/emergenc
 class EmergencyDataSourceImpl implements EmergencyDataSource {
   final Dio dioClient;
   final EnvironmentConfig environmentConfig;
-  final socket = IO.io(
-    // TODO: Refactor this, move ip address to .env
-    'http://146.190.194.170:3001/',
-    IO.OptionBuilder()
-        .setTransports(['websocket'])
-        .disableAutoConnect()
-        .build(),
-  );
-
+  late final IO.Socket socket;
   EmergencyDataSourceImpl({
     required this.dioClient,
     required this.environmentConfig,
-  });
+  }) {
+    socket = IO.io(
+      environmentConfig.timberlandServerIP,
+      IO.OptionBuilder()
+          .setTransports(['websocket'])
+          .disableAutoConnect()
+          .build(),
+    );
+  }
   @override
   Future<EmergencyConfigs> fetchToken(String channelID) {
     return this(callback: () async {
