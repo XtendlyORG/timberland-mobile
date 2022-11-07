@@ -19,8 +19,7 @@ class TrailModel extends Trail {
     return TrailModel(
       trailId: (map['trail_id'] as num).toString(),
       trailName: map['name'] as String,
-      difficulty:
-          DifficultyLevel.fromInt((map['difficulty'] as num?)?.toInt() ?? 0),
+      difficulty: DifficultyLevel.fromString(map['difficulty'] as String),
       description: map['description'] as String,
       unit: map['distance_unit'] as String? ?? 'm',
       distance: (map['distance'] as num?)?.toDouble() ?? 0,
