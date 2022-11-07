@@ -77,9 +77,11 @@ class _LoginPageState extends State<LoginPage> {
         log(e.toString());
       }
     }
-    setState(() {
-      displayFingerPrintDialog = false;
-    });
+    if (mounted) {
+      setState(() {
+        displayFingerPrintDialog = false;
+      });
+    }
   }
 
   @override

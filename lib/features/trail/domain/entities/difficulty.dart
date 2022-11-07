@@ -20,8 +20,8 @@ class DifficultyLevel {
         return Difficulties.easy;
       case 'easy':
         return Difficulties.easy;
-      case 'intermediate':
-        return Difficulties.intermediate;
+      // case 'intermediate':
+      //   return Difficulties.intermediate;
       case 'advance':
         return Difficulties.advance;
       case 'expert':
@@ -38,11 +38,11 @@ class DifficultyLevel {
         return Difficulties.easiest;
       case 2:
         return Difficulties.easy;
+      // case 3:
+      //   return Difficulties.intermediate;
       case 3:
-        return Difficulties.intermediate;
-      case 4:
         return Difficulties.advance;
-      case 5:
+      case 4:
         return Difficulties.expert;
       default:
         throw Exception(
@@ -56,7 +56,7 @@ abstract class Difficulties {
   static List<DifficultyLevel> all = [
     easiest,
     easy,
-    intermediate,
+    // intermediate,
     advance,
     expert,
   ];
@@ -64,8 +64,8 @@ abstract class Difficulties {
   static const DifficultyLevel easiest = DifficultyLevel(
     id: 1,
     name: 'Easiest',
-    primaryColor: TimberlandColor.accentColor,
-    secondaryColor: TimberlandColor.background,
+    primaryColor: TimberlandColor.background,
+    secondaryColor: TimberlandColor.accentColor,
   );
 
   static const DifficultyLevel easy = DifficultyLevel(
@@ -75,23 +75,23 @@ abstract class Difficulties {
     secondaryColor: TimberlandColor.background,
   );
 
-  static const DifficultyLevel intermediate = DifficultyLevel(
-    id: 3,
-    name: 'Intermediate',
-    primaryColor: TimberlandColor.primary,
-    secondaryColor: TimberlandColor.lightBlue,
-  );
+  // static const DifficultyLevel intermediate = DifficultyLevel(
+  //   id: 3,
+  //   name: 'Intermediate',
+  //   primaryColor: TimberlandColor.primary,
+  //   secondaryColor: TimberlandColor.lightBlue,
+  // );
 
   static const DifficultyLevel advance = DifficultyLevel(
-    id: 4,
-    name: 'Advance',
+    id: 3,
+    name: 'More Difficult',
     primaryColor: Color(0xff34459b),
     secondaryColor: TimberlandColor.background,
   );
 
   static const DifficultyLevel expert = DifficultyLevel(
-    id: 5,
-    name: 'Expert',
+    id: 4,
+    name: 'Very Difficult',
     primaryColor: TimberlandColor.text,
     secondaryColor: TimberlandColor.background,
   );

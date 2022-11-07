@@ -7,6 +7,7 @@ import 'auth_dependency.dart' as auth;
 import 'booking_dependency.dart' as booking;
 import 'emergency_dependency.dart' as emergency;
 import 'history_dependency.dart' as history;
+import 'notifs_dependency.dart' as notifs;
 import 'profile_dependency.dart' as profile;
 import 'trail_dependency.dart' as trail;
 
@@ -23,4 +24,5 @@ void initializeDependencies() {
   profile.init();
   history.init();
   emergency.init();
+  notifs.init();
 }

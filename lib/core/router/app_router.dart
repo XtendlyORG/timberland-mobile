@@ -10,6 +10,7 @@ import 'package:timberland_biketrail/core/presentation/widgets/inherited_widgets
 import 'package:timberland_biketrail/dashboard/presentation/pages/update_email.dart';
 import 'package:timberland_biketrail/dashboard/presentation/pages/update_password.dart';
 import 'package:timberland_biketrail/dashboard/presentation/pages/verify_otp_update_page.dart';
+import 'package:timberland_biketrail/features/app_infos/presentation/widgets/contact_us_success.dart';
 import 'package:timberland_biketrail/features/authentication/domain/params/register.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/pages/registration_continuation_page.dart';
@@ -23,6 +24,7 @@ import 'package:timberland_biketrail/features/booking/presentation/pages/waiver/
 import 'package:timberland_biketrail/features/history/domain/entities/entities.dart';
 import 'package:timberland_biketrail/features/history/presentation/bloc/history_bloc.dart';
 import 'package:timberland_biketrail/features/history/presentation/pages/booking_history_details.dart';
+import 'package:timberland_biketrail/features/notifications/presentation/pages/checkout_now_page.dart';
 
 import '../../dashboard/presentation/pages/qr_code_page.dart';
 import '../../dashboard/presentation/pages/update_profile_page.dart';
@@ -59,7 +61,8 @@ final appRouter = GoRouter(
       // Routes.otpVerification.path,
       Routes.register.path + Routes.registerVerify.path,
     ].contains(routeState.location);
-    if (routeState.location == Routes.contacts.path) {
+    if ([Routes.contacts.path, Routes.checkoutNotification.path]
+        .contains(routeState.location)) {
       return null;
     }
     log(routeState.location);
@@ -83,6 +86,22 @@ final appRouter = GoRouter(
           key: state.pageKey,
           restorationId: state.pageKey.value,
           child: const OnboardingSlider(),
+          transitionDuration: const Duration(milliseconds: 500),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+    ),
+    GoRoute(
+      path: Routes.checkoutNotification.path,
+      name: Routes.checkoutNotification.name,
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          child: const CheckOutNowPage(),
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
@@ -733,6 +752,26 @@ final appRouter = GoRouter(
           },
         );
       },
+      routes: [
+        GoRoute(
+          path: Routes.contactSuccess.asSubPath(),
+          name: Routes.contactSuccess.name,
+          pageBuilder: (context, routeState) {
+            return CustomTransitionPage(
+              key: routeState.pageKey,
+              restorationId: routeState.pageKey.value,
+              child: const ContactUsThankyouPage(),
+              transitionDuration: const Duration(milliseconds: 500),
+              transitionsBuilder: (context, animation, secondaryAnim, child) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              },
+            );
+          },
+        ),
+      ],
     ),
     GoRoute(
       path: Routes.emergency.path,

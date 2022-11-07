@@ -31,7 +31,8 @@ class ContactsPageForm extends StatefulWidget {
 class _ContactsPageFormState extends State<ContactsPageForm> {
   late final AuthState authState;
   final formKey = GlobalKey<FormState>();
-  final nameCtrl = TextEditingController();
+  final firstNameCtrl = TextEditingController();
+  final lastNameCtrl = TextEditingController();
   final emailCtrl = TextEditingController();
   final messageCtrl = TextEditingController();
   // final imagesCtrls = [
@@ -51,8 +52,8 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       authState = BlocProvider.of<AuthBloc>(context).state;
       if (authState is Authenticated) {
-        nameCtrl.text =
-            '${(authState as Authenticated).user.firstName} ${(authState as Authenticated).user.lastName}';
+        firstNameCtrl.text = (authState as Authenticated).user.firstName;
+        lastNameCtrl.text = (authState as Authenticated).user.lastName;
         emailCtrl.text = (authState as Authenticated).user.email;
       }
     });
@@ -67,9 +68,23 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
           Container(
             constraints: const BoxConstraints(maxWidth: kMaxWidthMobile),
             child: TextFormField(
-              controller: nameCtrl,
+              controller: firstNameCtrl,
               decoration: const InputDecoration(
-                hintText: 'Name',
+                hintText: 'First Name',
+              ),
+              textCapitalization: TextCapitalization.words,
+              textInputAction: TextInputAction.next,
+            ),
+          ),
+          const SizedBox(
+            height: kVerticalPadding,
+          ),
+          Container(
+            constraints: const BoxConstraints(maxWidth: kMaxWidthMobile),
+            child: TextFormField(
+              controller: lastNameCtrl,
+              decoration: const InputDecoration(
+                hintText: 'Last Name',
               ),
               textCapitalization: TextCapitalization.words,
               textInputAction: TextInputAction.next,
@@ -130,8 +145,8 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
                     );
                   },
                   decoration: const InputDecoration(
-                    hintText: 'Message',
-                  ),
+                      hintText: 'Message',
+                      contentPadding: EdgeInsets.fromLTRB(12, 8, 32, 8)),
                   textCapitalization: TextCapitalization.sentences,
                   textInputAction: TextInputAction.newline,
                 ),
@@ -162,13 +177,14 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
             ),
           ),
           if (imageConfigs.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(top: kVerticalPadding),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: imageConfigs
-                    .map(
-                      (image) => ExcludeFocus(
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: imageConfigs
+                  .map(
+                    (image) => ExcludeFocus(
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.only(top: kVerticalPadding / 2),
                         child: TextFormField(
                           controller: image.ctrl,
                           enableInteractiveSelection: false,
@@ -195,6 +211,7 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
                                 // didCancelImageUpload = true;
                                 if (imageConfigs.isEmpty) {
                                   imagesReady = true;
+                                  EasyLoading.dismiss();
                                 }
                                 setState(() {});
                               },
@@ -206,9 +223,9 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
                           ),
                         ),
                       ),
-                    )
-                    .toList(),
-              ),
+                    ),
+                  )
+                  .toList(),
             ),
           const SizedBox(
             height: kVerticalPadding,
@@ -224,9 +241,16 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
                           SendInquiryEvent(
                             inquiry: Inquiry(
                               email: emailCtrl.text,
-                              fullName: nameCtrl.text,
+                              firstName: firstNameCtrl.text,
+                              lastName: lastNameCtrl.text,
                               subject: selectedSubject!,
                               message: messageCtrl.text,
+                              images: imageConfigs
+                                  .where((imageConfig) =>
+                                      imageConfig.imageFile != null)
+                                  .map<File>(
+                                      (imageConfig) => imageConfig.imageFile!)
+                                  .toList(),
                             ),
                           ),
                         );
@@ -285,13 +309,15 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
 
           for (ImageConfig imageConfig in imageConfigs) {
             imageConfig.reduceImage(callback: () {
-              if (imageConfigs.contains(imageConfig)) {
-                setState(() {});
-              }
-              if (imageConfig == imageConfigs.last) {
-                EasyLoading.dismiss();
-                showToast('Image/s are ready');
-                imagesReady = true;
+              if (imageConfigs.isNotEmpty) {
+                if (imageConfigs.contains(imageConfig)) {
+                  setState(() {});
+                }
+                if (imageConfig == imageConfigs.last) {
+                  EasyLoading.dismiss();
+                  showToast('Image/s are ready');
+                  imagesReady = true;
+                }
               }
             });
           }

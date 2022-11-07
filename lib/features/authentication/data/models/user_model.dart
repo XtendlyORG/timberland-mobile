@@ -5,6 +5,7 @@ import '../../domain/entities/user.dart';
 class UserModel extends User {
   const UserModel({
     required super.id,
+    required super.prettierID,
     required super.firstName,
     super.middleName,
     required super.lastName,
@@ -30,6 +31,7 @@ class UserModel extends User {
     );
     return UserModel(
       id: (map['member_id'] as num?).toString(),
+      prettierID: map['long_id'] as String,
       firstName: map['firstname'] as String,
       middleName:
           map['middlename'] != null ? map['middlename'] as String : null,
@@ -44,7 +46,9 @@ class UserModel extends User {
       email: map['email'] as String,
       mobileNumber: map['mobile_number'] as String,
       bikeModel: map['bike_model'] != null ? map['bike_model'] as String : null,
-      bikeYear: map['bike_year'] != null ? (map['bike_year'] as num).toString() : null,
+      bikeYear: map['bike_year'] != null
+          ? (map['bike_year'] as num).toString()
+          : null,
       bikeColor: map['bike_color'] != null ? map['bike_color'] as String : null,
       accessCode: map['access_code'] as String,
       emergencyContactInfo: map['emergency_number'] != null

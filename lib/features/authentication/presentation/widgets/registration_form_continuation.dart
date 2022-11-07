@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -351,7 +352,11 @@ class RegistrationContinuationForm extends StatelessWidget {
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
                     if (!agreedToTermsOfUse) {
-                      showFloatingToast(context, 'Terms of Use not accepted');
+                      showFloatingToast(
+                        context,
+                        'Terms of Use not accepted',
+                        duration: const Duration(milliseconds: 1500),
+                      );
                       return;
                     }
                     if (!imageReady) {
@@ -405,36 +410,29 @@ class RegistrationContinuationForm extends StatelessWidget {
               ),
             ),
             if (user == null)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  RepaintBoundary(
-                    child: CustomCheckbox(
-                      onChange: (val) {
-                        agreedToTermsOfUse = val;
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    child: AutoSizeText.rich(
-                      const TextSpan(
-                        children: [
-                          TextSpan(
-                            text: 'By signing up you agree to our',
-                            style: TextStyle(fontWeight: FontWeight.normal),
-                          ),
-                          TextSpan(
+              RepaintBoundary(
+                child: CustomCheckbox(
+                  onChange: (val) {
+                    agreedToTermsOfUse = val;
+                  },
+                  child: AutoSizeText.rich(
+                    TextSpan(
+                      children: [
+                        const TextSpan(
+                          text: 'By signing up you agree to our',
+                          style: TextStyle(fontWeight: FontWeight.normal),
+                        ),
+                        TextSpan(
                             text: '\nTerms of Use',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      style: Theme.of(context).textTheme.titleSmall,
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                            recognizer: TapGestureRecognizer()..onTap = () {}),
+                      ],
                     ),
+                    style: Theme.of(context).textTheme.titleSmall,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
                   ),
-                ],
+                ),
               ),
           ],
         ),

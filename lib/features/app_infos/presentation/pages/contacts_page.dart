@@ -2,10 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_area.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
+import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/app_infos/presentation/bloc/app_info_bloc.dart';
 import 'package:timberland_biketrail/features/app_infos/presentation/widgets/contact_form.dart';
@@ -29,7 +32,8 @@ class ContactsPage extends StatelessWidget {
           showError(state.errorMessage);
         }
         if (state is InquirySent) {
-          showSuccess('Your message was sent');
+          EasyLoading.dismiss();
+          context.pushNamed(Routes.contactSuccess.name);
         }
       },
       child: DecoratedSafeArea(
@@ -73,12 +77,13 @@ class ContactsPage extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       launchUrl(
-                        Uri.parse('https://www.instagram.com/ridetimberland.ph'),
+                        Uri.parse(
+                            'https://www.instagram.com/ridetimberland.ph'),
                         mode: LaunchMode.externalApplication,
                       );
                     },
                     child: Image.asset(
-                      'assets/icons/youtube-icon.png',
+                      'assets/icons/instagram-icon.png',
                       scale: 2,
                     ),
                   ),

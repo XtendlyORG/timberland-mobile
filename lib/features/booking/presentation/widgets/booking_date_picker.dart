@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:flutter/material.dart';
-import 'package:timberland_biketrail/core/constants/padding.dart';
+import 'package:timberland_biketrail/core/constants/constants.dart';
 
 import '../../../../core/presentation/widgets/date_picker.dart';
 import '../../../../core/utils/validators/non_empty_validator.dart';
@@ -61,9 +61,13 @@ class BookingDatePicker extends StatelessWidget {
           },
         );
       },
+      textAlignVertical: TextAlignVertical.bottom,
       decoration: InputDecoration(
         hintText: 'Choose Date',
-        contentPadding: const EdgeInsets.symmetric(vertical: kVerticalPadding,horizontal: 2),
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: kVerticalPadding,
+          horizontal: 2,
+        ),
         prefixIcon: Icon(
           Icons.calendar_today_outlined,
           color: Theme.of(context).primaryColor,

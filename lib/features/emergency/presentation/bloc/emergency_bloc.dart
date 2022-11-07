@@ -27,5 +27,21 @@ class EmergencyBloc extends Bloc<EmergencyEvent, EmergencyState> {
         },
       );
     });
+    on<DisconnectFromSocket>((event, emit) {
+      repository.disconnectFromSocket();
+    });
+    on<ReconnectToSocket>((event, emit) async {
+      final result =
+          await repository.reconnectToChannel(event.channelID);
+      result.fold((l) {
+        log("Socket reconnection failed.");
+      }, (r) {
+        emit(
+          EmergencyTokenFetched(
+            configs: (state as EmergencyTokenFetched).configs,
+          ),
+        );
+      });
+    });
   }
 }

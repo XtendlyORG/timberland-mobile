@@ -61,7 +61,13 @@ class QrCodePage extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
-                        Text('63${state.user.mobileNumber}'),
+                        const SizedBox(
+                          height: kVerticalPadding / 2,
+                        ),
+                        Text(
+                          state.user.prettierID,
+                          style: Theme.of(context).textTheme.labelLarge,
+                        ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
                             vertical: kHorizontalPadding,

@@ -41,7 +41,7 @@ class _BookingWaiverState extends State<BookingWaiver> {
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start  ,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
                 clipBehavior: Clip.hardEdge,
@@ -81,11 +81,8 @@ class _BookingWaiverState extends State<BookingWaiver> {
                       onChange: (val) {
                         waiverAccepted = val;
                       },
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 0),
                       child: Text(
-                        'I agree with the nature and conditions ',
+                        'I agree to the terms and conditions',
                         style: Theme.of(context).textTheme.labelLarge,
                       ),
                     ),
