@@ -3,6 +3,8 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timberland_biketrail/core/router/router.dart';
+import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/bloc/notifications_bloc.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/widgets/notification_banner.dart';
 
@@ -40,12 +42,19 @@ class _TMBTNotificationListenerState extends State<TMBTNotificationListener>
       listener: (context, state) {
         log(state.toString());
         if (state is NotificationRecieved) {
-          controller.forward().then((value) {
-            Future.delayed(
-              const Duration(seconds: 5),
-              () => controller.reverse(),
-            );
-          });
+          if (state.onForeground) {
+            controller.forward().then((value) {
+              Future.delayed(
+                const Duration(seconds: 5),
+                () => controller.reverse(),
+              );
+            });
+          } else {
+            log('Hello');
+            Session().isLoggedIn
+                ? appRouter.pushNamed(Routes.checkoutNotification.name)
+                : appRouter.goNamed(Routes.checkoutNotification.name);
+          }
         }
       },
       child: Stack(

@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'notifications_bloc.dart';
 
 abstract class NotificationsState extends Equatable {
@@ -10,6 +11,10 @@ abstract class NotificationsState extends Equatable {
 class NotificationsInitial extends NotificationsState {}
 
 class NotificationRecieved extends NotificationsState {
+  final bool onForeground;
+  const NotificationRecieved({
+    required this.onForeground,
+  });
   @override
   List<Object> get props => super.props..add(DateTime.now());
 }

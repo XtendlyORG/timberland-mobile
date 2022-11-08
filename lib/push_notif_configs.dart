@@ -2,9 +2,6 @@ import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
-import 'package:timberland_biketrail/core/router/router.dart';
-import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/dependency_injection/app_info_depencency.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/bloc/notifications_bloc.dart';
 import 'package:timberland_biketrail/firebase_options.dart';
@@ -29,7 +26,6 @@ Future<void> initFirebaseMessaging() async {
   FirebaseMessaging.onMessage.listen((event) {
     if (event.notification != null) {
       serviceLocator<NotificationsBloc>().add(NotificationRecievedEvent());
-      showInfo(event.data.toString());
     } else {
       log('Message has no notification');
     }
@@ -37,15 +33,13 @@ Future<void> initFirebaseMessaging() async {
 
   FirebaseMessaging.instance.getInitialMessage().then((value) {
     if (value != null && value.notification != null) {
-      appRouter.goNamed(Routes.checkoutNotification.name);
+      serviceLocator<NotificationsBloc>().add(NotificationOnBackground());
     }
   });
 
   // When banner notif is pressed
   FirebaseMessaging.onMessageOpenedApp.listen((event) {
-    Session().isLoggedIn
-        ? appRouter.pushNamed(Routes.checkoutNotification.name)
-        : appRouter.goNamed(Routes.checkoutNotification.name);
+    serviceLocator<NotificationsBloc>().add(NotificationOnBackground());
   });
 
   FirebaseMessaging.onBackgroundMessage(_onBackgroundMessageHandler);

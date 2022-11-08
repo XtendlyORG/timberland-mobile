@@ -10,3 +10,5 @@ abstract class NotificationsEvent extends Equatable {
 class CheckForFCMTokenUpdate extends NotificationsEvent {}
 
 class NotificationRecievedEvent extends NotificationsEvent {}
+
+class NotificationOnBackground extends NotificationsEvent {}
