@@ -25,6 +25,7 @@ import 'package:timberland_biketrail/features/history/domain/entities/entities.d
 import 'package:timberland_biketrail/features/history/presentation/bloc/history_bloc.dart';
 import 'package:timberland_biketrail/features/history/presentation/pages/booking_history_details.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/pages/checkout_now_page.dart';
+import 'package:timberland_biketrail/features/notifications/presentation/widgets/notification_listener.dart';
 
 import '../../dashboard/presentation/pages/qr_code_page.dart';
 import '../../dashboard/presentation/pages/update_profile_page.dart';
@@ -76,6 +77,9 @@ final appRouter = GoRouter(
       return null;
     }
     return null;
+  },
+  navigatorBuilder: (context, state, child) {
+    return TMBTNotificationListener(child: child);
   },
   routes: [
     GoRoute(

@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:timberland_biketrail/features/notifications/domain/repositories/push_notif_repository.dart';
@@ -19,6 +20,9 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
         },
         (r) => null,
       );
+    });
+    on<NotificationRecievedEvent>((event, emit) {
+      emit(NotificationRecieved());
     });
   }
 }

@@ -11,10 +11,8 @@ import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/
 import 'package:timberland_biketrail/core/utils/internet_connection.dart';
 import 'package:timberland_biketrail/features/booking/domain/repositories/booking_repository.dart';
 import 'package:timberland_biketrail/features/booking/presentation/cubit/free_pass_counter_cubit.dart';
-import 'package:timberland_biketrail/features/emergency/domain/repositories/emergency_repository.dart';
 import 'package:timberland_biketrail/features/emergency/presentation/bloc/emergency_bloc.dart';
 import 'package:timberland_biketrail/features/history/presentation/bloc/history_bloc.dart';
-import 'package:timberland_biketrail/features/notifications/domain/repositories/push_notif_repository.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/bloc/notifications_bloc.dart';
 import 'package:timberland_biketrail/push_notif_configs.dart';
 
@@ -66,14 +64,10 @@ Future<void> run({
         ),
       ),
       BlocProvider<EmergencyBloc>(
-        create: (context) => EmergencyBloc(
-          repository: di.serviceLocator<EmergencyRepository>(),
-        ),
+        create: (context) => di.serviceLocator<EmergencyBloc>(),
       ),
       BlocProvider<NotificationsBloc>(
-        create: (context) => NotificationsBloc(
-          repository: di.serviceLocator<PushNotificationRepository>(),
-        ),
+        create: (context) => di.serviceLocator<NotificationsBloc>(),
       ),
     ],
     child: const MyApp(),
