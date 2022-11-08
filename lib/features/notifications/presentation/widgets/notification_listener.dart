@@ -1,6 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
@@ -40,7 +37,6 @@ class _TMBTNotificationListenerState extends State<TMBTNotificationListener>
   Widget build(BuildContext context) {
     return BlocListener<NotificationsBloc, NotificationsState>(
       listener: (context, state) {
-        log(state.toString());
         if (state is NotificationRecieved) {
           if (state.onForeground) {
             controller.forward().then((value) {
@@ -50,7 +46,6 @@ class _TMBTNotificationListenerState extends State<TMBTNotificationListener>
               );
             });
           } else {
-            log('Hello');
             Session().isLoggedIn
                 ? appRouter.pushNamed(Routes.checkoutNotification.name)
                 : appRouter.goNamed(Routes.checkoutNotification.name);
