@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
+import 'package:timberland_biketrail/features/booking/presentation/bloc/booking_bloc.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/bloc/notifications_bloc.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/widgets/notification_banner.dart';
 
@@ -35,23 +37,35 @@ class _TMBTNotificationListenerState extends State<TMBTNotificationListener>
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<NotificationsBloc, NotificationsState>(
-      listener: (context, state) {
-        if (state is NotificationRecieved) {
-          if (state.onForeground) {
-            controller.forward().then((value) {
-              Future.delayed(
-                const Duration(seconds: 5),
-                () => controller.reverse(),
-              );
-            });
-          } else {
-            Session().isLoggedIn
-                ? appRouter.pushNamed(Routes.checkoutNotification.name)
-                : appRouter.goNamed(Routes.checkoutNotification.name);
-          }
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<NotificationsBloc, NotificationsState>(
+          listener: (context, state) {
+            if (state is NotificationRecieved) {
+              if (state.onForeground) {
+                controller.forward().then((value) {
+                  Future.delayed(
+                    const Duration(seconds: 5),
+                    () => controller.reverse(),
+                  );
+                });
+              } else {
+                Session().isLoggedIn
+                    ? appRouter.pushNamed(Routes.checkoutNotification.name)
+                    : appRouter.goNamed(Routes.checkoutNotification.name);
+              }
+            }
+          },
+        ),
+        BlocListener<BookingBloc, BookingState>(
+          listenWhen: (previous, current) => current is CheckoutState,
+          listener: (context, state) {
+            if (state is CheckedOut) {
+              context.goNamed(Routes.trails.name);
+            }
+          },
+        ),
+      ],
       child: Stack(
         alignment: Alignment.topCenter,
         children: [

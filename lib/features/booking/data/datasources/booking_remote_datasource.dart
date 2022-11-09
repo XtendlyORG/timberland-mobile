@@ -63,6 +63,21 @@ class BookingRemoteDataSource implements BookingDatasource {
     });
   }
 
+  @override
+  Future<void> checkoutBooking(String bookingId) {
+    return this(
+      callback: () async {
+        final response = await dioClient.put(
+          '${environmentConfig.apihost}/bookings/$bookingId/checkout',
+        );
+        if (response.statusCode == 200) {
+          return;
+        }
+        throw const BookingException(message: 'Something Went Wrong');
+      },
+    );
+  }
+
   Future<ReturnType> call<ReturnType>({
     required Future<ReturnType> Function() callback,
   }) async {

@@ -23,10 +23,12 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
       );
     });
     on<NotificationRecievedEvent>((event, emit) {
+      emit(NotificationsInitial());
       emit(const NotificationRecieved(onForeground: true));
     });
 
     on<NotificationOnBackground>((event, emit) {
+      emit(NotificationsInitial());
       emit(const NotificationRecieved(onForeground: false));
     });
   }

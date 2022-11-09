@@ -26,6 +26,13 @@ class BookingRepositoryImpl implements BookingRepository {
         request: () => bookingDatasource.submitBookingRequest(requestParams));
   }
 
+  @override
+  Future<Either<BookingFailure, void>> checkoutBooking(String bookingId) {
+    return this(
+      request: () => bookingDatasource.checkoutBooking(bookingId),
+    );
+  }
+
   Future<Either<BookingFailure, ReturnType>> call<ReturnType>({
     required Future<ReturnType> Function() request,
   }) async {

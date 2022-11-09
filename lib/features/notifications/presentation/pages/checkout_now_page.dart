@@ -2,14 +2,14 @@ import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_area.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_scaffold.dart';
-import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
+import 'package:timberland_biketrail/features/booking/presentation/bloc/booking_bloc.dart';
 
 class CheckOutNowPage extends StatelessWidget {
   const CheckOutNowPage({super.key});
@@ -55,7 +55,11 @@ class CheckOutNowPage extends StatelessWidget {
                               width: double.infinity,
                               height: kHorizontalPadding,
                             ),
-                            const Icon(Icons.notification_important_outlined),
+                            Image.asset(
+                              'assets/icons/checkout-icon.png',
+                              height: 64,
+                              width: 64,
+                            ),
                             const SizedBox(
                               height: kVerticalPadding,
                             ),
@@ -91,8 +95,9 @@ class CheckOutNowPage extends StatelessWidget {
                   width: double.infinity,
                   child: FilledTextButton(
                     onPressed: () {
-                      // TODO: Call checkout event
-                      context.goNamed(Routes.trails.name);
+                      BlocProvider.of<BookingBloc>(context).add(
+                        const CheckoutBooking(bookingId: ''),
+                      );
                     },
                     child: const Text('Check Out'),
                   ),

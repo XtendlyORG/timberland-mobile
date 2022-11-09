@@ -4,4 +4,5 @@ import '../../domain/params/booking_request_params.dart';
 abstract class BookingDatasource {
   Future<BookingResponse> submitBookingRequest(BookingRequestParams params);
   Future<int> getFreePassCount();
+  Future<void> checkoutBooking(String bookingId);
 }
