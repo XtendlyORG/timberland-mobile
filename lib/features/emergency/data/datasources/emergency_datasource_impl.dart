@@ -18,7 +18,7 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
     required this.environmentConfig,
   }) {
     socket = IO.io(
-      environmentConfig.timberlandServerIP,
+      '${environmentConfig.apihost}:3001',
       IO.OptionBuilder()
           .setTransports(['websocket'])
           .disableAutoConnect()
