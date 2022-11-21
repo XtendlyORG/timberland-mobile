@@ -25,27 +25,15 @@ class DifficultyLevel {
       case 'very difficult':
         return Difficulties.veryDifficult;
       default:
-        throw Exception(
-          "Difficulty $name is not valid, append it to 'Difficulties' abstract object",
+        return DifficultyLevel(
+          id: name.codeUnits.first,
+          name: name,
+          primaryColor: TimberlandColor.primary,
+          secondaryColor: TimberlandColor.background,
         );
-    }
-  }
-  factory DifficultyLevel.fromInt(int difficultyLevel) {
-    switch (difficultyLevel) {
-      case 1:
-        return Difficulties.easiest;
-      case 2:
-        return Difficulties.easy;
-      // case 3:
-      //   return Difficulties.intermediate;
-      case 3:
-        return Difficulties.moreDifficult;
-      case 4:
-        return Difficulties.veryDifficult;
-      default:
-        throw Exception(
-          "Difficulty $difficultyLevel is not valid, append it to 'Difficulties' abstract object",
-        );
+        // throw Exception(
+        //   "Difficulty $name is not valid, append it to 'Difficulties' abstract object",
+        // );
     }
   }
 }
