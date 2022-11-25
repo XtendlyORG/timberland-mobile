@@ -11,4 +11,7 @@ abstract class EmergencyRepository extends Repository {
   Future<Either<EmergencyFailure, void>> reconnectToChannel(
     String channelID,
   );
+  Future<Either<EmergencyFailure, void>> connectToSocket({
+    required void Function(EmergencyConfigs configs) onIncomingCall,
+  });
 }

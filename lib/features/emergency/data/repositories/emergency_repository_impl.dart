@@ -28,6 +28,13 @@ class EmergencyRepositoryImpl implements EmergencyRepository {
       String channelID) {
     return this(request: () => dataSource.reconnectToChannel(channelID));
   }
+  
+  @override
+  Future<Either<EmergencyFailure, void>> connectToSocket({
+    required void Function(EmergencyConfigs configs) onIncomingCall,
+  }) {
+    return this(request: () => dataSource.connectToSocket(onIncomingCall:onIncomingCall));
+  }
 
   Future<Either<EmergencyFailure, ReturnType>> call<ReturnType>({
     required Future<ReturnType> Function() request,
