@@ -70,10 +70,19 @@ class Session extends ChangeNotifier {
     await _prefs.setString(
         _PrefKeys.lockAuthUntil, _lockAuthUntil!.toIso8601String());
   }
+
+  Future<bool> saveFCMToken(String fcmToken) async {
+    return _prefs.setString(_PrefKeys.fcmToken, fcmToken);
+  }
+
+  String? getFCMToken() {
+    return _prefs.getString(_PrefKeys.fcmToken);
+  }
 }
 
 abstract class _PrefKeys {
   static const isLoggedIn = 'isLoggedIn';
   static const uid = 'UID';
   static const lockAuthUntil = 'lockAuthUntil';
+  static const fcmToken = 'FCM_TOKEN';
 }

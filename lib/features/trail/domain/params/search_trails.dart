@@ -12,12 +12,9 @@ class SearchTrailsParams {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'name': name,
-      'difficulties': difficulties
-          .map((x) {
-            return x.id;
-          })
-          .toList()
-          .toString(),
+      'difficulties': difficulties.map((x) {
+        return x.name;
+      }).toList(),
     };
   }
 }

@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/custom_checkbox.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_area.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/expanded_image.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_scaffold.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
@@ -21,10 +19,6 @@ class TrailMap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ImageController smartCtrl = ImageController(name: 'S.M.A.R.T.');
-    ImageController legendsCtrl = ImageController(name: 'Legends');
-    ImageController symbolsCtrl = ImageController(name: 'Symbols');
-
     return BlocListener<TrailBloc, TrailState>(
       listener: (context, state) {
         if (state is SavingTrailMap) {
@@ -61,30 +55,32 @@ class TrailMap extends StatelessWidget {
                     padding: const EdgeInsets.only(
                         top: kToolbarHeight, right: kVerticalPadding),
                     child: ExpandableWidget(
-                      tag: 'trail-map-readme',
-                      imageToShow: Image.asset(
-                        'assets/images/trail-map-readme.png',
-                        width: 100,
-                      ),
-                      onCreate: (ctrl) {
-                        smartCtrl.status = ctrl;
-                      },
-                      onFullScreen: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            fullscreenDialog: true,
-                            builder: (context) {
-                              return const ExpandedImage(
-                                imageProvider: AssetImage(
-                                  'assets/images/trail-map-readme.png',
-                                ),
-                                tag: 'trail-map-readme',
-                              );
-                            },
+                      alignment: Alignment.topCenter,
+                      child: Hero(
+                        tag: 'trail-map-readme',
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                fullscreenDialog: true,
+                                builder: (context) {
+                                  return const ExpandedImage(
+                                    imageProvider: AssetImage(
+                                      'assets/images/trail-map-readme.png',
+                                    ),
+                                    tag: 'trail-map-readme',
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                          child: Image.asset(
+                            'assets/images/trail-map-readme.png',
+                            height: 150,
                           ),
-                        );
-                      },
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -109,134 +105,65 @@ class TrailMap extends StatelessWidget {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            ExpandableWidget(
-                              tag: 'trail-map-legends',
-                              imageToShow: Image.asset(
-                                'assets/images/trail-map-legends.png',
-                                scale: 3.5,
-                              ),
-                              onCreate: (ctrl) {
-                                legendsCtrl.status = ctrl;
-                              },
-                              onFullScreen: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    fullscreenDialog: true,
-                                    builder: (context) {
-                                      return const ExpandedImage(
-                                        imageProvider: AssetImage(
-                                          'assets/images/trail-map-legends.png',
-                                        ),
-                                        tag: 'trail-map-legends',
-                                      );
-                                    },
+                        ExpandableWidget(
+                          alignment: Alignment.bottomCenter,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Hero(
+                                tag: 'trail-map-legends',
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        fullscreenDialog: true,
+                                        builder: (context) {
+                                          return const ExpandedImage(
+                                            imageProvider: AssetImage(
+                                              'assets/images/trail-map-legends.png',
+                                            ),
+                                            tag: 'trail-map-legends',
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  },
+                                  child: Image.asset(
+                                    'assets/images/trail-map-legends.png',
+                                    scale: 3.5,
                                   ),
-                                );
-                              },
-                            ),
-                            ExpandableWidget(
-                              tag: 'trail-map-symbols',
-                              imageToShow: Image.asset(
-                                'assets/images/trail-map-symbols.png',
-                                scale: 3.5,
+                                ),
                               ),
-                              onFullScreen: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    fullscreenDialog: true,
-                                    builder: (context) {
-                                      return const ExpandedImage(
-                                        imageProvider: AssetImage(
-                                          'assets/images/trail-map-symbols.png',
-                                        ),
-                                        tag: 'trail-map-symbols',
-                                      );
-                                    },
+                              Hero(
+                                tag: 'trail-map-symbols',
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        fullscreenDialog: true,
+                                        builder: (context) {
+                                          return const ExpandedImage(
+                                            imageProvider: AssetImage(
+                                              'assets/images/trail-map-symbols.png',
+                                            ),
+                                            tag: 'trail-map-symbols',
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  },
+                                  child: Image.asset(
+                                    'assets/images/trail-map-symbols.png',
+                                    scale: 3.5,
                                   ),
-                                );
-                              },
-                              onCreate: (ctrl) {
-                                symbolsCtrl.status = ctrl;
-                              },
-                            ),
-                          ],
-                        ),
-                        const Spacer(),
-                        TextButton(
-                          onPressed: () {
-                            showModalBottomSheet(
-                              backgroundColor:
-                                  Theme.of(context).backgroundColor,
-                              // barrierColor: Colors.transparent,
-                              clipBehavior: Clip.hardEdge,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(20)),
+                                ),
                               ),
-                              isScrollControlled: true,
-                              context: context,
-                              builder: (context) {
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: kHorizontalPadding,
-                                    vertical: kVerticalPadding,
-                                  ),
-                                  child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        ...[
-                                          smartCtrl,
-                                          legendsCtrl,
-                                          symbolsCtrl,
-                                        ]
-                                            .map(
-                                              (e) => CustomCheckbox(
-                                                initValue: e.status?.status ==
-                                                    AnimationStatus.completed,
-                                                onChange: (val) {
-                                                  if (val) {
-                                                    e.show();
-                                                    return;
-                                                  }
-                                                  e.hide();
-                                                },
-                                                child: Text(
-                                                  e.name,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .titleMedium,
-                                                ),
-                                              ),
-                                            )
-                                            .toList(),
-                                        const SizedBox(
-                                          height: kVerticalPadding,
-                                        ),
-                                        SizedBox(
-                                          width: double.infinity,
-                                          child: FilledTextButton(
-                                            child: const Text("DONE"),
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                          ),
-                                        ),
-                                      ]),
-                                );
-                              },
-                            );
-                          },
-                          child: Icon(
-                            Icons.settings,
-                            color: Theme.of(context).backgroundColor,
+                            ],
                           ),
                         ),
+                        const Spacer(),
                         IconButton(
                           onPressed: () async {
                             BlocProvider.of<TrailBloc>(context).add(
@@ -265,97 +192,81 @@ class TrailMap extends StatelessWidget {
   }
 }
 
-class ImageController {
-  AnimationController? status;
-  final String name;
-  ImageController({
-    this.status,
-    required this.name,
-  });
-
-  void show() => status?.forward();
-  void hide() => status?.reverse();
-}
-
 class ExpandableWidget extends StatefulWidget {
   const ExpandableWidget({
     Key? key,
-    required this.tag,
-    required this.imageToShow,
-    required this.onFullScreen,
-    required this.onCreate,
+    required this.child,
+    required this.alignment,
   }) : super(key: key);
 
-  final String tag;
-  final Image imageToShow;
-  final VoidCallback onFullScreen;
-  final void Function(AnimationController ctrl) onCreate;
+  final Widget child;
+
+  final AlignmentGeometry alignment;
 
   @override
   State<ExpandableWidget> createState() => _ExpandableWidgetState();
 }
 
-class _ExpandableWidgetState extends State<ExpandableWidget>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController controller;
-  bool imageVisible = false;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
-    controller.addListener(() {
-      setState(() {});
-    });
-    controller.forward();
-    widget.onCreate(controller);
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
+class _ExpandableWidgetState extends State<ExpandableWidget> {
+  bool isMinimized = false;
 
   @override
   Widget build(BuildContext context) {
-    return Transform.scale(
-      alignment: Alignment.topCenter,
-      scaleY: controller.value,
-      child: Hero(
-        tag: widget.tag,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Container(
-              foregroundDecoration: BoxDecoration(
-                color: Colors.black.withOpacity(.4),
-              ),
-              child: widget.imageToShow,
-            ),
-            GestureDetector(
-              onTap: () {
-                widget.onFullScreen();
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: TimberlandColor.background.withOpacity(.8),
-                ),
-                padding: const EdgeInsets.all(8),
-                child: const Icon(
-                  Icons.fullscreen_rounded,
-                  size: 48,
-                  color: TimberlandColor.primary,
-                ),
-              ),
-            ),
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      transitionBuilder: (child, animation) {
+        return ScaleTransition(
+          scale: animation,
+          alignment: widget.alignment == Alignment.bottomCenter
+              ? Alignment.bottomLeft
+              : Alignment.topRight,
+          child: child,
+        );
+      },
+      layoutBuilder: (currentChild, previousChildren) {
+        return Stack(
+          alignment: widget.alignment == Alignment.bottomCenter
+              ? Alignment.bottomLeft
+              : Alignment.topRight,
+          children: <Widget>[
+            ...previousChildren,
+            if (currentChild != null) currentChild,
           ],
-        ),
-      ),
+        );
+      },
+      child: isMinimized
+          ? GestureDetector(
+              onTap: () {
+                setState(() {
+                  isMinimized = false;
+                });
+              },
+              child: const Icon(
+                Icons.image_outlined,
+                color: TimberlandColor.background,
+                size: 32,
+              ),
+            )
+          : Stack(
+              alignment: Alignment.topRight,
+              children: [
+                widget.child,
+                Container(
+                  color: Colors.black.withOpacity(.5),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isMinimized = true;
+                      });
+                    },
+                    child: const Icon(
+                      Icons.close,
+                      color: TimberlandColor.background,
+                    ),
+                  ),
+                ),
+              ],
+            ),
     );
   }
 }

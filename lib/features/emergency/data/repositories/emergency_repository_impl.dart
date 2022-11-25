@@ -24,8 +24,16 @@ class EmergencyRepositoryImpl implements EmergencyRepository {
   }
 
   @override
-  Future<Either<EmergencyFailure, void>> reconnectToChannel(String token) {
-    return this(request: () => dataSource.reconnectToChannel(token));
+  Future<Either<EmergencyFailure, void>> reconnectToChannel(
+      String channelID) {
+    return this(request: () => dataSource.reconnectToChannel(channelID));
+  }
+  
+  @override
+  Future<Either<EmergencyFailure, void>> connectToSocket({
+    required void Function(EmergencyConfigs configs) onIncomingCall,
+  }) {
+    return this(request: () => dataSource.connectToSocket(onIncomingCall:onIncomingCall));
   }
 
   Future<Either<EmergencyFailure, ReturnType>> call<ReturnType>({

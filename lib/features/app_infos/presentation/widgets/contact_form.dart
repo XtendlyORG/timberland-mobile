@@ -60,6 +60,12 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
   }
 
   @override
+  void dispose() {
+    EasyLoading.dismiss();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Form(
       key: formKey,
@@ -285,6 +291,10 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
           } else {
             images.addAll(
                 await ImagePicker().pickMultiImage(imageQuality: 10) ?? []);
+          }
+
+          if (images.isEmpty) {
+            return;
           }
 
           if (images.length + imageConfigs.length > 3) {

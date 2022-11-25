@@ -66,3 +66,10 @@ class EmergencyFailure implements Failure {
     required this.message,
   });
 }
+
+class PushNotificationFailure implements Failure {
+  final String message;
+  const PushNotificationFailure({
+    required this.message,
+  });
+}

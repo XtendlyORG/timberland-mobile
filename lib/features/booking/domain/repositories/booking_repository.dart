@@ -11,4 +11,6 @@ abstract class BookingRepository extends Repository {
   );
 
   Future<Either<Failure, int>> getFreePassCount();
+
+  Future<Either<BookingFailure, void>> checkoutBooking(String bookingId);
 }

@@ -47,6 +47,8 @@ class _CancellationReasonPickerState extends State<CancellationReasonPicker> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 RadioListTile(
+                  visualDensity: VisualDensity.compact,
+                  dense: true,
                   value: otherReasonCtrl.text,
                   title: Text(
                     e,
@@ -81,6 +83,8 @@ class _CancellationReasonPickerState extends State<CancellationReasonPicker> {
           }
           return RadioListTile(
             value: e,
+            visualDensity: VisualDensity.compact,
+            dense: true,
             title: Text(
               e,
               style: Theme.of(context).textTheme.titleSmall,

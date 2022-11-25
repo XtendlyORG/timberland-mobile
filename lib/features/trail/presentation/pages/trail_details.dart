@@ -20,7 +20,7 @@ class TrailDetails extends StatelessWidget {
     trail ??= const Trail(
       trailId: '',
       trailName: '',
-      difficulty: Difficulties.advance,
+      difficulty: Difficulties.moreDifficult,
       description: '',
       distance: 1,
       routeType: '',

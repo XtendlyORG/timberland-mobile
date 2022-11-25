@@ -3,5 +3,8 @@ import 'package:timberland_biketrail/features/emergency/domain/entities/emergenc
 abstract class EmergencyDataSource {
   Future<EmergencyConfigs> fetchToken(String channelID);
   Future<void> disconnectFromSocket();
-  Future<void> reconnectToChannel(String token);
+  Future<void> reconnectToChannel(String channelID);
+  Future<void> connectToSocket({
+    required void Function(EmergencyConfigs configs) onIncomingCall,
+  });
 }

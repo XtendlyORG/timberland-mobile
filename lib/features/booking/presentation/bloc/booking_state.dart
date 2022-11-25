@@ -41,3 +41,16 @@ class BookingSubmitted extends BookingState {
       isFree,
     ]);
 }
+
+abstract class CheckoutState extends BookingState {}
+
+class CheckingOut extends CheckoutState {}
+
+class CheckedOut extends CheckoutState {}
+
+class CheckOutError extends CheckoutState {
+  final String errorMessage;
+  CheckOutError({
+    required this.errorMessage,
+  });
+}

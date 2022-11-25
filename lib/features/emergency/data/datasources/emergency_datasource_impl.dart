@@ -12,19 +12,19 @@ import 'package:timberland_biketrail/features/emergency/domain/entities/emergenc
 class EmergencyDataSourceImpl implements EmergencyDataSource {
   final Dio dioClient;
   final EnvironmentConfig environmentConfig;
-  final socket = IO.io(
-    // TODO: Refactor this, move ip address to .env
-    'http://146.190.194.170:3001/',
-    IO.OptionBuilder()
-        .setTransports(['websocket'])
-        .disableAutoConnect()
-        .build(),
-  );
-
+  late final IO.Socket socket;
   EmergencyDataSourceImpl({
     required this.dioClient,
     required this.environmentConfig,
-  });
+  }) {
+    socket = IO.io(
+      '${environmentConfig.apihost}:3001',
+      IO.OptionBuilder()
+          .setTransports(['websocket'])
+          .disableAutoConnect()
+          .build(),
+    );
+  }
   @override
   Future<EmergencyConfigs> fetchToken(String channelID) {
     return this(callback: () async {
@@ -37,10 +37,7 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
       );
 
       if (response.statusCode == 200) {
-        _initSocketEventHandlers(
-          tokenToSendWhenConnected: response.data['token'],
-        );
-        socket.connect();
+        _initiateCall(channelID);
 
         return EmergencyConfigs(
           token: response.data['token'],
@@ -54,14 +51,25 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
   }
 
   @override
-  Future<void> reconnectToChannel(String token) async {
-    _initSocketEventHandlers(tokenToSendWhenConnected: token);
-    socket.connect();
+  Future<void> reconnectToChannel(String channelID) async {
+    _initiateCall(channelID);
   }
 
   @override
   Future<void> disconnectFromSocket() async {
     _disposeSocket();
+  }
+
+  @override
+  Future<void> connectToSocket({
+    required void Function(EmergencyConfigs configs) onIncomingCall,
+  }) async {
+    if (!socket.hasListeners('received-admin-data')) {
+      _initSocketEventHandlers(onIncomingCall: onIncomingCall);
+    }
+    if (!socket.connected) {
+      socket.connect();
+    }
   }
 
   Future<ReturnType> call<ReturnType>({
@@ -82,15 +90,28 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
     }
   }
 
-  void _initSocketEventHandlers({required String tokenToSendWhenConnected}) {
+  void _initiateCall(String channelID) {
+    socket.emit('client-data', _toJson(channelID));
+  }
+
+  void _initSocketEventHandlers({
+    required void Function(EmergencyConfigs configs) onIncomingCall,
+  }) {
     socket.onConnect((data) {
       log(socket.connected ? 'Connected to Socket' : 'Not Connected');
-      socket.emit('client-data', toJson(tokenToSendWhenConnected));
     });
     socket.on(
-      'received-client-data',
+      'received-admin-data',
       (data) {
-        log('Token Received: $data');
+        if (data['member_id'].toString() == Session().currentUser!.id) {
+          onIncomingCall(
+            EmergencyConfigs(
+              channelID: data['channel'],
+              token: data['token'],
+              uid: data['uid'],
+            ),
+          );
+        }
       },
     );
     socket.onConnectError((data) {
@@ -116,10 +137,10 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
     socket.destroy();
   }
 
-  toJson(String token) {
+  _toJson(String channelID) {
     final user = Session().currentUser!;
     return {
-      'token': token,
+      'channel': channelID,
       'member_id': int.parse(user.id),
       'firstname': user.firstName,
       'lastname': user.lastName,
@@ -127,6 +148,7 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
       'mobile_number': user.mobileNumber,
       'emergency_number': user.emergencyContactInfo,
       'address': user.address,
+      'isPublisher': true,
     };
   }
 }
