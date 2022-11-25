@@ -17,3 +17,12 @@ class SubmitBookingRequest extends BookingEvent {
   @override
   List<Object> get props => super.props..add(params);
 }
+
+class CheckoutBooking extends BookingEvent {
+  final String bookingId;
+  const CheckoutBooking({
+    required this.bookingId,
+  });
+  @override
+  List<Object> get props => super.props..add(bookingId);
+}

@@ -37,5 +37,17 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
         },
       );
     });
+    on<CheckoutBooking>((event, emit) async {
+      emit(CheckingOut());
+      //TODO: Remove code below
+      emit(CheckedOut());
+
+      //TODO: uncomment codes below
+      // final result = await repository.checkoutBooking(event.bookingId);
+      // result.fold(
+      // (l) => emit(CheckOutError(errorMessage: l.message)),
+      // (r) => emit(CheckedOut()),
+      // );
+    });
   }
 }
