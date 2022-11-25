@@ -28,8 +28,14 @@ enum CallStatus {
   connected;
 }
 
+enum CallDirection { incoming, outgoing }
+
 class EmergencyPage extends StatefulWidget {
-  const EmergencyPage({Key? key}) : super(key: key);
+  const EmergencyPage({
+    Key? key,
+    required this.callDirection,
+  }) : super(key: key);
+  final CallDirection callDirection;
 
   @override
   State<EmergencyPage> createState() => _EmergencyPageState();
@@ -60,12 +66,26 @@ class _EmergencyPageState extends State<EmergencyPage>
 
     initialize().then((value) {
       bloc = BlocProvider.of<EmergencyBloc>(context);
+
       if (bloc.state is EmergencyTokenFetched) {
-        bloc.add(
-          ReconnectToSocket(
-            channelID: (bloc.state as EmergencyTokenFetched).configs.channelID,
-          ),
-        );
+        final state = bloc.state as EmergencyTokenFetched;
+        if (widget.callDirection == CallDirection.incoming) {
+          _joinChannel(state.configs);
+          return;
+        }
+        if (!state.configs.channelID.toLowerCase().contains('admin')) {
+          bloc.add(
+            ReconnectToSocket(
+              channelID: state.configs.channelID,
+            ),
+          );
+        } else {
+          bloc.add(
+            FetchEmergencyTokenEvent(
+              channelID: 'tmbt-emergency-${Session().currentUser!.id}',
+            ),
+          );
+        }
       } else {
         bloc.add(
           FetchEmergencyTokenEvent(
@@ -83,7 +103,6 @@ class _EmergencyPageState extends State<EmergencyPage>
     _engine.release();
     FlutterRingtonePlayer.stop();
     Vibration.cancel();
-    bloc.add(DisconnectFromSocket());
     super.dispose();
   }
 

@@ -8,6 +8,8 @@ abstract class EmergencyEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class ConnectToSocket extends EmergencyEvent {}
+
 class FetchEmergencyTokenEvent extends EmergencyEvent {
   final String channelID;
   const FetchEmergencyTokenEvent({
@@ -28,4 +30,13 @@ class ReconnectToSocket extends EmergencyEvent {
 
   @override
   List<Object> get props => super.props..add(channelID);
+}
+
+class AnswerIncomingCallEvent extends EmergencyEvent {
+  final EmergencyConfigs configs;
+  const AnswerIncomingCallEvent({
+    required this.configs,
+  });
+  @override
+  List<Object> get props => super.props..add(configs);
 }

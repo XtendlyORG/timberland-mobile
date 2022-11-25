@@ -9,7 +9,7 @@ import '../core/configs/environment_configs.dart';
 
 final serviceLocator = GetIt.instance;
 void init() {
-  serviceLocator.registerFactory<EmergencyBloc>(
+  serviceLocator.registerLazySingleton<EmergencyBloc>(
     () => EmergencyBloc(repository: serviceLocator()),
   );
 

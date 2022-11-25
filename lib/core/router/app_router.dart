@@ -62,8 +62,11 @@ final appRouter = GoRouter(
       // Routes.otpVerification.path,
       Routes.register.path + Routes.registerVerify.path,
     ].contains(routeState.location);
-    if ([Routes.contacts.path, Routes.checkoutNotification.path]
-        .contains(routeState.location)) {
+    if ([
+      Routes.contacts.path,
+      Routes.checkoutNotification.path,
+      Routes.emergency.path
+    ].contains(routeState.location)) {
       return null;
     }
     log(routeState.location);
@@ -784,7 +787,10 @@ final appRouter = GoRouter(
         return CustomTransitionPage(
           key: routeState.pageKey,
           restorationId: routeState.pageKey.value,
-          child: const EmergencyPage(),
+          child: EmergencyPage(
+            callDirection:
+                (routeState.extra as CallDirection?) ?? CallDirection.outgoing,
+          ),
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnim, child) {
             return FadeTransition(

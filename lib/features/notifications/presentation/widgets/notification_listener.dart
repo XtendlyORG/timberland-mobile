@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/booking/presentation/bloc/booking_bloc.dart';
+import 'package:timberland_biketrail/features/emergency/presentation/bloc/emergency_bloc.dart';
+import 'package:timberland_biketrail/features/emergency/presentation/pages/emergency_page.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/bloc/notifications_bloc.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/widgets/notification_banner.dart';
 
@@ -25,6 +27,7 @@ class _TMBTNotificationListenerState extends State<TMBTNotificationListener>
   @override
   void initState() {
     super.initState();
+    BlocProvider.of<EmergencyBloc>(context).add(ConnectToSocket());
     controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
@@ -41,6 +44,16 @@ class _TMBTNotificationListenerState extends State<TMBTNotificationListener>
       listeners: [
         BlocListener<NotificationsBloc, NotificationsState>(
           listener: (context, state) {
+            if (state is IncomingCallNotification) {
+              BlocProvider.of<EmergencyBloc>(context)
+                  .add(AnswerIncomingCallEvent(configs: state.configs));
+
+              // BlocProvider.of<AuthBloc>(context).add(const FetchUserEvent());
+              context.pushNamed(
+                Routes.emergency.name,
+                extra: CallDirection.incoming,
+              );
+            }
             if (state is NotificationRecieved) {
               if (state.onForeground) {
                 controller.forward().then((value) {

@@ -37,10 +37,8 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
       );
 
       if (response.statusCode == 200) {
-        _initSocketEventHandlers(
-          channelID: channelID,
-        );
-        socket.connect();
+        _initiateCall(channelID);
+
         return EmergencyConfigs(
           token: response.data['token'],
           channelID: channelID,
@@ -54,13 +52,24 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
 
   @override
   Future<void> reconnectToChannel(String channelID) async {
-    _initSocketEventHandlers(channelID: channelID);
-    socket.connect();
+    _initiateCall(channelID);
   }
 
   @override
   Future<void> disconnectFromSocket() async {
     _disposeSocket();
+  }
+
+  @override
+  Future<void> connectToSocket({
+    required void Function(EmergencyConfigs configs) onIncomingCall,
+  }) async {
+    if (!socket.hasListeners('received-admin-data')) {
+      _initSocketEventHandlers(onIncomingCall: onIncomingCall);
+    }
+    if (!socket.connected) {
+      socket.connect();
+    }
   }
 
   Future<ReturnType> call<ReturnType>({
@@ -81,17 +90,28 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
     }
   }
 
+  void _initiateCall(String channelID) {
+    socket.emit('client-data', _toJson(channelID));
+  }
+
   void _initSocketEventHandlers({
-    required String channelID,
+    required void Function(EmergencyConfigs configs) onIncomingCall,
   }) {
     socket.onConnect((data) {
       log(socket.connected ? 'Connected to Socket' : 'Not Connected');
-      socket.emit('client-data', _toJson(channelID));
     });
     socket.on(
-      'received-client-data',
+      'received-admin-data',
       (data) {
-        log('Token Received: $data');
+        if (data['member_id'].toString() == Session().currentUser!.id) {
+          onIncomingCall(
+            EmergencyConfigs(
+              channelID: data['channel'],
+              token: data['token'],
+              uid: data['uid'],
+            ),
+          );
+        }
       },
     );
     socket.onConnectError((data) {

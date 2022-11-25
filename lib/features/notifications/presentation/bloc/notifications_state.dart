@@ -18,3 +18,12 @@ class NotificationRecieved extends NotificationsState {
   @override
   List<Object> get props => super.props..add(DateTime.now());
 }
+
+class IncomingCallNotification extends NotificationsState {
+  final EmergencyConfigs configs;
+  const IncomingCallNotification({
+    required this.configs,
+  });
+  @override
+  List<Object> get props => super.props..add(configs);
+}
