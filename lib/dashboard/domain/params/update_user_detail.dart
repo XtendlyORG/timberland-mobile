@@ -96,19 +96,20 @@ class UpdateUserDetailsParams {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'firstname': firstName,
-      'middlename': middleName,
-      'lastname': lastName,
-      'mobile_number': mobileNumber,
-      'emergency_number': emergencyContactInfo,
+      'firstname': firstName.isEmpty ? null : firstName,
+      'middlename': (middleName ?? '').isEmpty ? null : middleName,
+      'lastname': lastName.isEmpty ? null : lastName,
+      'mobile_number': mobileNumber.isEmpty ? null : mobileNumber,
+      'emergency_number':
+          (emergencyContactInfo ?? '').isEmpty ? null : emergencyContactInfo,
       'birth_date': birthday,
-      'gender': gender,
-      'address': address,
-      'profession': profession,
-      'blood_type': bloodType,
-      'bike_model': bikeModel,
-      'bike_year': bikeYear,
-      'bike_color': bikeColor,
+      'gender': (gender ?? '').isEmpty ? null : gender,
+      'address': (address ?? '').isEmpty ? null : address,
+      'profession': (profession ?? '').isEmpty ? null : profession,
+      'blood_type': (bloodType ?? '').isEmpty ? null : bloodType,
+      'bike_model': (bikeModel ?? '').isEmpty ? null : bikeModel,
+      'bike_year': (bikeYear ?? '').isEmpty ? null : bikeYear,
+      'bike_color': (bikeColor ?? '').isEmpty ? null : bikeColor,
     };
   }
 }
