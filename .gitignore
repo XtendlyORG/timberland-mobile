@@ -50,5 +50,6 @@ app.*.map.json
 /android/app/release
 
 build-apk.bat
+build-app.sh
 
 lib/firebase_options.dart
