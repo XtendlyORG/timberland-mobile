@@ -1,13 +1,16 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/booking/presentation/bloc/booking_bloc.dart';
 import 'package:timberland_biketrail/features/emergency/presentation/bloc/emergency_bloc.dart';
-import 'package:timberland_biketrail/features/emergency/presentation/pages/emergency_page.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/bloc/notifications_bloc.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/widgets/notification_banner.dart';
+import 'package:vibration/vibration.dart';
+
+import 'incoming_call_notif_dialog.dart';
 
 class TMBTNotificationListener extends StatefulWidget {
   const TMBTNotificationListener({
@@ -21,20 +24,35 @@ class TMBTNotificationListener extends StatefulWidget {
 }
 
 class _TMBTNotificationListenerState extends State<TMBTNotificationListener>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController controller;
-  late final CurvedAnimation curvedAnimation;
+    with TickerProviderStateMixin {
+  late final AnimationController notificationCtrl;
+  late final CurvedAnimation notifAnimation;
+
+  late final AnimationController incomingCallNotifCtrl;
+  late final CurvedAnimation incomingCallAnimation;
   @override
   void initState() {
     super.initState();
     BlocProvider.of<EmergencyBloc>(context).add(ConnectToSocket());
-    controller = AnimationController(
+
+    // push notification controller
+    notificationCtrl = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
     );
-    curvedAnimation = CurvedAnimation(
-      parent: controller,
+    notifAnimation = CurvedAnimation(
+      parent: notificationCtrl,
       curve: Curves.easeInBack,
+    );
+
+    // emergency dialog controller
+    incomingCallNotifCtrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    incomingCallAnimation = CurvedAnimation(
+      parent: incomingCallNotifCtrl,
+      curve: Curves.linearToEaseOut,
     );
   }
 
@@ -48,18 +66,28 @@ class _TMBTNotificationListenerState extends State<TMBTNotificationListener>
               BlocProvider.of<EmergencyBloc>(context)
                   .add(AnswerIncomingCallEvent(configs: state.configs));
 
-              // BlocProvider.of<AuthBloc>(context).add(const FetchUserEvent());
-              context.pushNamed(
-                Routes.emergency.name,
-                extra: CallDirection.incoming,
+              incomingCallNotifCtrl.forward();
+              FlutterRingtonePlayer.play(
+                android: AndroidSounds.ringtone,
+                ios: IosSounds.alarm,
+                looping: true,
+                volume: 1,
+                // asAlarm: true,
+              );
+              Vibration.vibrate(
+                pattern: [500, 1000, 500, 1000],
+                intensities: [1, 255],
+                duration: 1000,
+                repeat: 1,
+                // repeat: 20
               );
             }
             if (state is NotificationRecieved) {
               if (state.onForeground) {
-                controller.forward().then((value) {
+                notificationCtrl.forward().then((value) {
                   Future.delayed(
                     const Duration(seconds: 5),
-                    () => controller.reverse(),
+                    () => notificationCtrl.reverse(),
                   );
                 });
               } else {
@@ -80,25 +108,43 @@ class _TMBTNotificationListenerState extends State<TMBTNotificationListener>
         ),
       ],
       child: Stack(
-        alignment: Alignment.topCenter,
+        alignment: Alignment.center,
         children: [
           widget.child,
-          AnimatedBuilder(
-            animation: curvedAnimation,
-            child: NotificationBanner(
-              onPressed: () {
-                controller.reverse();
+          Align(
+            alignment: Alignment.topCenter,
+            child: AnimatedBuilder(
+              animation: notifAnimation,
+              child: NotificationBanner(
+                onPressed: () {
+                  notificationCtrl.reverse();
+                },
+              ),
+              builder: (context, child) {
+                return SlideTransition(
+                  position: Tween<Offset>(
+                    begin: const Offset(0, -1),
+                    end: Offset.zero,
+                  ).animate(notifAnimation),
+                  child: child,
+                );
               },
             ),
-            builder: (context, child) {
-              return SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(0, -1),
-                  end: Offset.zero,
-                ).animate(curvedAnimation),
-                child: child,
-              );
-            },
+          ),
+          Align(
+            alignment: const Alignment(0, .25),
+            child: AnimatedBuilder(
+              animation: incomingCallAnimation,
+              child: IncomingCallNotifDialog(
+                incomingCallNotifCtrl: incomingCallNotifCtrl,
+              ),
+              builder: (context, child) {
+                return ScaleTransition(
+                  scale: incomingCallAnimation,
+                  child: child,
+                );
+              },
+            ),
           ),
         ],
       ),

@@ -56,6 +56,9 @@ class TrailMap extends StatelessWidget {
                         top: kToolbarHeight, right: kVerticalPadding),
                     child: ExpandableWidget(
                       alignment: Alignment.topCenter,
+                      minimizedWidget: Image.asset(
+                        'assets/icons/trail-map-minimized-readme.png',
+                      ),
                       child: Hero(
                         tag: 'trail-map-readme',
                         child: GestureDetector(
@@ -107,6 +110,9 @@ class TrailMap extends StatelessWidget {
                       children: [
                         ExpandableWidget(
                           alignment: Alignment.bottomCenter,
+                          minimizedWidget: Image.asset(
+                            'assets/icons/trail-map-minimized-legends.png',
+                          ),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -196,10 +202,12 @@ class ExpandableWidget extends StatefulWidget {
   const ExpandableWidget({
     Key? key,
     required this.child,
+    required this.minimizedWidget,
     required this.alignment,
   }) : super(key: key);
 
   final Widget child;
+  final Widget minimizedWidget;
 
   final AlignmentGeometry alignment;
 
@@ -241,10 +249,9 @@ class _ExpandableWidgetState extends State<ExpandableWidget> {
                   isMinimized = false;
                 });
               },
-              child: const Icon(
-                Icons.image_outlined,
-                color: TimberlandColor.background,
-                size: 32,
+              child: SizedBox.square(
+                dimension: 24,
+                child: widget.minimizedWidget,
               ),
             )
           : Stack(

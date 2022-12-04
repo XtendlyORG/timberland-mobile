@@ -12,6 +12,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:timberland_biketrail/core/constants/bloodtype_dropdown_items.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/custom_checkbox.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/date_picker.dart';
@@ -53,8 +54,7 @@ class RegistrationContinuationForm extends StatelessWidget {
     );
     final professionCtrl =
         TextEditingController(text: registerParameter.profession);
-    final bloodTypeCtrl =
-        TextEditingController(text: registerParameter.bloodType);
+    String? selectedBloodType = registerParameter.bloodType;
 
     final emergencyContactsCtrl =
         TextEditingController(text: registerParameter.emergencyContactInfo);
@@ -79,7 +79,7 @@ class RegistrationContinuationForm extends StatelessWidget {
       birthday = user!.birthday;
       birthdayCtrl.text =
           birthday != null ? DateFormat.yMMMMd('en_US').format(birthday) : '';
-      bloodTypeCtrl.text = user!.bloodType ?? '';
+      selectedBloodType = user!.bloodType;
       addressCtrl.text = user!.address ?? '';
       professionCtrl.text = user!.profession ?? '';
       emergencyContactsCtrl.text = user!.emergencyContactInfo ?? '';
@@ -197,13 +197,22 @@ class RegistrationContinuationForm extends StatelessWidget {
               margin: const EdgeInsets.only(
                 bottom: kVerticalPadding,
               ),
-              child: TextFormField(
-                controller: bloodTypeCtrl,
-                decoration: const InputDecoration(
-                  hintText: 'Blood Type',
-                ),
-                textInputAction: TextInputAction.next,
-                textCapitalization: TextCapitalization.words,
+              child: DropdownButtonFormField<String>(
+                items: kBloodTypes
+                    .map(
+                      (category) => DropdownMenuItem<String>(
+                        value: category,
+                        child: Text(category),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (selected) {
+                  selectedBloodType = selected ?? selectedBloodType;
+                },
+                value: selectedBloodType,
+                borderRadius: BorderRadius.circular(10),
+                hint: const Text('Blood Type'),
+                decoration: const InputDecoration(),
               ),
             ),
             Container(
@@ -371,9 +380,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                       birthDay: birthday,
                       address:
                           addressCtrl.text.isNotEmpty ? addressCtrl.text : null,
-                      bloodType: bloodTypeCtrl.text.isNotEmpty
-                          ? bloodTypeCtrl.text
-                          : null,
+                      bloodType: selectedBloodType,
                       emergencyContactInfo:
                           emergencyContactsCtrl.text.isNotEmpty
                               ? emergencyContactsCtrl.text
