@@ -33,8 +33,8 @@ class Inquiry extends Equatable {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'email': email,
-      'firstname': firstName.isEmpty ? null : firstName,
-      'lastname': lastName.isEmpty ? null : lastName,
+      'firstname': firstName,
+      'lastname': lastName,
       'subject': subject,
       'message': message,
     };
