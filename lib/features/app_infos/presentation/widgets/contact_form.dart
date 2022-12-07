@@ -2,6 +2,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -109,14 +110,23 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
           const SizedBox(
             height: kVerticalPadding,
           ),
-          Container(
+          ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: kMaxWidthMobile),
             child: DropdownButtonFormField<String>(
               items: kSubjects
                   .map(
                     (category) => DropdownMenuItem<String>(
                       value: category,
-                      child: Text(category),
+                      child: Container(
+                        constraints:
+                            const BoxConstraints(maxWidth: kMaxWidthMobile),
+                        width: 230,
+                        child: AutoSizeText(
+                          category,
+                          overflow: TextOverflow.visible,
+                          maxLines: 2,
+                        ),
+                      ),
                     ),
                   )
                   .toList(),
