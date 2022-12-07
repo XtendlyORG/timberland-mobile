@@ -64,6 +64,7 @@ final appRouter = GoRouter(
     ].contains(routeState.location);
     if ([
       Routes.contacts.path,
+      Routes.contacts.path + Routes.contactSuccess.path,
       Routes.checkoutNotification.path,
       Routes.emergency.path
     ].contains(routeState.location)) {

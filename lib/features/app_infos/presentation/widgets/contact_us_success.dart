@@ -8,6 +8,7 @@ import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_ar
 import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/timberland_scaffold.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
+import 'package:timberland_biketrail/core/utils/session.dart';
 
 class ContactUsThankyouPage extends StatelessWidget {
   const ContactUsThankyouPage({Key? key}) : super(key: key);
@@ -17,6 +18,7 @@ class ContactUsThankyouPage extends StatelessWidget {
     return DecoratedSafeArea(
       child: TimberlandScaffold(
         extendBodyBehindAppbar: true,
+        showNavbar: Session().isLoggedIn,
         body: Container(
           height: MediaQuery.of(context).size.height - kToolbarHeight * 2.75,
           constraints: const BoxConstraints(
