@@ -12,11 +12,13 @@ class PasswordField extends StatefulWidget {
     required this.controller,
     this.acceptEmpty = false,
     this.validator,
+    this.label,
   }) : super(key: key);
   final String hintText;
   final TextEditingController controller;
   final bool acceptEmpty;
   final String? Function(String?)? validator;
+  final Widget? label;
 
   @override
   State<PasswordField> createState() => _PasswordFieldState();
@@ -43,7 +45,8 @@ class _PasswordFieldState extends State<PasswordField> {
       textInputAction: widget.textInputAction,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
-        hintText: widget.hintText,
+        hintText: widget.label != null ? null : widget.hintText,
+        label: widget.label,
         suffixIcon: ExcludeFocus(
           child: IconButton(
             onPressed: () {

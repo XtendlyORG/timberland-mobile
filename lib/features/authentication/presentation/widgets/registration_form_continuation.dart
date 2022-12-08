@@ -2,7 +2,6 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -422,7 +421,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                   onChange: (val) {
                     agreedToTermsOfUse = val;
                   },
-                  child: AutoSizeText.rich(
+                  child: Text.rich(
                     TextSpan(
                       children: [
                         const TextSpan(
