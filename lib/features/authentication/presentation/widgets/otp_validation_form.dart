@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
@@ -59,7 +58,7 @@ class _OtpVerificationFormState extends State<OtpVerificationForm> {
         ),
         Padding(
           padding: const EdgeInsets.only(bottom: kHorizontalPadding),
-          child: AutoSizeText(
+          child: Text(
             'Enter the verification code we just sent you on your email address.',
             maxLines: 2,
             textAlign: TextAlign.center,

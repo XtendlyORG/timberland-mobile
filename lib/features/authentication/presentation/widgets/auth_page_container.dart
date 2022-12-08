@@ -1,10 +1,12 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timberland_biketrail/core/constants/constants.dart';
+import 'package:timberland_biketrail/core/constants/padding.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/lock_user_widget.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/timberland_logo.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
@@ -92,47 +94,134 @@ class AuthPageContainer extends StatelessWidget {
           ),
           Align(
             alignment: Alignment.topCenter,
-            child: ScrollConfiguration(
-              behavior: scrollBehavior ?? const ScrollBehavior(),
-              child: ListView(
-                shrinkWrap: true,
-                padding: EdgeInsets.zero,
-                children: [
-                  const Align(
-                    alignment: Alignment.topCenter,
-                    child: Padding(
-                      padding: EdgeInsets.only(top: kToolbarHeight / 2),
-                      child: TimberlandLogo(),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: kHorizontalPadding,
-                      // vertical: kVerticalPadding,
-                    ),
+            child: LayoutBuilder(builder: (context, constraints) {
+              return SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: IntrinsicHeight(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            top: kVerticalPadding * 2,
-                            bottom: kVerticalPadding,
+                        const Align(
+                          alignment: Alignment.topCenter,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: kToolbarHeight / 2),
+                            child: TimberlandLogo(),
                           ),
-                          child: ConstrainedBox(
-                            constraints:
-                                const BoxConstraints(maxWidth: kMaxWidthMobile),
-                            child: child,
+                        ),
+                        const SizedBox(height: kVerticalPadding),
+                        Flexible(
+                          fit: FlexFit.loose,
+                          child: ClipRRect(
+                            clipBehavior: Clip.hardEdge,
+                            borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(20),
+                            ),
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  gradient: TimberlandColor.linearGradient,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: kHorizontalPadding,
+                                    // vertical: kVerticalPadding,
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          top: kVerticalPadding * 2,
+                                          bottom: kVerticalPadding,
+                                        ),
+                                        child: ConstrainedBox(
+                                          constraints: const BoxConstraints(
+                                              maxWidth: kMaxWidthMobile),
+                                          child: child,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                ],
-              ),
-            ),
+                ),
+              );
+            }),
           ),
+
+          // Align(
+          //   alignment: Alignment.topCenter,
+          //   child: ScrollConfiguration(
+          //     behavior: scrollBehavior ?? const ScrollBehavior(),
+          //     child: ListView(
+          //       shrinkWrap: true,
+          //       padding: EdgeInsets.zero,
+          //       children: [
+          //         const Align(
+          //           alignment: Alignment.topCenter,
+          //           child: Padding(
+          //             padding: EdgeInsets.only(top: kToolbarHeight / 2),
+          //             child: TimberlandLogo(),
+          //           ),
+          //         ),
+          //         Padding(
+          //           padding: const EdgeInsets.symmetric(
+          //             horizontal: kHorizontalPadding,
+          //             // vertical: kVerticalPadding,
+          //           ),
+          //           child: Column(
+          //             mainAxisAlignment: MainAxisAlignment.center,
+          //             children: [
+          //               Padding(
+          //                 padding: const EdgeInsets.only(
+          //                   top: kVerticalPadding * 2,
+          //                   bottom: kVerticalPadding,
+          //                 ),
+          //                 child: ConstrainedBox(
+          //                   constraints:
+          //                       const BoxConstraints(maxWidth: kMaxWidthMobile),
+          //                   child: child,
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
   }
 }
+
+
+//  SizedOverflowBox(
+//   size: const Size(0,0),
+//   child: ClipRRect(
+//     clipBehavior: Clip.hardEdge,
+//     borderRadius: const BorderRadius.vertical(
+//       top: Radius.circular(20),
+//     ),
+//     child: BackdropFilter(
+//       filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+//       child: DecoratedBox(
+//         decoration: BoxDecoration(
+//           gradient: TimberlandColor.linearGradient,
+//         ),
+//         child: SizedBox(
+//           width: double.infinity,
+//           height: MediaQuery.of(context).size.longestSide,
+//         ),
+//       ),
+//     ),
+//   ),
+// ),

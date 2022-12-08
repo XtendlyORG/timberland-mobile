@@ -24,7 +24,6 @@ class TimberlandTheme {
           contentTextStyle: TextStyle(
             color: TimberlandColor.background,
           ),
-
         ),
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
@@ -34,12 +33,14 @@ class TimberlandTheme {
           isDense: true,
           isCollapsed: true,
           fillColor: TimberlandColor.background,
-          filled: true,
+          // filled: true,
           errorMaxLines: 2,
           enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: TimberlandColor.primary),
             borderRadius: BorderRadius.circular(6),
           ),
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          alignLabelWithHint: true,
           hintStyle: const TextStyle(fontSize: 18),
         ),
         scaffoldBackgroundColor: TimberlandColor.background,

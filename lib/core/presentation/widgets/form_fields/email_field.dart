@@ -12,9 +12,11 @@ class EmailField extends StatelessWidget {
     this.textInputAction,
     this.hintText,
     required this.controller,
+    this.label,
   }) : super(key: key);
 
   final TextEditingController controller;
+  final Widget? label;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,8 @@ class EmailField extends StatelessWidget {
       validator: validateEmail,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
-        hintText: hintText ?? 'Email Address',
+        hintText: label != null ? null : hintText ?? 'Email Address',
+        label: label,
       ),
       textInputAction: textInputAction ?? TextInputAction.next,
       keyboardType: TextInputType.emailAddress,

@@ -49,6 +49,7 @@ class LoginForm extends StatelessWidget {
               ),
               child: EmailField(
                 controller: emailCtrl,
+                label: const Text('Email Address'),
               ),
             ),
             Container(
@@ -56,7 +57,10 @@ class LoginForm extends StatelessWidget {
                 bottom: kVerticalPadding,
               ),
               child: RepaintBoundary(
-                child: PasswordField(controller: passwordCtrl),
+                child: PasswordField(
+                  controller: passwordCtrl,
+                  label: const Text('Password'),
+                ),
               ),
             ),
             Container(
