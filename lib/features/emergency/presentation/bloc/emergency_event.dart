@@ -40,3 +40,21 @@ class AnswerIncomingCallEvent extends EmergencyEvent {
   @override
   List<Object> get props => super.props..add(configs);
 }
+
+class DeclineCallEvent extends EmergencyEvent {
+  final String memberID;
+  const DeclineCallEvent({
+    required this.memberID,
+  });
+  @override
+  List<Object> get props => super.props..add(memberID);
+}
+
+class RegisterMissedCallEvent extends EmergencyEvent {
+  final EmergencyLog callLog;
+  const RegisterMissedCallEvent({
+    required this.callLog,
+  });
+  @override
+  List<Object> get props => super.props..add(callLog);
+}

@@ -116,24 +116,24 @@ class LoginForm extends StatelessWidget {
                 ],
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircularIconButton(
-                  assetImagePath: 'assets/icons/facebook.png',
-                  onTap: () {
-                    //TODO: Call Facebook Auth here
-                  },
-                ),
-                const SizedBox(width: 8),
-                CircularIconButton(
-                  assetImagePath: 'assets/icons/google.png',
-                  onTap: () {
-                    //TODO: Call Google Auth here
-                  },
-                ),
-              ],
-            )
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     CircularIconButton(
+            //       assetImagePath: 'assets/icons/facebook.png',
+            //       onTap: () {
+            //         //TODO: Call Facebook Auth here
+            //       },
+            //     ),
+            //     const SizedBox(width: 8),
+            //     CircularIconButton(
+            //       assetImagePath: 'assets/icons/google.png',
+            //       onTap: () {
+            //         //TODO: Call Google Auth here
+            //       },
+            //     ),
+            //   ],
+            // )
           ],
         ),
       ),

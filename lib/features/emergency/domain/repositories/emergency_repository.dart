@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:timberland_biketrail/core/errors/failures.dart';
 import 'package:timberland_biketrail/core/utils/repository.dart';
 import 'package:timberland_biketrail/features/emergency/domain/entities/emergency_configs.dart';
+import 'package:timberland_biketrail/features/emergency/domain/entities/emergency_log.dart';
 
 abstract class EmergencyRepository extends Repository {
   Future<Either<EmergencyFailure, EmergencyConfigs>> fetchToken(
@@ -14,4 +15,8 @@ abstract class EmergencyRepository extends Repository {
   Future<Either<EmergencyFailure, void>> connectToSocket({
     required void Function(EmergencyConfigs configs) onIncomingCall,
   });
+  Future<Either<EmergencyFailure, void>> declineCall(String memberID);
+  Future<Either<EmergencyFailure, void>> registerMissedCall(
+    EmergencyLog callLog,
+  );
 }

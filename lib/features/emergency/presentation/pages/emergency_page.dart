@@ -15,6 +15,7 @@ import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/core/utils/string_extensions.dart';
 import 'package:timberland_biketrail/dependency_injection/dependency_injection.dart';
 import 'package:timberland_biketrail/features/emergency/domain/entities/emergency_configs.dart';
+import 'package:timberland_biketrail/features/emergency/domain/entities/emergency_log.dart';
 import 'package:timberland_biketrail/features/emergency/presentation/bloc/emergency_bloc.dart';
 import 'package:timberland_biketrail/features/emergency/presentation/widgets/animated_circular_splash.dart';
 import 'package:vibration/vibration.dart';
@@ -98,6 +99,32 @@ class _EmergencyPageState extends State<EmergencyPage>
 
   @override
   void dispose() {
+    if (status != CallStatus.connected &&
+        widget.callDirection == CallDirection.outgoing) {
+      final user = Session().currentUser!;
+
+      log(name: "Emergency", "Leaving channel");
+      bloc.add(
+        RegisterMissedCallEvent(
+          callLog: EmergencyLog(
+            memberID: user.id,
+            emergencyDate: DateTime.now(),
+            firstName: user.firstName,
+            lastName: user.lastName,
+            address: user.address,
+            bloodType: user.bloodType,
+            emergencyContact: user.emergencyContactInfo ?? '-',
+            mobileNumber: user.mobileNumber,
+            callStatus: 'missed',
+          ),
+        ),
+      );
+      bloc.add(
+        DeclineCallEvent(
+          memberID: Session().currentUser!.id,
+        ),
+      );
+    }
     _controller.dispose();
     _engine.leaveChannel();
     _engine.release();
@@ -310,7 +337,7 @@ class _EmergencyPageState extends State<EmergencyPage>
                   ),
                   Text(
                     status == CallStatus.connected
-                        ? 'Incididunt cillum non aute non reprehenderit commodo tempor.\n(message when call status is connected)'
+                        ? 'You are now connected to TMBT Admin station'
                         : 'After pressing the emergency button, we will contact our nearest admin station to your current location.',
                     textAlign: TextAlign.center,
                     style: Theme.of(context)

@@ -8,6 +8,7 @@ import 'package:timberland_biketrail/core/errors/exceptions.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/emergency/data/datasources/emergency_datasource.dart';
 import 'package:timberland_biketrail/features/emergency/domain/entities/emergency_configs.dart';
+import 'package:timberland_biketrail/features/emergency/domain/entities/emergency_log.dart';
 
 class EmergencyDataSourceImpl implements EmergencyDataSource {
   final Dio dioClient;
@@ -70,6 +71,36 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
     if (!socket.connected) {
       socket.connect();
     }
+  }
+
+  @override
+  Future<void> declineCall(String memberID) async {
+    log(name: "Socket", "Declining call");
+    socket.emit('admin_call_decline', {
+      'member_id': int.parse(memberID),
+      'firstname': Session().currentUser!.firstName,
+      'lastname': Session().currentUser!.lastName,
+      'email': Session().currentUser!.email,
+      'mobile_number': Session().currentUser!.mobileNumber,
+      'emergency_contact': Session().currentUser!.emergencyContactInfo,
+    });
+  }
+
+  @override
+  Future<void> registerMissedCall(EmergencyLog callLog) async {
+    log(callLog.toMap().toString());
+    return this(callback: () async {
+      final response = await dioClient.post(
+        '${environmentConfig.apihost}/emergencies',
+        data: callLog.toMap(),
+      );
+
+      if (response.statusCode == 200) {
+        log(name: "Emergency Call", "Missed call registered");
+      }
+
+      throw const EmergencyException(message: 'Failed to register missed call');
+    });
   }
 
   Future<ReturnType> call<ReturnType>({

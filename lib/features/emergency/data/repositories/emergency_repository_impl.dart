@@ -4,6 +4,7 @@ import 'package:timberland_biketrail/core/errors/exceptions.dart';
 import 'package:timberland_biketrail/core/errors/failures.dart';
 import 'package:timberland_biketrail/features/emergency/data/datasources/emergency_datasource.dart';
 import 'package:timberland_biketrail/features/emergency/domain/entities/emergency_configs.dart';
+import 'package:timberland_biketrail/features/emergency/domain/entities/emergency_log.dart';
 import 'package:timberland_biketrail/features/emergency/domain/repositories/emergency_repository.dart';
 
 class EmergencyRepositoryImpl implements EmergencyRepository {
@@ -24,16 +25,32 @@ class EmergencyRepositoryImpl implements EmergencyRepository {
   }
 
   @override
-  Future<Either<EmergencyFailure, void>> reconnectToChannel(
-      String channelID) {
+  Future<Either<EmergencyFailure, void>> reconnectToChannel(String channelID) {
     return this(request: () => dataSource.reconnectToChannel(channelID));
   }
-  
+
   @override
   Future<Either<EmergencyFailure, void>> connectToSocket({
     required void Function(EmergencyConfigs configs) onIncomingCall,
   }) {
-    return this(request: () => dataSource.connectToSocket(onIncomingCall:onIncomingCall));
+    return this(
+        request: () =>
+            dataSource.connectToSocket(onIncomingCall: onIncomingCall));
+  }
+
+  @override
+  Future<Either<EmergencyFailure, void>> declineCall(String memberID) {
+    return this(
+      request: () => dataSource.declineCall(memberID),
+    );
+  }
+
+  @override
+  Future<Either<EmergencyFailure, void>> registerMissedCall(
+      EmergencyLog callLog) {
+    return this(
+      request: () => dataSource.registerMissedCall(callLog),
+    );
   }
 
   Future<Either<EmergencyFailure, ReturnType>> call<ReturnType>({

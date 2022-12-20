@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/constants/padding.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
+import 'package:timberland_biketrail/core/utils/session.dart';
+import 'package:timberland_biketrail/features/emergency/presentation/bloc/emergency_bloc.dart';
 import 'package:timberland_biketrail/features/emergency/presentation/pages/emergency_page.dart';
 import 'package:vibration/vibration.dart';
 
@@ -70,6 +73,12 @@ class IncomingCallNotifDialog extends StatelessWidget {
                       incomingCallNotifCtrl.reverse();
                       Vibration.cancel();
                       FlutterRingtonePlayer.stop();
+                      final bloc = BlocProvider.of<EmergencyBloc>(context);
+                      bloc.add(
+                        DeclineCallEvent(
+                          memberID: Session().currentUser!.id,
+                        ),
+                      );
                     },
                     style: TextButton.styleFrom(
                       backgroundColor: TimberlandColor.lightRed,

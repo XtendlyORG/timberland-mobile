@@ -6,6 +6,7 @@ import 'package:equatable/equatable.dart';
 import 'package:timberland_biketrail/dependency_injection/dependency_injection.dart'
     as di;
 import 'package:timberland_biketrail/features/emergency/domain/entities/emergency_configs.dart';
+import 'package:timberland_biketrail/features/emergency/domain/entities/emergency_log.dart';
 import 'package:timberland_biketrail/features/emergency/domain/repositories/emergency_repository.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/bloc/notifications_bloc.dart';
 
@@ -19,11 +20,17 @@ class EmergencyBloc extends Bloc<EmergencyEvent, EmergencyState> {
   }) : super(EmergencyInitial()) {
     on<AnswerIncomingCallEvent>(
       (event, emit) {
-        log("Call answered");
-        log(event.configs.toString());
         emit(EmergencyTokenFetched(configs: event.configs));
       },
     );
+
+    on<RegisterMissedCallEvent>((event, emit) {
+      repository.registerMissedCall(event.callLog);
+    });
+
+    on<DeclineCallEvent>((event, emit) {
+      repository.declineCall(event.memberID);
+    });
     on<FetchEmergencyTokenEvent>((event, emit) async {
       final result = await repository.fetchToken(event.channelID);
 

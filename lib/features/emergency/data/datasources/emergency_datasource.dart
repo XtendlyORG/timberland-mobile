@@ -1,4 +1,5 @@
 import 'package:timberland_biketrail/features/emergency/domain/entities/emergency_configs.dart';
+import 'package:timberland_biketrail/features/emergency/domain/entities/emergency_log.dart';
 
 abstract class EmergencyDataSource {
   Future<EmergencyConfigs> fetchToken(String channelID);
@@ -7,4 +8,6 @@ abstract class EmergencyDataSource {
   Future<void> connectToSocket({
     required void Function(EmergencyConfigs configs) onIncomingCall,
   });
+  Future<void> declineCall(String memberID);
+  Future<void> registerMissedCall(EmergencyLog callLog);
 }
