@@ -28,7 +28,7 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Allow camera to take a photo</string>
-	<key>NSMicrophoneUsageDescription </key>
+	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow access to microphone to use emergency feature</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Allow access to photo library to upload a photo</string>
