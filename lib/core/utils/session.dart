@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:encrypt/encrypt.dart' as crypt;
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -8,6 +9,10 @@ import '../../features/authentication/domain/entities/user.dart';
 
 class Session extends ChangeNotifier {
   static final Session _instance = Session._();
+  final _encryptorKey = crypt.Key.fromLength(32);
+  final _iv = crypt.IV.fromLength(8);
+  late final crypt.Encrypter encrypter;
+
   Session._();
   factory Session() => _instance;
 
@@ -23,15 +28,18 @@ class Session extends ChangeNotifier {
 
   Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
+    encrypter = crypt.Encrypter(crypt.Salsa20(_encryptorKey));
     _isLoggedIn = false;
-    final userJson = _prefs.getString(_PrefKeys.uid);
+    final encryptedUserJson = _prefs.getString(_PrefKeys.uid);
+    final userJson =
+        encryptedUserJson != null ? _decryptString(encryptedUserJson) : null;
     _currentUser = null;
     if (userJson != null) {
       _currentUser = UserModel.fromMap(json.decode(userJson));
     }
+    final encryptedLockUntil = _prefs.getString(_PrefKeys.lockAuthUntil) ?? '';
 
-    final lockUntil =
-        DateTime.tryParse(_prefs.getString(_PrefKeys.lockAuthUntil) ?? '');
+    final lockUntil = DateTime.tryParse(_decryptString(encryptedLockUntil));
 
     _lockAuthUntil =
         (lockUntil?.difference(DateTime.now()).inSeconds ?? -1) <= 0
@@ -42,7 +50,7 @@ class Session extends ChangeNotifier {
   void login(User user) {
     _prefs.setBool(_PrefKeys.isLoggedIn, true);
     _isLoggedIn = true;
-    _prefs.setString(_PrefKeys.uid, user.toJson());
+    _prefs.setString(_PrefKeys.uid, _encryptString(user.toJson()));
     _currentUser = user;
     notifyListeners();
   }
@@ -67,16 +75,26 @@ class Session extends ChangeNotifier {
 
   void lockAuth({required Duration duration}) async {
     _lockAuthUntil = DateTime.now().add(duration);
-    await _prefs.setString(
-        _PrefKeys.lockAuthUntil, _lockAuthUntil!.toIso8601String());
+    await _prefs.setString(_PrefKeys.lockAuthUntil,
+        _encryptString(_lockAuthUntil!.toIso8601String()));
   }
 
   Future<bool> saveFCMToken(String fcmToken) async {
-    return _prefs.setString(_PrefKeys.fcmToken, fcmToken);
+    return _prefs.setString(_PrefKeys.fcmToken, _encryptString(fcmToken));
   }
 
   String? getFCMToken() {
-    return _prefs.getString(_PrefKeys.fcmToken);
+    final encryptedToken = _prefs.getString(_PrefKeys.fcmToken);
+    if (encryptedToken == null) return null;
+    return _decryptString(encryptedToken);
+  }
+
+  String _encryptString(String text) {
+    return encrypter.encrypt(text, iv: _iv).base64;
+  }
+
+  String _decryptString(String text) {
+    return encrypter.decrypt(crypt.Encrypted.fromBase64(text), iv: _iv);
   }
 }
 
