@@ -36,7 +36,7 @@ class BookingPage extends StatelessWidget {
                 vertical: kVerticalPadding,
               ),
               child: AutoSizeText(
-                'Please fill the required identity and booking detail below.',
+                'Please fill the required identity and booking details below.',
                 style: Theme.of(context).textTheme.labelLarge,
                 maxLines: 2,
                 textAlign: TextAlign.center,
