@@ -6,7 +6,6 @@ import 'package:equatable/equatable.dart';
 import 'package:timberland_biketrail/dependency_injection/dependency_injection.dart'
     as di;
 import 'package:timberland_biketrail/features/emergency/domain/entities/emergency_configs.dart';
-import 'package:timberland_biketrail/features/emergency/domain/entities/emergency_log.dart';
 import 'package:timberland_biketrail/features/emergency/domain/repositories/emergency_repository.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/bloc/notifications_bloc.dart';
 
@@ -25,7 +24,7 @@ class EmergencyBloc extends Bloc<EmergencyEvent, EmergencyState> {
     );
 
     on<RegisterMissedCallEvent>((event, emit) {
-      repository.registerMissedCall(event.callLog);
+      repository.registerMissedCall(event.config);
     });
 
     on<DeclineCallEvent>((event, emit) {
@@ -48,7 +47,7 @@ class EmergencyBloc extends Bloc<EmergencyEvent, EmergencyState> {
       repository.disconnectFromSocket();
     });
     on<ReconnectToSocket>((event, emit) async {
-      final result = await repository.reconnectToChannel(event.channelID);
+      final result = await repository.reconnectToChannel(event.config);
       result.fold((l) {
         log("Socket reconnection failed.");
       }, (r) {

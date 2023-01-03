@@ -23,13 +23,13 @@ class FetchEmergencyTokenEvent extends EmergencyEvent {
 class DisconnectFromSocket extends EmergencyEvent {}
 
 class ReconnectToSocket extends EmergencyEvent {
-  final String channelID;
+  final EmergencyConfigs config;
   const ReconnectToSocket({
-    required this.channelID,
+    required this.config,
   });
 
   @override
-  List<Object> get props => super.props..add(channelID);
+  List<Object> get props => super.props..add(config);
 }
 
 class AnswerIncomingCallEvent extends EmergencyEvent {
@@ -51,10 +51,10 @@ class DeclineCallEvent extends EmergencyEvent {
 }
 
 class RegisterMissedCallEvent extends EmergencyEvent {
-  final EmergencyLog callLog;
+  final EmergencyConfigs config;
   const RegisterMissedCallEvent({
-    required this.callLog,
+    required this.config,
   });
   @override
-  List<Object> get props => super.props..add(callLog);
+  List<Object> get props => super.props..add(config);
 }

@@ -15,7 +15,6 @@ import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/core/utils/string_extensions.dart';
 import 'package:timberland_biketrail/dependency_injection/dependency_injection.dart';
 import 'package:timberland_biketrail/features/emergency/domain/entities/emergency_configs.dart';
-import 'package:timberland_biketrail/features/emergency/domain/entities/emergency_log.dart';
 import 'package:timberland_biketrail/features/emergency/presentation/bloc/emergency_bloc.dart';
 import 'package:timberland_biketrail/features/emergency/presentation/widgets/animated_circular_splash.dart';
 import 'package:vibration/vibration.dart';
@@ -70,23 +69,28 @@ class _EmergencyPageState extends State<EmergencyPage>
 
       if (bloc.state is EmergencyTokenFetched) {
         final state = bloc.state as EmergencyTokenFetched;
-        if (widget.callDirection == CallDirection.incoming) {
-          _joinChannel(state.configs);
-          return;
-        }
-        if (!state.configs.channelID.toLowerCase().contains('admin')) {
+
+        log(name: "id", state.configs.emergencyId.toString());
+
+        if (widget.callDirection == CallDirection.outgoing) {
+          if (state.configs.emergencyId < 0) {
+            bloc.add(
+              FetchEmergencyTokenEvent(
+                channelID: 'tmbt-emergency-${Session().currentUser!.id}',
+              ),
+            );
+            return;
+          }
+
           bloc.add(
             ReconnectToSocket(
-              channelID: state.configs.channelID,
+              config: state.configs,
             ),
           );
-        } else {
-          bloc.add(
-            FetchEmergencyTokenEvent(
-              channelID: 'tmbt-emergency-${Session().currentUser!.id}',
-            ),
-          );
+          return;
         }
+
+        _joinChannel(state.configs);
       } else {
         bloc.add(
           FetchEmergencyTokenEvent(
@@ -101,22 +105,10 @@ class _EmergencyPageState extends State<EmergencyPage>
   void dispose() {
     if (status != CallStatus.connected &&
         widget.callDirection == CallDirection.outgoing) {
-      final user = Session().currentUser!;
-
       log(name: "Emergency", "Leaving channel");
       bloc.add(
         RegisterMissedCallEvent(
-          callLog: EmergencyLog(
-            memberID: user.id,
-            emergencyDate: DateTime.now(),
-            firstName: user.firstName,
-            lastName: user.lastName,
-            address: user.address,
-            bloodType: user.bloodType,
-            emergencyContact: user.emergencyContactInfo ?? '-',
-            mobileNumber: user.mobileNumber,
-            callStatus: 'missed',
-          ),
+          config: (bloc.state as EmergencyTokenFetched).configs,
         ),
       );
       bloc.add(

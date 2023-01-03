@@ -38,13 +38,16 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
       );
 
       if (response.statusCode == 200) {
-        _initiateCall(channelID);
+        final emergencyID = await registerCallLog();
 
-        return EmergencyConfigs(
+        final config = EmergencyConfigs(
           token: response.data['token'],
           channelID: channelID,
           uid: response.data['uid'],
+          emergencyId: emergencyID,
         );
+        _initiateCall(config);
+        return config;
       }
 
       throw const EmergencyException(message: 'Failed to request a token');
@@ -52,8 +55,8 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
   }
 
   @override
-  Future<void> reconnectToChannel(String channelID) async {
-    _initiateCall(channelID);
+  Future<void> reconnectToChannel(EmergencyConfigs configs) async {
+    _initiateCall(configs);
   }
 
   @override
@@ -87,12 +90,13 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
   }
 
   @override
-  Future<void> registerMissedCall(EmergencyLog callLog) async {
-    log(callLog.toMap().toString());
+  Future<void> registerMissedCall(EmergencyConfigs configs) async {
     return this(callback: () async {
-      final response = await dioClient.post(
-        '${environmentConfig.apihost}/emergencies',
-        data: callLog.toMap(),
+      final response = await dioClient.put(
+        '${environmentConfig.apihost}/emergencies/${configs.emergencyId}/status',
+        data: {
+          'call_status': 'missed',
+        },
       );
 
       if (response.statusCode == 200) {
@@ -101,6 +105,30 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
 
       throw const EmergencyException(message: 'Failed to register missed call');
     });
+  }
+
+  Future<int> registerCallLog() async {
+    final user = Session().currentUser!;
+    final EmergencyLog callLog = EmergencyLog(
+      memberID: user.id,
+      emergencyDate: DateTime.now(),
+      firstName: user.firstName,
+      lastName: user.lastName,
+      emergencyContact: user.emergencyContactInfo!,
+      mobileNumber: user.emergencyContactInfo!,
+    );
+
+    final response = await dioClient.post(
+      '${environmentConfig.apihost}/emergencies',
+      data: callLog.toMap(),
+    );
+
+    if (response.statusCode == 200) {
+      log(name: "Emergency Call", "Call log registered");
+      return int.parse(response.data['insertId'].toString());
+    }
+
+    throw const EmergencyException(message: 'Failed to register missed call');
   }
 
   Future<ReturnType> call<ReturnType>({
@@ -121,8 +149,8 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
     }
   }
 
-  void _initiateCall(String channelID) {
-    socket.emit('client-data', _toJson(channelID));
+  void _initiateCall(EmergencyConfigs config) {
+    socket.emit('client-data', _toJson(config));
   }
 
   void _initSocketEventHandlers({
@@ -140,6 +168,7 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
               channelID: data['channel'],
               token: data['token'],
               uid: data['uid'],
+              emergencyId: -1,
             ),
           );
         }
@@ -147,15 +176,18 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
     );
     socket.onConnectError((data) {
       log('On Connect Error: $data');
-      _disposeSocket();
+      // _disposeSocket();\
+      socket.connect();
     });
     socket.onError((data) {
       log('Socket Error: $data');
-      _disposeSocket();
+      // _disposeSocket();\
+      socket.connect();
     });
     socket.onConnectTimeout((data) {
       log('Connection TimeOut: $data');
-      _disposeSocket();
+      // _disposeSocket();\
+      socket.connect();
     });
     socket.onDisconnect((data) {
       log("Disconnected from Socket: $data");
@@ -168,10 +200,11 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
     socket.destroy();
   }
 
-  _toJson(String channelID) {
+  _toJson(EmergencyConfigs config) {
     final user = Session().currentUser!;
     return {
-      'channel': channelID,
+      'emergency_id': config.emergencyId,
+      'channel': config.channelID,
       'member_id': int.parse(user.id),
       'firstname': user.firstName,
       'lastname': user.lastName,

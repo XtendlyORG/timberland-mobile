@@ -10,7 +10,7 @@ class EmergencyLog {
   final String? bloodType;
   final DateTime? callStart;
   final DateTime? callEnd;
-  final String callStatus;
+  final String? callStatus;
   EmergencyLog({
     required this.memberID,
     required this.emergencyDate,
@@ -22,7 +22,7 @@ class EmergencyLog {
     this.bloodType,
     this.callStart,
     this.callEnd,
-    required this.callStatus,
+    this.callStatus,
   });
 
   Map<String, dynamic> toMap() {

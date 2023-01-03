@@ -4,7 +4,6 @@ import 'package:timberland_biketrail/core/errors/exceptions.dart';
 import 'package:timberland_biketrail/core/errors/failures.dart';
 import 'package:timberland_biketrail/features/emergency/data/datasources/emergency_datasource.dart';
 import 'package:timberland_biketrail/features/emergency/domain/entities/emergency_configs.dart';
-import 'package:timberland_biketrail/features/emergency/domain/entities/emergency_log.dart';
 import 'package:timberland_biketrail/features/emergency/domain/repositories/emergency_repository.dart';
 
 class EmergencyRepositoryImpl implements EmergencyRepository {
@@ -25,8 +24,9 @@ class EmergencyRepositoryImpl implements EmergencyRepository {
   }
 
   @override
-  Future<Either<EmergencyFailure, void>> reconnectToChannel(String channelID) {
-    return this(request: () => dataSource.reconnectToChannel(channelID));
+  Future<Either<EmergencyFailure, void>> reconnectToChannel(
+      EmergencyConfigs config) {
+    return this(request: () => dataSource.reconnectToChannel(config));
   }
 
   @override
@@ -47,9 +47,9 @@ class EmergencyRepositoryImpl implements EmergencyRepository {
 
   @override
   Future<Either<EmergencyFailure, void>> registerMissedCall(
-      EmergencyLog callLog) {
+      EmergencyConfigs configs) {
     return this(
-      request: () => dataSource.registerMissedCall(callLog),
+      request: () => dataSource.registerMissedCall(configs),
     );
   }
 

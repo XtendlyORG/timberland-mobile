@@ -62,7 +62,9 @@ class _TMBTNotificationListenerState extends State<TMBTNotificationListener>
       listeners: [
         BlocListener<NotificationsBloc, NotificationsState>(
           listener: (context, state) {
-            if (state is IncomingCallNotification) {
+            if (state is IncomingCallNotification &&
+                !appRouter.location.contains(Routes.emergency.path) &&
+                incomingCallNotifCtrl.status == AnimationStatus.dismissed) {
               BlocProvider.of<EmergencyBloc>(context)
                   .add(AnswerIncomingCallEvent(configs: state.configs));
 
