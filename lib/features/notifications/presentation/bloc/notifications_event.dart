@@ -10,9 +10,18 @@ abstract class NotificationsEvent extends Equatable {
 
 class CheckForFCMTokenUpdate extends NotificationsEvent {}
 
-class NotificationRecievedEvent extends NotificationsEvent {}
+class NotificationRecievedEvent extends NotificationsEvent {
+  final bool onForeground;
+  final EmergencyConfigs? configs; // For call notificaiton
+  final String? bookingID; // For booking checkout notificaiton
+  const NotificationRecievedEvent({
+    required this.onForeground,
+    this.configs,
+    this.bookingID,
+  });
+}
 
-class NotificationOnBackground extends NotificationsEvent {}
+// class NotificationOnBackground extends NotificationsEvent {}
 
 class IncomingCallEvent extends NotificationsEvent {
   final EmergencyConfigs configs;

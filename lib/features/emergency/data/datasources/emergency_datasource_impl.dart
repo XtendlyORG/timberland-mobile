@@ -56,6 +56,7 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
 
   @override
   Future<void> reconnectToChannel(EmergencyConfigs configs) async {
+    await registerCallLog();
     _initiateCall(configs);
   }
 
@@ -92,6 +93,7 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
   @override
   Future<void> registerMissedCall(EmergencyConfigs configs) async {
     return this(callback: () async {
+      log(configs.emergencyId.toString());
       final response = await dioClient.put(
         '${environmentConfig.apihost}/emergencies/${configs.emergencyId}/status',
         data: {

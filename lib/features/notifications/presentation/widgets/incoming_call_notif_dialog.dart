@@ -21,6 +21,13 @@ class IncomingCallNotifDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final emergencyBloc = BlocProvider.of<EmergencyBloc>(context);
+    // emergencyBloc.add(
+    //   AnswerIncomingCallEvent(
+    //       configs: (BlocProvider.of<NotificationsBloc>(context).state
+    //               as NotificationRecieved)
+    //           .configs!),
+    // );
     return Container(
       padding: const EdgeInsets.only(
         top: kToolbarHeight / 2,
@@ -73,8 +80,8 @@ class IncomingCallNotifDialog extends StatelessWidget {
                       incomingCallNotifCtrl.reverse();
                       Vibration.cancel();
                       FlutterRingtonePlayer.stop();
-                      final bloc = BlocProvider.of<EmergencyBloc>(context);
-                      bloc.add(
+                      
+                      emergencyBloc.add(
                         DeclineCallEvent(
                           memberID: Session().currentUser!.id,
                         ),

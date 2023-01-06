@@ -12,11 +12,19 @@ class NotificationsInitial extends NotificationsState {}
 
 class NotificationRecieved extends NotificationsState {
   final bool onForeground;
+  final EmergencyConfigs? configs; // For call incoming notification
+  final String? bookingID; // For check out notification
   const NotificationRecieved({
     required this.onForeground,
+    this.configs,
+    this.bookingID,
   });
   @override
-  List<Object> get props => super.props..add(DateTime.now());
+  List<Object> get props => super.props
+    ..addAll([
+      DateTime.now(),
+      if (configs != null) configs!,
+    ]);
 }
 
 class IncomingCallNotification extends NotificationsState {

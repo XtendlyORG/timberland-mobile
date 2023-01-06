@@ -1,14 +1,14 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/booking/presentation/bloc/booking_bloc.dart';
 import 'package:timberland_biketrail/features/emergency/presentation/bloc/emergency_bloc.dart';
+import 'package:timberland_biketrail/features/emergency/presentation/pages/emergency_page.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/bloc/notifications_bloc.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/widgets/notification_banner.dart';
-import 'package:vibration/vibration.dart';
 
 import 'incoming_call_notif_dialog.dart';
 
@@ -62,29 +62,42 @@ class _TMBTNotificationListenerState extends State<TMBTNotificationListener>
       listeners: [
         BlocListener<NotificationsBloc, NotificationsState>(
           listener: (context, state) {
-            if (state is IncomingCallNotification &&
-                !appRouter.location.contains(Routes.emergency.path) &&
-                incomingCallNotifCtrl.status == AnimationStatus.dismissed) {
-              BlocProvider.of<EmergencyBloc>(context)
-                  .add(AnswerIncomingCallEvent(configs: state.configs));
+            // if (state is IncomingCallNotification &&
+            //     !appRouter.location.contains(Routes.emergency.path) &&
+            //     incomingCallNotifCtrl.status == AnimationStatus.dismissed) {
+            //   BlocProvider.of<EmergencyBloc>(context)
+            //       .add(AnswerIncomingCallEvent(configs: state.configs));
 
-              incomingCallNotifCtrl.forward();
-              FlutterRingtonePlayer.play(
-                android: AndroidSounds.ringtone,
-                ios: IosSounds.alarm,
-                looping: true,
-                volume: 1,
-                // asAlarm: true,
-              );
-              Vibration.vibrate(
-                pattern: [500, 1000, 500, 1000],
-                intensities: [1, 255],
-                duration: 1000,
-                repeat: 1,
-                // repeat: 20
-              );
-            }
+            //   FlutterRingtonePlayer.play(
+            //     android: AndroidSounds.ringtone,
+            //     ios: IosSounds.alarm,
+            //     looping: true,
+            //     volume: 1,
+            //     // asAlarm: true,
+            //   );
+            //   Vibration.vibrate(
+            //     pattern: [500, 1000, 500, 1000],
+            //     intensities: [1, 255],
+            //     duration: 1000,
+            //     repeat: 1,
+            //     // repeat: 20
+            //   );
+            // }
             if (state is NotificationRecieved) {
+              if (state.configs != null) {
+                BlocProvider.of<EmergencyBloc>(context).add(
+                  AnswerIncomingCallEvent(configs: state.configs!),
+                );
+                if (state.onForeground) {
+                  incomingCallNotifCtrl.forward();
+                } else {
+                  appRouter.pushNamed(
+                    Routes.emergency.name,
+                    extra: CallDirection.incoming,
+                  );
+                }
+                return;
+              }
               if (state.onForeground) {
                 notificationCtrl.forward().then((value) {
                   Future.delayed(
