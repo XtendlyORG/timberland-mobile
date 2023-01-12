@@ -274,7 +274,7 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
                     }
                   : null,
               child: const Text(
-                'Contact Us',
+                'Submit',
               ),
             ),
           )

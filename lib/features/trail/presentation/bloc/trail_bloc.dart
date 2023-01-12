@@ -16,6 +16,8 @@ part 'trail_state.dart';
 
 class TrailBloc extends Bloc<TrailEvent, TrailState> {
   final TrailRepository repository;
+
+  List<Trail> _trails = [];
   TrailBloc({
     required this.repository,
   }) : super(TrailInitial()) {
@@ -30,7 +32,10 @@ class TrailBloc extends Bloc<TrailEvent, TrailState> {
         (failure) => emit(
           TrailError(message: failure.message),
         ),
-        (trails) => emit(AllTrailsLoaded(trails: trails)),
+        (trails) {
+          _trails = trails;
+          emit(AllTrailsLoaded(trails: trails));
+        },
       );
     });
 
@@ -39,19 +44,34 @@ class TrailBloc extends Bloc<TrailEvent, TrailState> {
         return;
       }
       emit(const SearchingTrails());
-      final result = await repository.searchTrails(event.searchParams);
+      // final result = await repository.searchTrails(event.searchParams);
 
-      result.fold(
-        (failure) {
-          emit(TrailError(message: failure.message));
-        },
-        (trails) {
-          emit(SearchResultsLoaded(
-            searchParams: event.searchParams,
-            trails: trails,
-          ));
-        },
-      );
+      final trails = _trails
+          .where(
+            (element) =>
+                event.searchParams.difficulties.isEmpty ||
+                event.searchParams.difficulties.contains(element.difficulty),
+          )
+          .where((element) => element.trailName
+              .toLowerCase()
+              .contains(event.searchParams.name.toLowerCase()))
+          .toList();
+      emit(SearchResultsLoaded(
+        searchParams: event.searchParams,
+        trails: trails,
+      ));
+
+      // result.fold(
+      //   (failure) {
+      //     emit(TrailError(message: failure.message));
+      //   },
+      //   (trails) {
+      //     emit(SearchResultsLoaded(
+      //       searchParams: event.searchParams,
+      //       trails: trails,
+      //     ));
+      //   },
+      // );
     });
 
     on<SaveTrailMapEvent>((event, emit) async {

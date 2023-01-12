@@ -67,36 +67,22 @@ class _EmergencyPageState extends State<EmergencyPage>
     initialize().then((value) {
       bloc = BlocProvider.of<EmergencyBloc>(context);
 
-      if (bloc.state is EmergencyTokenFetched) {
-        final state = bloc.state as EmergencyTokenFetched;
-
-        log(name: "id", state.configs.emergencyId.toString());
-
-        if (widget.callDirection == CallDirection.outgoing) {
-          if (state.configs.emergencyId < 0) {
-            bloc.add(
-              FetchEmergencyTokenEvent(
-                channelID: 'tmbt-emergency-${Session().currentUser!.id}',
-              ),
-            );
-            return;
-          }
-
-          bloc.add(
-            ReconnectToSocket(
-              config: state.configs,
-            ),
-          );
-          return;
-        }
-
-        _joinChannel(state.configs);
-      } else {
+      if (widget.callDirection == CallDirection.outgoing) {
         bloc.add(
           FetchEmergencyTokenEvent(
             channelID: 'tmbt-emergency-${Session().currentUser!.id}',
           ),
         );
+        return;
+      } else {
+        final state = bloc.state as EmergencyTokenFetched;
+        log('-------Incoming call----------');
+        log(state.configs.channelID);
+        log(state.configs.token);
+        log(state.configs.emergencyId.toString());
+        log(state.configs.uid.toString());
+        log('-------end of Incoming call----------');
+        _joinChannel(state.configs);
       }
     });
   }
@@ -228,8 +214,6 @@ class _EmergencyPageState extends State<EmergencyPage>
   }
 
   void _joinChannel(EmergencyConfigs configs) {
-    log(configs.uid.toString());
-    log(configs.token);
     _engine.joinChannel(
       token: configs.token,
       channelId: configs.channelID,

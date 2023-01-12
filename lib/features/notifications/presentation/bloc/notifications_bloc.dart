@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -25,10 +24,6 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
       );
     });
     on<NotificationRecievedEvent>((event, emit) {
-      log(name: 'Notif', 'Bloc Handling the event');
-      log(name: 'Notif', 'Configs: ${event.configs}');
-      log(name: 'Notif', 'onForeground: ${event.onForeground}');
-      
       emit(NotificationsInitial());
       emit(
         NotificationRecieved(

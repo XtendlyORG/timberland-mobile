@@ -113,11 +113,11 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
     final user = Session().currentUser!;
     final EmergencyLog callLog = EmergencyLog(
       memberID: user.id,
-      emergencyDate: DateTime.now(),
+      emergencyDate: DateTime.now().add(const Duration(hours: 8)),
       firstName: user.firstName,
       lastName: user.lastName,
       emergencyContact: user.emergencyContactInfo!,
-      mobileNumber: user.emergencyContactInfo!,
+      mobileNumber: user.mobileNumber,
     );
 
     final response = await dioClient.post(

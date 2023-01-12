@@ -24,6 +24,8 @@ class DifficultyLevel {
         return Difficulties.moreDifficult;
       case 'very difficult':
         return Difficulties.veryDifficult;
+      case 'extremely difficult':
+        return Difficulties.exteremelyDifficult;
       default:
         return DifficultyLevel(
           id: name.codeUnits.first,
@@ -31,9 +33,9 @@ class DifficultyLevel {
           primaryColor: TimberlandColor.primary,
           secondaryColor: TimberlandColor.background,
         );
-        // throw Exception(
-        //   "Difficulty $name is not valid, append it to 'Difficulties' abstract object",
-        // );
+      // throw Exception(
+      //   "Difficulty $name is not valid, append it to 'Difficulties' abstract object",
+      // );
     }
   }
 }
@@ -45,6 +47,7 @@ abstract class Difficulties {
     // intermediate,
     moreDifficult,
     veryDifficult,
+    exteremelyDifficult,
   ];
 
   static const DifficultyLevel easiest = DifficultyLevel(
@@ -71,6 +74,13 @@ abstract class Difficulties {
   static const DifficultyLevel veryDifficult = DifficultyLevel(
     id: 4,
     name: 'Very Difficult',
+    primaryColor: TimberlandColor.text,
+    secondaryColor: TimberlandColor.background,
+  );
+
+  static const DifficultyLevel exteremelyDifficult = DifficultyLevel(
+    id: 5,
+    name: 'Extremely Difficult',
     primaryColor: TimberlandColor.text,
     secondaryColor: TimberlandColor.background,
   );

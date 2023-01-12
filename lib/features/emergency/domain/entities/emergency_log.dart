@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 class EmergencyLog {
   final String memberID;
   final DateTime emergencyDate;
@@ -26,6 +28,7 @@ class EmergencyLog {
   });
 
   Map<String, dynamic> toMap() {
+    log(dateToString(emergencyDate));
     return <String, dynamic>{
       'member_id': double.parse(memberID),
       'emergency_date': dateToString(emergencyDate),

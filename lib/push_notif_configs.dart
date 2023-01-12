@@ -21,9 +21,9 @@ Future<void> initFirebaseMessaging() async {
     alert: true,
     badge: true,
     sound: true,
-    announcement: false,
+    announcement: true,
     carPlay: false,
-    criticalAlert: false,
+    criticalAlert: true,
     provisional: false,
   );
   messaging.setForegroundNotificationPresentationOptions(
@@ -34,6 +34,7 @@ Future<void> initFirebaseMessaging() async {
 
   // Notification callback while app is open (foreground)
   FirebaseMessaging.onMessage.listen((event) {
+    if (Session().currentUser == null) return;
     if (event.notification != null) {
       if ((event.data['member_id'] as String? ?? '') !=
           Session().currentUser!.id) {
@@ -76,8 +77,9 @@ Future<void> initFirebaseMessaging() async {
     }
   });
 
-// When banner notif is pressed (when app is terminated)
+// When app is opened from a terminated state
   FirebaseMessaging.instance.getInitialMessage().then((value) {
+    if (Session().currentUser == null) return;
     if (value != null && value.notification != null) {
       if ((value.data['member_id'] as String? ?? '') !=
           Session().currentUser!.id) {
@@ -118,8 +120,9 @@ Future<void> initFirebaseMessaging() async {
     }
   });
 
-  // When banner notif is pressed (when app is not terminated)
+  // When app is opened from a background state (not terminated)
   FirebaseMessaging.onMessageOpenedApp.listen((event) {
+    if (Session().currentUser == null) return;
     if ((event.data['member_id'] as String? ?? '') !=
         Session().currentUser!.id) {
       return;
@@ -158,13 +161,16 @@ Future<void> initFirebaseMessaging() async {
     ));
   });
 
+  // When app is in the background (terminated or not)
   FirebaseMessaging.onBackgroundMessage(_onBackgroundMessageHandler);
 }
 
 Future<void> _onBackgroundMessageHandler(RemoteMessage message) async {
+  if (Session().currentUser == null) return;
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  // WidgetsFlutterBinding.ensureInitialized();
   initializeDependencies();
 
   await Session().init();
