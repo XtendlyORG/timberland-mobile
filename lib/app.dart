@@ -142,7 +142,7 @@ class _MyAppState extends State<MyApp> {
         }
       },
       child: MaterialApp.router(
-        title: 'Timberland Mountain BikeTrail',
+        title: 'Timberland Mountain Bike Park',
         debugShowCheckedModeBanner: false,
         theme: TimberlandTheme.lightTheme,
         routeInformationParser: appRouter.routeInformationParser,

@@ -313,7 +313,7 @@ class _EmergencyPageState extends State<EmergencyPage>
                   ),
                   Text(
                     status == CallStatus.connected
-                        ? 'You are now connected to TMBT Admin station'
+                        ? 'You are now connected to TMBP Admin station'
                         : 'After pressing the emergency button, we will contact our nearest admin station to your current location.',
                     textAlign: TextAlign.center,
                     style: Theme.of(context)

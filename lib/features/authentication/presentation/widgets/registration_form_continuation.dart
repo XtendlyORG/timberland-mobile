@@ -26,6 +26,7 @@ import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.d
 import 'package:timberland_biketrail/dashboard/domain/params/update_user_detail.dart';
 import 'package:timberland_biketrail/dashboard/presentation/bloc/profile_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RegistrationContinuationForm extends StatelessWidget {
   final UpdateUserDetailsParams?
@@ -428,10 +429,26 @@ class RegistrationContinuationForm extends StatelessWidget {
                           text: 'By signing up you agree to our',
                           style: TextStyle(fontWeight: FontWeight.normal),
                         ),
+                        const TextSpan(
+                          text: '\nTerms of Use',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        const TextSpan(
+                          text: ' and ',
+                        ),
                         TextSpan(
-                            text: '\nTerms of Use',
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                            recognizer: TapGestureRecognizer()..onTap = () {}),
+                          text: 'Privacy Policy',
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              launchUrl(
+                                Uri.parse(
+                                  'https://chromahospitality.com/tmbt-privacy-policy',
+                                ),
+                                mode: LaunchMode.externalApplication
+                              );
+                            },
+                        ),
                       ],
                     ),
                     style: Theme.of(context).textTheme.titleSmall,
