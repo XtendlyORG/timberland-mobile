@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
@@ -9,6 +9,7 @@ import 'package:timberland_biketrail/features/emergency/presentation/bloc/emerge
 import 'package:timberland_biketrail/features/emergency/presentation/pages/emergency_page.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/bloc/notifications_bloc.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/widgets/notification_banner.dart';
+import 'package:vibration/vibration.dart';
 
 import 'incoming_call_notif_dialog.dart';
 
@@ -96,6 +97,11 @@ class _TMBTNotificationListenerState extends State<TMBTNotificationListener>
                     extra: CallDirection.incoming,
                   );
                 }
+                return;
+              } else if (state.configs == null && state.bookingID == null) {
+                FlutterRingtonePlayer.stop();
+                Vibration.cancel();
+                incomingCallNotifCtrl.reverse();
                 return;
               }
               if (state.onForeground) {
