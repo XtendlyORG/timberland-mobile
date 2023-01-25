@@ -4,6 +4,7 @@ import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/form_fields/form_fields.dart';
 import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
+import 'package:timberland_biketrail/core/utils/validators/validators.dart';
 import 'package:timberland_biketrail/dashboard/domain/params/update_user_detail.dart';
 
 class RegistrationForm extends StatelessWidget {
@@ -58,7 +59,7 @@ class RegistrationForm extends StatelessWidget {
                 );
               },
               decoration: const InputDecoration(
-                hintText: 'First Name',
+                hintText: '*First Name',
               ),
               textInputAction: TextInputAction.next,
               textCapitalization: TextCapitalization.words,
@@ -91,7 +92,7 @@ class RegistrationForm extends StatelessWidget {
                 );
               },
               decoration: const InputDecoration(
-                hintText: 'Last Name',
+                hintText: '*Last Name',
               ),
               textInputAction: TextInputAction.next,
               textCapitalization: TextCapitalization.words,
@@ -104,6 +105,7 @@ class RegistrationForm extends StatelessWidget {
               ),
               child: EmailField(
                 controller: emailCtrl,
+                hintText: '*Email Address',
               ),
             ),
             Container(
@@ -112,6 +114,7 @@ class RegistrationForm extends StatelessWidget {
               ),
               child: PasswordField(
                 controller: passwordCtrl,
+                validator: (p0) => passwordValidator2(p0),
                 textInputAction: TextInputAction.next,
               ),
             ),
@@ -122,7 +125,7 @@ class RegistrationForm extends StatelessWidget {
             ),
             child: MobileNumberField(
               controller: mobileNumberCtrl,
-              hintText: 'Mobile Number',
+              hintText: '*Mobile Number',
               textInputAction: TextInputAction.next,
             ),
           ),

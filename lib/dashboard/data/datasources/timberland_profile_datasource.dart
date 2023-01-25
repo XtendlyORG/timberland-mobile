@@ -286,4 +286,57 @@ class TimberlandProfileDataSource implements ProfileDataSource {
       throw const ProfileException(message: "An Error Occurred");
     }
   }
+
+  @override
+  Future<List<String>> fetchProfileHeaders() async {
+    try {
+      final response = await dioClient.get(
+        '${environmentConfig.apihost}/assets/retrieve',
+      );
+      log(response.statusCode.toString());
+      if (response.statusCode == 200) {
+        final result = response.data['result'] as List;
+
+        return result
+            .where((element) =>
+                element is String && element.contains('profile-header'))
+            .cast<String>()
+            .toList();
+      }
+      throw const ProfileException();
+    } on ProfileException {
+      rethrow;
+    } on DioError catch (dioError) {
+      log(dioError.response?.statusCode?.toString() ?? "statuscode: null");
+      log(dioError.response?.data.toString() ?? 'no data');
+      if ((dioError.response?.statusCode ?? -1) == 400) {
+        if (dioError.response.toString() ==
+            'Old Password does not match with the current password') {
+          throw const ProfileException(
+            message: "Current password input does not match your password",
+          );
+        }
+
+        throw ProfileException(
+          message: dioError.response?.data?.toString() ??
+              'Failed to Update Password',
+        );
+      } else if ((dioError.response?.statusCode ?? -1) == 413) {
+        throw const ProfileException(
+          message: "Failed to Update: Error 413",
+        );
+      } else if ((dioError.response?.statusCode ?? -1) == 502) {
+        log(dioError.response?.data?.toString() ?? "No error message: 502");
+        throw const ProfileException(
+          message: 'Internal Server Error',
+        );
+      }
+      throw const ProfileException(
+        message: "Error Occurred",
+      );
+    } catch (e) {
+      log(e.toString());
+      throw const ProfileException(message: "An Error Occurred");
+    }
+  }
 }

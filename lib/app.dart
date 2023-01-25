@@ -9,6 +9,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
 import 'package:timberland_biketrail/core/utils/internet_connection.dart';
+import 'package:timberland_biketrail/dashboard/presentation/cubit/profile_header_cubit.dart';
 import 'package:timberland_biketrail/features/booking/domain/repositories/booking_repository.dart';
 import 'package:timberland_biketrail/features/booking/presentation/cubit/free_pass_counter_cubit.dart';
 import 'package:timberland_biketrail/features/emergency/presentation/bloc/emergency_bloc.dart';
@@ -54,6 +55,9 @@ Future<void> run({
       ),
       BlocProvider<ProfileBloc>(
         create: (context) => di.serviceLocator<ProfileBloc>(),
+      ),
+      BlocProvider<ProfileHeaderCubit>(
+        create: (context) => di.serviceLocator<ProfileHeaderCubit>()..fetchProfileHeaders(),
       ),
       BlocProvider<HistoryBloc>(
         create: (context) => di.serviceLocator<HistoryBloc>(),

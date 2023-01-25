@@ -133,7 +133,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                 },
                 value: selectedGender,
                 borderRadius: BorderRadius.circular(10),
-                hint: const Text('Gender'),
+                hint: const Text('*Gender'),
                 decoration: const InputDecoration(),
                 validator: (gender) {
                   return nonEmptyValidator(gender,
@@ -221,7 +221,7 @@ class RegistrationContinuationForm extends StatelessWidget {
               ),
               child: MobileNumberField(
                 controller: emergencyContactsCtrl,
-                hintText: 'Emergency Contact Number',
+                hintText: '*Emergency Contact Number',
                 textInputAction: TextInputAction.next,
               ),
             ),
@@ -442,11 +442,10 @@ class RegistrationContinuationForm extends StatelessWidget {
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               launchUrl(
-                                Uri.parse(
-                                  'https://chromahospitality.com/tmbt-privacy-policy',
-                                ),
-                                mode: LaunchMode.externalApplication
-                              );
+                                  Uri.parse(
+                                    'https://chromahospitality.com/tmbt-privacy-policy',
+                                  ),
+                                  mode: LaunchMode.externalApplication);
                             },
                         ),
                       ],

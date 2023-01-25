@@ -2,6 +2,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/core/constants/padding.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/expanded_image.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
@@ -96,22 +97,34 @@ class TrailWidget extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 10.0),
-            child: Text.rich(
-              TextSpan(
-                children: [
-                  TextSpan(
-                      text: '${trail.difficulty.name}\n',
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      trail.difficulty.name,
                       style: Theme.of(context).textTheme.bodyText2!.copyWith(
                             color: trail.difficulty != Difficulties.easiest
                                 ? trail.difficulty.primaryColor
                                 : trail.difficulty.secondaryColor,
-                          )),
-                  TextSpan(
-                    text: trail.trailName,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ],
-              ),
+                          ),
+                    ),
+                    const SizedBox(
+                      width: kVerticalPadding / 2,
+                    ),
+                    trail.difficulty.icon,
+                  ],
+                ),
+                Text(
+                  trail.trailName,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              ],
             ),
           ),
           TrailSpecs(trail: trail)

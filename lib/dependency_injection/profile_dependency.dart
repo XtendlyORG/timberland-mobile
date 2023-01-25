@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:timberland_biketrail/dashboard/presentation/cubit/profile_header_cubit.dart';
 
 import '../dashboard/data/datasources/profile_datasource.dart';
 import '../dashboard/data/datasources/timberland_profile_datasource.dart';
@@ -10,6 +11,11 @@ final serviceLocator = GetIt.instance;
 void init() {
   serviceLocator.registerFactory<ProfileBloc>(
     () => ProfileBloc(
+      repository: serviceLocator<ProfileRepository>(),
+    ),
+  );
+  serviceLocator.registerFactory<ProfileHeaderCubit>(
+    () => ProfileHeaderCubit(
       repository: serviceLocator<ProfileRepository>(),
     ),
   );

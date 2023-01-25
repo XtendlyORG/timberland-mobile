@@ -21,7 +21,7 @@ abstract class ProfileRepository {
   );
 
   Future<Either<ProfileFailure, void>> updatePasswordRequest(
-    String oldPassword,
-    String newPassword
-  );
+      String oldPassword, String newPassword);
+
+  Future<Either<ProfileFailure, List<String>>> fetchProfileHeaders();
 }

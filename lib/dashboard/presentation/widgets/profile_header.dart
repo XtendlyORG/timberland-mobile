@@ -1,6 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:async';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/profile_avatar.dart';
+import 'package:timberland_biketrail/dashboard/presentation/cubit/profile_header_cubit.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
 
 import '../../../core/themes/timberland_color.dart';
@@ -27,11 +32,20 @@ class ProfileHeader extends StatelessWidget {
                 borderRadius:
                     BorderRadius.vertical(bottom: Radius.circular(20)),
                 color: TimberlandColor.subtext),
-            child: const Image(
-              image: NetworkImage(
-                'https://imaging.nikon.com/lineup/dslr/df/img/sample/img_01.jpg',
-              ),
-              fit: BoxFit.fitWidth,
+            child: BlocBuilder<ProfileHeaderCubit, ProfileHeaderState>(
+              builder: (context, state) {
+                if (state is! ProfileHeadersLoaded) {
+                  return CachedNetworkImage(
+                    imageUrl:
+                        'https://imaging.nikon.com/lineup/dslr/df/img/sample/img_01.jpg',
+                    fit: BoxFit.fitWidth,
+                  );
+                } else {
+                  return DynamicProfileHeaders(
+                    profileHeaders: state.profileHeaders,
+                  );
+                }
+              },
             ),
           ),
           Align(
@@ -42,6 +56,59 @@ class ProfileHeader extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class DynamicProfileHeaders extends StatefulWidget {
+  const DynamicProfileHeaders({
+    Key? key,
+    required this.profileHeaders,
+  }) : super(key: key);
+  final List<String> profileHeaders;
+
+  @override
+  State<DynamicProfileHeaders> createState() => _DynamicProfileHeadersState();
+}
+
+class _DynamicProfileHeadersState extends State<DynamicProfileHeaders> {
+  int index = 0;
+  late final Timer timer;
+
+  @override
+  void initState() {
+    super.initState();
+
+    timer = Timer.periodic(
+      const Duration(seconds: 10),
+      (timer) {
+        setState(() {
+          index = (index + 1) % widget.profileHeaders.length;
+        });
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 500),
+      transitionBuilder: (child, animation) => FadeTransition(
+        opacity: animation,
+        child: child,
+      ),
+      child: CachedNetworkImage(
+        key: ValueKey(widget.profileHeaders[index].hashCode),
+        imageUrl: widget.profileHeaders[index],
+        fit: BoxFit.fitWidth,
+        width: double.infinity,
       ),
     );
   }

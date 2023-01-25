@@ -57,6 +57,13 @@ class ProfileRepositoryImpl implements ProfileRepository {
     );
   }
 
+  @override
+  Future<Either<ProfileFailure, List<String>>> fetchProfileHeaders() {
+    return this(
+      request: profileDatasource.fetchProfileHeaders,
+    );
+  }
+
   Future<Either<ProfileFailure, ReturnType>> call<ReturnType>({
     required Future<ReturnType> Function() request,
   }) async {

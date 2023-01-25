@@ -6,6 +6,7 @@ abstract class ProfileDataSource {
   Future<void> updateEmailRequest(String email, String password);
   Future<void> resendEmailOtp(String email);
   Future<void> verifyEmailUpdate(String email, String otp);
-
   Future<void> updatePasswordRequest(String oldPassword, String newPassword);
+
+  Future<List<String>> fetchProfileHeaders();
 }

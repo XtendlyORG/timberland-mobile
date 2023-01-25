@@ -46,7 +46,7 @@ class TrailMap extends StatelessWidget {
                   maxScale: 2.0,
                   minScale: PhotoViewComputedScale.covered,
                   imageProvider: const AssetImage(
-                    'assets/images/trail-map.png',
+                    'assets/images/trail-map.jpg',
                   ),
                 ),
                 Align(

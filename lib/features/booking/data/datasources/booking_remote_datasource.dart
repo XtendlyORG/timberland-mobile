@@ -93,6 +93,9 @@ class BookingRemoteDataSource implements BookingDatasource {
             message: 'Email is not verified',
           );
         }
+        if (dioError.response?.data['message'] != null) {
+          throw BookingException(message: dioError.response?.data['message']);
+        }
         throw BookingException(
           message:
               dioError.response?.data.toString() ?? 'Something went wrong..',

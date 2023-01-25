@@ -1,14 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-
-import '../../../utils/validators/validators.dart';
+import 'package:timberland_biketrail/core/utils/validators/validators.dart';
 
 class PasswordField extends StatefulWidget {
   final TextInputAction? textInputAction;
   const PasswordField({
     Key? key,
     this.textInputAction,
-    this.hintText = 'Password',
+    this.hintText = '*Password',
     required this.controller,
     this.acceptEmpty = false,
     this.validator,
@@ -39,7 +38,7 @@ class _PasswordFieldState extends State<PasswordField> {
       obscureText: hidePassword,
       validator: widget.validator ??
           (password) {
-            return validatePassword(password, acceptEmpty: widget.acceptEmpty);
+            return passwordValidator(password, acceptEmpty: widget.acceptEmpty);
           },
       keyboardType: TextInputType.visiblePassword,
       textInputAction: widget.textInputAction,
@@ -47,6 +46,7 @@ class _PasswordFieldState extends State<PasswordField> {
       decoration: InputDecoration(
         hintText: widget.label != null ? null : widget.hintText,
         label: widget.label,
+        errorMaxLines: 5,
         suffixIcon: ExcludeFocus(
           child: IconButton(
             onPressed: () {
