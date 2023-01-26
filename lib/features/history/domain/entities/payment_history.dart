@@ -6,11 +6,13 @@ class PaymentHistory extends History {
   final PaymentStatus status;
   final double amount;
   final DateTime dateCreated;
+  final String refNum;
   PaymentHistory({
     required this.id,
     required this.status,
     required this.amount,
     required this.dateCreated,
+    required this.refNum,
   });
 
   factory PaymentHistory.fromMap(Map<String, dynamic> map) {
@@ -18,6 +20,7 @@ class PaymentHistory extends History {
       id: map['payment_id'] as String,
       status: _parseStatus(map['status'] as String),
       amount: double.tryParse(map['amount'] as String) ?? 0,
+      refNum: map['ref_number'] as String,
       dateCreated: DateTime.parse(map['created_at'] as String).toLocal(),
     );
   }

@@ -106,6 +106,26 @@ class PaymentHistoryWidget extends StatelessWidget {
               ],
             ),
           ),
+          const Text('Reference Number:'),
+          SelectableRegion(
+            focusNode: FocusNode(),
+            selectionControls: materialTextSelectionControls,
+            child: Tooltip(
+              message: 'Press and hold to copy',
+              triggerMode: TooltipTriggerMode.tap,
+              child: AutoSizeText(
+                payment.refNum,
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.normal,
+                      fontStyle: FontStyle.italic,
+                      decoration: TextDecoration.underline,
+                    ),
+                maxLines: 2,
+                presetFontSizes: const [14],
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
         ],
       ),
     );
