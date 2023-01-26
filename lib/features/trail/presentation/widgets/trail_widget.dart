@@ -106,6 +106,10 @@ class TrailWidget extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    trail.difficulty.icon,
+                    const SizedBox(
+                      width: kVerticalPadding / 2,
+                    ),
                     Text(
                       trail.difficulty.name,
                       style: Theme.of(context).textTheme.bodyText2!.copyWith(
@@ -114,10 +118,6 @@ class TrailWidget extends StatelessWidget {
                                 : trail.difficulty.secondaryColor,
                           ),
                     ),
-                    const SizedBox(
-                      width: kVerticalPadding / 2,
-                    ),
-                    trail.difficulty.icon,
                   ],
                 ),
                 Text(

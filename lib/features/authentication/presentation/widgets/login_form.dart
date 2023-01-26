@@ -49,7 +49,7 @@ class LoginForm extends StatelessWidget {
               ),
               child: EmailField(
                 controller: emailCtrl,
-                label: const Text('*Email Address'),
+                label: const Text('Email Address *'),
               ),
             ),
             Container(
@@ -59,7 +59,7 @@ class LoginForm extends StatelessWidget {
               child: RepaintBoundary(
                 child: PasswordField(
                   controller: passwordCtrl,
-                  label: const Text('*Password'),
+                  label: const Text('Password *'),
                 ),
               ),
             ),

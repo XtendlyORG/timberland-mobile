@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+
 import 'package:flutter/material.dart';
 import 'package:timberland_biketrail/core/utils/validators/validators.dart';
 
@@ -7,17 +8,19 @@ class PasswordField extends StatefulWidget {
   const PasswordField({
     Key? key,
     this.textInputAction,
-    this.hintText = '*Password',
+    this.hintText = 'Password *',
     required this.controller,
     this.acceptEmpty = false,
     this.validator,
     this.label,
+    this.autovalidateMode,
   }) : super(key: key);
   final String hintText;
   final TextEditingController controller;
   final bool acceptEmpty;
   final String? Function(String?)? validator;
   final Widget? label;
+  final AutovalidateMode? autovalidateMode;
 
   @override
   State<PasswordField> createState() => _PasswordFieldState();
@@ -25,6 +28,7 @@ class PasswordField extends StatefulWidget {
 
 class _PasswordFieldState extends State<PasswordField> {
   late bool hidePassword;
+  AutovalidateMode _autovalidateMode = AutovalidateMode.onUserInteraction;
   @override
   void initState() {
     super.initState();
@@ -41,8 +45,16 @@ class _PasswordFieldState extends State<PasswordField> {
             return passwordValidator(password, acceptEmpty: widget.acceptEmpty);
           },
       keyboardType: TextInputType.visiblePassword,
+      onTap: () {
+        if (widget.autovalidateMode != null &&
+            _autovalidateMode == AutovalidateMode.onUserInteraction) {
+          setState(() {
+            _autovalidateMode = widget.autovalidateMode!;
+          });
+        }
+      },
       textInputAction: widget.textInputAction,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+      autovalidateMode: _autovalidateMode,
       decoration: InputDecoration(
         hintText: widget.label != null ? null : widget.hintText,
         label: widget.label,

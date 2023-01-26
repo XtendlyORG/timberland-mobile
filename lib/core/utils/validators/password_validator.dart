@@ -27,17 +27,14 @@ String? passwordValidator2(String? password, {bool acceptEmpty = false}) {
   );
 
   String errorMessage = '\n';
-  if (password == null || password.isEmpty) {
-    if (acceptEmpty) return null;
-    return 'Please enter your password';
-  }
-  if (password.length < 6) {
+
+  if ((password?.length ?? 0) < 6) {
     errorMessage += '- at least 6 characters.\n';
   }
-  if (!uppercaseRegex.hasMatch(password)) {
+  if (!uppercaseRegex.hasMatch(password ?? '')) {
     errorMessage += '- at least one uppercase letter\n';
   }
-  if (!numberRegex.hasMatch(password)) {
+  if (!numberRegex.hasMatch(password ?? '')) {
     errorMessage += '- at least one number\n';
   }
 

@@ -59,7 +59,7 @@ class RegistrationForm extends StatelessWidget {
                 );
               },
               decoration: const InputDecoration(
-                hintText: '*First Name',
+                hintText: 'First Name *',
               ),
               textInputAction: TextInputAction.next,
               textCapitalization: TextCapitalization.words,
@@ -92,7 +92,7 @@ class RegistrationForm extends StatelessWidget {
                 );
               },
               decoration: const InputDecoration(
-                hintText: '*Last Name',
+                hintText: 'Last Name *',
               ),
               textInputAction: TextInputAction.next,
               textCapitalization: TextCapitalization.words,
@@ -105,7 +105,7 @@ class RegistrationForm extends StatelessWidget {
               ),
               child: EmailField(
                 controller: emailCtrl,
-                hintText: '*Email Address',
+                hintText: 'Email Address *',
               ),
             ),
             Container(
@@ -115,6 +115,7 @@ class RegistrationForm extends StatelessWidget {
               child: PasswordField(
                 controller: passwordCtrl,
                 validator: (p0) => passwordValidator2(p0),
+                autovalidateMode: AutovalidateMode.always,
                 textInputAction: TextInputAction.next,
               ),
             ),
@@ -125,7 +126,7 @@ class RegistrationForm extends StatelessWidget {
             ),
             child: MobileNumberField(
               controller: mobileNumberCtrl,
-              hintText: '*Mobile Number',
+              hintText: 'Mobile Number *',
               textInputAction: TextInputAction.next,
             ),
           ),
