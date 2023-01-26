@@ -117,7 +117,6 @@ class PaymentHistoryWidget extends StatelessWidget {
                 payment.refNum,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.normal,
-                      fontStyle: FontStyle.italic,
                       decoration: TextDecoration.underline,
                     ),
                 maxLines: 2,
