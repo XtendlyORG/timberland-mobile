@@ -52,6 +52,11 @@ class TrailBloc extends Bloc<TrailEvent, TrailState> {
                 event.searchParams.difficulties.isEmpty ||
                 event.searchParams.difficulties.contains(element.difficulty),
           )
+          .where((element) =>
+              event.searchParams.routeTypes.isEmpty ||
+              event.searchParams.routeTypes
+                  .where((e) => element.routeType.contains(e))
+                  .isNotEmpty)
           .where((element) => element.trailName
               .toLowerCase()
               .contains(event.searchParams.name.toLowerCase()))

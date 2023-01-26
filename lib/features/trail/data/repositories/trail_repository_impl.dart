@@ -18,7 +18,11 @@ class TrailRepositoryImpl implements TrailRepository {
       FetchTrailsParams params) async {
     try {
       return Right(await remoteDatasource.searchTrails(
-        const SearchTrailsParams(name: '', difficulties: []),
+        const SearchTrailsParams(
+          name: '',
+          difficulties: [],
+          routeTypes: [],
+        ),
       ));
     } on TrailException catch (e) {
       return Left(TrailFailure(message: e.message ?? "Failed to load trails."));

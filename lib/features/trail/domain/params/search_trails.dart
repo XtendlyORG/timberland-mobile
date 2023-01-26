@@ -4,9 +4,11 @@ import 'package:timberland_biketrail/features/trail/domain/entities/difficulty.d
 class SearchTrailsParams {
   final String name;
   final List<DifficultyLevel> difficulties;
+  final List<String> routeTypes;
   const SearchTrailsParams({
     required this.name,
     required this.difficulties,
+    required this.routeTypes,
   });
 
   Map<String, dynamic> toMap() {

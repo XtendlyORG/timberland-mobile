@@ -10,6 +10,7 @@ void submitSearch({
   required BuildContext context,
   required String name,
   required List<DifficultyChecklistConfig> difficultyConfigs,
+  required List<RouteTypeChecklistConfig> routeTypeConfigs,
 }) {
   final List<DifficultyLevel> difficuties = [
     ...difficultyConfigs
@@ -17,11 +18,16 @@ void submitSearch({
         .map((e) => e.difficultyLevel)
   ];
 
+  final List<String> routeTypes = [
+    ...routeTypeConfigs.where((config) => config.value).map((e) => e.routeType)
+  ];
+
   BlocProvider.of<TrailBloc>(context).add(
     SearchTrailsEvent(
       searchParams: SearchTrailsParams(
         name: name,
         difficulties: difficuties,
+        routeTypes: routeTypes,
       ),
     ),
   );
