@@ -32,3 +32,5 @@ class IncomingCallEvent extends NotificationsEvent {
   @override
   List<Object> get props => super.props..add(configs);
 }
+
+class FetchLatestAnnouncement extends NotificationsEvent {}

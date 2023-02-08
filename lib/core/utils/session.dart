@@ -22,6 +22,10 @@ class Session extends ChangeNotifier {
   late User? _currentUser;
   late DateTime? _lockAuthUntil;
 
+  late String? _latestAnnouncementID;
+
+  String? get latestAnnouncementID => _latestAnnouncementID;
+
   bool get isLoggedIn => _isLoggedIn;
   User? get currentUser => _currentUser;
   DateTime? get lockAuthUntil => _lockAuthUntil;
@@ -45,6 +49,11 @@ class Session extends ChangeNotifier {
         (lockUntil?.difference(DateTime.now()).inSeconds ?? -1) <= 0
             ? null
             : lockUntil;
+
+    final announcementID = _prefs.getString(_PrefKeys.announcementID);
+
+    _latestAnnouncementID =
+        announcementID == null ? null : _decryptString(announcementID);
   }
 
   void login(User user) {
@@ -89,6 +98,10 @@ class Session extends ChangeNotifier {
     return _decryptString(encryptedToken);
   }
 
+  void saveLatestAnnouncement(String id) {
+    _prefs.setString(_PrefKeys.announcementID, _encryptString(id));
+  }
+
   String _encryptString(String text) {
     return encrypter.encrypt(text, iv: _iv).base64;
   }
@@ -103,4 +116,6 @@ abstract class _PrefKeys {
   static const uid = 'UID';
   static const lockAuthUntil = 'lockAuthUntil';
   static const fcmToken = 'FCM_TOKEN';
+
+  static const announcementID = 'ANNOUNCEMENT_ID';
 }

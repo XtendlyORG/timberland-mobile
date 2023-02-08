@@ -71,7 +71,7 @@ Future<void> run({
         create: (context) => di.serviceLocator<EmergencyBloc>(),
       ),
       BlocProvider<NotificationsBloc>(
-        create: (context) => di.serviceLocator<NotificationsBloc>(),
+        create: (context) => di.serviceLocator<NotificationsBloc>()..add(FetchLatestAnnouncement()),
       ),
     ],
     child: const MyApp(),

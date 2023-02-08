@@ -26,8 +26,10 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:timberland_biketrail/core/errors/exceptions.dart';
 import 'package:timberland_biketrail/features/notifications/data/datasources/push_notif_ds.dart';
+import 'package:timberland_biketrail/features/notifications/domain/entities/announcement.dart';
 
 import '../../../../core/configs/environment_configs.dart';
 
@@ -54,6 +56,31 @@ class PushNotificationRemoteDataSourceImpl
       }
     } on DioError catch (e) {
       throw PushNotificationException(message: e.message);
+    }
+  }
+
+  @override
+  Future<Announcement?> fetchLatestAnnouncement() async {
+    try {
+      final response = await dioClient.get(
+        '${environmentConfig.apihost}/announcements/latest',
+      );
+
+      if (response.statusCode == 200) {
+        return response.data == null
+            ? null
+            : Announcement.fromMap(response.data);
+      }
+      throw const PushNotificationException(
+        message: 'Something went wrong.',
+      );
+    } on DioError catch (e) {
+      throw PushNotificationException(message: e.message);
+    } catch (e) {
+      throw PushNotificationException(
+        message:
+            'Something went wrong${kDebugMode ? ': ${e.toString()}' : '.'}',
+      );
     }
   }
 }

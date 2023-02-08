@@ -8,6 +8,7 @@ import 'package:timberland_biketrail/features/booking/presentation/bloc/booking_
 import 'package:timberland_biketrail/features/emergency/presentation/bloc/emergency_bloc.dart';
 import 'package:timberland_biketrail/features/emergency/presentation/pages/emergency_page.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/bloc/notifications_bloc.dart';
+import 'package:timberland_biketrail/features/notifications/presentation/widgets/announcement_dialog.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/widgets/notification_banner.dart';
 import 'package:vibration/vibration.dart';
 
@@ -31,6 +32,10 @@ class _TMBTNotificationListenerState extends State<TMBTNotificationListener>
 
   late final AnimationController incomingCallNotifCtrl;
   late final CurvedAnimation incomingCallAnimation;
+
+  late final AnimationController announcementCtrl;
+  late final CurvedAnimation announcementAnimation;
+
   @override
   void initState() {
     super.initState();
@@ -55,6 +60,29 @@ class _TMBTNotificationListenerState extends State<TMBTNotificationListener>
       parent: incomingCallNotifCtrl,
       curve: Curves.linearToEaseOut,
     );
+
+    // Announcement controller
+    announcementCtrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    announcementAnimation = CurvedAnimation(
+      parent: announcementCtrl,
+      curve: Curves.linearToEaseOut,
+    );
+  }
+
+  @override
+  void dispose() {
+    notifAnimation.dispose();
+    notificationCtrl.dispose();
+
+    incomingCallAnimation.dispose();
+    incomingCallNotifCtrl.dispose();
+
+    announcementAnimation.dispose();
+    announcementCtrl.dispose();
+    super.dispose();
   }
 
   @override
@@ -62,28 +90,12 @@ class _TMBTNotificationListenerState extends State<TMBTNotificationListener>
     return MultiBlocListener(
       listeners: [
         BlocListener<NotificationsBloc, NotificationsState>(
-          listener: (context, state) {
-            // if (state is IncomingCallNotification &&
-            //     !appRouter.location.contains(Routes.emergency.path) &&
-            //     incomingCallNotifCtrl.status == AnimationStatus.dismissed) {
-            //   BlocProvider.of<EmergencyBloc>(context)
-            //       .add(AnswerIncomingCallEvent(configs: state.configs));
-
-            //   FlutterRingtonePlayer.play(
-            //     android: AndroidSounds.ringtone,
-            //     ios: IosSounds.alarm,
-            //     looping: true,
-            //     volume: 1,
-            //     // asAlarm: true,
-            //   );
-            //   Vibration.vibrate(
-            //     pattern: [500, 1000, 500, 1000],
-            //     intensities: [1, 255],
-            //     duration: 1000,
-            //     repeat: 1,
-            //     // repeat: 20
-            //   );
-            // }
+          listener: (ctx, state) {
+            if (state is AnnouncementRecieved &&
+                state.announcement.id != Session().latestAnnouncementID) {
+              announcementCtrl.forward();
+              Session().saveLatestAnnouncement(state.announcement.id);
+            }
             if (state is NotificationRecieved) {
               if (state.configs != null) {
                 BlocProvider.of<EmergencyBloc>(context).add(
@@ -162,6 +174,41 @@ class _TMBTNotificationListenerState extends State<TMBTNotificationListener>
               builder: (context, child) {
                 return ScaleTransition(
                   scale: incomingCallAnimation,
+                  child: child,
+                );
+              },
+            ),
+          ),
+          Align(
+            alignment: const Alignment(0, 0),
+            child: AnimatedBuilder(
+              animation: announcementAnimation,
+              child: BlocBuilder<NotificationsBloc, NotificationsState>(
+                buildWhen: (previous, current) =>
+                    current is AnnouncementRecieved,
+                builder: (context, state) {
+                  if (state is AnnouncementRecieved) {
+                    return Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        AbsorbPointer(
+                          child: SizedBox.fromSize(
+                            size: MediaQuery.of(context).size,
+                          ),
+                        ),
+                        AnnouncementDialog(
+                          controller: announcementCtrl,
+                          announcement: state.announcement,
+                        ),
+                      ],
+                    );
+                  }
+                  return const SizedBox();
+                },
+              ),
+              builder: (context, child) {
+                return ScaleTransition(
+                  scale: announcementAnimation,
                   child: child,
                 );
               },
