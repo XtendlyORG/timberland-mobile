@@ -28,6 +28,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:timberland_biketrail/core/errors/exceptions.dart';
+import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/notifications/data/datasources/push_notif_ds.dart';
 import 'package:timberland_biketrail/features/notifications/domain/entities/announcement.dart';
 
@@ -60,16 +61,15 @@ class PushNotificationRemoteDataSourceImpl
   }
 
   @override
-  Future<Announcement?> fetchLatestAnnouncement() async {
+  Future<List<Announcement>?> fetchLatestAnnouncement() async {
     try {
       final response = await dioClient.get(
-        '${environmentConfig.apihost}/announcements/latest',
+        '${environmentConfig.apihost}/announcements/${Session().currentUser!.id}/latest',
       );
 
       if (response.statusCode == 200) {
-        return response.data == null
-            ? null
-            : Announcement.fromMap(response.data);
+        final announcementsJson = response.data as List<dynamic>?;
+        return announcementsJson?.map((e) => Announcement.fromMap(e)).toList();
       }
       throw const PushNotificationException(
         message: 'Something went wrong.',

@@ -35,7 +35,7 @@ class PushNotificationRepositoryImpl implements PushNotificationRepository {
   }
 
   @override
-  Future<Either<PushNotificationFailure, Announcement?>>
+  Future<Either<PushNotificationFailure, List<Announcement>?>>
       checkForAnnouncements() {
     return this(
       callback: () => remoteDataSource.fetchLatestAnnouncement(),

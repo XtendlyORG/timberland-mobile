@@ -4,6 +4,11 @@ enum Routes {
     name: 'onboarding',
   ),
 
+  announcements(
+    name: 'announcements',
+    path: '/announcements'
+  ),
+
   checkoutNotification(
     name: 'checkout-notification',
     path: '/checkout',

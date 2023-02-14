@@ -91,10 +91,13 @@ class _TMBTNotificationListenerState extends State<TMBTNotificationListener>
       listeners: [
         BlocListener<NotificationsBloc, NotificationsState>(
           listener: (ctx, state) {
-            if (state is AnnouncementRecieved &&
-                state.announcement.id != Session().latestAnnouncementID) {
-              announcementCtrl.forward();
-              Session().saveLatestAnnouncement(state.announcement.id);
+            if (state is AnnouncementRecieved) {
+              // announcementCtrl.forward();
+              appRouter.pushNamed(
+                Routes.announcements.name,
+                extra: state.announcements,
+              );
+              // Session().saveLatestAnnouncement(state.announcement);
             }
             if (state is NotificationRecieved) {
               if (state.configs != null) {
@@ -198,7 +201,7 @@ class _TMBTNotificationListenerState extends State<TMBTNotificationListener>
                         ),
                         AnnouncementDialog(
                           controller: announcementCtrl,
-                          announcement: state.announcement,
+                          announcement: state.announcements.first,
                         ),
                       ],
                     );

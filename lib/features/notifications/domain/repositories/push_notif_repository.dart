@@ -5,5 +5,6 @@ import 'package:timberland_biketrail/features/notifications/domain/entities/anno
 abstract class PushNotificationRepository {
   Future<Either<PushNotificationFailure, void>> checkForFCMTokenUpdates();
 
-  Future<Either<PushNotificationFailure, Announcement?>> checkForAnnouncements();
+  Future<Either<PushNotificationFailure, List<Announcement>?>>
+      checkForAnnouncements();
 }

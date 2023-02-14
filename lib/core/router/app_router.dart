@@ -24,6 +24,8 @@ import 'package:timberland_biketrail/features/booking/presentation/pages/waiver/
 import 'package:timberland_biketrail/features/history/domain/entities/entities.dart';
 import 'package:timberland_biketrail/features/history/presentation/bloc/history_bloc.dart';
 import 'package:timberland_biketrail/features/history/presentation/pages/booking_history_details.dart';
+import 'package:timberland_biketrail/features/notifications/domain/entities/announcement.dart';
+import 'package:timberland_biketrail/features/notifications/presentation/pages/announcement_page.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/pages/checkout_now_page.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/widgets/notification_listener.dart';
 
@@ -66,7 +68,8 @@ final appRouter = GoRouter(
       Routes.contacts.path,
       Routes.contacts.path + Routes.contactSuccess.path,
       Routes.checkoutNotification.path,
-      Routes.emergency.path
+      Routes.emergency.path,
+      Routes.announcements.path,
     ].contains(routeState.location)) {
       return null;
     }
@@ -94,6 +97,26 @@ final appRouter = GoRouter(
           key: state.pageKey,
           restorationId: state.pageKey.value,
           child: const OnboardingSlider(),
+          transitionDuration: const Duration(milliseconds: 500),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+    ),
+    GoRoute(
+      path: Routes.announcements.path,
+      name: Routes.announcements.name,
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          restorationId: state.pageKey.value,
+          child: AnnouncementsPage(
+            announcements: state.extra as List<Announcement>,
+          ),
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(

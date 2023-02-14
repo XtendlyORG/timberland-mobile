@@ -2,5 +2,5 @@ import 'package:timberland_biketrail/features/notifications/domain/entities/anno
 
 abstract class PushNotificationRemoteDataSource {
   Future<void> updateToken(String memberId, String token);
-  Future<Announcement?> fetchLatestAnnouncement();
+  Future<List<Announcement>?> fetchLatestAnnouncement();
 }

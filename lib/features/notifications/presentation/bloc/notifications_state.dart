@@ -37,11 +37,11 @@ class IncomingCallNotification extends NotificationsState {
 }
 
 class AnnouncementRecieved extends NotificationsState {
-  final Announcement announcement;
+  final List<Announcement> announcements;
   const AnnouncementRecieved({
-    required this.announcement,
+    required this.announcements,
   });
 
   @override
-  List<Object> get props => [announcement];
+  List<Object> get props => [announcements];
 }

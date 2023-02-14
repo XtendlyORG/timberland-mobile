@@ -1,15 +1,18 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+
 import 'package:equatable/equatable.dart';
 
 class Announcement extends Equatable {
   final String title;
   final String content;
+  final String? imagePath;
   final DateTime dateCreated;
   final DateTime? updatedAt;
   final String id;
   const Announcement({
     required this.title,
     required this.content,
+    this.imagePath,
     required this.dateCreated,
     this.updatedAt,
     required this.id,
@@ -19,6 +22,7 @@ class Announcement extends Equatable {
     return Announcement(
       title: map['title'] ?? '',
       content: map['content'] ?? '',
+      imagePath: map['image'] as String?,
       dateCreated: DateTime.parse(map['created_at']),
       id: map['id'].toString(),
     );
