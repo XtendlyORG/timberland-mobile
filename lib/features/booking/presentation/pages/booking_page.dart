@@ -23,6 +23,7 @@ class BookingPage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
         child: Column(
           children: [
+            //new
             Padding(
               padding: const EdgeInsets.only(top: kToolbarHeight, bottom: 10),
               child: AutoSizeText(
