@@ -127,7 +127,7 @@ class ContactUsThankyouPage extends StatelessWidget {
                           context.goNamed(Routes.login.name);
                           return;
                         }
-                        Navigator.pop(context);
+                        context.goNamed(Routes.trails.name);
                       },
                       child: Session().isLoggedIn
                           ? const Text('Go Back')

@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:ui';
-
+import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_area.dart';
@@ -83,7 +84,8 @@ class CheckoutInformationWidget extends StatelessWidget {
                   width: double.infinity,
                   child: FilledTextButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      // Navigator.pop(context);
+                      context.goNamed(Routes.trails.name);
                     },
                     child: const Text('Done'),
                   ),
