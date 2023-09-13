@@ -2,6 +2,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:timberland_biketrail/core/configs/environment_configs.dart';
 import 'package:timberland_biketrail/core/errors/exceptions.dart';
 import 'package:timberland_biketrail/features/app_infos/data/datasources/remote_datasource.dart';
@@ -20,6 +21,9 @@ class TimberlandRemoteDatasource implements AppInfoDataSource {
 
   @override
   Future<List<TrailRule>> fetchTrailRules() async {
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: 'token');
+    dioClient.options.headers["authorization"] = "token $token";
     try {
       final response = await dioClient.get('${environmentConfig.apihost}/rules',
           options: Options(
@@ -44,6 +48,9 @@ class TimberlandRemoteDatasource implements AppInfoDataSource {
 
   @override
   Future<List<FAQ>> fetchFAQs() async {
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: 'token');
+    dioClient.options.headers["authorization"] = "token $token";
     try {
       final response = await dioClient.get('${environmentConfig.apihost}/faqs',
           options: Options(
@@ -78,7 +85,9 @@ class TimberlandRemoteDatasource implements AppInfoDataSource {
       for (var element in inquiry.images) {
         images.add(await MultipartFile.fromFile(element.path));
       }
-
+      const storage = FlutterSecureStorage();
+      var token = await storage.read(key: 'token');
+      dioClient.options.headers["authorization"] = "token $token";
       final response = await dioClient.post(
         '${environmentConfig.apihost}/members/contacts',
         data: FormData.fromMap(

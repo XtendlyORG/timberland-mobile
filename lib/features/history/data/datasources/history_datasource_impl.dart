@@ -2,6 +2,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:timberland_biketrail/core/configs/environment_configs.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 
@@ -20,6 +21,9 @@ class HistoryDataSoureImpl implements HistoryDataSoure {
   @override
   Future<List<BookingHistory>> fetchBookingHistory() {
     return this(callback: () async {
+      const storage = FlutterSecureStorage();
+      var token = await storage.read(key: 'token');
+      dioClient.options.headers["authorization"] = "token $token";
       final response = await dioClient.get(
         '${environmentConfig.apihost}/bookings/${Session().currentUser!.id}/history',
         options: Options(
@@ -45,6 +49,9 @@ class HistoryDataSoureImpl implements HistoryDataSoure {
   @override
   Future<List<PaymentHistory>> fetchPaymentHistory() {
     return this(callback: () async {
+      const storage = FlutterSecureStorage();
+      var token = await storage.read(key: 'token');
+      dioClient.options.headers["authorization"] = "token $token";
       final response = await dioClient.get(
         '${environmentConfig.apihost}/payments/${Session().currentUser!.id}/history',
         options: Options(
@@ -70,6 +77,9 @@ class HistoryDataSoureImpl implements HistoryDataSoure {
   @override
   Future<void> cancelBooking(String bookingId, String reason) {
     return this(callback: () async {
+      const storage = FlutterSecureStorage();
+      var token = await storage.read(key: 'token');
+      dioClient.options.headers["authorization"] = "token $token";
       final response = await dioClient.post(
         '${environmentConfig.apihost}/bookings/$bookingId/cancel',
         options: Options(

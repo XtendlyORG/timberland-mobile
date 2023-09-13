@@ -27,6 +27,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:timberland_biketrail/core/errors/exceptions.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/notifications/data/datasources/push_notif_ds.dart';
@@ -45,6 +46,9 @@ class PushNotificationRemoteDataSourceImpl
   });
   @override
   Future<void> updateToken(String memberId, String token) async {
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: 'token');
+    dioClient.options.headers["authorization"] = "token $token";
     try {
       final response = await dioClient.put(
         '${environmentConfig.apihost}/members/$memberId/notification-token',
@@ -62,6 +66,9 @@ class PushNotificationRemoteDataSourceImpl
 
   @override
   Future<List<Announcement>?> fetchLatestAnnouncement() async {
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: 'token');
+    dioClient.options.headers["authorization"] = "token $token";
     try {
       final response = await dioClient.get(
         '${environmentConfig.apihost}/announcements/${Session().currentUser!.id}/latest',

@@ -2,6 +2,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:timberland_biketrail/core/configs/environment_configs.dart';
 import 'package:timberland_biketrail/core/errors/exceptions.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
@@ -19,6 +20,9 @@ class BookingRemoteDataSource implements BookingDatasource {
   @override
   Future<BookingResponse> submitBookingRequest(BookingRequestParams params) {
     return this(callback: () async {
+      const storage = FlutterSecureStorage();
+      var token = await storage.read(key: 'token');
+      dioClient.options.headers["authorization"] = "token $token";
       try {
         final result = await dioClient.post(
           '${environmentConfig.apihost}/bookings',
@@ -51,6 +55,9 @@ class BookingRemoteDataSource implements BookingDatasource {
   @override
   Future<int> getFreePassCount() {
     return this(callback: () async {
+      const storage = FlutterSecureStorage();
+      var token = await storage.read(key: 'token');
+      dioClient.options.headers["authorization"] = "token $token";
       final response = await dioClient.get(
         '${environmentConfig.apihost}/members/${Session().currentUser!.id}/passes',
       );
@@ -67,6 +74,9 @@ class BookingRemoteDataSource implements BookingDatasource {
   Future<void> checkoutBooking(String bookingId) {
     return this(
       callback: () async {
+        const storage = FlutterSecureStorage();
+        var token = await storage.read(key: 'token');
+        dioClient.options.headers["authorization"] = "token $token";
         final response = await dioClient.put(
           '${environmentConfig.apihost}/bookings/$bookingId/checkout',
         );

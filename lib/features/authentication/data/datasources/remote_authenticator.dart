@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../../../core/configs/environment_configs.dart';
 import '../../../../core/errors/exceptions.dart';
@@ -31,6 +32,8 @@ class RemoteAuthenticator implements Authenticator {
 
   @override
   Future<User> login(LoginParameter loginParameter) async {
+    final storage = const FlutterSecureStorage();
+
     try {
       final response = await dioClient.post(
         '${environmentConfig.apihost}/members/login',
@@ -41,7 +44,8 @@ class RemoteAuthenticator implements Authenticator {
       );
       if (response.statusCode == 200) {
         log(response.data.toString());
-        return UserModel.fromMap(response.data);
+        await storage.write(key: 'token', value: response.data['token']);
+        return UserModel.fromMap(response.data['result']);
       }
 
       throw AuthException(message: "Server Error");
@@ -103,7 +107,9 @@ class RemoteAuthenticator implements Authenticator {
           registerParameter.profilePic!.path,
         );
       }
-
+      const storage = FlutterSecureStorage();
+      var token = await storage.read(key: 'token');
+      dioClient.options.headers["authorization"] = "token $token";
       final Response response;
 
       response = await dioClient.post(
@@ -159,6 +165,9 @@ class RemoteAuthenticator implements Authenticator {
 
   @override
   Future<User> verifyOtp(String email, String otp) async {
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: 'token');
+    dioClient.options.headers["authorization"] = "token $token";
     try {
       final body = json.encode(
         {
@@ -223,6 +232,9 @@ class RemoteAuthenticator implements Authenticator {
 
   @override
   Future<void> resendOtp(String email) async {
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: 'token');
+    dioClient.options.headers["authorization"] = "token $token";
     try {
       final Response response;
 
@@ -265,6 +277,9 @@ class RemoteAuthenticator implements Authenticator {
 
   @override
   Future<void> forgotPassword(String email) async {
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: 'token');
+    dioClient.options.headers["authorization"] = "token $token";
     try {
       final body = json.encode(
         {
@@ -311,6 +326,9 @@ class RemoteAuthenticator implements Authenticator {
 
   @override
   Future<void> updatePassword(String email, String newPassword) async {
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: 'token');
+    dioClient.options.headers["authorization"] = "token $token";
     try {
       final body = json.encode(
         {
