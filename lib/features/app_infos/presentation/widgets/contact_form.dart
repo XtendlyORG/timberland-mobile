@@ -299,8 +299,7 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
             final temp = await ImagePicker().pickImage(source: source);
             images.addAll([if (temp != null) temp]);
           } else {
-            images.addAll(
-                await ImagePicker().pickMultiImage(imageQuality: 10) ?? []);
+            images.addAll(await ImagePicker().pickMultiImage(imageQuality: 10));
           }
 
           if (images.isEmpty) {

@@ -1,0 +1,100 @@
+{
+    "result": [
+        {
+            "name": "SKYLINE",
+            "distance": "520m",
+            "decent": "0m",
+            "ascent": "30m",
+            "difficulty": "novice",
+            "coordinates": "skyLine"
+        },
+        {
+            "name": "LAUNCHPAD LINK",
+            "distance": "300m",
+            "decent": "0m",
+            "ascent": "10",
+            "difficulty": "intermediate",
+            "coordinates": "launchPadLink"
+        },
+        {
+            "name": "FIFTY FIRST DATES",
+            "distance": "450m",
+            "decent": "10m",
+            "ascent": "3m",
+            "difficulty": "intermediate",
+            "coordinates": "fiftyFirstDates"
+        },
+        {
+            "name": "M*A*S*H",
+            "distance": "500m",
+            "decent": "2m",
+            "ascent": "17m",
+            "difficulty": "intermediate",
+            "coordinates": "mash"
+        },
+        {
+            "name": "BILL & TED",
+            "distance": "900m",
+            "decent": "2m",
+            "ascent": "88m",
+            "difficulty": "intermediate",
+            "coordinates": "billAndTed"
+        },
+        {
+            "name": "GROUND HOG DAY",
+            "distance": "450m",
+            "decent": "10m",
+            "ascent": "3m",
+            "difficulty": "advance",
+            "coordinates": "groundHogDay"
+        },
+        {
+            "name": "POINT BREAK",
+            "distance": "1.7km",
+            "decent": "90m",
+            "ascent": "3m",
+            "difficulty": "advance",
+            "coordinates": "pointBreak"
+        },
+        {
+            "name": "ENTER THE DRAGON",
+            "distance": "1.9km",
+            "decent": "119m",
+            "ascent": "5m",
+            "difficulty": "advance",
+            "coordinates": "enterTheDragon"
+        },
+        {
+            "name": "VIPER",
+            "distance": "900m",
+            "decent": "23m",
+            "ascent": "9m",
+            "difficulty": "advance",
+            "coordinates": "viper"
+        },
+        {
+            "name": "KUNG FU PANDA",
+            "distance": "800m",
+            "decent": "37m",
+            "ascent": "36m",
+            "difficulty": "advance",
+            "coordinates": "kungFuPanda"
+        },
+        {
+            "name": "THE MATRIX",
+            "distance": "900m",
+            "decent": "91m",
+            "ascent": "6m",
+            "difficulty": "expert",
+            "coordinates": "theMatrix"
+        },
+        {
+            "name": "TOP GUN",
+            "distance": "1.7km",
+            "decent": "103m",
+            "ascent": "0m",
+            "difficulty": "expert",
+            "coordinates": "topGun"
+        }
+    ]
+}

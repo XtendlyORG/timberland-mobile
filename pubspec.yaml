@@ -73,6 +73,7 @@ dependencies:
   firebase_messaging: ^14.0.4
   encrypt: ^5.0.1
   flutter_secure_storage: ^7.0.0
+  badges: ^3.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -92,7 +93,8 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/splash/
-
+    - assets/trail_map/
+    - assets/trail_map/trails.json
     - .env
 
 
@@ -112,3 +114,4 @@ flutter_native_splash:
 
   
   web: false
+  
