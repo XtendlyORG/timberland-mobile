@@ -44,7 +44,7 @@ class MapTabBar extends StatelessWidget {
               onTap: () {
                 onTap(2);
               },
-              child: _buildTabItem(2, 'Additional Info'),
+              child: _buildTabItem(2, 'Info'),
             ),
           ),
         ],

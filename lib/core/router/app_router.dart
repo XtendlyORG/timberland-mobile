@@ -43,6 +43,7 @@ import '../../features/history/presentation/pages/payment_history_page.dart';
 import '../../features/trail/domain/entities/trail.dart';
 import '../../features/trail/presentation/pages/trail_details.dart';
 import '../../features/trail/presentation/pages/trail_map.dart';
+import '../../features/trail/trail_map_new/custom_map_page.dart';
 import '../../main_page.dart';
 import '../presentation/widgets/inherited_widgets/inherited_trail.dart';
 import '../utils/session.dart';
@@ -362,7 +363,7 @@ final appRouter = GoRouter(
               name: Routes.trailMap.name,
               pageBuilder: (context, routeState) {
                 return CustomTransitionPage(
-                  child: const TrailMap(),
+                  child: const CustomMapPage(),
                   transitionDuration: const Duration(milliseconds: 500),
                   transitionsBuilder:
                       (context, animation, secondaryAnimation, child) {

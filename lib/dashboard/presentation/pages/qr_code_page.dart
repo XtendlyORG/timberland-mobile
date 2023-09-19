@@ -72,7 +72,7 @@ class QrCodePage extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                             vertical: kHorizontalPadding,
                           ),
-                          child: QrImageView(
+                          child: QrImage(
                             data: state.user.accessCode,
                             size: 200,
                             foregroundColor: TimberlandColor.text,

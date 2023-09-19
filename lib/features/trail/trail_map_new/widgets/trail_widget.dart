@@ -62,9 +62,6 @@ class TrailWidget extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(
-            height: 5,
-          ),
           Container(
             padding: const EdgeInsets.only(left: 5),
             child: Row(
