@@ -12,7 +12,7 @@
             "name": "LAUNCHPAD LINK",
             "distance": "300m",
             "decent": "0m",
-            "ascent": "10",
+            "ascent": "10m",
             "difficulty": "intermediate",
             "coordinates": "launchPadLink"
         },

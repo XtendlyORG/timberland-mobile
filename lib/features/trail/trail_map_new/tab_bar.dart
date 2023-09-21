@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
 
@@ -6,48 +8,47 @@ import '../../../core/themes/timberland_color.dart';
 class MapTabBar extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
-  final String selectedTrail;
 
-  const MapTabBar(
-      {super.key,
-      required this.currentIndex,
-      required this.onTap,
-      required this.selectedTrail});
+  const MapTabBar({
+    super.key,
+    required this.currentIndex,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width * 1,
-      decoration: const BoxDecoration(
-        color: Color.fromARGB(134, 211, 211, 211),
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          GestureDetector(
-            onTap: () => onTap(0),
-            child: _buildTabItem(0, 'Trail Directory'),
+    return ClipRRect(
+      clipBehavior: Clip.hardEdge,
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+        child: Container(
+          width: MediaQuery.of(context).size.width * 1,
+          decoration: BoxDecoration(
+            color: const Color.fromARGB(24, 255, 255, 255),
+            border: Border.all(color: Colors.white, width: 1),
+            borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20), topRight: Radius.circular(20)),
           ),
-          GestureDetector(
-            onTap: () => onTap(1),
-            child: _buildTabItem(1, 'Trail Progression'),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              GestureDetector(
+                onTap: () => onTap(0),
+                child: _buildTabItem(0, 'Trail Directory'),
+              ),
+              GestureDetector(
+                onTap: () => onTap(1),
+                child: _buildTabItem(1, 'Trail Progression'),
+              ),
+              GestureDetector(
+                onTap: () {
+                  onTap(2);
+                },
+                child: _buildTabItem(2, 'Info'),
+              ),
+            ],
           ),
-          badges.Badge(
-            showBadge: selectedTrail == '' ? false : true,
-            badgeContent: const Text(
-              '1',
-              style: TextStyle(color: Colors.white),
-            ),
-            child: GestureDetector(
-              onTap: () {
-                onTap(2);
-              },
-              child: _buildTabItem(2, 'Info'),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

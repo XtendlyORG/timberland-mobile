@@ -45,16 +45,16 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
             widget.onChange(value);
           },
         ),
-        if (widget.child != null)
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                value = !value;
-              });
-              widget.onChange(value);
-            },
-            child: widget.child!,
-          ),
+        if (widget.child != null) widget.child!,
+        // GestureDetector(
+        //   onTap: () {
+        //     setState(() {
+        //       value = !value;
+        //     });
+        //     widget.onChange(value);
+        //   },
+        //   child:
+        // ),
       ],
     );
   }

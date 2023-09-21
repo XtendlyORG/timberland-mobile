@@ -85,25 +85,6 @@ class TrailWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                //ascending
-                SizedBox(
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.arrow_drop_up_sharp,
-                        size: 25,
-                        color: textColor,
-                      ),
-                      Text(
-                        ascent,
-                        style: TextStyle(
-                            color: textColor,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 11),
-                      )
-                    ],
-                  ),
-                ),
                 //descending
                 SizedBox(
                   child: Row(
@@ -115,6 +96,25 @@ class TrailWidget extends StatelessWidget {
                       ),
                       Text(
                         decent,
+                        style: TextStyle(
+                            color: textColor,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 11),
+                      )
+                    ],
+                  ),
+                ),
+                //ascending
+                SizedBox(
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.arrow_drop_up_sharp,
+                        size: 25,
+                        color: textColor,
+                      ),
+                      Text(
+                        ascent,
                         style: TextStyle(
                             color: textColor,
                             fontWeight: FontWeight.w500,

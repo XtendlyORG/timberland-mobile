@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/presentation/widgets/filled_text_button.dart';
+
 class CustomMap extends StatefulWidget {
   final TransformationController controller;
   const CustomMap({Key? key, required this.controller}) : super(key: key);
@@ -16,35 +18,28 @@ class _CustomMapState extends State<CustomMap> {
   }
 
   @override
-  void dispose() {
-    widget.controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        GestureDetector(
-          child: AspectRatio(
-            aspectRatio: 1,
-            child: InteractiveViewer(
-              transformationController: widget.controller,
-              panEnabled: true, // Set it to false
-              minScale: 0.5,
-              maxScale: 4.0,
-              child: Container(
-                height: 1080,
-                width: 1080,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage(
-                          'assets/trail_map/TMBPMAPFINALPOI082023.png')),
-                ),
+    return Stack(
+      children: <Widget>[
+        AspectRatio(
+          aspectRatio: 1,
+          child: InteractiveViewer(
+            transformationController: widget.controller,
+            panEnabled: true, // Set it to false
+            minScale: 0.5,
+            maxScale: 4.0,
+            child: Container(
+              height: 1080,
+              width: 1080,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage(
+                        'assets/trail_map/TMBPMAPFINALPOI082023.png')),
               ),
             ),
           ),
         ),
+
         // TextButton(
         //     onPressed: () {
         //       // controller.toScene(Offset((0.228 * Coordinatest.billAndTed.x),

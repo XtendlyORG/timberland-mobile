@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -39,25 +40,40 @@ class _TrailDirectoryState extends State<TrailDirectory> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        /////INFO???
-        Container(
-          width: MediaQuery.of(context).size.width * .49,
-          decoration: const BoxDecoration(
-            // color: TimberlandColor.background,
-            color: TimberlandColor.background,
-          ),
-          child: Column(children: [
-            Container(
-              height: 40,
-              width: MediaQuery.of(context).size.width * .50,
-              child: const Center(
-                  child: Text(
-                'INFO',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              )),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color.fromARGB(24, 255, 255, 255),
+            Color.fromARGB(45, 255, 255, 255),
+            Color.fromARGB(69, 255, 255, 255),
+            Color.fromARGB(120, 255, 255, 255),
+            Color.fromARGB(171, 255, 255, 255).withOpacity(.60),
+            Colors.white.withOpacity(.225)
+          ],
+        ),
+      ),
+      child: Row(
+        children: [
+          /////INFO???
+          Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+            ClipRRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
+                child: Container(
+                  color: Color.fromARGB(24, 255, 255, 255),
+                  height: 40,
+                  width: MediaQuery.of(context).size.width * .50,
+                ),
+              ),
             ),
+            const Center(
+                child: Text(
+              'INFO',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            )),
             const SizedBox(height: 10),
 
             /// SIGN GUIDE
@@ -187,34 +203,37 @@ class _TrailDirectoryState extends State<TrailDirectory> {
               height: 10,
             ),
           ]),
-        ),
-
-        ///DIVIDER//
-        Container(
-          color: TimberlandColor.background,
-          width: MediaQuery.of(context).size.width * 0.02,
-          child: Center(
-              child: Container(
-            width: 5,
-            height: 250,
-            decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(10)),
-          )),
-        ),
-        /////TRAILS
-        Container(
-          width: MediaQuery.of(context).size.width * .49,
-          decoration: const BoxDecoration(color: TimberlandColor.background),
-          child: Column(children: [
-            Container(
-              height: 40,
-              width: MediaQuery.of(context).size.width * .50,
-              child: const Center(
-                  child: Text(
-                'TRAILS',
-                style: TextStyle(fontWeight: FontWeight.bold),
+          ClipRRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+              child: Center(
+                  child: Container(
+                width: 2,
+                height: 250,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)),
               )),
             ),
+          ),
+
+          /////TRAILS
+          Column(children: [
+            ClipRRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
+                child: Container(
+                  color: Color.fromARGB(24, 255, 255, 255),
+                  height: 40,
+                  width: MediaQuery.of(context).size.width * .50,
+                ),
+              ),
+            ),
+            const Center(
+                child: Text(
+              'TRAILS',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            )),
 
             //Trail Widgets
             const SizedBox(
@@ -232,34 +251,37 @@ class _TrailDirectoryState extends State<TrailDirectory> {
                     itemBuilder: (BuildContext context, int index) {
                       return Column(
                         children: [
-                          InkWell(
-                            onTap: () {
-                              double scale = 3;
-                              widget.selectTrail(
-                                  trailList[index].name.toString());
-                              final zoomed = Matrix4.identity()
-                                ..translate(
-                                    Coordinates.values
-                                        .byName(trailList[index]
-                                            .coordinates
-                                            .toString())
-                                        .x,
-                                    Coordinates.values
-                                        .byName(trailList[index]
-                                            .coordinates
-                                            .toString())
-                                        .y)
-                                ..scale(scale);
-                              final value = zoomed;
-                              widget.controller.value = value;
-                            },
-                            child: TrailWidget(
-                                name: trailList[index].name.toString(),
-                                ascent: trailList[index].ascent.toString(),
-                                decent: trailList[index].decent.toString(),
-                                difficulty:
-                                    trailList[index].difficulty.toString(),
-                                distance: trailList[index].distance.toString()),
+                          Material(
+                            child: InkWell(
+                              onTap: () {
+                                double scale = 3;
+                                widget.selectTrail(
+                                    trailList[index].name.toString());
+                                final zoomed = Matrix4.identity()
+                                  ..translate(
+                                      Coordinates.values
+                                          .byName(trailList[index]
+                                              .coordinates
+                                              .toString())
+                                          .x,
+                                      Coordinates.values
+                                          .byName(trailList[index]
+                                              .coordinates
+                                              .toString())
+                                          .y)
+                                  ..scale(scale);
+                                final value = zoomed;
+                                widget.controller.value = value;
+                              },
+                              child: TrailWidget(
+                                  name: trailList[index].name.toString(),
+                                  ascent: trailList[index].ascent.toString(),
+                                  decent: trailList[index].decent.toString(),
+                                  difficulty:
+                                      trailList[index].difficulty.toString(),
+                                  distance:
+                                      trailList[index].distance.toString()),
+                            ),
                           ),
                           const SizedBox(
                             height: 10,
@@ -270,8 +292,8 @@ class _TrailDirectoryState extends State<TrailDirectory> {
               ),
             )
           ]),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
