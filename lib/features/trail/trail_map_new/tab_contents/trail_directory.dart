@@ -254,7 +254,7 @@ class _TrailDirectoryState extends State<TrailDirectory> {
                           Material(
                             child: InkWell(
                               onTap: () {
-                                double scale = 3;
+                                double scale = 4;
                                 widget.selectTrail(
                                     trailList[index].name.toString());
                                 final zoomed = Matrix4.identity()

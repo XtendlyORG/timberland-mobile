@@ -28,23 +28,52 @@
 
 // for 1080x1080 map dimentions
 //ratio 0.228
+// enum Coordinates {
+//   billAndTed(x: -800.964, y: -369.588),
+//   brexit(x: -825.588, y: -416.556),
+//   enterTheDragon(x: -196.764, y: -320.568),
+//   fiftyFirstDates(x: -186.048, y: -209.988),
+//   groundHogDay(x: -174.42, y: -246.24),
+//   kungFuPanda(x: -239.856, y: -735.072),
+//   launchPadLink(x: -379.848, y: -179.664),
+//   launchPad(x: -291.84, y: -288.42),
+//   mash(x: -803.016, y: -806.436),
+//   parkExitTrail(x: -204.516, y: -157.092),
+//   pointBreak(x: -297.54, y: -364.8),
+//   skillsZone(x: -215.46, y: -288.42),
+//   skyLine(x: -381.9, y: -123.804),
+//   theMatrix(x: -376.884, y: -332.424),
+//   topGun(x: -410.4, y: -500.916),
+//   viper(x: -535.8, y: -696.768);
+
+//   final double x;
+//   final double y;
+//   const Coordinates({
+//     required this.x,
+//     required this.y,
+//   });
+// }
+
+// x axis (to left: -minus; to right: add)
+// y axis (to up: minus : to down: add)
+
 enum Coordinates {
-  billAndTed(x: -800.964, y: -369.588),
+  billAndTed(x: -1060.964, y: -400.588),
   brexit(x: -825.588, y: -416.556),
-  enterTheDragon(x: -196.764, y: -320.568),
-  fiftyFirstDates(x: -186.048, y: -209.988),
-  groundHogDay(x: -174.42, y: -246.24),
-  kungFuPanda(x: -239.856, y: -735.072),
-  launchPadLink(x: -379.848, y: -179.664),
+  enterTheDragon(x: -120.764, y: -300.568),
+  fiftyFirstDates(x: -100.048, y: -120.988),
+  groundHogDay(x: -80.42, y: -180.24),
+  kungFuPanda(x: -210.856, y: -950.072),
+  launchPadLink(x: -400.848, y: -70.664),
   launchPad(x: -291.84, y: -288.42),
-  mash(x: -803.016, y: -806.436),
+  mash(x: -1070.016, y: -1050.436),
   parkExitTrail(x: -204.516, y: -157.092),
-  pointBreak(x: -297.54, y: -364.8),
+  pointBreak(x: -275.54, y: -370.8),
   skillsZone(x: -215.46, y: -288.42),
-  skyLine(x: -381.9, y: -123.804),
-  theMatrix(x: -376.884, y: -332.424),
-  topGun(x: -410.4, y: -500.916),
-  viper(x: -535.8, y: -696.768);
+  skyLine(x: -400.9, y: -1.804),
+  theMatrix(x: -376.884, y: -310.424),
+  topGun(x: -450.4, y: -580.916),
+  viper(x: -650.8, y: -900.768);
 
   final double x;
   final double y;

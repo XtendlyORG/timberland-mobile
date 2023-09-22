@@ -77,7 +77,10 @@ class _CustomMapPageState extends State<CustomMapPage> {
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          SizedBox(
+                          Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.white),
+                                borderRadius: BorderRadius.circular(5)),
                             width: 160,
                             height: 40,
                             child: FilledTextButton(
@@ -118,9 +121,10 @@ class _CustomMapPageState extends State<CustomMapPage> {
                   controller: _controller,
                 ),
                 Positioned(
-                  bottom: 20,
+                  bottom: 40,
                   child: SizedBox(
-                    height: 410,
+                    height: (MediaQuery.of(context).size.height * 1) -
+                        (MediaQuery.of(context).size.width * 1),
                     child: Column(
                       children: [
                         MapTabBar(
