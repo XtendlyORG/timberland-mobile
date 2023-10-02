@@ -2,6 +2,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:timberland_biketrail/core/configs/environment_configs.dart';
 import 'package:timberland_biketrail/core/errors/exceptions.dart';
@@ -29,6 +30,9 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
   @override
   Future<EmergencyConfigs> fetchToken(String channelID) {
     return this(callback: () async {
+      const storage = FlutterSecureStorage();
+      var token = await storage.read(key: 'token');
+      dioClient.options.headers["authorization"] = "token $token";
       final response = await dioClient.post(
         '${environmentConfig.apihost}/emergencies/rtctoken',
         data: {
@@ -92,6 +96,9 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
 
   @override
   Future<void> registerMissedCall(EmergencyConfigs configs) async {
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: 'token');
+    dioClient.options.headers["authorization"] = "token $token";
     return this(callback: () async {
       log(configs.emergencyId.toString());
       final response = await dioClient.put(
@@ -110,6 +117,9 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
   }
 
   Future<int> registerCallLog() async {
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: 'token');
+    dioClient.options.headers["authorization"] = "token $token";
     final user = Session().currentUser!;
     final EmergencyLog callLog = EmergencyLog(
       memberID: user.id,

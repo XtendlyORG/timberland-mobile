@@ -72,7 +72,9 @@ dependencies:
   firebase_core: ^2.1.1
   firebase_messaging: ^14.0.4
   encrypt: ^5.0.1
-
+  flutter_secure_storage: ^7.0.0
+  badges: ^3.0.0
+  flutter_pdfview: ^1.2.7
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -92,7 +94,10 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/splash/
-
+    - assets/trail_map/
+    - assets/trail_map/trails.json
+    - assets/trail_map/CONDITIONS FOR ENTRY.pdf
+    - assets/trail_map/MOUNTAIN BIKERS RESPONSIBILITY CODE.pdf       
     - .env
 
 
@@ -112,3 +117,4 @@ flutter_native_splash:
 
   
   web: false
+  

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:timberland_biketrail/core/configs/environment_configs.dart';
 import 'package:timberland_biketrail/core/errors/exceptions.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
@@ -17,9 +18,13 @@ class TimberlandProfileDataSource implements ProfileDataSource {
     required this.dioClient,
     required this.environmentConfig,
   });
+
   @override
   Future<User> updateUserDetails(
       UpdateUserDetailsParams updateProfileParams) async {
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: 'token');
+    dioClient.options.headers["authorization"] = "token $token";
     try {
       MultipartFile? profilePic;
       if (updateProfileParams.profilePic != null) {
@@ -90,6 +95,9 @@ class TimberlandProfileDataSource implements ProfileDataSource {
 
   @override
   Future<void> updateEmailRequest(String email, String password) async {
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: 'token');
+    dioClient.options.headers["authorization"] = "token $token";
     try {
       final response = await dioClient.put(
         '${environmentConfig.apihost}/members/${Session().currentUser?.id}/email',
@@ -136,6 +144,9 @@ class TimberlandProfileDataSource implements ProfileDataSource {
 
   @override
   Future<void> verifyEmailUpdate(String email, String otp) async {
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: 'token');
+    dioClient.options.headers["authorization"] = "token $token";
     try {
       final response = await dioClient.put(
         '${environmentConfig.apihost}/members/${Session().currentUser?.id}/email/verify',
@@ -189,6 +200,9 @@ class TimberlandProfileDataSource implements ProfileDataSource {
 
   @override
   Future<void> resendEmailOtp(String email) async {
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: 'token');
+    dioClient.options.headers["authorization"] = "token $token";
     try {
       final response = await dioClient.put(
         '${environmentConfig.apihost}/members/${Session().currentUser?.id}/update/email/otp',
@@ -235,6 +249,9 @@ class TimberlandProfileDataSource implements ProfileDataSource {
   @override
   Future<void> updatePasswordRequest(
       String oldPassword, String newPassword) async {
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: 'token');
+    dioClient.options.headers["authorization"] = "token $token";
     try {
       final response = await dioClient.put(
         '${environmentConfig.apihost}/members/${Session().currentUser?.id}/password',
@@ -289,6 +306,9 @@ class TimberlandProfileDataSource implements ProfileDataSource {
 
   @override
   Future<List<String>> fetchProfileHeaders() async {
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: 'token');
+    dioClient.options.headers["authorization"] = "token $token";
     try {
       final response = await dioClient.get(
         '${environmentConfig.apihost}/assets/retrieve',

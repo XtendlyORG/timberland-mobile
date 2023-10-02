@@ -2,6 +2,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:timberland_biketrail/core/configs/environment_configs.dart';
 import 'package:timberland_biketrail/core/errors/exceptions.dart';
 import 'package:timberland_biketrail/features/trail/data/datasources/remote_datasource.dart';
@@ -19,6 +20,9 @@ class TrailRemoteDatasource implements RemoteDatasource {
   });
   @override
   Future<List<Trail>> fetchTrails(FetchTrailsParams fetchTrailsParams) async {
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: 'token');
+    dioClient.options.headers["authorization"] = "token $token";
     try {
       final response = await dioClient.get(
         '${environmentConfig.apihost}/trails',
@@ -50,6 +54,9 @@ class TrailRemoteDatasource implements RemoteDatasource {
 
   @override
   Future<List<Trail>> searchTrails(SearchTrailsParams searchParams) async {
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: 'token');
+    dioClient.options.headers["authorization"] = "token $token";
     try {
       log(searchParams.toMap().toString());
       final response = await dioClient.get(
