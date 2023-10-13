@@ -1,7 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:move_to_background/move_to_background.dart';
 import 'package:timberland_biketrail/core/constants/navbar_configs.dart';
@@ -16,6 +21,8 @@ import 'package:timberland_biketrail/features/app_infos/presentation/pages/trail
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:timberland_biketrail/features/booking/presentation/pages/booking_page.dart';
 import 'package:timberland_biketrail/features/trail/presentation/pages/trail_directory.dart';
+
+import 'core/configs/environment_configs.dart';
 
 class MainPage extends StatefulWidget {
   final int selectedTabIndex;
@@ -32,14 +39,38 @@ class _MainPageState extends State<MainPage> {
   late int currentIndex;
   late PageController pageController;
 
+  final serviceLocator = GetIt.instance;
   @override
   void initState() {
+    verifyToken(serviceLocator(), serviceLocator());
     super.initState();
     currentIndex = widget.selectedTabIndex;
     pageController = PageController(
       initialPage: currentIndex,
       keepPage: true,
     );
+  }
+
+  verifyToken(Dio dioClient, EnvironmentConfig environmentConfig) async {
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: 'token');
+    dioClient.options.headers["authorization"] = "token $token";
+    var refreshToken = await storage.read(key: 'refreshToken');
+    final response = await dioClient.post(
+      '${environmentConfig.apihost}/members/accessToken/refresh',
+      data: {'refreshCode': refreshToken},
+    );
+    log(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      await storage.write(key: 'token', value: response.data['accessToken']);
+      await storage.write(
+          key: 'refreshToken', value: response.data['refreshCode']);
+    } else {
+      //logout
+      final Session session = Session();
+      session.logout();
+      BlocProvider.of<AuthBloc>(context).add(const LogoutEvent());
+    }
   }
 
   @override
@@ -81,6 +112,7 @@ class _MainPageState extends State<MainPage> {
             });
             return const Scaffold();
           }
+
           return WillPopScope(
             onWillPop: () async {
               MoveToBackground.moveTaskToBack();
