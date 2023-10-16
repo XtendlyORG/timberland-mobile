@@ -45,6 +45,8 @@ class RemoteAuthenticator implements Authenticator {
       if (response.statusCode == 200) {
         log(response.data.toString());
         await storage.write(key: 'token', value: response.data['token']);
+        await storage.write(
+            key: 'refreshToken', value: response.data['refreshCode']);
         return UserModel.fromMap(response.data['result']);
       }
 
@@ -166,8 +168,8 @@ class RemoteAuthenticator implements Authenticator {
   @override
   Future<User> verifyOtp(String email, String otp) async {
     const storage = FlutterSecureStorage();
-    var token = await storage.read(key: 'token');
-    dioClient.options.headers["authorization"] = "token $token";
+    // var token = await storage.read(key: 'token');
+    // dioClient.options.headers["authorization"] = "token $token";
     try {
       final body = json.encode(
         {
@@ -181,8 +183,11 @@ class RemoteAuthenticator implements Authenticator {
       );
       log(response.statusCode.toString());
       if (response.statusCode == 200) {
+        await storage.write(key: 'token', value: response.data['token']);
+        await storage.write(
+            key: 'refreshToken', value: response.data['refreshCode']);
         if (response.data is Map<String, dynamic>) {
-          return UserModel.fromMap(response.data);
+          return UserModel.fromMap(response.data['result']);
         } else {
           throw AuthException(message: response.data);
         }
