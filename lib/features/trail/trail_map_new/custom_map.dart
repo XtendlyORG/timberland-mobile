@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/presentation/widgets/filled_text_button.dart';
-
 class CustomMap extends StatefulWidget {
   final TransformationController controller;
   const CustomMap({Key? key, required this.controller}) : super(key: key);
@@ -32,9 +30,7 @@ class _CustomMapState extends State<CustomMap> {
               height: 1080,
               width: 1080,
               decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage(
-                        'assets/trail_map/TMBPMAPFINALPOI082023.png')),
+                image: DecorationImage(image: AssetImage('assets/trail_map/TMBMAPFINAL112023.png')),
               ),
             ),
           ),
