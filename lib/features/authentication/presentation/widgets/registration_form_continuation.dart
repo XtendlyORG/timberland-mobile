@@ -26,11 +26,12 @@ import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.d
 import 'package:timberland_biketrail/dashboard/domain/params/update_user_detail.dart';
 import 'package:timberland_biketrail/dashboard/presentation/bloc/profile_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
-import 'package:url_launcher/url_launcher.dart';
+
+import '../../../booking/presentation/pages/waiver/pdf_repository.dart';
+import '../../../booking/presentation/pages/waiver/pdf_view_page.dart';
 
 class RegistrationContinuationForm extends StatelessWidget {
-  final UpdateUserDetailsParams?
-      user; // user will not be null when update profile
+  final UpdateUserDetailsParams? user; // user will not be null when update profile
   const RegistrationContinuationForm({
     Key? key,
     this.user,
@@ -39,37 +40,28 @@ class RegistrationContinuationForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool imageReady = true;
-    final registerParameter =
-        InheritedRegisterParameter.of(context).registerParameter!;
+    final registerParameter = InheritedRegisterParameter.of(context).registerParameter!;
     final formKey = GlobalKey<FormState>();
     DateTime? birthday = registerParameter.birthDay;
     final birthdayCtrl = TextEditingController(
-      text:
-          birthday != null ? DateFormat.yMMMMd('en_US').format(birthday) : null,
+      text: birthday != null ? DateFormat.yMMMMd('en_US').format(birthday) : null,
     );
 
     String? selectedGender = registerParameter.gender;
     final addressCtrl = TextEditingController(
       text: registerParameter.address,
     );
-    final professionCtrl =
-        TextEditingController(text: registerParameter.profession);
+    final professionCtrl = TextEditingController(text: registerParameter.profession);
     String? selectedBloodType = registerParameter.bloodType;
 
-    final emergencyContactsCtrl =
-        TextEditingController(text: registerParameter.emergencyContactInfo);
+    final emergencyContactsCtrl = TextEditingController(text: registerParameter.emergencyContactInfo);
     final imageCtrl = TextEditingController(
-      text: registerParameter.profilePic != null
-          ? 'profile_pic.${registerParameter.profilePic!.path.split('.').last}'
-          : null,
+      text: registerParameter.profilePic != null ? 'profile_pic.${registerParameter.profilePic!.path.split('.').last}' : null,
     );
     File? imageFile = registerParameter.profilePic;
-    final bikeModelCtrl =
-        TextEditingController(text: registerParameter.bikeModel);
-    final bikeYearCtrl =
-        TextEditingController(text: registerParameter.bikeYear);
-    final bikeColorCtrl =
-        TextEditingController(text: registerParameter.bikeColor);
+    final bikeModelCtrl = TextEditingController(text: registerParameter.bikeModel);
+    final bikeYearCtrl = TextEditingController(text: registerParameter.bikeYear);
+    final bikeColorCtrl = TextEditingController(text: registerParameter.bikeColor);
 
     bool agreedToTermsOfUse = false;
 
@@ -77,8 +69,7 @@ class RegistrationContinuationForm extends StatelessWidget {
       // auto fill fields with current user's informations
       selectedGender = user!.gender;
       birthday = user!.birthday;
-      birthdayCtrl.text =
-          birthday != null ? DateFormat.yMMMMd('en_US').format(birthday) : '';
+      birthdayCtrl.text = birthday != null ? DateFormat.yMMMMd('en_US').format(birthday) : '';
       selectedBloodType = user!.bloodType;
       addressCtrl.text = user!.address ?? '';
       professionCtrl.text = user!.profession ?? '';
@@ -136,8 +127,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                 hint: const Text('Gender *'),
                 decoration: const InputDecoration(),
                 validator: (gender) {
-                  return nonEmptyValidator(gender,
-                      errorMessage: 'Please select a gender');
+                  return nonEmptyValidator(gender, errorMessage: 'Please select a gender');
                 },
               ),
             ),
@@ -162,8 +152,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                               if (value is DateTime) {
                                 birthday = value;
                                 log(birthday.toString());
-                                birthdayCtrl.text =
-                                    DateFormat.yMMMMd('en_US').format(value);
+                                birthdayCtrl.text = DateFormat.yMMMMd('en_US').format(value);
                               }
                             },
                           ),
@@ -239,8 +228,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                         barrierColor: Colors.transparent,
                         clipBehavior: Clip.hardEdge,
                         shape: const RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(20)),
+                          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                         ),
                         builder: (context) {
                           void chooseFrom({required ImageSource source}) async {
@@ -248,8 +236,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                               source: source,
                             );
                             if (image != null) {
-                              imageCtrl.text =
-                                  'profile_pic${image.name.substring(image.name.lastIndexOf('.'))}';
+                              imageCtrl.text = 'profile_pic${image.name.substring(image.name.lastIndexOf('.'))}';
                               imageFile = File(image.path);
                               imageReady = false;
                               List<int> reducedImageByte = await compute(
@@ -322,8 +309,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                           }
                           return null;
                         },
-                        decoration: const InputDecoration(
-                            hintText: 'Bike (year)', counterText: ''),
+                        decoration: const InputDecoration(hintText: 'Bike (year)', counterText: ''),
                         maxLength: 4,
                         textInputAction: TextInputAction.next,
                         textCapitalization: TextCapitalization.words,
@@ -373,27 +359,15 @@ class RegistrationContinuationForm extends StatelessWidget {
                       return;
                     }
                     final registerParams = registerParameter.copyWith(
-                      profession: professionCtrl.text.isNotEmpty
-                          ? professionCtrl.text
-                          : null,
+                      profession: professionCtrl.text.isNotEmpty ? professionCtrl.text : null,
                       gender: selectedGender,
                       birthDay: birthday,
-                      address:
-                          addressCtrl.text.isNotEmpty ? addressCtrl.text : null,
+                      address: addressCtrl.text.isNotEmpty ? addressCtrl.text : null,
                       bloodType: selectedBloodType,
-                      emergencyContactInfo:
-                          emergencyContactsCtrl.text.isNotEmpty
-                              ? emergencyContactsCtrl.text
-                              : null,
-                      bikeModel: bikeModelCtrl.text.isNotEmpty
-                          ? bikeModelCtrl.text
-                          : null,
-                      bikeYear: bikeYearCtrl.text.isNotEmpty
-                          ? bikeYearCtrl.text
-                          : null,
-                      bikeColor: bikeColorCtrl.text.isNotEmpty
-                          ? bikeColorCtrl.text
-                          : null,
+                      emergencyContactInfo: emergencyContactsCtrl.text.isNotEmpty ? emergencyContactsCtrl.text : null,
+                      bikeModel: bikeModelCtrl.text.isNotEmpty ? bikeModelCtrl.text : null,
+                      bikeYear: bikeYearCtrl.text.isNotEmpty ? bikeYearCtrl.text : null,
+                      bikeColor: bikeColorCtrl.text.isNotEmpty ? bikeColorCtrl.text : null,
                       profilePic: imageFile,
                     );
                     if (user == null) {
@@ -403,8 +377,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                     } else {
                       BlocProvider.of<ProfileBloc>(context).add(
                         SubmitUpdateUserDetailRequestEvent(
-                          updateProfileParams:
-                              UpdateUserDetailsParams.fromRegisterParams(
+                          updateProfileParams: UpdateUserDetailsParams.fromRegisterParams(
                             registerParams,
                           ),
                         ),
@@ -412,8 +385,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                     }
                   }
                 },
-                child:
-                    user == null ? const Text("Register") : const Text("Save"),
+                child: user == null ? const Text("Register") : const Text("Save"),
               ),
             ),
             if (user == null)
@@ -440,12 +412,11 @@ class RegistrationContinuationForm extends StatelessWidget {
                           text: 'Privacy Policy',
                           style: const TextStyle(fontWeight: FontWeight.bold),
                           recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              launchUrl(
-                                  Uri.parse(
-                                    'https://chromahospitality.com/tmbt-privacy-policy',
-                                  ),
-                                  mode: LaunchMode.externalApplication);
+                            ..onTap = () async {
+                              const path = 'assets/privacy_policy/ChromaWebsite-PrivacyPolicy.pdf';
+                              final file = await PDFRepository.loadAsset(path);
+
+                              openPDF(context, file);
                             },
                         ),
                       ],
@@ -461,4 +432,8 @@ class RegistrationContinuationForm extends StatelessWidget {
       ),
     );
   }
+
+  void openPDF(BuildContext context, File file) => Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => PDFViewPage(file: file)),
+      );
 }

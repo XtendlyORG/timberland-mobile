@@ -2,10 +2,10 @@
 import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
-import 'package:path/path.dart';
-import 'package:flutter/gestures.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:path/path.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/custom_checkbox.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/custom_styled_text.dart';
@@ -88,8 +88,14 @@ class _BookingWaiverState extends State<BookingWaiver> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         CustomCheckbox(
-                          onChange: (val) {
+                          onChange: (val) async {
                             waiverAccepted = val;
+                            if (val) {
+                              const path = 'assets/privacy_policy/ChromaWebsite-PrivacyPolicy.pdf';
+                              final file = await PDFRepository.loadAsset(path);
+
+                              openPDF(context, file);
+                            }
                           },
                           child: Text(
                             'I agree to the Terms and Conditions',
@@ -107,8 +113,7 @@ class _BookingWaiverState extends State<BookingWaiver> {
                           onChange: (val) async {
                             conditionsForEntryAccepted = val;
                             if (val) {
-                              const path =
-                                  'assets/trail_map/CONDITIONS FOR ENTRY.pdf';
+                              const path = 'assets/trail_map/CONDITIONS FOR ENTRY.pdf';
                               final file = await PDFRepository.loadAsset(path);
 
                               openPDF(context, file);
@@ -151,8 +156,7 @@ class _BookingWaiverState extends State<BookingWaiver> {
                           onChange: (val) async {
                             codeOfResponsibilityAccepted = val;
                             if (val) {
-                              const path =
-                                  'assets/trail_map/MOUNTAIN BIKERS RESPONSIBILITY CODE.pdf';
+                              const path = 'assets/trail_map/MOUNTAIN BIKERS RESPONSIBILITY CODE.pdf';
                               final file = await PDFRepository.loadAsset(path);
                               log(basename(file.path));
                               // ignore: use_build_context_synchronously
@@ -197,12 +201,9 @@ class _BookingWaiverState extends State<BookingWaiver> {
                 width: double.infinity,
                 child: FilledTextButton(
                   onPressed: () {
-                    if (waiverAccepted &&
-                        codeOfResponsibilityAccepted &&
-                        conditionsForEntryAccepted) {
+                    if (waiverAccepted && codeOfResponsibilityAccepted && conditionsForEntryAccepted) {
                       BlocProvider.of<BookingBloc>(context).add(
-                        SubmitBookingRequest(
-                            params: widget.bookingRequestParams),
+                        SubmitBookingRequest(params: widget.bookingRequestParams),
                       );
                       return;
                     }

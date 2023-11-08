@@ -95,6 +95,7 @@ flutter:
     - assets/icons/
     - assets/splash/
     - assets/trail_map/
+    - assets/privacy_policy/
     - assets/trail_map/trails.json
     - assets/trail_map/CONDITIONS FOR ENTRY.pdf
     - assets/trail_map/MOUNTAIN BIKERS RESPONSIBILITY CODE.pdf       
