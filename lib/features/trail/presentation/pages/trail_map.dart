@@ -35,7 +35,7 @@ class TrailMap extends StatelessWidget {
         child: TimberlandScaffold(
           extendBodyBehindAppbar: true,
           physics: const NeverScrollableScrollPhysics(),
-          backButtonColor: Theme.of(context).backgroundColor,
+          backButtonColor: Theme.of(context).colorScheme.background,
           body: SizedBox(
             height: MediaQuery.of(context).size.height - kToolbarHeight,
             child: Stack(
@@ -52,8 +52,7 @@ class TrailMap extends StatelessWidget {
                 Align(
                   alignment: Alignment.topRight,
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                        top: kToolbarHeight, right: kVerticalPadding),
+                    padding: const EdgeInsets.only(top: kToolbarHeight, right: kVerticalPadding),
                     child: ExpandableWidget(
                       alignment: Alignment.topCenter,
                       minimizedWidget: Image.asset(
@@ -90,8 +89,7 @@ class TrailMap extends StatelessWidget {
                 Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                        top: kToolbarHeight, left: kVerticalPadding),
+                    padding: const EdgeInsets.only(top: kToolbarHeight, left: kVerticalPadding),
                     child: Image.asset(
                       'assets/images/compass.png',
                       height: 70,
@@ -103,8 +101,7 @@ class TrailMap extends StatelessWidget {
                 Align(
                   alignment: Alignment.bottomLeft,
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                        bottom: kToolbarHeight, left: kVerticalPadding),
+                    padding: const EdgeInsets.only(bottom: kToolbarHeight, left: kVerticalPadding),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
@@ -182,7 +179,7 @@ class TrailMap extends StatelessWidget {
                           },
                           icon: Icon(
                             Icons.download,
-                            color: Theme.of(context).backgroundColor,
+                            color: Theme.of(context).colorScheme.background,
                           ),
                         ),
                       ],
@@ -225,17 +222,13 @@ class _ExpandableWidgetState extends State<ExpandableWidget> {
       transitionBuilder: (child, animation) {
         return ScaleTransition(
           scale: animation,
-          alignment: widget.alignment == Alignment.bottomCenter
-              ? Alignment.bottomLeft
-              : Alignment.topRight,
+          alignment: widget.alignment == Alignment.bottomCenter ? Alignment.bottomLeft : Alignment.topRight,
           child: child,
         );
       },
       layoutBuilder: (currentChild, previousChildren) {
         return Stack(
-          alignment: widget.alignment == Alignment.bottomCenter
-              ? Alignment.bottomLeft
-              : Alignment.topRight,
+          alignment: widget.alignment == Alignment.bottomCenter ? Alignment.bottomLeft : Alignment.topRight,
           children: <Widget>[
             ...previousChildren,
             if (currentChild != null) currentChild,

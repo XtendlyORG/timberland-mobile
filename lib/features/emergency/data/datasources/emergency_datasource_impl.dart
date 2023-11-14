@@ -21,10 +21,7 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
   }) {
     socket = IO.io(
       '${environmentConfig.apihost}:3001',
-      IO.OptionBuilder()
-          .setTransports(['websocket'])
-          .disableAutoConnect()
-          .build(),
+      IO.OptionBuilder().setTransports(['websocket']).build(),
     );
   }
   @override
@@ -170,11 +167,14 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
   }) {
     socket.onConnect((data) {
       log(socket.connected ? 'Connected to Socket' : 'Not Connected');
+      log('On Connect: $data');
     });
     socket.on(
-      'received-admin-data',
+      'received-client-data',
       (data) {
+        print('admin data received');
         if (data['member_id'].toString() == Session().currentUser!.id) {
+          print('CALL RECEIVED');
           onIncomingCall(
             EmergencyConfigs(
               channelID: data['channel'],
@@ -189,7 +189,7 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
     socket.onConnectError((data) {
       log('On Connect Error: $data');
       // _disposeSocket();\
-      socket.connect();
+      //socket.connect();
     });
     socket.onError((data) {
       log('Socket Error: $data');

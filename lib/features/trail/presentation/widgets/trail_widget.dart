@@ -3,7 +3,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/constants/padding.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/expanded_image.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/features/trail/domain/entities/difficulty.dart';
@@ -45,24 +44,9 @@ class TrailWidget extends StatelessWidget {
                 final tag = DateTime.now();
                 return Hero(
                   tag: tag,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return ExpandedImage(
-                              imageProvider: imageProvider,
-                              tag: tag,
-                            );
-                          },
-                        ),
-                      );
-                    },
-                    child: Image(
-                      image: imageProvider,
-                      fit: BoxFit.fitWidth,
-                    ),
+                  child: Image(
+                    image: imageProvider,
+                    fit: BoxFit.fitWidth,
                   ),
                 );
               },
@@ -112,10 +96,8 @@ class TrailWidget extends StatelessWidget {
                     ),
                     Text(
                       trail.difficulty.name,
-                      style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                            color: trail.difficulty != Difficulties.easiest
-                                ? trail.difficulty.primaryColor
-                                : trail.difficulty.secondaryColor,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: trail.difficulty != Difficulties.easiest ? trail.difficulty.primaryColor : trail.difficulty.secondaryColor,
                           ),
                     ),
                   ],

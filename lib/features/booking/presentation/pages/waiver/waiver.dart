@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path/path.dart';
@@ -90,15 +91,27 @@ class _BookingWaiverState extends State<BookingWaiver> {
                         CustomCheckbox(
                           onChange: (val) async {
                             waiverAccepted = val;
-                            if (val) {
-                              const path = 'assets/privacy_policy/ChromaWebsite-PrivacyPolicy.pdf';
-                              final file = await PDFRepository.loadAsset(path);
-
-                              openPDF(context, file);
-                            }
                           },
-                          child: Text(
-                            'I agree to the Terms and Conditions',
+                          child: Text.rich(
+                            TextSpan(
+                              text: 'I agree to the ',
+                              style: Theme.of(context).textTheme.labelLarge,
+                              children: <TextSpan>[
+                                TextSpan(
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () async {
+                                      const path = 'assets/privacy_policy/ChromaWebsite-PrivacyPolicy.pdf';
+                                      final file = await PDFRepository.loadAsset(path);
+
+                                      openPDF(context, file);
+                                    },
+                                  text: 'Privacy Policy',
+                                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                ),
+                              ],
+                            ),
                             style: Theme.of(context).textTheme.labelLarge,
                           ),
                         ),
@@ -112,38 +125,28 @@ class _BookingWaiverState extends State<BookingWaiver> {
                         CustomCheckbox(
                           onChange: (val) async {
                             conditionsForEntryAccepted = val;
-                            if (val) {
-                              const path = 'assets/trail_map/CONDITIONS FOR ENTRY.pdf';
-                              final file = await PDFRepository.loadAsset(path);
-
-                              openPDF(context, file);
-                            }
                           },
-                          child: Text(
-                            'I have read the Conditions for Entry to TMBP',
-                            style: Theme.of(context).textTheme.labelLarge,
-                          ),
-                          // child: RichText(
-                          //   text: TextSpan(
-                          //     text: 'I have read the ',
-                          //     style: Theme.of(context).textTheme.labelLarge,
-                          //     children: <TextSpan>[
-                          //       TextSpan(
-                          //         recognizer: TapGestureRecognizer()
-                          //           ..onTap = () async {
-                          //             const path =
-                          //                 'assets/trail_map/CONDITIONS FOR ENTRY.pdf';
-                          //             final file =
-                          //                 await PDFRepository.loadAsset(path);
+                          child: RichText(
+                            text: TextSpan(
+                              text: 'I have read the ',
+                              style: Theme.of(context).textTheme.labelLarge,
+                              children: <TextSpan>[
+                                TextSpan(
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () async {
+                                      const path = 'assets/trail_map/CONDITIONSFORENTRY2023.10.09-FINAL.pdf';
+                                      final file = await PDFRepository.loadAsset(path);
 
-                          //             openPDF(context, file);
-                          //           },
-                          //         text: "Conditions for Entry to TMBP",
-                          //         style: TextStyle(color: Colors.blue),
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
+                                      openPDF(context, file);
+                                    },
+                                  text: "Conditions for Entry to TMBP",
+                                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -155,42 +158,29 @@ class _BookingWaiverState extends State<BookingWaiver> {
                         CustomCheckbox(
                           onChange: (val) async {
                             codeOfResponsibilityAccepted = val;
-                            if (val) {
-                              const path = 'assets/trail_map/MOUNTAIN BIKERS RESPONSIBILITY CODE.pdf';
-                              final file = await PDFRepository.loadAsset(path);
-                              log(basename(file.path));
-                              // ignore: use_build_context_synchronously
-                              openPDF(context, file);
-                            }
                           },
-                          child: Text(
-                            "I have read, understood and agree to follow \nthe Mountain Biker's Responsibility Code",
-                            style: Theme.of(context).textTheme.labelLarge,
+                          child: RichText(
+                            text: TextSpan(
+                              text: 'I have read, understood and agree to follow \nthe',
+                              style: Theme.of(context).textTheme.labelLarge,
+                              children: <TextSpan>[
+                                TextSpan(
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () async {
+                                      const path = 'assets/trail_map/MOUNTAIN BIKERS RESPONSIBILITY CODE.pdf';
+                                      final file = await PDFRepository.loadAsset(path);
+                                      log(basename(file.path));
+                                      // ignore: use_build_context_synchronously
+                                      openPDF(context, file);
+                                    },
+                                  text: " Mountain Biker's Responsibility Code",
+                                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                ),
+                              ],
+                            ),
                           ),
-
-                          // child: RichText(
-                          //   text: TextSpan(
-                          //     text:
-                          //         'I have read, understood and agree to follow \nthe',
-                          //     style: Theme.of(context).textTheme.labelLarge,
-                          //     children: <TextSpan>[
-                          //       TextSpan(
-                          //         recognizer: TapGestureRecognizer()
-                          //           ..onTap = () async {
-                          //             const path =
-                          //                 'assets/trail_map/MOUNTAIN BIKERS RESPONSIBILITY CODE.pdf';
-                          //             final file =
-                          //                 await PDFRepository.loadAsset(path);
-                          //             log(basename(file.path));
-                          //             // ignore: use_build_context_synchronously
-                          //             openPDF(context, file);
-                          //           },
-                          //         text: " Mountain Biker's Responsibility Code",
-                          //         style: TextStyle(color: Colors.blue),
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
                         ),
                       ],
                     ),

@@ -27,6 +27,7 @@ class MobileNumberField extends StatefulWidget {
 class _MobileNumberFieldState extends State<MobileNumberField> {
   bool hasValidator = false;
   String errorMsg = "";
+  int counter = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +40,7 @@ class _MobileNumberFieldState extends State<MobileNumberField> {
       //   });
       //   return hasValidator;
       // }
+
       if (!number.startsWith('9')) {
         setState(() {
           hasValidator = true;
@@ -58,6 +60,8 @@ class _MobileNumberFieldState extends State<MobileNumberField> {
       setState(() {
         hasValidator = false;
       });
+      print('valid');
+      errorMsg = "";
       return hasValidator;
     }
 
@@ -72,8 +76,7 @@ class _MobileNumberFieldState extends State<MobileNumberField> {
                   enableInteractiveSelection: false,
                   decoration: InputDecoration(
                     disabledBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Theme.of(context).primaryColor),
+                      borderSide: BorderSide(color: Theme.of(context).primaryColor),
                     ),
                     hintText: '+63',
                     hintStyle: Theme.of(context).textTheme.titleMedium,
@@ -86,24 +89,46 @@ class _MobileNumberFieldState extends State<MobileNumberField> {
             ),
             Expanded(
               child: TextFormField(
-                onChanged: (value) {
-                  numberValidator(value);
+                validator: (value) {
+                  if (!value!.startsWith('9')) {
+                    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                      hasValidator = true;
+                      errorMsg = "Should start with '9'";
+                      setState(() {});
+                    });
+                    return '';
+                  }
+                  if (value.length < 10) {
+                    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                      hasValidator = true;
+                      errorMsg = "Must be a 10 digit number";
+                      setState(() {});
+                    });
+
+                    return '';
+                  }
+                  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                    hasValidator = false;
+                    errorMsg = "";
+                    setState(() {});
+                  });
+
+                  return null;
                 },
                 controller: widget.controller,
                 decoration: InputDecoration(
+                  errorStyle: const TextStyle(
+                    height: 0,
+                  ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: numberValidator(widget.controller.text)
-                          ? Colors.red
-                          : TimberlandColor.primary,
+                      color: errorMsg.isNotEmpty ? Colors.red : TimberlandColor.primary,
                       width: 1.0,
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: numberValidator(widget.controller.text)
-                          ? Colors.red
-                          : TimberlandColor.primary,
+                      color: errorMsg.isNotEmpty ? Colors.red : TimberlandColor.primary,
                       width: 1.0,
                     ),
                   ),
