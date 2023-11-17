@@ -33,8 +33,8 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
   void initState() {
     super.initState();
     start = const TimeOfDay(
-      hour: 6,
-      minute: 0,
+      hour: 7,
+      minute: 30,
     );
 
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
@@ -49,20 +49,14 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
       enabled: widget.enabled,
       enableInteractiveSelection: false,
       validator: (val) {
-        return nonEmptyValidator(val,
-            errorMessage: 'Please select a take off time');
+        return nonEmptyValidator(val, errorMessage: 'Please select a take off time');
       },
       onTap: () {
         _checkTimeValidity((_) {});
         showDialog(
             context: context,
             builder: (ctx) {
-              final TextStyle style = Theme.of(ctx)
-                  .textTheme
-                  .bodySmall!
-                  .copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).primaryColor);
+              final TextStyle style = Theme.of(ctx).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor);
 
               return AlertDialog(
                 contentPadding: const EdgeInsets.only(
@@ -104,8 +98,7 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
                           TextButton(
                             onPressed: isTimeValid
                                 ? () {
-                                    widget.controller.text =
-                                        DateFormat('hh:mm a').format(
+                                    widget.controller.text = DateFormat('hh:mm a').format(
                                       DateTime(
                                         0,
                                         0,
@@ -152,8 +145,7 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
     TimeOfDay currentTime = TimeOfDay.now();
 
     if (widget.selectedDate != null && widget.selectedDate == currentDate) {
-      if (currentTime.hour == start.hour && currentTime.minute > start.minute ||
-          currentTime.hour > start.hour) {
+      if (currentTime.hour == start.hour && currentTime.minute > start.minute || currentTime.hour > start.hour) {
         if (isTimeValid) {
           setState(() {
             isTimeValid = false;

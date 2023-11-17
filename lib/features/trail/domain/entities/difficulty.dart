@@ -19,16 +19,16 @@ class DifficultyLevel {
 
   factory DifficultyLevel.fromString(String name) {
     switch (name.toLowerCase()) {
-      case 'easiest':
-        return Difficulties.easy;
-      case 'easy':
-        return Difficulties.easy;
-      case 'more difficult':
-        return Difficulties.moreDifficult;
-      case 'very difficult':
-        return Difficulties.veryDifficult;
-      case 'extremely difficult':
-        return Difficulties.exteremelyDifficult;
+      case 'novice':
+        return Difficulties.intermediate;
+      case 'intermediate':
+        return Difficulties.intermediate;
+      case 'advanced':
+        return Difficulties.advanced;
+      case 'expert':
+        return Difficulties.expert;
+      /*  case 'extremely difficult':
+        return Difficulties.exteremelyDifficult; */
       default:
         return DifficultyLevel(
           id: name.codeUnits.first,
@@ -46,17 +46,17 @@ class DifficultyLevel {
 
 abstract class Difficulties {
   static List<DifficultyLevel> all = [
-    easiest,
-    easy,
+    novice,
+    intermediate,
     // intermediate,
-    moreDifficult,
-    veryDifficult,
-    exteremelyDifficult,
+    advanced,
+    expert,
+    //exteremelyDifficult,
   ];
 
-  static const DifficultyLevel easiest = DifficultyLevel(
+  static const DifficultyLevel novice = DifficultyLevel(
     id: 1,
-    name: 'Easiest',
+    name: 'Novice',
     primaryColor: TimberlandColor.background,
     secondaryColor: TimberlandColor.accentColor,
     icon: Icon(
@@ -65,9 +65,9 @@ abstract class Difficulties {
     ),
   );
 
-  static const DifficultyLevel easy = DifficultyLevel(
+  static const DifficultyLevel intermediate = DifficultyLevel(
     id: 2,
-    name: 'Easy',
+    name: 'Intermediate',
     primaryColor: TimberlandColor.accentColor,
     secondaryColor: TimberlandColor.background,
     icon: Icon(
@@ -76,9 +76,9 @@ abstract class Difficulties {
     ),
   );
 
-  static const DifficultyLevel moreDifficult = DifficultyLevel(
+  static const DifficultyLevel advanced = DifficultyLevel(
     id: 3,
-    name: 'More Difficult',
+    name: 'Advanced',
     primaryColor: Color(0xff34459b),
     secondaryColor: TimberlandColor.background,
     icon: Icon(
@@ -87,9 +87,9 @@ abstract class Difficulties {
     ),
   );
 
-  static const DifficultyLevel veryDifficult = DifficultyLevel(
+  static const DifficultyLevel expert = DifficultyLevel(
     id: 4,
-    name: 'Very Difficult',
+    name: 'Expert',
     primaryColor: TimberlandColor.text,
     secondaryColor: TimberlandColor.background,
     icon: FaqDiamondIcon(
@@ -97,7 +97,7 @@ abstract class Difficulties {
     ),
   );
 
-  static const DifficultyLevel exteremelyDifficult = DifficultyLevel(
+  /*  static const DifficultyLevel exteremelyDifficult = DifficultyLevel(
     id: 5,
     name: 'Extremely Difficult',
     primaryColor: TimberlandColor.text,
@@ -105,5 +105,5 @@ abstract class Difficulties {
     icon: FaqDiamondIcon(
       count: 2,
     ),
-  );
+  ); */
 }

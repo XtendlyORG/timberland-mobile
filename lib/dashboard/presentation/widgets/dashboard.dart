@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard_header.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
@@ -53,8 +52,40 @@ class Dashboard extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Divider(
-                        color: Theme.of(context).backgroundColor,
+                        color: Theme.of(context).colorScheme.background,
                       ),
+                    ),
+                    DashBoardListTile(
+                      onTap: () {
+                        context.goNamed(Routes.trails.name);
+                        Navigator.pop(context);
+                      },
+                      leading: const Icon(Icons.map_outlined),
+                      titleText: 'The Trails',
+                    ),
+                    DashBoardListTile(
+                      onTap: () {
+                        context.goNamed(Routes.rules.name);
+                        Navigator.pop(context);
+                      },
+                      leading: const Image(
+                        image: AssetImage('assets/icons/rules-icon.png'),
+                        height: 24,
+                        width: 24,
+                      ),
+                      titleText: 'The Code',
+                    ),
+                    DashBoardListTile(
+                      onTap: () {
+                        context.goNamed(Routes.booking.name);
+                        Navigator.pop(context);
+                      },
+                      leading: const Image(
+                        image: AssetImage('assets/icons/booking-icon.png'),
+                        height: 24,
+                        width: 24,
+                      ),
+                      titleText: 'Book Now',
                     ),
                     DashBoardListTile(
                       onTap: () {
@@ -70,46 +101,6 @@ class Dashboard extends StatelessWidget {
                     ),
                     DashBoardListTile(
                       onTap: () {
-                        context.goNamed(Routes.trails.name);
-                        Navigator.pop(context);
-                      },
-                      leading: const Icon(Icons.map_outlined),
-                      titleText: 'Trail Directory',
-                    ),
-                    DashBoardListTile(
-                      onTap: () {
-                        context.goNamed(Routes.booking.name);
-                        Navigator.pop(context);
-                      },
-                      leading: const Image(
-                        image: AssetImage('assets/icons/booking-icon.png'),
-                        height: 24,
-                        width: 24,
-                      ),
-                      titleText: 'Booking',
-                    ),
-                    DashBoardListTile(
-                      onTap: () {
-                        context.pushNamed(Routes.contacts.name);
-                        Navigator.pop(context);
-                      },
-                      leading: const Icon(Icons.phone_outlined),
-                      titleText: 'Contact Us',
-                    ),
-                    DashBoardListTile(
-                      onTap: () {
-                        context.goNamed(Routes.rules.name);
-                        Navigator.pop(context);
-                      },
-                      leading: const Image(
-                        image: AssetImage('assets/icons/rules-icon.png'),
-                        height: 24,
-                        width: 24,
-                      ),
-                      titleText: 'Rules',
-                    ),
-                    DashBoardListTile(
-                      onTap: () {
                         if (!disableEmergency) {
                           showDialog(
                             context: context,
@@ -117,14 +108,10 @@ class Dashboard extends StatelessWidget {
                               return const EmergencyDialog();
                             },
                           ).then((value) {
-                            Navigator.canPop(context)
-                                ? Navigator.pop(context)
-                                : null;
+                            Navigator.canPop(context) ? Navigator.pop(context) : null;
                           });
                         } else {
-                          Navigator.canPop(context)
-                              ? Navigator.pop(context)
-                              : null;
+                          Navigator.canPop(context) ? Navigator.pop(context) : null;
                         }
                       },
                       leading: const Image(
@@ -136,10 +123,18 @@ class Dashboard extends StatelessWidget {
                       titleText: 'Emergency',
                       titleTextColor: TimberlandColor.secondaryColor,
                     ),
+                    DashBoardListTile(
+                      onTap: () {
+                        context.pushNamed(Routes.contacts.name);
+                        Navigator.pop(context);
+                      },
+                      leading: const Icon(Icons.phone_outlined),
+                      titleText: 'Contact Us',
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Divider(
-                        color: Theme.of(context).backgroundColor,
+                        color: Theme.of(context).colorScheme.background,
                       ),
                     ),
                     DashBoardListTile(
@@ -156,8 +151,7 @@ class Dashboard extends StatelessWidget {
                     ),
                     DashBoardListTile(
                       onTap: () {
-                        BlocProvider.of<AuthBloc>(context)
-                            .add(const LogoutEvent());
+                        BlocProvider.of<AuthBloc>(context).add(const LogoutEvent());
                       },
                       leading: const Icon(Icons.logout),
                       titleText: 'Logout',

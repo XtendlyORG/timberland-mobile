@@ -20,6 +20,7 @@ class TrailDetailBottom extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Container(
+          height: 428,
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.background.withOpacity(.5),
             borderRadius: const BorderRadius.vertical(

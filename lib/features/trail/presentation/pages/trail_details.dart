@@ -20,7 +20,7 @@ class TrailDetails extends StatelessWidget {
     trail ??= const Trail(
       trailId: '',
       trailName: '',
-      difficulty: Difficulties.moreDifficult,
+      difficulty: Difficulties.advanced,
       description: '',
       distance: 1,
       routeType: '',
@@ -31,7 +31,7 @@ class TrailDetails extends StatelessWidget {
     return DecoratedSafeArea(
       child: TimberlandScaffold(
         extendBodyBehindAppbar: true,
-        backButtonColor: Theme.of(context).backgroundColor,
+        backButtonColor: Theme.of(context).colorScheme.background,
         body: Stack(
           children: [
             const Align(

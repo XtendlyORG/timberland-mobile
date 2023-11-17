@@ -17,8 +17,7 @@ class TrailDirectory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user =
-        (BlocProvider.of<AuthBloc>(context).state as Authenticated).user;
+    final user = (BlocProvider.of<AuthBloc>(context).state as Authenticated).user;
 
     final searchCtrl = TextEditingController();
 
@@ -33,8 +32,7 @@ class TrailDirectory extends StatelessWidget {
 
     return RefreshableScrollView(
       onRefresh: () async {
-        BlocProvider.of<TrailBloc>(context)
-            .add(FetchTrailsEvent(fetchTrailsParams: FetchTrailsParams()));
+        BlocProvider.of<TrailBloc>(context).add(FetchTrailsEvent(fetchTrailsParams: FetchTrailsParams()));
       },
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -42,7 +40,7 @@ class TrailDirectory extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: kToolbarHeight),
             child: AutoSizeText(
-              'Trail List',
+              'Trail Directory',
               style: Theme.of(context).textTheme.headlineSmall,
             ),
           ),
@@ -53,8 +51,16 @@ class TrailDirectory extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 15),
             alignment: Alignment.centerLeft,
             child: Text(
-              "It's Time To Ride, ${user.firstName}",
+              "It's Time To Ride ${user.firstName}",
               style: Theme.of(context).textTheme.titleLarge,
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "tap on any of the tiles to explore the TMBP trail system",
+              style: Theme.of(context).textTheme.titleSmall,
             ),
           ),
           const SizedBox(

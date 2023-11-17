@@ -2,12 +2,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timberland_biketrail/core/constants/padding.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
-import 'package:timberland_biketrail/features/trail/domain/entities/difficulty.dart';
 import 'package:timberland_biketrail/features/trail/domain/entities/trail.dart';
-import 'package:timberland_biketrail/features/trail/presentation/widgets/trail_specs.dart';
+
+import '../../../../core/constants/padding.dart';
+import '../../domain/entities/difficulty.dart';
 
 class TrailWidget extends StatelessWidget {
   final Trail trail;
@@ -97,7 +97,7 @@ class TrailWidget extends StatelessWidget {
                     Text(
                       trail.difficulty.name,
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: trail.difficulty != Difficulties.easiest ? trail.difficulty.primaryColor : trail.difficulty.secondaryColor,
+                            color: trail.difficulty != Difficulties.novice ? trail.difficulty.primaryColor : trail.difficulty.secondaryColor,
                           ),
                     ),
                   ],
@@ -109,7 +109,7 @@ class TrailWidget extends StatelessWidget {
               ],
             ),
           ),
-          TrailSpecs(trail: trail)
+          /*     TrailSpecs(trail: trail) */
         ],
       ),
     );

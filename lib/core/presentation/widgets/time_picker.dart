@@ -28,11 +28,10 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
   void initState() {
     super.initState();
 
-    final TimeOfDay initialTime =
-        widget.initialTime ?? const TimeOfDay(hour: 6, minute: 0);
+    final TimeOfDay initialTime = widget.initialTime ?? const TimeOfDay(hour: 7, minute: 30);
     hour = initialTime.hour;
     minute = initialTime.minute;
-    hours = const [1, 2, 6, 7, 8, 9, 10, 11, 12];
+    hours = const [1, 2, 7, 8, 9, 10, 11, 12];
     hourCtrl = FixedExtentScrollController(initialItem: hours.indexOf(hour));
     minuteCtrl = FixedExtentScrollController(initialItem: minute);
   }
@@ -88,16 +87,20 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
                 ':',
                 style: widget.textStyle.copyWith(
                   fontWeight: FontWeight.bold,
-                  fontSize: widget.textStyle.fontSize != null
-                      ? widget.textStyle.fontSize! * 1.75
-                      : null,
+                  fontSize: widget.textStyle.fontSize != null ? widget.textStyle.fontSize! * 1.75 : null,
                 ),
               ),
             ),
             Expanded(
               child: SpinnerWheel<int>(
                 textStyle: widget.textStyle,
-                items: List.generate(hour != 14 ? 60 : 31, (index) => index),
+                items: List.generate(
+                    hour == 7
+                        ? 31
+                        : hour != 14
+                            ? 60
+                            : 1,
+                    (index) => index),
                 fix2Digits: true,
                 controller: minuteCtrl,
                 onChange: (val) {
@@ -108,8 +111,7 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
             Expanded(
               child: Text(
                 hour >= 12 ? 'PM' : 'AM',
-                style: widget.textStyle.copyWith(
-                    fontSize: (widget.textStyle.fontSize ?? 12) * 1.5),
+                style: widget.textStyle.copyWith(fontSize: (widget.textStyle.fontSize ?? 12) * 1.5),
               ),
             ),
           ],

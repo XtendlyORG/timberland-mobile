@@ -21,8 +21,9 @@ class TrailRemoteDatasource implements RemoteDatasource {
   @override
   Future<List<Trail>> fetchTrails(FetchTrailsParams fetchTrailsParams) async {
     const storage = FlutterSecureStorage();
-    var token = await storage.read(key: 'token');
-    dioClient.options.headers["authorization"] = "token $token";
+
+    var newToken = await storage.read(key: 'token');
+    dioClient.options.headers["authorization"] = "token $newToken";
     try {
       final response = await dioClient.get(
         '${environmentConfig.apihost}/trails',
@@ -41,13 +42,13 @@ class TrailRemoteDatasource implements RemoteDatasource {
                 .toList()
             : [];
       }
-
       throw const TrailException(message: "Server Error");
     } on TrailException catch (e) {
       log(e.toString());
       rethrow;
     } catch (e) {
       log(e.toString());
+
       throw const TrailException(message: "An Error Occurred");
     }
   }
@@ -55,8 +56,9 @@ class TrailRemoteDatasource implements RemoteDatasource {
   @override
   Future<List<Trail>> searchTrails(SearchTrailsParams searchParams) async {
     const storage = FlutterSecureStorage();
-    var token = await storage.read(key: 'token');
-    dioClient.options.headers["authorization"] = "token $token";
+
+    var newtoken = await storage.read(key: 'token');
+    dioClient.options.headers["authorization"] = "token $newtoken";
     try {
       log(searchParams.toMap().toString());
       final response = await dioClient.get(
