@@ -51,7 +51,7 @@ class TrailDirectory extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 15),
             alignment: Alignment.centerLeft,
             child: Text(
-              "It's Time To Ride ${user.firstName}",
+              "It's Time To Ride ${user.firstName},",
               style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
