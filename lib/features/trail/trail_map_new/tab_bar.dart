@@ -1,7 +1,4 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:outlined_text/outlined_text.dart';
 
 import '../../../core/themes/timberland_color.dart';
 
@@ -17,14 +14,14 @@ class MapTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      clipBehavior: Clip.hardEdge,
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+    return Transform.translate(
+      offset: const Offset(-11, 0),
+      child: ClipRRect(
+        clipBehavior: Clip.hardEdge,
         child: Container(
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
-            color: const Color.fromARGB(24, 255, 255, 255),
+            color: const Color.fromARGB(171, 255, 255, 255).withOpacity(1),
             border: Border.all(color: Colors.white, width: 1),
             borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
           ),
@@ -64,17 +61,12 @@ class MapTabBar extends StatelessWidget {
           ),
         ),
       ),
-      child: OutlinedText(
-        text: Text(
-          title,
-          style: TextStyle(
-            color: isSelected ? TimberlandColor.primary : Colors.white,
-            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-          ),
+      child: Text(
+        title,
+        style: TextStyle(
+          color: isSelected ? TimberlandColor.primary : Colors.black.withOpacity(0.65),
+          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
         ),
-        strokes: [
-          OutlinedTextStroke(color: Colors.black, width: 1.5),
-        ],
       ),
     );
   }

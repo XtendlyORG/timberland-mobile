@@ -56,6 +56,19 @@ class BookingPage extends StatelessWidget {
                 );
               },
             ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: kHorizontalPadding,
+                vertical: kVerticalPadding,
+              ),
+              child: AutoSizeText(
+                'Park Opens: 7:30AM\nLast Entry: 2:00PM\nPark Closes: 4:00PM',
+                style: Theme.of(context).textTheme.labelLarge,
+                maxLines: 3,
+                textAlign: TextAlign.center,
+              ),
+            ),
             const SizedBox(
               height: kToolbarHeight,
             ),
