@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:video_player/video_player.dart';
 
-import '../../../../../core/constants/constants.dart';
 import '../../../../../core/presentation/widgets/inherited_widgets/inherited_trail.dart';
 import '../../../domain/entities/trail.dart';
 
@@ -59,7 +58,7 @@ class TrailDetailTop extends StatelessWidget {
             ),
           ),
         ),
-        Container(
+        /*  Container(
           height: 300,
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.symmetric(
@@ -94,7 +93,7 @@ class TrailDetailTop extends StatelessWidget {
               ),
             ],
           ),
-        ),
+        ), */
       ],
     );
   }
@@ -199,8 +198,7 @@ class AnimatedPausePlayIcon extends StatefulWidget {
   State<AnimatedPausePlayIcon> createState() => _AnimatedPausePlayIconState();
 }
 
-class _AnimatedPausePlayIconState extends State<AnimatedPausePlayIcon>
-    with SingleTickerProviderStateMixin {
+class _AnimatedPausePlayIconState extends State<AnimatedPausePlayIcon> with SingleTickerProviderStateMixin {
   late final AnimationController controller;
   @override
   void initState() {
@@ -224,7 +222,7 @@ class _AnimatedPausePlayIconState extends State<AnimatedPausePlayIcon>
     return Container(
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-        color: Theme.of(context).backgroundColor.withOpacity(.7),
+        color: Theme.of(context).colorScheme.background.withOpacity(.7),
         shape: BoxShape.circle,
       ),
       child: AnimatedIcon(

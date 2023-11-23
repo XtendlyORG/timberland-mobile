@@ -27,61 +27,57 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  flutter:
-    sdk: flutter
-
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  agora_rtc_engine: ^6.1.0
+  auto_animated: ^3.1.0
+  auto_size_text: ^3.0.0
+  badges: ^3.0.0
+  cached_network_image: ^3.2.1
+  connectivity_plus: ^2.3.6+1
   cupertino_icons: ^1.0.2
   dartz: ^0.10.1
-  go_router: ^4.0.0
-  flutter_bloc: ^8.0.1
-  get_it: ^7.2.0
-  google_fonts: ^3.0.1
-  equatable: ^2.0.3
-  flutter_screenutil: ^5.5.3+2
-  shared_preferences: ^2.0.15
-  auto_size_text: ^3.0.0
-  qr_flutter: ^4.0.0
-  
   dio: ^4.0.6
-  flutter_dotenv: ^5.0.2
-  image_picker: ^0.8.5+3
-  local_auth: ^2.1.0
-  syncfusion_flutter_datepicker: ^20.2.38
-  intl: ^0.17.0
-  photo_view: ^0.14.0
-  cached_network_image: ^3.2.1
-  path_provider: ^2.0.11
-  permission_handler: ^10.0.0
   email_validator: ^2.1.17
-  connectivity_plus: ^2.3.6+1
-  webview_flutter: ^3.0.4
-  smooth_page_indicator: ^1.0.0+2
-  move_to_background: ^1.0.2
-  flutter_easyloading: ^3.0.5
-  auto_animated: ^3.1.0
-  gallery_saver: ^2.3.2
-  agora_rtc_engine: ^6.1.0
-  flutter_ringtone_player: ^3.2.0
-  vibration: ^1.7.6
-  url_launcher: ^6.1.6
-  video_player: ^2.4.7
-  socket_io_client: ^2.0.0
+  encrypt: ^5.0.1
+  equatable: ^2.0.3
   firebase_core: ^2.1.1
   firebase_messaging: ^14.0.4
-  encrypt: ^5.0.1
-  flutter_secure_storage: ^7.0.0
-  badges: ^3.0.0
-  flutter_pdfview: ^1.3.2
-dev_dependencies:
-  flutter_test:
+  flutter:
     sdk: flutter
+  flutter_bloc: ^8.0.1
+  flutter_dotenv: ^5.0.2
+  flutter_easyloading: ^3.0.5
+  flutter_pdfview: ^1.3.2
+  flutter_ringtone_player: ^3.2.0
+  flutter_screenutil: ^5.5.3+2
+  flutter_secure_storage: ^7.0.0
+  gallery_saver: ^2.3.2
+  get_it: ^7.2.0
+  go_router: ^4.0.0
+  google_fonts: ^3.0.1
+  image_picker: ^0.8.5+3
+  intl: ^0.17.0
+  local_auth: ^2.1.0
+  move_to_background: ^1.0.2
+  outlined_text: ^1.0.1
+  path_provider: ^2.0.11
+  permission_handler: ^10.0.0
+  photo_view: ^0.14.0
+  qr_flutter: ^4.0.0
+  shared_preferences: ^2.0.15
+  smooth_page_indicator: ^1.0.0+2
+  socket_io_client: ^2.0.0
+  syncfusion_flutter_datepicker: ^20.2.38
+  url_launcher: ^6.1.6
+  vibration: ^1.7.6
+  video_player: ^2.4.7
+  webview_flutter: ^3.0.4
+dev_dependencies:
+  flutter_launcher_icons: ^0.11.0
 
   flutter_lints: ^2.0.0
   flutter_native_splash: ^2.2.4
-  flutter_launcher_icons: ^0.11.0
+  flutter_test:
+    sdk: flutter
 
 flutter:
 
@@ -98,9 +94,8 @@ flutter:
     - assets/privacy_policy/
     - assets/trail_map/trails.json
     - assets/trail_map/CONDITIONS FOR ENTRY.pdf
-    - assets/trail_map/MOUNTAIN BIKERS RESPONSIBILITY CODE.pdf       
+    - assets/trail_map/MOUNTAIN BIKERS RESPONSIBILITY CODE.pdf
     - .env
-
 
 flutter_native_splash:
   background_image: "assets/splash/splash_background.png"
@@ -116,6 +111,4 @@ flutter_native_splash:
     image_dark: assets/splash/splash-android-12.png
     icon_background_color_dark: "#101010"
 
-  
   web: false
-  

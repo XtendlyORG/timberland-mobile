@@ -45,7 +45,6 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
-    verifyToken(serviceLocator(), serviceLocator());
     currentIndex = widget.selectedTabIndex;
     pageController = PageController(
       initialPage: currentIndex,
@@ -101,113 +100,124 @@ class _MainPageState extends State<MainPage> {
       );
     }
 
-    return BlocBuilder<AuthBloc, AuthState>(
-      buildWhen: (previous, current) {
-        if (current is UserGuideFinished) {
-          SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-            context.goNamed(Routes.booking.name);
-          });
-        }
-        return current is! UnAuthenticated;
-      },
-      builder: (context, state) {
-        if (state is UnAuthenticated && Session().isLoggedIn) {
-          Future.delayed(Duration.zero, () {
-            BlocProvider.of<AuthBloc>(context).add(
-              const FetchUserEvent(),
-            );
-          });
-        }
-        if (state is Authenticated) {
-          if (state.firstTimeUser) {
-            SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-              ScaffoldMessenger.of(context).clearSnackBars();
-              context.goNamed(Routes.onboarding.name);
-            });
-            return const Scaffold();
-          }
-
-          return WillPopScope(
-            onWillPop: () async {
-              MoveToBackground.moveTaskToBack();
-              return false;
-            },
-            child: DecoratedSafeArea(
-              child: Scaffold(
-                endDrawer: const Dashboard(),
-                appBar: TimberlandAppbar(
-                  actions: currentIndex == 3
-                      ? [
-                          ProfileSettingsButton(
-                            user: state.user,
-                          ),
-                        ]
-                      : null,
-                ),
-                extendBodyBehindAppBar: true,
-                bottomNavigationBar: BottomNavBar(
-                  index: currentIndex,
-                  configs: navbarConfigs,
-                  onTap: (index) {
-                    pageController.jumpToPage(
-                      index,
+    return FutureBuilder(
+        future: verifyToken(serviceLocator(), serviceLocator()),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return BlocBuilder<AuthBloc, AuthState>(
+              buildWhen: (previous, current) {
+                if (current is UserGuideFinished) {
+                  SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                    context.goNamed(Routes.booking.name);
+                  });
+                }
+                return current is! UnAuthenticated;
+              },
+              builder: (context, state) {
+                if (state is UnAuthenticated && Session().isLoggedIn) {
+                  Future.delayed(Duration.zero, () {
+                    BlocProvider.of<AuthBloc>(context).add(
+                      const FetchUserEvent(),
                     );
-                  },
-                ),
-                body: TimberlandContainer(
-                  child: RepaintBoundary(
-                    child: LayoutBuilder(
-                      builder: (context, constraints) {
-                        return SizedBox(
-                          height: constraints.maxHeight,
-                          child: PageView(
-                            controller: pageController,
-                            onPageChanged: (index) {
-                              // dismis keyboard
-                              WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+                  });
+                }
+                if (state is Authenticated) {
+                  if (state.firstTimeUser) {
+                    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                      ScaffoldMessenger.of(context).clearSnackBars();
+                      context.goNamed(Routes.onboarding.name);
+                    });
+                    return const Scaffold();
+                  }
 
-                              currentIndex = index;
+                  return WillPopScope(
+                    onWillPop: () async {
+                      MoveToBackground.moveTaskToBack();
+                      return false;
+                    },
+                    child: DecoratedSafeArea(
+                      child: Scaffold(
+                        endDrawer: const Dashboard(),
+                        appBar: TimberlandAppbar(
+                          actions: currentIndex == 3
+                              ? [
+                                  ProfileSettingsButton(
+                                    user: state.user,
+                                  ),
+                                ]
+                              : null,
+                        ),
+                        extendBodyBehindAppBar: true,
+                        bottomNavigationBar: BottomNavBar(
+                          index: currentIndex,
+                          configs: navbarConfigs,
+                          onTap: (index) {
+                            pageController.jumpToPage(
+                              index,
+                            );
+                          },
+                        ),
+                        body: TimberlandContainer(
+                          child: RepaintBoundary(
+                            child: LayoutBuilder(
+                              builder: (context, constraints) {
+                                return SizedBox(
+                                  height: constraints.maxHeight,
+                                  child: PageView(
+                                    controller: pageController,
+                                    onPageChanged: (index) {
+                                      // dismis keyboard
+                                      WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
 
-                              context.goNamed(
-                                navbarConfigs[currentIndex].routeName,
-                              );
-                            },
-                            children: const [
-                              RepaintBoundary(
-                                child: TrailDirectory(),
-                              ),
-                              RepaintBoundary(
-                                child: TrailRulesPage(),
-                              ),
-                              RepaintBoundary(
-                                child: BookingPage(),
-                              ),
-                              RepaintBoundary(
-                                child: ProfilePage(),
-                              ),
-                            ],
+                                      currentIndex = index;
+
+                                      context.goNamed(
+                                        navbarConfigs[currentIndex].routeName,
+                                      );
+                                    },
+                                    children: const [
+                                      RepaintBoundary(
+                                        child: TrailDirectory(),
+                                      ),
+                                      RepaintBoundary(
+                                        child: TrailRulesPage(),
+                                      ),
+                                      RepaintBoundary(
+                                        child: BookingPage(),
+                                      ),
+                                      RepaintBoundary(
+                                        child: ProfilePage(),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
                           ),
-                        );
-                      },
+                        ),
+                      ),
+                    ),
+                  );
+                }
+                return const SafeArea(
+                  child: Scaffold(
+                    body: TimberlandContainer(
+                      child: Center(
+                        child: RepaintBoundary(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
+                );
+              },
+            );
+          }
+          return const Center(
+            child: RepaintBoundary(
+              child: CircularProgressIndicator(),
             ),
           );
-        }
-        return const SafeArea(
-          child: Scaffold(
-            body: TimberlandContainer(
-              child: Center(
-                child: RepaintBoundary(
-                  child: CircularProgressIndicator(),
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
+        });
   }
 }

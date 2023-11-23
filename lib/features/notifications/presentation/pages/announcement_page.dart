@@ -29,7 +29,7 @@ class AnnouncementsPage extends StatelessWidget {
             'assets/splash/splash_background.png',
             colorBlendMode: BlendMode.darken,
             color: Colors.black.withOpacity(.3),
-            fit: BoxFit.fill,
+            fit: BoxFit.cover,
           ),
         ),
         AnnouncementSlider(announcements: announcements),
@@ -81,8 +81,7 @@ class _AnnouncementSliderState extends State<AnnouncementSlider> {
                 itemBuilder: (context, index) {
                   final announcement = widget.announcements[index];
                   return Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: kVerticalPadding),
+                    padding: const EdgeInsets.symmetric(horizontal: kVerticalPadding),
                     child: AnnouncementWidget(announcement: announcement),
                   );
                 },
@@ -96,9 +95,7 @@ class _AnnouncementSliderState extends State<AnnouncementSlider> {
                   ),
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.canPop(context)
-                          ? context.pop()
-                          : context.goNamed(Routes.home.name);
+                      Navigator.canPop(context) ? context.pop() : context.goNamed(Routes.home.name);
                     },
                     child: const Align(
                       alignment: Alignment.topRight,
@@ -182,10 +179,7 @@ class AnnouncementWidget extends StatelessWidget {
                 children: [
                   Text(
                     announcement.title,
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge
-                        ?.copyWith(color: TimberlandColor.background),
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(color: TimberlandColor.background),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(
@@ -193,10 +187,7 @@ class AnnouncementWidget extends StatelessWidget {
                   ),
                   Text(
                     announcement.title,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge
-                        ?.copyWith(color: TimberlandColor.background),
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: TimberlandColor.background),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(

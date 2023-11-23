@@ -22,14 +22,11 @@ class TrailList extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is TrailInitial) {
-          BlocProvider.of<TrailBloc>(context)
-              .add(FetchTrailsEvent(fetchTrailsParams: FetchTrailsParams()));
+          BlocProvider.of<TrailBloc>(context).add(FetchTrailsEvent(fetchTrailsParams: FetchTrailsParams()));
         }
         if (state is LoadingTrails) {
           return SizedBox(
-            height: MediaQuery.of(context).size.height -
-                kToolbarHeight * 2 -
-                kBottomNavigationBarHeight,
+            height: MediaQuery.of(context).size.height - kToolbarHeight * 2 - kBottomNavigationBarHeight,
             child: const RepaintBoundary(
               child: Center(
                 child: CircularProgressIndicator.adaptive(),
@@ -74,11 +71,7 @@ class TrailList extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 gradient: LinearGradient(
-                  colors: [
-                    Theme.of(context).primaryColor.withOpacity(.05),
-                    Colors.white.withOpacity(.04),
-                    Colors.white.withOpacity(.8)
-                  ],
+                  colors: [Theme.of(context).primaryColor.withOpacity(.05), Colors.white.withOpacity(.04), Colors.white.withOpacity(.8)],
                   stops: const [.6, .8, 1],
                 ),
               ),
@@ -98,16 +91,10 @@ class TrailList extends StatelessWidget {
                       begin: 0,
                       end: 1,
                     ).animate(animation),
-                    child: SlideTransition(
-                      position: Tween<Offset>(
-                        begin: const Offset(-.5, 0),
-                        end: Offset.zero,
-                      ).animate(animation),
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 20.0),
-                        child: TrailWidget(
-                          trail: state.trails[index],
-                        ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 20.0),
+                      child: TrailWidget(
+                        trail: state.trails[index],
                       ),
                     ),
                   );
@@ -118,9 +105,7 @@ class TrailList extends StatelessWidget {
         }
         if (state is TrailError) {
           return SizedBox(
-            height: MediaQuery.of(context).size.height -
-                kToolbarHeight * 2 -
-                kBottomNavigationBarHeight,
+            height: MediaQuery.of(context).size.height - kToolbarHeight * 2 - kBottomNavigationBarHeight,
             child: Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -136,9 +121,7 @@ class TrailList extends StatelessWidget {
           );
         }
         return SizedBox(
-          height: MediaQuery.of(context).size.height -
-              kToolbarHeight * 2 -
-              kBottomNavigationBarHeight,
+          height: MediaQuery.of(context).size.height - kToolbarHeight * 2 - kBottomNavigationBarHeight,
           child: const Center(
             child: Text("Error Occured"),
           ),

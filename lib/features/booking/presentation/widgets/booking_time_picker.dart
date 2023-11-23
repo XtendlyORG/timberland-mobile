@@ -98,6 +98,8 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
                           TextButton(
                             onPressed: isTimeValid
                                 ? () {
+                                    print("THE TIME: ${start.hour} : ${start.minute}");
+
                                     widget.controller.text = DateFormat('hh:mm a').format(
                                       DateTime(
                                         0,

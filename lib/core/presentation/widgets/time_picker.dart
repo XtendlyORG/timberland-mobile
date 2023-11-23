@@ -31,6 +31,11 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
     final TimeOfDay initialTime = widget.initialTime ?? const TimeOfDay(hour: 7, minute: 30);
     hour = initialTime.hour;
     minute = initialTime.minute;
+
+    if (hour > 12) {
+      hour = hour - 12;
+    }
+
     hours = const [1, 2, 7, 8, 9, 10, 11, 12];
     hourCtrl = FixedExtentScrollController(initialItem: hours.indexOf(hour));
     minuteCtrl = FixedExtentScrollController(initialItem: minute);
@@ -78,7 +83,15 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
                   } else if (hour >= 12 && (val > 3 || val != 12)) {
                     setState(() {});
                   }
+
                   hour = (val < 3 ? val + 12 : val);
+                  print(hour);
+                  if (hour == 14) {
+                    minute = 0;
+                  }
+                  if (hour == 7) {
+                    minute = 30;
+                  }
                 },
               ),
             ),
@@ -96,11 +109,11 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
                 textStyle: widget.textStyle,
                 items: List.generate(
                     hour == 7
-                        ? 31
+                        ? 30
                         : hour != 14
                             ? 60
                             : 1,
-                    (index) => index),
+                    (index) => hour == 7 ? index + 30 : index),
                 fix2Digits: true,
                 controller: minuteCtrl,
                 onChange: (val) {
@@ -110,7 +123,7 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
             ),
             Expanded(
               child: Text(
-                hour >= 12 ? 'PM' : 'AM',
+                hour >= 12 || hour == 2 || hour == 1 ? 'PM' : 'AM',
                 style: widget.textStyle.copyWith(fontSize: (widget.textStyle.fontSize ?? 12) * 1.5),
               ),
             ),

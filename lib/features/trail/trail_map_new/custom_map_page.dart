@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
 import 'package:timberland_biketrail/features/trail/trail_map_new/custom_map.dart';
 import 'package:timberland_biketrail/features/trail/trail_map_new/tab_bar.dart';
 
@@ -67,8 +68,8 @@ class _CustomMapPageState extends State<CustomMapPage> with TickerProviderStateM
           );
         }
         if (state is TrailsLoaded) {
-          return Scaffold(
-            extendBodyBehindAppBar: true,
+          return TimberlandScaffold(
+            extendBodyBehindAppbar: true,
             appBar: AppBar(
                 elevation: 0,
                 backgroundColor: Colors.transparent,

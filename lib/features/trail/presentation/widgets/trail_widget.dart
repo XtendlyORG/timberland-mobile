@@ -6,9 +6,6 @@ import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/features/trail/domain/entities/trail.dart';
 
-import '../../../../core/constants/padding.dart';
-import '../../domain/entities/difficulty.dart';
-
 class TrailWidget extends StatelessWidget {
   final Trail trail;
   const TrailWidget({
@@ -79,7 +76,7 @@ class TrailWidget extends StatelessWidget {
               },
             ),
           ),
-          Padding(
+          /* Padding(
             padding: const EdgeInsets.only(top: 10.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -108,7 +105,7 @@ class TrailWidget extends StatelessWidget {
                 ),
               ],
             ),
-          ),
+          ), */
           /*     TrailSpecs(trail: trail) */
         ],
       ),

@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:badges/badges.dart' as badges;
+import 'package:outlined_text/outlined_text.dart';
 
 import '../../../core/themes/timberland_color.dart';
 
@@ -22,12 +22,11 @@ class MapTabBar extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
         child: Container(
-          width: MediaQuery.of(context).size.width * 1,
+          width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             color: const Color.fromARGB(24, 255, 255, 255),
             border: Border.all(color: Colors.white, width: 1),
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+            borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -65,12 +64,17 @@ class MapTabBar extends StatelessWidget {
           ),
         ),
       ),
-      child: Text(
-        title,
-        style: TextStyle(
-          color: isSelected ? TimberlandColor.primary : Colors.white,
-          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+      child: OutlinedText(
+        text: Text(
+          title,
+          style: TextStyle(
+            color: isSelected ? TimberlandColor.primary : Colors.white,
+            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+          ),
         ),
+        strokes: [
+          OutlinedTextStroke(color: Colors.black, width: 1.5),
+        ],
       ),
     );
   }

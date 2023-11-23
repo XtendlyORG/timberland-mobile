@@ -22,8 +22,9 @@ class TrailRulesPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: kToolbarHeight, bottom: 10),
               child: AutoSizeText(
-                'Trail Rules',
+                "Mountain Biker's Responsibility Code",
                 style: Theme.of(context).textTheme.headlineSmall,
+                textAlign: TextAlign.center,
               ),
             ),
             Padding(
@@ -36,11 +37,7 @@ class TrailRulesPage extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   gradient: LinearGradient(
-                    colors: [
-                      Theme.of(context).primaryColor.withOpacity(.05),
-                      Colors.white.withOpacity(.04),
-                      Colors.white.withOpacity(.8)
-                    ],
+                    colors: [Theme.of(context).primaryColor.withOpacity(.05), Colors.white.withOpacity(.04), Colors.white.withOpacity(.8)],
                     stops: const [.6, .8, 1],
                   ),
                 ),
@@ -69,16 +66,10 @@ class TrailRulesPage extends StatelessWidget {
                               begin: 0,
                               end: 1,
                             ).animate(animation),
-                            child: SlideTransition(
-                              position: Tween<Offset>(
-                                begin: const Offset(-.5, 0),
-                                end: Offset.zero,
-                              ).animate(animation),
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 20.0),
-                                child: TrailRuleWidget(
-                                  trailRule: trailRules[index],
-                                ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 20.0),
+                              child: TrailRuleWidget(
+                                trailRule: trailRules[index],
                               ),
                             ),
                           );
