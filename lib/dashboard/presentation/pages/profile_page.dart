@@ -1,4 +1,3 @@
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,59 +27,49 @@ class ProfilePage extends StatelessWidget {
           },
           child: Column(
             children: [
+              ProfileHeader(
+                user: authState.user,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
               Container(
-                width: MediaQuery.of(context).size.width,
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                decoration: const BoxDecoration(
-                  color: Colors.white
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(
+                  // borderRadius: BorderRadius.circular(20),
+                  gradient: TimberlandColor.linearGradient,
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 0,
                 ),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    ProfileHeader(
-                      user: authState.user,
+                    const SizedBox(
+                      height: 4,
                     ),
-                    Container(
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                        // borderRadius: BorderRadius.circular(20),
-                        gradient: TimberlandColor.linearGradient,
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 0,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          AutoSizeText(
-                            "${state.user.firstName} ${state.user.lastName}",
-                            maxLines: 2,
-                            minFontSize: 14,
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                          const SizedBox(
-                            height: kVerticalPadding / 2,
-                          ),
-                          Text(
-                            state.user.prettierID,
-                            style: Theme.of(context).textTheme.labelLarge,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(
-                                0,24,0,8
-                            ),
-                            child: QrImage(
-                              data: state.user.accessCode,
-                              size: MediaQuery.of(context).size.width * .7,
-                              foregroundColor: TimberlandColor.text,
-                            ),
-                          ),
-                        ],
+                    AutoSizeText(
+                      "${state.user.firstName} ${state.user.lastName}",
+                      maxLines: 2,
+                      minFontSize: 14,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    const SizedBox(
+                      height: kVerticalPadding / 2,
+                    ),
+                    Text(
+                      state.user.prettierID,
+                      style: Theme.of(context).textTheme.labelLarge,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 24, 0, 8),
+                      child: QrImage(
+                        data: state.user.accessCode,
+                        size: MediaQuery.of(context).size.width * .6,
+                        foregroundColor: TimberlandColor.text,
                       ),
                     ),
                   ],
