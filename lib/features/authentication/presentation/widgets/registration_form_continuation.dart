@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
@@ -137,6 +136,13 @@ class RegistrationContinuationForm extends StatelessWidget {
               ),
               child: ExcludeFocus(
                 child: TextFormField(
+                  validator: (value) {
+                    if (birthday == null) {
+                      return 'Please select your date of birth';
+                    }
+                    return null;
+                  },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   onTap: () {
                     showDialog(
                       context: context,
@@ -163,7 +169,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                   controller: birthdayCtrl,
                   enableInteractiveSelection: false,
                   decoration: const InputDecoration(
-                    hintText: 'Date of Birth',
+                    hintText: 'Date of Birth*',
                   ),
                 ),
               ),
@@ -275,70 +281,13 @@ class RegistrationContinuationForm extends StatelessWidget {
                   ),
                 ),
               ),
-            Container(
-              margin: const EdgeInsets.only(
-                bottom: kVerticalPadding,
-              ),
-              child: TextFormField(
-                controller: bikeModelCtrl,
-                decoration: const InputDecoration(
-                  hintText: 'Bike (model)',
-                ),
-                textInputAction: TextInputAction.next,
-                textCapitalization: TextCapitalization.words,
-              ),
+            Text(
+              'Only people 16 years old and above can register',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleSmall,
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      margin: const EdgeInsets.only(bottom: kVerticalPadding),
-                      child: TextFormField(
-                        controller: bikeYearCtrl,
-                        validator: (year) {
-                          if (year!.isEmpty) {
-                            return null;
-                          } else if (year.length != 4) {
-                            return 'Invalid year';
-                          } else if (int.tryParse(year) != null) {
-                            if (int.parse(year) <= 1900) {
-                              return 'Year can not be lower than 1901';
-                            }
-                          }
-                          return null;
-                        },
-                        decoration: const InputDecoration(hintText: 'Bike (year)', counterText: ''),
-                        maxLength: 4,
-                        textInputAction: TextInputAction.next,
-                        textCapitalization: TextCapitalization.words,
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: kVerticalPadding,
-                    height: 0,
-                  ),
-                  Expanded(
-                    child: Container(
-                      margin: const EdgeInsets.only(bottom: kVerticalPadding),
-                      child: TextFormField(
-                        controller: bikeColorCtrl,
-                        decoration: const InputDecoration(
-                          hintText: 'Bike (color)',
-                        ),
-                        textInputAction: TextInputAction.done,
-                        textCapitalization: TextCapitalization.words,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+            const SizedBox(
+              height: kVerticalPadding,
             ),
             Container(
               margin: const EdgeInsets.only(bottom: kVerticalPadding),
