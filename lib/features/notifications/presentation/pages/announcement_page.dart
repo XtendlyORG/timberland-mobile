@@ -11,12 +11,26 @@ import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/features/notifications/domain/entities/announcement.dart';
 
-class AnnouncementsPage extends StatelessWidget {
-  const AnnouncementsPage({
-    Key? key,
-    required this.announcements,
-  }) : super(key: key);
-  final List<Announcement> announcements;
+class AnnouncementsPage extends StatefulWidget {
+  AnnouncementsPage({Key? key, required this.announcements}) : super(key: key);
+
+  List<Announcement> announcements;
+
+  @override
+  _AnnouncementsPageState createState() => _AnnouncementsPageState();
+}
+
+class _AnnouncementsPageState extends State<AnnouncementsPage> {
+  void timer() async {
+    await Future.delayed(const Duration(seconds: 2));
+    context.goNamed(Routes.home.name);
+  }
+
+  @override
+  void initState() {
+    timer();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +46,7 @@ class AnnouncementsPage extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
-        AnnouncementSlider(announcements: announcements),
+        //AnnouncementSlider(announcements: announcements),
       ],
     );
   }
@@ -80,9 +94,9 @@ class _AnnouncementSliderState extends State<AnnouncementSlider> {
                 onPageChanged: (value) {},
                 itemBuilder: (context, index) {
                   final announcement = widget.announcements[index];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: kVerticalPadding),
-                    child: AnnouncementWidget(announcement: announcement),
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: kVerticalPadding),
+                    child: SizedBox(), //AnnouncementWidget(announcement: announcement),
                   );
                 },
               ),

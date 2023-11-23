@@ -45,8 +45,7 @@ class AuthPageContainer extends StatelessWidget {
                       const UnlockAuthEvent(),
                     );
                   },
-                  duration:
-                      state.lockUntil.difference(DateTime.now()).inSeconds,
+                  duration: state.lockUntil.difference(DateTime.now()).inSeconds,
                 ),
               );
             },
@@ -59,9 +58,8 @@ class AuthPageContainer extends StatelessWidget {
         }
         if (state is Authenticated) {
           showSuccess(state.message);
-          BlocProvider.of<NotificationsBloc>(context)
-              .add(CheckForFCMTokenUpdate());
-          context.goNamed(Routes.home.name);
+          BlocProvider.of<NotificationsBloc>(context).add(CheckForFCMTokenUpdate());
+          context.goNamed(Routes.announcements2.name);
         }
         if (state is AuthLoading) {
           showLoading(state.loadingMessage);
@@ -136,8 +134,7 @@ class AuthPageContainer extends StatelessWidget {
                                           bottom: kVerticalPadding,
                                         ),
                                         child: ConstrainedBox(
-                                          constraints: const BoxConstraints(
-                                              maxWidth: kMaxWidthMobile),
+                                          constraints: const BoxConstraints(maxWidth: kMaxWidthMobile),
                                           child: child,
                                         ),
                                       ),

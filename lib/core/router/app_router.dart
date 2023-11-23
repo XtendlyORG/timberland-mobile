@@ -40,6 +40,7 @@ import '../../features/authentication/presentation/pages/pages.dart';
 import '../../features/emergency/presentation/pages/emergency_page.dart';
 import '../../features/history/presentation/pages/booking_history_page.dart';
 import '../../features/history/presentation/pages/payment_history_page.dart';
+import '../../features/notifications/presentation/pages/announcement_page2.dart';
 import '../../features/trail/domain/entities/trail.dart';
 import '../../features/trail/presentation/pages/trail_details.dart';
 import '../../features/trail/trail_map_new/custom_map_page.dart';
@@ -76,7 +77,8 @@ final appRouter = GoRouter(
     log(routeState.location);
     if (Session().isLoggedIn && isAuthenticating) {
       // if logged in redirect to home page
-      return Routes.home.path;
+      //TODO : redirect to home when emeregncy call is fixed
+      return Routes.announcements2.path;
     } else if (!Session().isLoggedIn && !isAuthenticating) {
       //if not logged in redirect to login page
       return Routes.login.path;
@@ -117,6 +119,24 @@ final appRouter = GoRouter(
           child: AnnouncementsPage(
             announcements: state.extra as List<Announcement>,
           ),
+          transitionDuration: const Duration(milliseconds: 500),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+    ),
+    GoRoute(
+      path: Routes.announcements2.path,
+      name: Routes.announcements2.name,
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          restorationId: state.pageKey.value,
+          child: const AnnouncementPage2(),
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
