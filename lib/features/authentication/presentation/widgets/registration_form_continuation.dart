@@ -144,7 +144,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                         return Dialog(
                           child: CustomDatePicker(
                             maxDate: DateTime(
-                              DateTime.now().year - 18,
+                              DateTime.now().year - 16,
                               DateTime.now().month,
                               DateTime.now().day,
                             ),

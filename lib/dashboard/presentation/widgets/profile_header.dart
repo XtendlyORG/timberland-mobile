@@ -3,12 +3,9 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/profile_avatar.dart';
-import 'package:timberland_biketrail/dashboard/presentation/cubit/profile_header_cubit.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
 
-import '../../../core/themes/timberland_color.dart';
 
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader({
@@ -20,34 +17,34 @@ class ProfileHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 227,
+      height: 104,
       child: Stack(
         clipBehavior: Clip.antiAliasWithSaveLayer,
         children: [
-          Container(
-            height: 200,
-            width: double.infinity,
-            clipBehavior: Clip.hardEdge,
-            decoration: const BoxDecoration(
-                borderRadius:
-                    BorderRadius.vertical(bottom: Radius.circular(20)),
-                color: TimberlandColor.subtext),
-            child: BlocBuilder<ProfileHeaderCubit, ProfileHeaderState>(
-              builder: (context, state) {
-                if (state is! ProfileHeadersLoaded) {
-                  return CachedNetworkImage(
-                    imageUrl:
-                        'https://imaging.nikon.com/lineup/dslr/df/img/sample/img_01.jpg',
-                    fit: BoxFit.fitWidth,
-                  );
-                } else {
-                  return DynamicProfileHeaders(
-                    profileHeaders: state.profileHeaders,
-                  );
-                }
-              },
-            ),
-          ),
+          // Container(
+          //   height: 200,
+          //   width: double.infinity,
+          //   clipBehavior: Clip.hardEdge,
+          //   decoration: const BoxDecoration(
+          //       borderRadius:
+          //           BorderRadius.vertical(bottom: Radius.circular(20)),
+          //       color: TimberlandColor.subtext),
+          //   child: BlocBuilder<ProfileHeaderCubit, ProfileHeaderState>(
+          //     builder: (context, state) {
+          //       if (state is! ProfileHeadersLoaded) {
+          //         return CachedNetworkImage(
+          //           imageUrl:
+          //               'https://imaging.nikon.com/lineup/dslr/df/img/sample/img_01.jpg',
+          //           fit: BoxFit.fitWidth,
+          //         );
+          //       } else {
+          //         return DynamicProfileHeaders(
+          //           profileHeaders: state.profileHeaders,
+          //         );
+          //       }
+          //     },
+          //   ),
+          // ),
           Align(
             alignment: const Alignment(-.85, 1),
             child: ProfileAvatar(
