@@ -1,12 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:path/path.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/custom_checkbox.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/custom_styled_text.dart';
@@ -14,6 +12,7 @@ import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_ar
 import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
+import 'package:timberland_biketrail/features/app_infos/presentation/pages/trail_rules.dart';
 import 'package:timberland_biketrail/features/booking/domain/params/booking_request_params.dart';
 import 'package:timberland_biketrail/features/booking/presentation/bloc/booking_bloc.dart';
 import 'package:timberland_biketrail/features/booking/presentation/pages/waiver/pdf_repository.dart';
@@ -91,6 +90,12 @@ class _BookingWaiverState extends State<BookingWaiver> {
                         CustomCheckbox(
                           onChange: (val) async {
                             waiverAccepted = val;
+                            if (val == true) {
+                              const path = 'assets/privacy_policy/ChromaWebsite-PrivacyPolicy.pdf';
+                              final file = await PDFRepository.loadAsset(path);
+
+                              openPDF(context, file);
+                            }
                           },
                           child: Text.rich(
                             TextSpan(
@@ -125,6 +130,12 @@ class _BookingWaiverState extends State<BookingWaiver> {
                         CustomCheckbox(
                           onChange: (val) async {
                             conditionsForEntryAccepted = val;
+                            if (val == true) {
+                              const path = 'assets/trail_map/CONDITIONSFORENTRY2023.10.09-FINAL.pdf';
+                              final file = await PDFRepository.loadAsset(path);
+
+                              openPDF(context, file);
+                            }
                           },
                           child: RichText(
                             text: TextSpan(
@@ -158,6 +169,9 @@ class _BookingWaiverState extends State<BookingWaiver> {
                         CustomCheckbox(
                           onChange: (val) async {
                             codeOfResponsibilityAccepted = val;
+                            if (val == true) {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const TrailRulesPage()));
+                            }
                           },
                           child: RichText(
                             text: TextSpan(
@@ -167,11 +181,7 @@ class _BookingWaiverState extends State<BookingWaiver> {
                                 TextSpan(
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () async {
-                                      const path = 'assets/trail_map/MOUNTAIN BIKERS RESPONSIBILITY CODE.pdf';
-                                      final file = await PDFRepository.loadAsset(path);
-                                      log(basename(file.path));
-                                      // ignore: use_build_context_synchronously
-                                      openPDF(context, file);
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => const TrailRulesPage()));
                                     },
                                   text: " Mountain Biker's Responsibility Code",
                                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
