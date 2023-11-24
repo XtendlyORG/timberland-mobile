@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import '../../domain/entities/difficulty.dart';
+import '../../domain/entities/featured_image.dart';
 import '../../domain/entities/trail.dart';
 
 class TrailModel extends Trail {
@@ -16,6 +19,12 @@ class TrailModel extends Trail {
   });
 
   factory TrailModel.fromMap(Map<String, dynamic> map) {
+    List<dynamic> jsonList = json.decode(map['featured_image']);
+    List<FeaturedImage> images = jsonList.map((json) => FeaturedImage.fromJson(json)).toList();
+
+    List<dynamic> highlightsJson = json.decode(map['trail_video']);
+    List<FeaturedImage> highlights = highlightsJson.map((json) => FeaturedImage.fromJson(json)).toList();
+
     return TrailModel(
       trailId: (map['trail_id'] as num).toString(),
       trailName: map['name'] as String,
@@ -24,8 +33,8 @@ class TrailModel extends Trail {
       unit: map['distance_unit'] as String? ?? 'm',
       distance: (map['distance'] as num?)?.toDouble() ?? 0,
       routeType: map['route_type'] as String,
-      featureImageUrl: map['featured_image'] as String,
-      mapImageUrl: map['trail_video'] as String,
+      featureImageUrl: images,
+      mapImageUrl: highlights,
       expectedDescription: map['expected'] as String?,
     );
   }

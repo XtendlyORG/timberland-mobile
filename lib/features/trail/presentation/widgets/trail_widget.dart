@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -17,6 +18,7 @@ class TrailWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        print(trail.featureImageUrl);
         context.pushNamed(
           Routes.specificTrail.name,
           params: {
@@ -36,7 +38,7 @@ class TrailWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             child: CachedNetworkImage(
-              imageUrl: trail.featureImageUrl,
+              imageUrl: trail.featureImageUrl[0].path,
               imageBuilder: (ctx, imageProvider) {
                 final tag = DateTime.now();
                 return Hero(

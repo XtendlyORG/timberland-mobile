@@ -9,16 +9,22 @@ import 'package:video_player/video_player.dart';
 import '../../../../../core/presentation/widgets/inherited_widgets/inherited_trail.dart';
 import '../../../domain/entities/trail.dart';
 
-class TrailDetailTop extends StatelessWidget {
-  const TrailDetailTop({
-    Key? key,
-  }) : super(key: key);
+class TrailDetailTop extends StatefulWidget {
+  const TrailDetailTop({Key? key}) : super(key: key);
+
+  @override
+  _TrailDetailTopState createState() => _TrailDetailTopState();
+}
+
+class _TrailDetailTopState extends State<TrailDetailTop> {
+  final PageController _pageController = PageController();
+  int currIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     final Trail trail = InheritedTrail.of(context).trail!;
 
-    final isVideo = trail.mapImageUrl.split('.').last == 'mp4';
+    final isVideo = trail.mapImageUrl.first.path.split('.').last == 'mp4';
     return Stack(
       children: [
         Hero(
@@ -41,20 +47,94 @@ class TrailDetailTop extends StatelessWidget {
             },
             child: Container(
               height: 300,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: TimberlandColor.lightBlue,
-                image: isVideo
-                    ? null
-                    : DecorationImage(
-                        image: NetworkImage(trail.mapImageUrl),
-                        fit: BoxFit.fill,
-                      ),
               ),
-              child: isVideo
-                  ? TrailVideo(
-                      url: trail.mapImageUrl,
-                    )
-                  : null,
+              child: Stack(
+                children: [
+                  isVideo
+                      ? PageView.builder(
+                          controller: _pageController,
+                          itemCount: trail.mapImageUrl.length,
+                          onPageChanged: (index) {
+                            setState(() {
+                              currIndex = index;
+                            });
+                          },
+                          itemBuilder: (context, index) {
+                            return TrailVideo(
+                              url: trail.mapImageUrl[(trail.mapImageUrl.length - 1) - index].path,
+                            );
+                          },
+                        )
+                      : PageView.builder(
+                          controller: _pageController,
+                          itemCount: trail.mapImageUrl.length,
+                          onPageChanged: (index) {
+                            setState(() {
+                              currIndex = index;
+                            });
+                          },
+                          itemBuilder: (context, index) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: NetworkImage(trail.mapImageUrl[(trail.mapImageUrl.length - 1) - index].path),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          /* CircleAvatar(
+                            backgroundColor: TimberlandColor.primary,
+                            radius: 20,
+                            child: IconButton(
+                              onPressed: () {
+                                _pageController.previousPage(
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeInOutCubic,
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.chevron_left,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            ),
+                          ), */
+                          Visibility(
+                            visible: currIndex != trail.mapImageUrl.length - 1,
+                            child: CircleAvatar(
+                              backgroundColor: TimberlandColor.primary,
+                              radius: 20,
+                              child: IconButton(
+                                onPressed: () {
+                                  _pageController.nextPage(
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.easeInOutCubic,
+                                  );
+                                },
+                                icon: const Icon(
+                                  Icons.chevron_right,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

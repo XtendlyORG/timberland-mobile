@@ -68,7 +68,6 @@ class TrailRemoteDatasource implements RemoteDatasource {
           validateStatus: (status) => true,
         ),
       );
-      log("status code: ${response.statusCode}");
       if (response.statusCode == 200) {
         return response.data != null
             ? response.data!

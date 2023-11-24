@@ -23,8 +23,8 @@ class TrailDetails extends StatelessWidget {
       description: '',
       distance: 1,
       routeType: '',
-      featureImageUrl: '',
-      mapImageUrl: '',
+      featureImageUrl: [],
+      mapImageUrl: [],
       unit: 'm',
     );
     return DecoratedSafeArea(
