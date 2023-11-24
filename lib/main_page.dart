@@ -136,10 +136,8 @@ class _MainPageState extends State<MainPage> {
                     },
                     child: DecoratedSafeArea(
                       child: Scaffold(
-                        endDrawer: currentIndex == 3 ? null : const Dashboard(),
-                        appBar: TimberlandAppbar(
-                          showEndDrawerButton: currentIndex == 3 ? false : true,
-                        ),
+                        endDrawer: const Dashboard(),
+                        appBar: const TimberlandAppbar(),
                         extendBodyBehindAppBar: true,
                         bottomNavigationBar: BottomNavBar(
                           index: currentIndex,
