@@ -145,8 +145,8 @@ class RegistrationContinuationForm extends StatelessWidget {
                           child: CustomDatePicker(
                             maxDate: DateTime(
                               DateTime.now().year - 16,
-                              DateTime.now().month,
-                              DateTime.now().day,
+                              12,
+                              31,
                             ),
                             onSumbit: (value) {
                               if (value is DateTime) {
