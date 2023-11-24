@@ -90,25 +90,28 @@ class _TrailDetailTopState extends State<TrailDetailTop> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          /* CircleAvatar(
-                            backgroundColor: TimberlandColor.primary,
-                            radius: 20,
-                            child: IconButton(
-                              onPressed: () {
-                                _pageController.previousPage(
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.easeInOutCubic,
-                                );
-                              },
-                              icon: const Icon(
-                                Icons.chevron_left,
-                                color: Colors.white,
-                                size: 20,
+                          Visibility(
+                            visible: currIndex != 0,
+                            child: CircleAvatar(
+                              backgroundColor: TimberlandColor.primary,
+                              radius: 20,
+                              child: IconButton(
+                                onPressed: () {
+                                  _pageController.previousPage(
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.easeInOutCubic,
+                                  );
+                                },
+                                icon: const Icon(
+                                  Icons.chevron_left,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
                               ),
                             ),
-                          ), */
+                          ),
                           Visibility(
                             visible: currIndex != trail.mapImageUrl.length - 1,
                             child: CircleAvatar(

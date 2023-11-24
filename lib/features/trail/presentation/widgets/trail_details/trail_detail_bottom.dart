@@ -35,12 +35,22 @@ class TrailDetailBottom extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(trail.description),
+                Text(
+                  trail.description,
+                  style: const TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
                 const SizedBox(
                   height: kVerticalPadding,
                 ),
                 if (trail.expectedDescription != null) ...[
-                  Text("WHAT TO EXPECT: ${trail.expectedDescription!}"),
+                  Text(
+                    "WHAT TO EXPECT: ${trail.expectedDescription!}",
+                    style: const TextStyle(
+                      fontSize: 15,
+                    ),
+                  ),
                   const SizedBox(
                     height: kVerticalPadding,
                   ),
