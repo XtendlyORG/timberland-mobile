@@ -21,12 +21,10 @@ class TMBTNotificationListener extends StatefulWidget {
   }) : super(key: key);
   final Widget child;
   @override
-  State<TMBTNotificationListener> createState() =>
-      _TMBTNotificationListenerState();
+  State<TMBTNotificationListener> createState() => _TMBTNotificationListenerState();
 }
 
-class _TMBTNotificationListenerState extends State<TMBTNotificationListener>
-    with TickerProviderStateMixin {
+class _TMBTNotificationListenerState extends State<TMBTNotificationListener> with TickerProviderStateMixin {
   late final AnimationController notificationCtrl;
   late final CurvedAnimation notifAnimation;
 
@@ -93,10 +91,7 @@ class _TMBTNotificationListenerState extends State<TMBTNotificationListener>
           listener: (ctx, state) {
             if (state is AnnouncementRecieved) {
               // announcementCtrl.forward();
-              appRouter.pushNamed(
-                Routes.announcements.name,
-                extra: state.announcements,
-              );
+              /*   */
               // Session().saveLatestAnnouncement(state.announcement);
             }
             if (state is NotificationRecieved) {
@@ -127,9 +122,7 @@ class _TMBTNotificationListenerState extends State<TMBTNotificationListener>
                   );
                 });
               } else {
-                Session().isLoggedIn
-                    ? appRouter.pushNamed(Routes.checkoutNotification.name)
-                    : appRouter.goNamed(Routes.checkoutNotification.name);
+                Session().isLoggedIn ? appRouter.pushNamed(Routes.checkoutNotification.name) : appRouter.goNamed(Routes.checkoutNotification.name);
               }
             }
           },
@@ -187,8 +180,7 @@ class _TMBTNotificationListenerState extends State<TMBTNotificationListener>
             child: AnimatedBuilder(
               animation: announcementAnimation,
               child: BlocBuilder<NotificationsBloc, NotificationsState>(
-                buildWhen: (previous, current) =>
-                    current is AnnouncementRecieved,
+                buildWhen: (previous, current) => current is AnnouncementRecieved,
                 builder: (context, state) {
                   if (state is AnnouncementRecieved) {
                     return Stack(

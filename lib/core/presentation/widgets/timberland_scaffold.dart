@@ -80,9 +80,7 @@ class TimberlandScaffold extends StatelessWidget {
               children: [
                 if (titleText != null)
                   Padding(
-                    padding: extendBodyBehindAppbar
-                        ? const EdgeInsets.only(top: kToolbarHeight)
-                        : EdgeInsets.zero,
+                    padding: extendBodyBehindAppbar ? const EdgeInsets.only(top: kToolbarHeight) : EdgeInsets.zero,
                     child: Center(
                       child: AutoSizeText(
                         titleText!,

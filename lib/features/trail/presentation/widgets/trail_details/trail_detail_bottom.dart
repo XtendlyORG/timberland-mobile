@@ -1,12 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../../core/constants/constants.dart';
-import '../../../../../core/presentation/widgets/filled_text_button.dart';
 import '../../../../../core/presentation/widgets/inherited_widgets/inherited_trail.dart';
-import '../../../../../core/router/router.dart';
 import '../../../domain/entities/trail.dart';
 import '../trail_specs.dart';
 
@@ -23,8 +20,9 @@ class TrailDetailBottom extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Container(
+          height: MediaQuery.of(context).size.height - 325,
           decoration: BoxDecoration(
-            color: Theme.of(context).backgroundColor.withOpacity(.5),
+            color: Theme.of(context).colorScheme.background.withOpacity(.5),
             borderRadius: const BorderRadius.vertical(
               top: Radius.circular(20),
             ),
@@ -56,21 +54,6 @@ class TrailDetailBottom extends StatelessWidget {
                 TrailSpecs(trail: trail),
                 const SizedBox(
                   height: kVerticalPadding,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: FilledTextButton(
-                        onPressed: () {
-                          context.goNamed(
-                            Routes.booking.name,
-                          );
-                        },
-                        child: const Text("Book Now"),
-                      ),
-                    ),
-                    const Spacer(),
-                  ],
                 ),
               ],
             ),

@@ -134,17 +134,14 @@ class RegistrationForm extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Container(
-                width: (MediaQuery.of(context).size.width / 2) -
-                    kHorizontalPadding,
+                width: (MediaQuery.of(context).size.width / 2) - kHorizontalPadding,
                 margin: const EdgeInsets.only(bottom: kVerticalPadding),
                 child: FilledTextButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       onSumbit(
                         firstNameCtrl.text,
-                        middleNameCtrl.text.isNotEmpty
-                            ? middleNameCtrl.text
-                            : null,
+                        middleNameCtrl.text.isNotEmpty ? middleNameCtrl.text : null,
                         lastNameCtrl.text,
                         emailCtrl.text,
                         passwordCtrl.text,

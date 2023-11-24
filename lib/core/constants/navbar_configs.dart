@@ -10,7 +10,7 @@ final List<BottomNavBarConfigs> navbarConfigs = [
       Icons.map_outlined,
       color: TimberlandColor.background,
     ),
-    label: 'Trail',
+    label: 'The Trails',
     routeName: Routes.trails.name,
   ),
   BottomNavBarConfigs(
@@ -19,7 +19,7 @@ final List<BottomNavBarConfigs> navbarConfigs = [
       height: 24,
       width: 24,
     ),
-    label: 'Rules',
+    label: 'The Code',
     routeName: Routes.rules.name,
   ),
   BottomNavBarConfigs(
@@ -38,15 +38,18 @@ final List<BottomNavBarConfigs> navbarConfigs = [
       height: 24,
       width: 24,
     ),
-    label: 'Profile',
+    label: 'My Profile',
     routeName: Routes.profile.name,
   ),
   BottomNavBarConfigs(
-    icon: const Image(
-      image: AssetImage('assets/icons/emergency-icon.png'),
-      height: 24,
-      width: 24,
-      color: TimberlandColor.secondaryColor,
+    icon: const CircleAvatar(
+      backgroundColor: Colors.white,
+      child: Image(
+        image: AssetImage('assets/icons/emergency-icon.png'),
+        height: 24,
+        width: 24,
+        color: TimberlandColor.secondaryColor,
+      ),
     ),
     label: 'Emergency',
     routeName: Routes.emergency.name,

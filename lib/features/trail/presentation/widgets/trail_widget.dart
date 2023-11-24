@@ -1,14 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timberland_biketrail/core/constants/padding.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/expanded_image.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
-import 'package:timberland_biketrail/features/trail/domain/entities/difficulty.dart';
 import 'package:timberland_biketrail/features/trail/domain/entities/trail.dart';
-import 'package:timberland_biketrail/features/trail/presentation/widgets/trail_specs.dart';
 
 class TrailWidget extends StatelessWidget {
   final Trail trail;
@@ -21,6 +18,7 @@ class TrailWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        print(trail.featureImageUrl);
         context.pushNamed(
           Routes.specificTrail.name,
           params: {
@@ -40,29 +38,14 @@ class TrailWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             child: CachedNetworkImage(
-              imageUrl: trail.featureImageUrl,
+              imageUrl: trail.featureImageUrl[0].path,
               imageBuilder: (ctx, imageProvider) {
                 final tag = DateTime.now();
                 return Hero(
                   tag: tag,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return ExpandedImage(
-                              imageProvider: imageProvider,
-                              tag: tag,
-                            );
-                          },
-                        ),
-                      );
-                    },
-                    child: Image(
-                      image: imageProvider,
-                      fit: BoxFit.fitWidth,
-                    ),
+                  child: Image(
+                    image: imageProvider,
+                    fit: BoxFit.fitWidth,
                   ),
                 );
               },
@@ -95,7 +78,7 @@ class TrailWidget extends StatelessWidget {
               },
             ),
           ),
-          Padding(
+          /* Padding(
             padding: const EdgeInsets.only(top: 10.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -112,10 +95,8 @@ class TrailWidget extends StatelessWidget {
                     ),
                     Text(
                       trail.difficulty.name,
-                      style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                            color: trail.difficulty != Difficulties.easiest
-                                ? trail.difficulty.primaryColor
-                                : trail.difficulty.secondaryColor,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: trail.difficulty != Difficulties.novice ? trail.difficulty.primaryColor : trail.difficulty.secondaryColor,
                           ),
                     ),
                   ],
@@ -126,8 +107,8 @@ class TrailWidget extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-          TrailSpecs(trail: trail)
+          ), */
+          /*     TrailSpecs(trail: trail) */
         ],
       ),
     );

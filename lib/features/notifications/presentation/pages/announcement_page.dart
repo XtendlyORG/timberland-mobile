@@ -11,12 +11,26 @@ import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/features/notifications/domain/entities/announcement.dart';
 
-class AnnouncementsPage extends StatelessWidget {
-  const AnnouncementsPage({
-    Key? key,
-    required this.announcements,
-  }) : super(key: key);
-  final List<Announcement> announcements;
+class AnnouncementsPage extends StatefulWidget {
+  AnnouncementsPage({Key? key, required this.announcements}) : super(key: key);
+
+  List<Announcement> announcements;
+
+  @override
+  _AnnouncementsPageState createState() => _AnnouncementsPageState();
+}
+
+class _AnnouncementsPageState extends State<AnnouncementsPage> {
+  void timer() async {
+    await Future.delayed(const Duration(seconds: 2));
+    context.goNamed(Routes.home.name);
+  }
+
+  @override
+  void initState() {
+    timer();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +43,10 @@ class AnnouncementsPage extends StatelessWidget {
             'assets/splash/splash_background.png',
             colorBlendMode: BlendMode.darken,
             color: Colors.black.withOpacity(.3),
-            fit: BoxFit.fill,
+            fit: BoxFit.cover,
           ),
         ),
-        AnnouncementSlider(announcements: announcements),
+        //AnnouncementSlider(announcements: announcements),
       ],
     );
   }
@@ -80,10 +94,9 @@ class _AnnouncementSliderState extends State<AnnouncementSlider> {
                 onPageChanged: (value) {},
                 itemBuilder: (context, index) {
                   final announcement = widget.announcements[index];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: kVerticalPadding),
-                    child: AnnouncementWidget(announcement: announcement),
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: kVerticalPadding),
+                    child: SizedBox(), //AnnouncementWidget(announcement: announcement),
                   );
                 },
               ),
@@ -96,9 +109,7 @@ class _AnnouncementSliderState extends State<AnnouncementSlider> {
                   ),
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.canPop(context)
-                          ? context.pop()
-                          : context.goNamed(Routes.home.name);
+                      Navigator.canPop(context) ? context.pop() : context.goNamed(Routes.home.name);
                     },
                     child: const Align(
                       alignment: Alignment.topRight,
@@ -182,10 +193,7 @@ class AnnouncementWidget extends StatelessWidget {
                 children: [
                   Text(
                     announcement.title,
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge
-                        ?.copyWith(color: TimberlandColor.background),
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(color: TimberlandColor.background),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(
@@ -193,10 +201,7 @@ class AnnouncementWidget extends StatelessWidget {
                   ),
                   Text(
                     announcement.title,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge
-                        ?.copyWith(color: TimberlandColor.background),
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: TimberlandColor.background),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(

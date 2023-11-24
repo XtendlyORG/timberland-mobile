@@ -2,6 +2,7 @@
 
 import 'package:equatable/equatable.dart';
 import 'package:timberland_biketrail/features/trail/domain/entities/difficulty.dart';
+import 'package:timberland_biketrail/features/trail/domain/entities/featured_image.dart';
 
 class Trail extends Equatable {
   final String trailId;
@@ -11,8 +12,8 @@ class Trail extends Equatable {
   final double distance;
   final String unit;
   final String routeType;
-  final String featureImageUrl;
-  final String mapImageUrl;
+  final List<FeaturedImage> featureImageUrl;
+  final List<FeaturedImage> mapImageUrl;
   final String? expectedDescription;
 
   const Trail({

@@ -40,9 +40,9 @@ import '../../features/authentication/presentation/pages/pages.dart';
 import '../../features/emergency/presentation/pages/emergency_page.dart';
 import '../../features/history/presentation/pages/booking_history_page.dart';
 import '../../features/history/presentation/pages/payment_history_page.dart';
+import '../../features/notifications/presentation/pages/announcement_page2.dart';
 import '../../features/trail/domain/entities/trail.dart';
 import '../../features/trail/presentation/pages/trail_details.dart';
-import '../../features/trail/presentation/pages/trail_map.dart';
 import '../../features/trail/trail_map_new/custom_map_page.dart';
 import '../../main_page.dart';
 import '../presentation/widgets/inherited_widgets/inherited_trail.dart';
@@ -77,7 +77,8 @@ final appRouter = GoRouter(
     log(routeState.location);
     if (Session().isLoggedIn && isAuthenticating) {
       // if logged in redirect to home page
-      return Routes.home.path;
+      //TODO : redirect to home when emeregncy call is fixed
+      return Routes.announcements2.path;
     } else if (!Session().isLoggedIn && !isAuthenticating) {
       //if not logged in redirect to login page
       return Routes.login.path;
@@ -118,6 +119,24 @@ final appRouter = GoRouter(
           child: AnnouncementsPage(
             announcements: state.extra as List<Announcement>,
           ),
+          transitionDuration: const Duration(milliseconds: 500),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+    ),
+    GoRoute(
+      path: Routes.announcements2.path,
+      name: Routes.announcements2.name,
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          restorationId: state.pageKey.value,
+          child: const AnnouncementPage2(),
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
@@ -179,8 +198,7 @@ final appRouter = GoRouter(
                 },
               ),
               transitionDuration: const Duration(milliseconds: 500),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
                 return FadeTransition(
                   opacity: animation,
                   child: child,
@@ -223,8 +241,7 @@ final appRouter = GoRouter(
                 },
               ),
               transitionDuration: const Duration(milliseconds: 500),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
                 return FadeTransition(
                   opacity: animation,
                   child: child,
@@ -240,8 +257,7 @@ final appRouter = GoRouter(
             return CustomTransitionPage(
               child: const ResetPasswordPage(),
               transitionDuration: const Duration(milliseconds: 500),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
                 return FadeTransition(
                   opacity: animation,
                   child: child,
@@ -282,8 +298,7 @@ final appRouter = GoRouter(
                 child: const RegistrationContinuationPage(),
               ),
               transitionDuration: const Duration(milliseconds: 500),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
                 return FadeTransition(
                   opacity: animation,
                   child: child,
@@ -309,8 +324,7 @@ final appRouter = GoRouter(
                 },
               ),
               transitionDuration: const Duration(milliseconds: 500),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
                 return FadeTransition(
                   opacity: animation,
                   child: child,
@@ -348,8 +362,7 @@ final appRouter = GoRouter(
                 selectedTabIndex: 0,
               ),
               transitionDuration: const Duration(milliseconds: 500),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
                 return FadeTransition(
                   opacity: animation,
                   child: child,
@@ -365,8 +378,7 @@ final appRouter = GoRouter(
                 return CustomTransitionPage(
                   child: const CustomMapPage(),
                   transitionDuration: const Duration(milliseconds: 500),
-                  transitionsBuilder:
-                      (context, animation, secondaryAnimation, child) {
+                  transitionsBuilder: (context, animation, secondaryAnimation, child) {
                     return FadeTransition(
                       opacity: animation,
                       child: child,
@@ -385,8 +397,7 @@ final appRouter = GoRouter(
                     child: const TrailDetails(),
                   ),
                   transitionDuration: const Duration(milliseconds: 500),
-                  transitionsBuilder:
-                      (context, animation, secondaryAnimation, child) {
+                  transitionsBuilder: (context, animation, secondaryAnimation, child) {
                     return FadeTransition(
                       opacity: animation,
                       child: child,
@@ -412,8 +423,7 @@ final appRouter = GoRouter(
                 selectedTabIndex: 1,
               ),
               transitionDuration: const Duration(milliseconds: 500),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
                 return FadeTransition(
                   opacity: animation,
                   child: child,
@@ -431,8 +441,7 @@ final appRouter = GoRouter(
                 selectedTabIndex: 3,
               ),
               transitionDuration: const Duration(milliseconds: 500),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
                 return FadeTransition(
                   opacity: animation,
                   child: child,
@@ -450,8 +459,7 @@ final appRouter = GoRouter(
                     user: (routeState.extra as User),
                   ),
                   transitionDuration: const Duration(milliseconds: 250),
-                  transitionsBuilder:
-                      (context, animation, secondaryAnimation, child) {
+                  transitionsBuilder: (context, animation, secondaryAnimation, child) {
                     return FadeTransition(
                       opacity: animation,
                       child: SlideTransition(
@@ -474,8 +482,7 @@ final appRouter = GoRouter(
                 return CustomTransitionPage(
                   child: const UpdateEmailPage(),
                   transitionDuration: const Duration(milliseconds: 250),
-                  transitionsBuilder:
-                      (context, animation, secondaryAnimation, child) {
+                  transitionsBuilder: (context, animation, secondaryAnimation, child) {
                     return FadeTransition(
                       opacity: animation,
                       child: SlideTransition(
@@ -498,8 +505,7 @@ final appRouter = GoRouter(
                     return CustomTransitionPage(
                       child: const VerifyUpdateOtpPage(),
                       transitionDuration: const Duration(milliseconds: 250),
-                      transitionsBuilder:
-                          (context, animation, secondaryAnimation, child) {
+                      transitionsBuilder: (context, animation, secondaryAnimation, child) {
                         return FadeTransition(
                           opacity: animation,
                           child: SlideTransition(
@@ -524,8 +530,7 @@ final appRouter = GoRouter(
                 return CustomTransitionPage(
                   child: const UpdatePasswordPage(),
                   transitionDuration: const Duration(milliseconds: 250),
-                  transitionsBuilder:
-                      (context, animation, secondaryAnimation, child) {
+                  transitionsBuilder: (context, animation, secondaryAnimation, child) {
                     return FadeTransition(
                       opacity: animation,
                       child: SlideTransition(
@@ -550,8 +555,7 @@ final appRouter = GoRouter(
                   // key: routeState.pageKey,
                   // restorationId: routeState.pageKey.value,
                   transitionDuration: const Duration(milliseconds: 500),
-                  transitionsBuilder:
-                      (context, animation, secondaryAnim, child) {
+                  transitionsBuilder: (context, animation, secondaryAnim, child) {
                     return FadeTransition(
                       opacity: animation,
                       child: child,
@@ -575,8 +579,7 @@ final appRouter = GoRouter(
                   // key: routeState.pageKey,
                   // restorationId: routeState.pageKey.value,
                   transitionDuration: const Duration(milliseconds: 500),
-                  transitionsBuilder:
-                      (context, animation, secondaryAnim, child) {
+                  transitionsBuilder: (context, animation, secondaryAnim, child) {
                     return FadeTransition(
                       opacity: animation,
                       child: child,
@@ -600,8 +603,7 @@ final appRouter = GoRouter(
                     // key: routeState.pageKey,
                     // restorationId: routeState.pageKey.value,
                     transitionDuration: const Duration(milliseconds: 500),
-                    transitionsBuilder:
-                        (context, animation, secondaryAnim, child) {
+                    transitionsBuilder: (context, animation, secondaryAnim, child) {
                       return FadeTransition(
                         opacity: animation,
                         child: child,
@@ -619,8 +621,7 @@ final appRouter = GoRouter(
                           bookingHistory: routeState.extra as BookingHistory,
                         ),
                         transitionDuration: const Duration(milliseconds: 500),
-                        transitionsBuilder:
-                            (context, animation, secondaryAnim, child) {
+                        transitionsBuilder: (context, animation, secondaryAnim, child) {
                           return FadeTransition(
                             opacity: animation,
                             child: child,
@@ -654,15 +655,13 @@ final appRouter = GoRouter(
               path: Routes.bookingWaiver.asSubPath(),
               name: Routes.bookingWaiver.name,
               pageBuilder: (context, routeState) {
-                final BookingRequestParams name =
-                    routeState.extra as BookingRequestParams;
+                final BookingRequestParams name = routeState.extra as BookingRequestParams;
                 return CustomTransitionPage(
                   child: BookingWaiver(
                     bookingRequestParams: name,
                   ),
                   transitionDuration: const Duration(milliseconds: 500),
-                  transitionsBuilder:
-                      (context, animation, secondaryAnim, child) {
+                  transitionsBuilder: (context, animation, secondaryAnim, child) {
                     return FadeTransition(
                       opacity: animation,
                       child: child,
@@ -678,8 +677,7 @@ final appRouter = GoRouter(
                 return CustomTransitionPage(
                   child: const CheckoutPage(),
                   transitionDuration: const Duration(milliseconds: 500),
-                  transitionsBuilder:
-                      (context, animation, secondaryAnim, child) {
+                  transitionsBuilder: (context, animation, secondaryAnim, child) {
                     return FadeTransition(
                       opacity: animation,
                       child: child,
@@ -695,8 +693,7 @@ final appRouter = GoRouter(
                 return CustomTransitionPage(
                   child: const SuccessBookingPage(),
                   transitionDuration: const Duration(milliseconds: 500),
-                  transitionsBuilder:
-                      (context, animation, secondaryAnim, child) {
+                  transitionsBuilder: (context, animation, secondaryAnim, child) {
                     return FadeTransition(
                       opacity: animation,
                       child: child,
@@ -712,8 +709,7 @@ final appRouter = GoRouter(
                 return CustomTransitionPage(
                   child: const FailedBookingPage(),
                   transitionDuration: const Duration(milliseconds: 500),
-                  transitionsBuilder:
-                      (context, animation, secondaryAnim, child) {
+                  transitionsBuilder: (context, animation, secondaryAnim, child) {
                     return FadeTransition(
                       opacity: animation,
                       child: child,
@@ -729,8 +725,7 @@ final appRouter = GoRouter(
                 return CustomTransitionPage(
                   child: const CancelledBookingPage(),
                   transitionDuration: const Duration(milliseconds: 500),
-                  transitionsBuilder:
-                      (context, animation, secondaryAnim, child) {
+                  transitionsBuilder: (context, animation, secondaryAnim, child) {
                     return FadeTransition(
                       opacity: animation,
                       child: child,
@@ -813,8 +808,7 @@ final appRouter = GoRouter(
           key: routeState.pageKey,
           restorationId: routeState.pageKey.value,
           child: EmergencyPage(
-            callDirection:
-                (routeState.extra as CallDirection?) ?? CallDirection.outgoing,
+            callDirection: (routeState.extra as CallDirection?) ?? CallDirection.outgoing,
           ),
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnim, child) {
