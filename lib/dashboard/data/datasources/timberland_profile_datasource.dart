@@ -20,8 +20,7 @@ class TimberlandProfileDataSource implements ProfileDataSource {
   });
 
   @override
-  Future<User> updateUserDetails(
-      UpdateUserDetailsParams updateProfileParams) async {
+  Future<User> updateUserDetails(UpdateUserDetailsParams updateProfileParams) async {
     const storage = FlutterSecureStorage();
     var token = await storage.read(key: 'token');
     dioClient.options.headers["authorization"] = "token $token";
@@ -31,6 +30,7 @@ class TimberlandProfileDataSource implements ProfileDataSource {
         log("profile pic is not null");
         profilePic = await MultipartFile.fromFile(
           updateProfileParams.profilePic!.path,
+          filename: updateProfileParams.profilePic!.path,
         );
       }
 
@@ -43,6 +43,7 @@ class TimberlandProfileDataSource implements ProfileDataSource {
             ),
         ),
       );
+      log(Session().currentUser!.id.toString());
       log(response.statusCode.toString());
       if (response.statusCode == 200) {
         log(response.data.toString());
@@ -53,8 +54,7 @@ class TimberlandProfileDataSource implements ProfileDataSource {
               bikeYear: updateProfileParams.bikeYear ?? '',
               birthday: updateProfileParams.birthday,
               bloodType: updateProfileParams.bloodType ?? '',
-              emergencyContactInfo:
-                  updateProfileParams.emergencyContactInfo ?? '',
+              emergencyContactInfo: updateProfileParams.emergencyContactInfo ?? '',
               firstName: updateProfileParams.firstName,
               gender: updateProfileParams.gender,
               lastName: updateProfileParams.lastName,
@@ -171,8 +171,7 @@ class TimberlandProfileDataSource implements ProfileDataSource {
       if ((dioError.response?.statusCode ?? -1) == 400) {
         if (dioError.response?.data is Map<String, dynamic>) {
           throw ProfileException(
-            message:
-                dioError.response?.data?['message'] ?? 'Failed to send OTP',
+            message: dioError.response?.data?['message'] ?? 'Failed to send OTP',
             penaltyDuration: dioError.response?.data?['penalty'],
           );
         }
@@ -247,8 +246,7 @@ class TimberlandProfileDataSource implements ProfileDataSource {
   }
 
   @override
-  Future<void> updatePasswordRequest(
-      String oldPassword, String newPassword) async {
+  Future<void> updatePasswordRequest(String oldPassword, String newPassword) async {
     const storage = FlutterSecureStorage();
     var token = await storage.read(key: 'token');
     dioClient.options.headers["authorization"] = "token $token";
@@ -274,16 +272,14 @@ class TimberlandProfileDataSource implements ProfileDataSource {
       log(dioError.response?.statusCode?.toString() ?? "statuscode: null");
       log(dioError.response?.data.toString() ?? 'no data');
       if ((dioError.response?.statusCode ?? -1) == 400) {
-        if (dioError.response.toString() ==
-            'Old Password does not match with the current password') {
+        if (dioError.response.toString() == 'Old Password does not match with the current password') {
           throw const ProfileException(
             message: "Current password input does not match your password",
           );
         }
 
         throw ProfileException(
-          message: dioError.response?.data?.toString() ??
-              'Failed to Update Password',
+          message: dioError.response?.data?.toString() ?? 'Failed to Update Password',
         );
       } else if ((dioError.response?.statusCode ?? -1) == 413) {
         throw const ProfileException(
@@ -317,11 +313,7 @@ class TimberlandProfileDataSource implements ProfileDataSource {
       if (response.statusCode == 200) {
         final result = response.data['result'] as List;
 
-        return result
-            .where((element) =>
-                element is String && element.contains('profile-header'))
-            .cast<String>()
-            .toList();
+        return result.where((element) => element is String && element.contains('profile-header')).cast<String>().toList();
       }
       throw const ProfileException();
     } on ProfileException {
@@ -330,16 +322,14 @@ class TimberlandProfileDataSource implements ProfileDataSource {
       log(dioError.response?.statusCode?.toString() ?? "statuscode: null");
       log(dioError.response?.data.toString() ?? 'no data');
       if ((dioError.response?.statusCode ?? -1) == 400) {
-        if (dioError.response.toString() ==
-            'Old Password does not match with the current password') {
+        if (dioError.response.toString() == 'Old Password does not match with the current password') {
           throw const ProfileException(
             message: "Current password input does not match your password",
           );
         }
 
         throw ProfileException(
-          message: dioError.response?.data?.toString() ??
-              'Failed to Update Password',
+          message: dioError.response?.data?.toString() ?? 'Failed to Update Password',
         );
       } else if ((dioError.response?.statusCode ?? -1) == 413) {
         throw const ProfileException(
