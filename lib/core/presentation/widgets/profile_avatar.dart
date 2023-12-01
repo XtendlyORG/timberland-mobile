@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/expanded_image.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 
 class ProfileAvatar extends StatelessWidget {
@@ -25,20 +26,35 @@ class ProfileAvatar extends StatelessWidget {
 
     return Hero(
       tag: heroTag,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: TimberlandColor.text.withOpacity(.3),
-              blurRadius: 2.5,
-              spreadRadius: 2.5,
-            )
-          ],
-        ),
-        child: CircleAvatar(
-          radius: radius,
-          foregroundImage: buildImage(),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return ExpandedImage(
+                  imageProvider: buildImage(),
+                  tag: heroTag,
+                );
+              },
+            ),
+          );
+        },
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: TimberlandColor.text.withOpacity(.3),
+                blurRadius: 2.5,
+                spreadRadius: 2.5,
+              )
+            ],
+          ),
+          child: CircleAvatar(
+            radius: radius,
+            foregroundImage: buildImage(),
+          ),
         ),
       ),
     );

@@ -35,6 +35,8 @@ class PaymentHistory extends History {
         return PaymentStatus.cancelled;
       case "PAYMENT_EXPIRED":
         return PaymentStatus.expired;
+      case "PAYMENT_PENDING":
+        return PaymentStatus.pending;
       default:
         throw Exception('INVALID PAYMENT STATUS: $status');
     }
@@ -46,4 +48,5 @@ enum PaymentStatus {
   failed,
   cancelled,
   expired,
+  pending,
 }

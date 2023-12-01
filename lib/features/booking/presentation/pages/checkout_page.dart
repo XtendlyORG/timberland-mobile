@@ -1,14 +1,18 @@
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:move_to_background/move_to_background.dart';
+import 'package:timberland_biketrail/core/configs/environment_configs.dart';
 import 'package:timberland_biketrail/core/constants/padding.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_area.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../../core/router/router.dart';
+import '../../../../dependency_injection/app_info_depencency.dart';
 import '../bloc/booking_bloc.dart';
 
 class CheckoutPage extends StatefulWidget {
@@ -27,10 +31,37 @@ class _CheckoutPageState extends State<CheckoutPage> {
     if (Platform.isAndroid) WebView.platform = AndroidWebView();
   }
 
+  Future makeApiCall(id, status) async {
+    String apiHost = serviceLocator<EnvironmentConfig>().apihost;
+
+    log('the api host: $apiHost/payments/$status');
+    try {
+      final response = await Dio().post(
+        '$apiHost/payments/$status?id=$id',
+      );
+      if (response.statusCode == 200) {
+        log('the response: ${response.data}');
+        if (status == 'success') {
+          Navigator.pop(context);
+          context.pushNamed(Routes.successfulBooking.name);
+        } else if (status == 'failure') {
+          Navigator.pop(context);
+          context.pushNamed(Routes.failedfulBooking.name);
+        } else {
+          Navigator.pop(context);
+          context.pushNamed(Routes.cancelledfulBooking.name);
+        }
+      }
+      // handle the response here
+    } on DioError catch (e) {
+      log('the error: ${e.response}');
+      rethrow;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final state =
-        BlocProvider.of<BookingBloc>(context).state as BookingSubmitted;
+    final state = BlocProvider.of<BookingBloc>(context).state as BookingSubmitted;
     return WillPopScope(
       onWillPop: () async {
         if (!(await _controller.canGoBack())) {
@@ -73,20 +104,25 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     });
                   }
                 },
-                navigationDelegate: (request) {
+                navigationDelegate: (request) async {
+                  String id = request.url.split('?id=')[1];
+
+                  log('the current url: ${request.url}');
+                  log('the id: $id');
+
                   if (request.url.contains('success')) {
-                    Navigator.pop(context);
-                    context.pushNamed(Routes.successfulBooking.name);
+                    await makeApiCall(id, 'success');
+
                     return NavigationDecision.prevent;
                   }
                   if (request.url.contains('fail')) {
-                    Navigator.pop(context);
-                    context.pushNamed(Routes.failedfulBooking.name);
+                    await makeApiCall(id, 'failure');
+
                     return NavigationDecision.prevent;
                   }
                   if (request.url.contains('cancel')) {
-                    Navigator.pop(context);
-                    context.pushNamed(Routes.cancelledfulBooking.name);
+                    await makeApiCall(id, 'cancel');
+
                     return NavigationDecision.prevent;
                   }
 

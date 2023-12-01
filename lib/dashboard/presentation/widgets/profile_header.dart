@@ -1,15 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/profile_avatar.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
-import 'package:timberland_biketrail/dashboard/domain/params/update_user_detail.dart';
 import 'package:timberland_biketrail/dashboard/presentation/bloc/profile_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
 
@@ -46,38 +43,9 @@ class _ProfileHeaderState extends State<ProfileHeader> {
           height: 104,
           child: Align(
             alignment: const Alignment(-.85, 1),
-            child: InkWell(
-              onTap: () async {
-                XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
-                if (image != null) {
-                  showLoading("Updating Avatar");
-
-                  context.read<ProfileBloc>().add(
-                        SubmitUpdateUserDetailRequestEvent(
-                          updateProfileParams: UpdateUserDetailsParams(
-                            firstName: widget.user.firstName,
-                            middleName: widget.user.middleName,
-                            lastName: widget.user.lastName,
-                            mobileNumber: widget.user.mobileNumber,
-                            emergencyContactInfo: widget.user.emergencyContactInfo,
-                            address: widget.user.address,
-                            gender: widget.user.gender,
-                            birthday: widget.user.birthday,
-                            bloodType: widget.user.bloodType,
-                            profession: widget.user.profession,
-                            bikeColor: widget.user.bikeColor,
-                            bikeModel: widget.user.bikeModel,
-                            bikeYear: widget.user.bikeYear,
-                            profilePic: File(image.path),
-                          ),
-                        ),
-                      );
-                }
-              },
-              child: ProfileAvatar(
-                imgUrl: widget.user.profilePicUrl,
-                radius: 27,
-              ),
+            child: ProfileAvatar(
+              imgUrl: widget.user.profilePicUrl,
+              radius: 27,
             ),
           ),
         );
