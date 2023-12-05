@@ -21,7 +21,7 @@ class TrailDirectory extends StatelessWidget {
 
     final searchCtrl = TextEditingController();
 
-    final List<DifficultyChecklistConfig> configs = Difficulties.all
+    List<DifficultyChecklistConfig> configs = Difficulties.all
         .map(
           (diff) => DifficultyChecklistConfig(
             difficultyLevel: diff,
@@ -33,6 +33,14 @@ class TrailDirectory extends StatelessWidget {
     return RefreshableScrollView(
       onRefresh: () async {
         BlocProvider.of<TrailBloc>(context).add(FetchTrailsEvent(fetchTrailsParams: FetchTrailsParams()));
+        configs = Difficulties.all
+            .map(
+              (diff) => DifficultyChecklistConfig(
+                difficultyLevel: diff,
+                value: false,
+              ),
+            )
+            .toList();
       },
       child: Column(
         mainAxisSize: MainAxisSize.min,
