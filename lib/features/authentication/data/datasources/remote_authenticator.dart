@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:timberland_biketrail/core/utils/session.dart';
 
 import '../../../../core/configs/environment_configs.dart';
 import '../../../../core/errors/exceptions.dart';
@@ -32,7 +33,7 @@ class RemoteAuthenticator implements Authenticator {
 
   @override
   Future<User> login(LoginParameter loginParameter) async {
-    final storage = const FlutterSecureStorage();
+    const storage = FlutterSecureStorage();
 
     try {
       final response = await dioClient.post(
@@ -45,8 +46,7 @@ class RemoteAuthenticator implements Authenticator {
       if (response.statusCode == 200) {
         log(response.data.toString());
         await storage.write(key: 'token', value: response.data['token']);
-        await storage.write(
-            key: 'refreshToken', value: response.data['refreshCode']);
+        await storage.write(key: 'refreshToken', value: response.data['refreshCode']);
         return UserModel.fromMap(response.data['result']);
       }
 
@@ -56,23 +56,20 @@ class RemoteAuthenticator implements Authenticator {
     } on DioError catch (dioError) {
       log(dioError.response?.statusCode?.toString() ?? "statuscode: null");
       if ((dioError.response?.statusCode ?? -1) == 400) {
-        if ((dioError.response?.data?.toString() ?? '') ==
-            'Email not Verified') {
+        if ((dioError.response?.data?.toString() ?? '') == 'Email not Verified') {
           throw UnverifiedEmailException(
             message: 'Email is not verified',
           );
         }
         if (dioError.response?.data is Map<String, dynamic>) {
-          if (dioError.response?.data['message'] ==
-              'Invalid credentials. Please try again.') {
+          if (dioError.response?.data['message'] == 'Invalid credentials. Please try again.') {
             throw AuthException(
               message: 'Email or password is incorrect. Please try again.',
               penaltyDuration: dioError.response?.data?['penalty'],
             );
           }
           throw AuthException(
-            message: dioError.response?.data?['message'].toString() ??
-                'Login Failed',
+            message: dioError.response?.data?['message'].toString() ?? 'Login Failed',
             penaltyDuration: dioError.response?.data?['penalty'],
           );
         }
@@ -135,14 +132,11 @@ class RemoteAuthenticator implements Authenticator {
       log(dioError.response?.statusCode?.toString() ?? "statuscode: null");
       log(dioError.response?.data.toString() ?? 'no data');
       if ((dioError.response?.statusCode ?? -1) == 400) {
-        if ((dioError.response?.data?.toString() ?? '') ==
-            "Email found but not verified, OTP needed") {
+        if ((dioError.response?.data?.toString() ?? '') == "Email found but not verified, OTP needed") {
           throw AuthException(
-            message:
-                "Your email is already in our system. Please proceed to login	",
+            message: "Your email is already in our system. Please proceed to login	",
           );
-        } else if ((dioError.response?.data?.toString() ?? '') ==
-            "Your email is already in our system. Please proceed to login.") {
+        } else if ((dioError.response?.data?.toString() ?? '') == "Your email is already in our system. Please proceed to login.") {
           throw AuthException(
             message: "Email has already been taken.",
           );
@@ -184,8 +178,7 @@ class RemoteAuthenticator implements Authenticator {
       log(response.statusCode.toString());
       if (response.statusCode == 200) {
         await storage.write(key: 'token', value: response.data['token']);
-        await storage.write(
-            key: 'refreshToken', value: response.data['refreshCode']);
+        await storage.write(key: 'refreshToken', value: response.data['refreshCode']);
         if (response.data is Map<String, dynamic>) {
           return UserModel.fromMap(response.data['result']);
         } else {
@@ -204,20 +197,17 @@ class RemoteAuthenticator implements Authenticator {
         if (dioError.response?.data is Map<String, dynamic>) {
           if (dioError.response?.data['message'] == 'Wrong OTP') {
             throw AuthException(
-              message:
-                  'Invalid OTP. Please enter the one time pin sent to your email',
+              message: 'Invalid OTP. Please enter the one time pin sent to your email',
               penaltyDuration: dioError.response?.data?['penalty'],
             );
           }
           throw AuthException(
-            message:
-                dioError.response?.data['message'] ?? 'Something went wrong..',
+            message: dioError.response?.data['message'] ?? 'Something went wrong..',
             penaltyDuration: dioError.response?.data?['penalty'],
           );
         } else {
           throw AuthException(
-            message:
-                dioError.response?.data?.toString() ?? 'Failed to send OTP',
+            message: dioError.response?.data?.toString() ?? 'Failed to send OTP',
           );
         }
       } else if ((dioError.response?.statusCode ?? -1) == 502) {
@@ -262,8 +252,7 @@ class RemoteAuthenticator implements Authenticator {
       log(dioError.response?.data.toString() ?? 'no data');
       if ((dioError.response?.statusCode ?? -1) == 400) {
         throw AuthException(
-          message:
-              dioError.response?.data?.toString() ?? 'Failed to resend OTP',
+          message: dioError.response?.data?.toString() ?? 'Failed to resend OTP',
         );
       } else if ((dioError.response?.statusCode ?? -1) == 502) {
         log(dioError.response?.data?.toString() ?? "No error message: 502");
@@ -343,6 +332,56 @@ class RemoteAuthenticator implements Authenticator {
       );
       final response = await dioClient.put(
         '${environmentConfig.apihost}/members/forgot/change',
+        data: body,
+      );
+      log(response.statusCode.toString());
+      log(response.data.toString());
+      if (response.statusCode == 200) {
+        return;
+      }
+      log(response.data.toString());
+      throw AuthException(message: "Server Error");
+    } on AuthException {
+      rethrow;
+    } on DioError catch (dioError) {
+      log(dioError.response?.statusCode?.toString() ?? 'statuscode: -1');
+      log(dioError.response?.data ?? "no message");
+      if ((dioError.response?.statusCode ?? -1) == 400) {
+        throw AuthException(
+          message: dioError.response?.data?.toString() ?? 'Failed to send OTP',
+        );
+      } else if ((dioError.response?.statusCode ?? -1) == 502) {
+        log(dioError.response?.data?.toString() ?? "No error message: 502");
+        throw AuthException(
+          message: 'Internal Server Error',
+        );
+      }
+      throw AuthException(
+        message: "Error Occurred",
+      );
+    } catch (e) {
+      log(e.toString());
+      throw AuthException(message: "An Error Occurred");
+    }
+  }
+
+  @override
+  Future<void> deleteProfile() async {
+    const storage = FlutterSecureStorage();
+    var token = await storage.read(key: 'token');
+    log('the token is: $token');
+    dioClient.options.headers["authorization"] = "token $token";
+
+    String memberId = Session().currentUser!.id;
+
+    try {
+      final body = json.encode(
+        {
+          'member_id': int.parse(memberId),
+        },
+      );
+      final response = await dioClient.delete(
+        '${environmentConfig.apihost}/members/',
         data: body,
       );
       log(response.statusCode.toString());

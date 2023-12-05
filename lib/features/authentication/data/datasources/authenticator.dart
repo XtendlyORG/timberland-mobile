@@ -12,4 +12,5 @@ abstract class Authenticator {
 
   Future<void> forgotPassword(String email);
   Future<void> updatePassword(String email, String newPassword);
+  Future<void> deleteProfile();
 }

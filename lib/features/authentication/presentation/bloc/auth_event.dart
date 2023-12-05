@@ -56,8 +56,7 @@ class ResendOTPEvent<ParameterType> extends AuthEvent {
     } else if (parameter is String) {
       return parameter as String;
     }
-    throw Exception(
-        'Invalid parameter type in SendOTPEvent: ${parameter.runtimeType}');
+    throw Exception('Invalid parameter type in SendOTPEvent: ${parameter.runtimeType}');
   }
 
   @override
@@ -142,4 +141,8 @@ class ResetPasswordEvent extends AuthEvent {
 
 class UnlockAuthEvent extends AuthEvent {
   const UnlockAuthEvent();
+}
+
+class DeleteAccountEvent extends AuthEvent {
+  const DeleteAccountEvent();
 }

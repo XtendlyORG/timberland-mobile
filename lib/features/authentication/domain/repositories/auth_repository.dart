@@ -26,4 +26,6 @@ abstract class AuthRepository extends Repository {
     String email,
     String newPassword,
   );
+
+  Future<Either<AuthFailure, void>> deleteProfile();
 }

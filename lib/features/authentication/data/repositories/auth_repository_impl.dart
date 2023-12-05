@@ -103,4 +103,11 @@ class AuthRepositoryImpl implements AuthRepository {
       );
     }
   }
+
+  @override
+  Future<Either<AuthFailure, void>> deleteProfile() {
+    return authRequest(
+      request: () => authenticator.deleteProfile(),
+    );
+  }
 }

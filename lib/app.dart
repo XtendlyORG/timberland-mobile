@@ -100,9 +100,7 @@ class _MyAppState extends State<MyApp> {
       });
     }
     internetConnectivity.addListener(() async {
-      log(internetConnectivity.internetConnected
-          ? "Internet Connected"
-          : "No Internet Connected");
+      log(internetConnectivity.internetConnected ? "Internet Connected" : "No Internet Connected");
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         _networkListener();
       });
@@ -118,6 +116,8 @@ class _MyAppState extends State<MyApp> {
         if (!state.keepCurrentUser) {
           session.logout();
         }
+      } else if (state is AccountDeleted) {
+        showSuccess('Account deleted successfully');
       }
     });
   }
