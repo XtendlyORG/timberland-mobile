@@ -2,10 +2,12 @@
 class OnboardingConfig {
   final String title;
   final String description;
+  final String subtitle;
   final String assetImagePath;
   const OnboardingConfig({
     required this.title,
     required this.description,
+    required this.subtitle,
     required this.assetImagePath,
   });
 }
@@ -14,30 +16,34 @@ abstract class OnboardingConfigs {
   static const pages = [_page1, _page2, _page3, _page4, _page5];
 
   static const _page1 = OnboardingConfig(
-    title: 'Welcome to Timberland!',
-    description: "We are here to guide you to have a seamless bike trail ride.",
+    title: 'Welcome to Timberland Mountain Bike Park',
+    description: "This app is like having the Park In Your Pocket.\nTap Next to learn more about TMBP and the app.",
+    subtitle: '',
     assetImagePath: 'assets/images/onboarding-1.png',
   );
   static const _page2 = OnboardingConfig(
-    title: 'Browse Different Trails',
-    description:
-        "Timberland offers different levels of bike trails all accessible to you",
+    title: 'We’ve got trails!',
+    description: "TMBP’s trail system has something for every rider, from Novice to Expert and everything in between.",
+    subtitle: 'More information can be found in the Trail Directory.',
     assetImagePath: 'assets/images/onboarding-2.png',
   );
   static const _page3 = OnboardingConfig(
-    title: 'Book a Day Pass',
-    description: "Pick a date and take-off time and enjoy the ride!",
+    title: 'Where To Start?',
+    description: "Check out the Trail Map and see what TMBP has to offer. We recommend that all riders visit the Skills Zone first to warm up.",
+    subtitle: 'You can download the map by pressing and holding it',
     assetImagePath: 'assets/images/onboarding-3.png',
   );
   static const _page4 = OnboardingConfig(
-    title: 'Have a Look at our Map',
-    description: "Feeling excited? Browse our map and plan your day ahead.",
+    title: 'Ready To Ride?',
+    description:
+        "Booking a day pass is easy. Choose a date and your expected takeoff time, fill up any other necessary info and pay. Booking cutoff is 48H before your ride date. A unique QR code will be generated for every rider - please present this for scanning upon arrival at the Park Offce.",
+    subtitle: 'Only riders 16 years old and above are allowed in TMBP at this time.',
     assetImagePath: 'assets/images/onboarding-4.png',
   );
   static const _page5 = OnboardingConfig(
-    title: 'Emergency Services',
-    description:
-        "If you are in distress or think someone might need our help, please don't hesitate to use our emergency feature.",
+    title: 'Just In Case...',
+    description: "This app also features an emergency call button. If you or another rider is need of help, press this button to contact Park Staff.",
+    subtitle: 'Make sure you read The Mountain Biker\'s Responsibility Code.',
     assetImagePath: 'assets/images/onboarding-5.png',
   );
 }
