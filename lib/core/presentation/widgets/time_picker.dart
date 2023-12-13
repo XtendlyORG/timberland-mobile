@@ -36,7 +36,7 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
       hour = hour - 12;
     }
 
-    hours = const [1, 2, 7, 8, 9, 10, 11, 12];
+    hours = const [1, 7, 8, 9, 10, 11, 12];
     hourCtrl = FixedExtentScrollController(initialItem: hours.indexOf(hour));
     minuteCtrl = FixedExtentScrollController(initialItem: minute);
   }
@@ -108,12 +108,15 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
               child: SpinnerWheel<int>(
                 textStyle: widget.textStyle,
                 items: List.generate(
-                    hour == 7
-                        ? 30
-                        : hour != 14
-                            ? 60
-                            : 1,
-                    (index) => hour == 7 ? index + 30 : index),
+                  hour == 7
+                      ? 30
+                      : (hour == 13 || hour == 1)
+                          ? 31
+                          : 60,
+                  (index) {
+                    return (hour == 7) ? index + 30 : index;
+                  },
+                ),
                 fix2Digits: true,
                 controller: minuteCtrl,
                 onChange: (val) {

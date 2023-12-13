@@ -27,7 +27,7 @@ class BookingPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: kToolbarHeight, bottom: 10),
               child: AutoSizeText(
-                'Booking Form',
+                'BOOK A DAY PASS',
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
             ),
@@ -37,7 +37,7 @@ class BookingPage extends StatelessWidget {
                 vertical: kVerticalPadding,
               ),
               child: AutoSizeText(
-                'Please fill the required identity and booking details below.',
+                'Please fill out all required details below.',
                 style: Theme.of(context).textTheme.labelLarge,
                 maxLines: 2,
                 textAlign: TextAlign.center,
@@ -63,7 +63,7 @@ class BookingPage extends StatelessWidget {
                 vertical: kVerticalPadding,
               ),
               child: AutoSizeText(
-                'Park Opens: 7:30AM\nLast Entry: 2:00PM\nPark Closes: 4:00PM',
+                'Park Opens: 7:30AM\nLast Entry: 1:30PM\nPark Closes: 4:00PM',
                 style: Theme.of(context).textTheme.labelLarge,
                 maxLines: 3,
                 textAlign: TextAlign.center,

@@ -28,14 +28,12 @@ class BookingHistoryPage extends StatelessWidget {
           index: 3,
           extendBodyBehindAppbar: true,
           body: Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: kHorizontalPadding, vertical: kHorizontalPadding),
+            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: kHorizontalPadding),
             child: BlocBuilder<HistoryBloc, HistoryState>(
               builder: (context, state) {
                 if (state is LoadingHistory) {
                   return latestWidget = SizedBox(
-                    height:
-                        MediaQuery.of(context).size.height - kToolbarHeight * 5,
+                    height: MediaQuery.of(context).size.height - kToolbarHeight * 5,
                     child: const RepaintBoundary(
                       child: Center(
                         child: CircularProgressIndicator.adaptive(),
@@ -46,8 +44,7 @@ class BookingHistoryPage extends StatelessWidget {
                 if (state is BookingHistoryLoaded) {
                   if (state.bookings.isEmpty) {
                     return latestWidget = SizedBox(
-                      height:
-                          MediaQuery.of(context).size.height - kToolbarHeight * 5,
+                      height: MediaQuery.of(context).size.height - kToolbarHeight * 5,
                       child: Center(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
@@ -91,18 +88,11 @@ class BookingHistoryPage extends StatelessWidget {
                           begin: 0,
                           end: 1,
                         ).animate(animation),
-                        child: SlideTransition(
-                          position: Tween<Offset>(
-                            begin: const Offset(-.5, 0),
-                            end: Offset.zero,
-                          ).animate(animation),
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.only(bottom: kVerticalPadding),
-                            child: InheritedBooking(
-                              booking: state.bookings[index],
-                              child: const BookingHistoryWidget(),
-                            ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: kVerticalPadding),
+                          child: InheritedBooking(
+                            booking: state.bookings[index],
+                            child: const BookingHistoryWidget(),
                           ),
                         ),
                       );
@@ -111,8 +101,7 @@ class BookingHistoryPage extends StatelessWidget {
                 }
                 if (state is HistoryError) {
                   return latestWidget = SizedBox(
-                    height:
-                        MediaQuery.of(context).size.height - kToolbarHeight * 5,
+                    height: MediaQuery.of(context).size.height - kToolbarHeight * 5,
                     child: Center(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

@@ -8,6 +8,7 @@ import '../../../constants/constants.dart';
 class MobileNumberField extends StatefulWidget {
   final TextInputAction? textInputAction;
   final String? hintText;
+  final bool? enabled;
 
   final bool allowEmpty;
   const MobileNumberField({
@@ -16,6 +17,7 @@ class MobileNumberField extends StatefulWidget {
     this.hintText,
     this.allowEmpty = false,
     required this.controller,
+    this.enabled,
   }) : super(key: key);
 
   final TextEditingController controller;
@@ -74,9 +76,10 @@ class _MobileNumberFieldState extends State<MobileNumberField> {
               child: ExcludeFocus(
                 child: TextField(
                   enableInteractiveSelection: false,
+                  enabled: widget.enabled,
                   decoration: InputDecoration(
-                    disabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Theme.of(context).primaryColor),
+                    disabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey, width: 0.5),
                     ),
                     hintText: '+63',
                     hintStyle: Theme.of(context).textTheme.titleMedium,
@@ -89,6 +92,7 @@ class _MobileNumberFieldState extends State<MobileNumberField> {
             ),
             Expanded(
               child: TextFormField(
+                enabled: widget.enabled,
                 validator: (value) {
                   if (!value!.startsWith('9')) {
                     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {

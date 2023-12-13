@@ -59,15 +59,29 @@ class TrailDirectory extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 15),
             alignment: Alignment.centerLeft,
             child: Text(
-              "It's Time To Ride ${user.firstName},",
+              "WELCOME TO TIMBERLAND MOUNTAIN BIKE PARK, ${user.firstName.toUpperCase()}",
               style: Theme.of(context).textTheme.titleLarge,
             ),
+          ),
+          const SizedBox(
+            height: 10,
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             alignment: Alignment.centerLeft,
             child: Text(
-              "tap on any of the tiles to explore the TMBP trail system",
+              "Tap on any of the tiles to learn more about our trails",
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "Use the bottom bar to quickly jump to different sections of the app",
               style: Theme.of(context).textTheme.titleSmall,
             ),
           ),
