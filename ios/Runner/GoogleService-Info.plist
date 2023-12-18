@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyCHtfTgJ5nZT_r4vJRuhyMOX-sAU-b6tKo</string>
+	<key>GCM_SENDER_ID</key>
+	<string>923465899215</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.timberland.timberlandMobile</string>
+	<key>PROJECT_ID</key>
+	<string>timberland-mobile-df943</string>
+	<key>STORAGE_BUCKET</key>
+	<string>timberland-mobile-df943.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:923465899215:ios:097f500c53eb1080352bba</string>
+</dict>
+</plist>
