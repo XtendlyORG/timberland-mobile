@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Ride TMBP</string>
+	<string>Timberland Bike Park</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -24,8 +24,12 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<true/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Stream music from a variety of streaming services, including Spotify, Apple Music, and Amazon Music.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Allow camera to take a photo</string>
 	<key>NSMicrophoneUsageDescription</key>
@@ -60,7 +64,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>FirebaseAppDelegateProxyEnabled</key>
-	<true/>
 </dict>
 </plist>
