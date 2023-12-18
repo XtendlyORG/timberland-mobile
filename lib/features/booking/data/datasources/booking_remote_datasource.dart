@@ -23,6 +23,7 @@ class BookingRemoteDataSource implements BookingDatasource {
       const storage = FlutterSecureStorage();
       var token = await storage.read(key: 'token');
       dioClient.options.headers["authorization"] = "token $token";
+      log('THE BOOKING DATE AND TIME: ${params.date} ${params.time}');
       try {
         final result = await dioClient.post(
           '${environmentConfig.apihost}/bookings',
@@ -38,8 +39,7 @@ class BookingRemoteDataSource implements BookingDatasource {
       } on DioError catch (dioError) {
         if ((dioError.response?.statusCode ?? -1) == 400) {
           if (dioError.response?.data is Map<String, dynamic>) {
-            if ((dioError.response?.data['message'] as String) ==
-                "Sorry, You already have a completed booking for this day.") {
+            if ((dioError.response?.data['message'] as String) == "Sorry, You already have a completed booking for this day.") {
               throw const DuplicateBookingException(
                 message: 'You already have a booking for that date.',
               );
@@ -107,8 +107,7 @@ class BookingRemoteDataSource implements BookingDatasource {
           throw BookingException(message: dioError.response?.data['message']);
         }
         throw BookingException(
-          message:
-              dioError.response?.data.toString() ?? 'Something went wrong..',
+          message: dioError.response?.data.toString() ?? 'Something went wrong..',
         );
       } else if ((dioError.response?.statusCode ?? -1) == 502) {
         log(dioError.response?.data?.toString() ?? "No error message: 502");

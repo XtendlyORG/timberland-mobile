@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -77,8 +76,7 @@ class _BookingFormState extends State<BookingForm> {
           if (state is DuplicateBookingError) {
             _showBookingDialog(
               context,
-              text:
-                  "You already have a booking schedule for that date. Please try to book on a different date.",
+              text: "You already have a booking schedule for that date. Please try to book on a different date.",
               onPop: () {},
             );
           } else {
@@ -123,8 +121,7 @@ class _BookingFormState extends State<BookingForm> {
                                     setState(() {
                                       selectedDate = value;
                                     });
-                                    dateCtrl.text =
-                                        DateFormat.yMd('en_US').format(value);
+                                    dateCtrl.text = DateFormat.yMd('en_US').format(value);
                                   }
                                 },
                               ),
@@ -173,6 +170,7 @@ class _BookingFormState extends State<BookingForm> {
                             const Text("First Name"),
                             TextFormField(
                               controller: firstNameCtrl,
+                              enabled: false,
                               decoration: const InputDecoration(
                                 hintText: "First Name",
                               ),
@@ -196,6 +194,7 @@ class _BookingFormState extends State<BookingForm> {
                             const Text("Last Name"),
                             TextFormField(
                               controller: lastNameCtrl,
+                              enabled: false,
                               decoration: const InputDecoration(
                                 hintText: "Last Name",
                               ),
@@ -222,6 +221,7 @@ class _BookingFormState extends State<BookingForm> {
                       const Text('Mobile Number'),
                       MobileNumberField(
                         controller: mobileNumberCtrl,
+                        enabled: false,
                       ),
                     ],
                   ),
@@ -236,6 +236,7 @@ class _BookingFormState extends State<BookingForm> {
                       const Text("Email Address"),
                       EmailField(
                         controller: emailCtrl,
+                        enabled: false,
                       ),
                     ],
                   ),
@@ -263,9 +264,7 @@ class _BookingFormState extends State<BookingForm> {
                         }
                       }
                     },
-                    child: freePassCount != null && freePassCount > 0
-                        ? Text('Free Booking (x$freePassCount)')
-                        : const Text("Submit"),
+                    child: freePassCount != null && freePassCount > 0 ? Text('Free Booking (x$freePassCount)') : const Text("Submit"),
                   ),
                 ),
               ],

@@ -35,8 +35,7 @@ class Session extends ChangeNotifier {
     encrypter = crypt.Encrypter(crypt.Salsa20(_encryptorKey));
     _isLoggedIn = false;
     final encryptedUserJson = _prefs.getString(_PrefKeys.uid);
-    final userJson =
-        encryptedUserJson != null ? _decryptString(encryptedUserJson) : null;
+    final userJson = encryptedUserJson != null ? _decryptString(encryptedUserJson) : null;
     _currentUser = null;
     if (userJson != null) {
       _currentUser = UserModel.fromMap(json.decode(userJson));
@@ -45,15 +44,11 @@ class Session extends ChangeNotifier {
 
     final lockUntil = DateTime.tryParse(_decryptString(encryptedLockUntil));
 
-    _lockAuthUntil =
-        (lockUntil?.difference(DateTime.now()).inSeconds ?? -1) <= 0
-            ? null
-            : lockUntil;
+    _lockAuthUntil = (lockUntil?.difference(DateTime.now()).inSeconds ?? -1) <= 0 ? null : lockUntil;
 
     final announcementID = _prefs.getString(_PrefKeys.announcementID);
 
-    _latestAnnouncementID =
-        announcementID == null ? null : _decryptString(announcementID);
+    _latestAnnouncementID = announcementID == null ? null : _decryptString(announcementID);
   }
 
   void login(User user) {
@@ -84,8 +79,7 @@ class Session extends ChangeNotifier {
 
   void lockAuth({required Duration duration}) async {
     _lockAuthUntil = DateTime.now().add(duration);
-    await _prefs.setString(_PrefKeys.lockAuthUntil,
-        _encryptString(_lockAuthUntil!.toIso8601String()));
+    await _prefs.setString(_PrefKeys.lockAuthUntil, _encryptString(_lockAuthUntil!.toIso8601String()));
   }
 
   Future<bool> saveFCMToken(String fcmToken) async {
@@ -108,6 +102,11 @@ class Session extends ChangeNotifier {
 
   String _decryptString(String text) {
     return encrypter.decrypt(crypt.Encrypted.fromBase64(text), iv: _iv);
+  }
+
+  void updateUser(User user) {
+    _currentUser = user;
+    notifyListeners();
   }
 }
 

@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -21,6 +22,8 @@ class ProfileAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final int heroTag = DateTime.now().microsecondsSinceEpoch;
+    log('the image url: $imgUrl');
+
     return Hero(
       tag: heroTag,
       child: GestureDetector(

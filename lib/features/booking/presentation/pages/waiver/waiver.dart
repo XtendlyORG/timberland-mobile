@@ -170,7 +170,12 @@ class _BookingWaiverState extends State<BookingWaiver> {
                           onChange: (val) async {
                             codeOfResponsibilityAccepted = val;
                             if (val == true) {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const TrailRulesPage()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const TrailRulesPage(
+                                            canPop: true,
+                                          )));
                             }
                           },
                           child: RichText(
@@ -181,7 +186,12 @@ class _BookingWaiverState extends State<BookingWaiver> {
                                 TextSpan(
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () async {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => const TrailRulesPage()));
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => const TrailRulesPage(
+                                                    canPop: true,
+                                                  )));
                                     },
                                   text: " Mountain Biker's Responsibility Code",
                                   style: Theme.of(context).textTheme.labelLarge?.copyWith(

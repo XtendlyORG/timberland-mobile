@@ -20,7 +20,7 @@ class DifficultyLevel {
   factory DifficultyLevel.fromString(String name) {
     switch (name.toLowerCase()) {
       case 'novice':
-        return Difficulties.intermediate;
+        return Difficulties.novice;
       case 'intermediate':
         return Difficulties.intermediate;
       case 'advanced':

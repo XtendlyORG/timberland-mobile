@@ -21,6 +21,7 @@ import 'core/presentation/widgets/timberland_container.dart';
 import 'core/router/routes.dart';
 import 'dashboard/presentation/pages/profile_page.dart';
 import 'dashboard/presentation/widgets/dashboard.dart';
+import 'dashboard/presentation/widgets/profile_settings.dart';
 import 'features/app_infos/presentation/pages/trail_rules.dart';
 import 'features/booking/presentation/pages/booking_page.dart';
 import 'features/trail/presentation/pages/trail_directory.dart';
@@ -137,7 +138,15 @@ class _MainPageState extends State<MainPage> {
                     child: DecoratedSafeArea(
                       child: Scaffold(
                         endDrawer: const Dashboard(),
-                        appBar: const TimberlandAppbar(),
+                        appBar: TimberlandAppbar(
+                          actions: currentIndex == 3
+                              ? [
+                                  ProfileSettingsButton(
+                                    user: state.user,
+                                  ),
+                                ]
+                              : null,
+                        ),
                         extendBodyBehindAppBar: true,
                         bottomNavigationBar: BottomNavBar(
                           index: currentIndex,

@@ -64,18 +64,14 @@ class _OnboardingSliderState extends State<OnboardingSlider> {
                   itemBuilder: (context, index) {
                     return OnbaordingSlide(
                       title: OnboardingConfigs.pages[index].title,
-                      styleTitle: Theme.of(context)
-                          .textTheme
-                          .headlineSmall
-                          ?.copyWith(color: TimberlandColor.primary),
+                      styleTitle: Theme.of(context).textTheme.headlineSmall?.copyWith(color: TimberlandColor.primary),
                       description: OnboardingConfigs.pages[index].description,
-                      styleDescription: Theme.of(context)
-                          .textTheme
-                          .titleMedium
-                          ?.copyWith(fontWeight: FontWeight.normal),
+                      styleDescription: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.normal),
+                      subtitle: OnboardingConfigs.pages[index].subtitle,
+                      styleSubtitle: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.normal, color: TimberlandColor.primary),
                       centerWidget: Image.asset(
                         OnboardingConfigs.pages[index].assetImagePath,
-                        height: 350,
+                        height: 300,
                       ),
                     );
                   },
@@ -170,12 +166,17 @@ class OnbaordingSlide extends StatelessWidget {
     required this.styleTitle,
     required this.description,
     required this.styleDescription,
+    required this.subtitle,
+    required this.styleSubtitle,
     required this.centerWidget,
   }) : super(key: key);
   final String title;
   final TextStyle? styleTitle;
   final String description;
   final TextStyle? styleDescription;
+  final String subtitle;
+  final TextStyle? styleSubtitle;
+
   final Widget centerWidget;
 
   @override
@@ -193,8 +194,7 @@ class OnbaordingSlide extends StatelessWidget {
               Align(
                 alignment: Alignment.topCenter,
                 child: Padding(
-                  padding:
-                      const EdgeInsets.only(top: kToolbarHeight, bottom: 10),
+                  padding: const EdgeInsets.only(top: kToolbarHeight, bottom: 10),
                   child: AutoSizeText(
                     title,
                     style: styleTitle,
@@ -207,6 +207,14 @@ class OnbaordingSlide extends StatelessWidget {
               AutoSizeText(
                 description,
                 style: styleDescription,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              AutoSizeText(
+                subtitle,
+                style: styleSubtitle,
                 textAlign: TextAlign.center,
               ),
               const Spacer(

@@ -7,12 +7,14 @@ import '../../../utils/validators/email_validator.dart';
 class EmailField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final String? hintText;
+  final bool? enabled;
   const EmailField({
     Key? key,
     this.textInputAction,
     this.hintText,
     required this.controller,
     this.label,
+    this.enabled,
   }) : super(key: key);
 
   final TextEditingController controller;
@@ -23,6 +25,7 @@ class EmailField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       validator: validateEmail,
+      enabled: enabled,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
         hintText: label != null ? null : hintText ?? 'Email Address',

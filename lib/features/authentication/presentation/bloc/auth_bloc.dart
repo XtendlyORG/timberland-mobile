@@ -329,5 +329,33 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ),
       );
     });
+
+    on<DeleteAccountEvent>((event, emit) async {
+      emit(
+        const AuthLoading(
+          loadingMessage: 'Deleting Account.',
+        ),
+      );
+
+      final result = await repository.deleteProfile();
+
+      result.fold(
+        (failure) {
+          emit(
+            AuthError(
+              errorMessage: failure.message,
+              penaltyDuration: failure.penaltyDuration,
+            ),
+          );
+        },
+        (r) {
+          emit(
+            const AccountDeleted(),
+          );
+          Session().logout();
+          emit(const UnAuthenticated());
+        },
+      );
+    });
   }
 }

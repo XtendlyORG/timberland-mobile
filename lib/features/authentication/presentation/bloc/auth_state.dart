@@ -134,3 +134,7 @@ class SettingNewPassword extends AuthState {
 class PasswordUpdated extends AuthState {
   const PasswordUpdated();
 }
+
+class AccountDeleted extends AuthState {
+  const AccountDeleted();
+}

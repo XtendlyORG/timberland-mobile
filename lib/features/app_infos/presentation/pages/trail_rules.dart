@@ -7,11 +7,18 @@ import 'package:timberland_biketrail/core/constants/trail_rules.dart';
 
 import '../widgets/trail_rule_widget.dart';
 
-class TrailRulesPage extends StatelessWidget {
-  const TrailRulesPage({Key? key}) : super(key: key);
+class TrailRulesPage extends StatefulWidget {
+  const TrailRulesPage({Key? key, this.canPop}) : super(key: key);
+  final bool? canPop;
 
   @override
+  _TrailRulesPageState createState() => _TrailRulesPageState();
+}
+
+class _TrailRulesPageState extends State<TrailRulesPage> {
+  @override
   Widget build(BuildContext context) {
+    print(widget.canPop);
     return SingleChildScrollView(
       child: SizedBox(
         width: double.infinity,
@@ -19,11 +26,42 @@ class TrailRulesPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Row(
+              children: [
+                Visibility(
+                  visible: widget.canPop ?? false,
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: kToolbarHeight, bottom: 0),
+                    child: AutoSizeText(
+                      "MOUNTAIN BIKER'S RESPONSIBILITY CODE",
+                      style: Theme.of(context).textTheme.headlineSmall,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: widget.canPop ?? false,
+                  child: const SizedBox(
+                    width: 45,
+                  ),
+                )
+              ],
+            ),
             Padding(
-              padding: const EdgeInsets.only(top: kToolbarHeight, bottom: 10),
+              padding: const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
               child: AutoSizeText(
-                "Mountain Biker's Responsibility Code",
-                style: Theme.of(context).textTheme.headlineSmall,
+                "For your safety and the safety of others, please follow the code.",
+                style: Theme.of(context).textTheme.titleSmall,
                 textAlign: TextAlign.center,
               ),
             ),

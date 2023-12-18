@@ -159,6 +159,7 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
   }
 
   void _initiateCall(EmergencyConfigs config) {
+    print("THE DATA: ${_toJson(config)}");
     socket.emit('client-data', _toJson(config));
   }
 

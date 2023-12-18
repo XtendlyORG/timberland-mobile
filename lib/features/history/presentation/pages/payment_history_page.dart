@@ -27,15 +27,12 @@ class PaymentHistoryPage extends StatelessWidget {
           index: 3,
           extendBodyBehindAppbar: true,
           body: Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: kHorizontalPadding, vertical: kHorizontalPadding),
+            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: kHorizontalPadding),
             child: BlocBuilder<HistoryBloc, HistoryState>(
               builder: (context, state) {
                 if (state is LoadingHistory) {
                   return latestWidget = SizedBox(
-                    height: MediaQuery.of(context).size.height -
-                        kToolbarHeight * 2 -
-                        kBottomNavigationBarHeight,
+                    height: MediaQuery.of(context).size.height - kToolbarHeight * 2 - kBottomNavigationBarHeight,
                     child: const RepaintBoundary(
                       child: Center(
                         child: CircularProgressIndicator.adaptive(),
@@ -46,8 +43,7 @@ class PaymentHistoryPage extends StatelessWidget {
                 if (state is PaymentHistoryLoaded) {
                   if (state.payments.isEmpty) {
                     return latestWidget = SizedBox(
-                      height:
-                          MediaQuery.of(context).size.height - kToolbarHeight * 5,
+                      height: MediaQuery.of(context).size.height - kToolbarHeight * 5,
                       child: Center(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
@@ -91,17 +87,9 @@ class PaymentHistoryPage extends StatelessWidget {
                           begin: 0,
                           end: 1,
                         ).animate(animation),
-                        child: SlideTransition(
-                          position: Tween<Offset>(
-                            begin: const Offset(-.5, 0),
-                            end: Offset.zero,
-                          ).animate(animation),
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.only(bottom: kVerticalPadding),
-                            child: PaymentHistoryWidget(
-                                payment: state.payments[index]),
-                          ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: kVerticalPadding),
+                          child: PaymentHistoryWidget(payment: state.payments[index]),
                         ),
                       );
                     },
@@ -109,9 +97,7 @@ class PaymentHistoryPage extends StatelessWidget {
                 }
                 if (state is HistoryError) {
                   return latestWidget = SizedBox(
-                    height: MediaQuery.of(context).size.height -
-                        kToolbarHeight * 2 -
-                        kBottomNavigationBarHeight,
+                    height: MediaQuery.of(context).size.height - kToolbarHeight * 2 - kBottomNavigationBarHeight,
                     child: Center(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
