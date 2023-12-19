@@ -362,7 +362,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = M5L45A88J4;
 				ENABLE_BITCODE = NO;
-				FLUTTER_BUILD_NAME = 1.0.2;
+				FLUTTER_BUILD_NAME = 1.0.5;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -497,7 +497,7 @@
 				DEVELOPMENT_TEAM = M5L45A88J4;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "i386 arm64";
-				FLUTTER_BUILD_NAME = 1.0.2;
+				FLUTTER_BUILD_NAME = 1.0.5;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -525,7 +525,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = M5L45A88J4;
 				ENABLE_BITCODE = NO;
-				FLUTTER_BUILD_NAME = 1.0.2;
+				FLUTTER_BUILD_NAME = 1.0.5;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
