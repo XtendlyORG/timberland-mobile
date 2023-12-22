@@ -3,14 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
-		1D44649CE1CCFD368A282ABC /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FB23A95940A469F9E62110B /* Pods_Runner.framework */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
+		90385AD112D0F4830D2769F3 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CC1D621B2B3EF81C461E499 /* Pods_Runner.framework */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
@@ -32,8 +32,8 @@
 /* Begin PBXFileReference section */
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
-		1FB23A95940A469F9E62110B /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		3AEF368D54AD93ADE4AAADB6 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
+		2CC1D621B2B3EF81C461E499 /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2CFDFB929B38869F09DD9876 /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -45,9 +45,9 @@
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9B2BA0E4A6E33EE10CF3595F /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		CECE8A032966D5D7009E6CFC /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
-		FB873601853344ECD9AC27DE /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
-		FF8EAA482F4415FD076A2BA6 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
+		F53C8669C495B28DB1F14A53 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,7 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D44649CE1CCFD368A282ABC /* Pods_Runner.framework in Frameworks */,
+				90385AD112D0F4830D2769F3 /* Pods_Runner.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,17 +65,17 @@
 		14DC9E9BCF997E0A567EDD66 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				FF8EAA482F4415FD076A2BA6 /* Pods-Runner.debug.xcconfig */,
-				3AEF368D54AD93ADE4AAADB6 /* Pods-Runner.release.xcconfig */,
-				FB873601853344ECD9AC27DE /* Pods-Runner.profile.xcconfig */,
+				F53C8669C495B28DB1F14A53 /* Pods-Runner.debug.xcconfig */,
+				9B2BA0E4A6E33EE10CF3595F /* Pods-Runner.release.xcconfig */,
+				2CFDFB929B38869F09DD9876 /* Pods-Runner.profile.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		2CE08D83103C76B5581A3A2E /* Frameworks */ = {
+		3B0B7A7C38F6B119C639DC82 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1FB23A95940A469F9E62110B /* Pods_Runner.framework */,
+				2CC1D621B2B3EF81C461E499 /* Pods_Runner.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -98,7 +98,7 @@
 				97C146F01CF9000F007C117D /* Runner */,
 				97C146EF1CF9000F007C117D /* Products */,
 				14DC9E9BCF997E0A567EDD66 /* Pods */,
-				2CE08D83103C76B5581A3A2E /* Frameworks */,
+				3B0B7A7C38F6B119C639DC82 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -133,14 +133,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "Runner" */;
 			buildPhases = (
-				D7FDA4DB455F517EAAFF74EB /* [CP] Check Pods Manifest.lock */,
+				7D155364EA72AF9C46119DB2 /* [CP] Check Pods Manifest.lock */,
 				9740EEB61CF901F6004384FC /* Run Script */,
 				97C146EA1CF9000F007C117D /* Sources */,
 				97C146EB1CF9000F007C117D /* Frameworks */,
 				97C146EC1CF9000F007C117D /* Resources */,
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
-				1EDC9A3D486057F0605A3617 /* [CP] Embed Pods Frameworks */,
+				58FB99E2F8185049488576CF /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -199,7 +199,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1EDC9A3D486057F0605A3617 /* [CP] Embed Pods Frameworks */ = {
+		3B06AD1E1E4923F5004D2608 /* Thin Binary */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Thin Binary";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin";
+		};
+		58FB99E2F8185049488576CF /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -216,35 +230,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3B06AD1E1E4923F5004D2608 /* Thin Binary */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Thin Binary";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin";
-		};
-		9740EEB61CF901F6004384FC /* Run Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Run Script";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build";
-		};
-		D7FDA4DB455F517EAAFF74EB /* [CP] Check Pods Manifest.lock */ = {
+		7D155364EA72AF9C46119DB2 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -265,6 +251,20 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		9740EEB61CF901F6004384FC /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -362,11 +362,19 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = M5L45A88J4;
 				ENABLE_BITCODE = NO;
-				FLUTTER_BUILD_NAME = 1.0.5;
+				FLUTTER_BUILD_NAME = 1.0.7;
 				INFOPLIST_FILE = Runner/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${TOOLCHAIN_DIR}/usr/lib/swift/${PLATFORM_NAME}\"",
+					/usr/lib/swift,
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)/",
+					"$(SDKROOT)/usr/lib/swift",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.timberland.timberlandMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -497,11 +505,19 @@
 				DEVELOPMENT_TEAM = M5L45A88J4;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "i386 arm64";
-				FLUTTER_BUILD_NAME = 1.0.5;
+				FLUTTER_BUILD_NAME = 1.0.7;
 				INFOPLIST_FILE = Runner/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${TOOLCHAIN_DIR}/usr/lib/swift/${PLATFORM_NAME}\"",
+					/usr/lib/swift,
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)/",
+					"$(SDKROOT)/usr/lib/swift",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.timberland.timberlandMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -525,11 +541,19 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = M5L45A88J4;
 				ENABLE_BITCODE = NO;
-				FLUTTER_BUILD_NAME = 1.0.5;
+				FLUTTER_BUILD_NAME = 1.0.7;
 				INFOPLIST_FILE = Runner/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${TOOLCHAIN_DIR}/usr/lib/swift/${PLATFORM_NAME}\"",
+					/usr/lib/swift,
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)/",
+					"$(SDKROOT)/usr/lib/swift",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.timberland.timberlandMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -78,7 +78,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 24, 0, 8),
-                      child: QrImage(
+                      child: QrImageView(
                         data: state.user.accessCode,
                         size: MediaQuery.of(context).size.width * .6,
                         foregroundColor: TimberlandColor.text,
