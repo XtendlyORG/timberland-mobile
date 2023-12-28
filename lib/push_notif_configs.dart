@@ -167,9 +167,9 @@ Future<void> initFirebaseMessaging() async {
 
 Future<void> _onBackgroundMessageHandler(RemoteMessage message) async {
   if (Session().currentUser == null) return;
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  //await Firebase.initializeApp(
+  //  options: DefaultFirebaseOptions.currentPlatform,
+  //);
   // WidgetsFlutterBinding.ensureInitialized();
   initializeDependencies();
 
