@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -27,10 +28,21 @@ import 'features/authentication/presentation/bloc/auth_bloc.dart';
 import 'features/booking/presentation/bloc/booking_bloc.dart';
 import 'features/trail/presentation/bloc/trail_bloc.dart';
 
+const platform = MethodChannel('your_channel_name');
+
+Future<void> clearAppData() async {
+  try {
+    await platform.invokeMethod('clearAppData');
+  } on PlatformException catch (e) {
+    print("Failed to clear app data: ${e.message}");
+  }
+}
+
 Future<void> run({
   required String dotEnvFileName,
 }) async {
   WidgetsFlutterBinding.ensureInitialized();
+  await clearAppData();
   di.initializeDependencies();
 
   await dotenv.load(fileName: dotEnvFileName);
