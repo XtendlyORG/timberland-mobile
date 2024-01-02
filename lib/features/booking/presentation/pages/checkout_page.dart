@@ -66,7 +66,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
       onWillPop: () async {
         if (!(await _controller.canGoBack())) {
           Navigator.pop(context);
-          context.pushNamed(Routes.cancelledfulBooking.name);
+          context.pushNamed(Routes.booking.name);
         } else {
           MoveToBackground.moveTaskToBack();
         }
@@ -77,6 +77,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
           appBar: AppBar(
             automaticallyImplyLeading: false,
             title: const Text("Checkout"),
+            leading: IconButton(
+              onPressed: () async {
+                String id = state.checkoutHtml.split('?id=')[1];
+                await makeApiCall(id, "cancel");
+                // context.pushNamed(Routes.cancelledfulBooking.name);
+              },
+              icon: const Icon(Icons.arrow_back),
+            ),
           ),
           body: Stack(
             children: [
