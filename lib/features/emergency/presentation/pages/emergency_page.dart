@@ -34,15 +34,16 @@ class EmergencyPage extends StatefulWidget {
   const EmergencyPage({
     Key? key,
     required this.callDirection,
+    this.configs,
   }) : super(key: key);
   final CallDirection callDirection;
+  final EmergencyConfigs? configs;
 
   @override
   State<EmergencyPage> createState() => _EmergencyPageState();
 }
 
-class _EmergencyPageState extends State<EmergencyPage>
-    with SingleTickerProviderStateMixin {
+class _EmergencyPageState extends State<EmergencyPage> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   bool muted = false;
   int? remoteUID;
@@ -77,20 +78,19 @@ class _EmergencyPageState extends State<EmergencyPage>
       } else {
         final state = bloc.state as EmergencyTokenFetched;
         log('-------Incoming call----------');
-        log(state.configs.channelID);
-        log(state.configs.token);
-        log(state.configs.emergencyId.toString());
-        log(state.configs.uid.toString());
+        log('1ic${widget.configs!.channelID}');
+        log("1ic${widget.configs!.token}");
+        log("1ic${widget.configs!.emergencyId}");
+        log("1ic${widget.configs!.uid}");
         log('-------end of Incoming call----------');
-        _joinChannel(state.configs);
+        _joinChannel(widget.configs!);
       }
     });
   }
 
   @override
   void dispose() {
-    if (status != CallStatus.connected &&
-        widget.callDirection == CallDirection.outgoing) {
+    if (status != CallStatus.connected && widget.callDirection == CallDirection.outgoing) {
       log(name: "Emergency", "Leaving channel");
       bloc.add(
         RegisterMissedCallEvent(
@@ -143,8 +143,7 @@ class _EmergencyPageState extends State<EmergencyPage>
 
   void _addAgoraEventHandlers() {
     _engine.registerEventHandler(RtcEngineEventHandler(
-      onAudioVolumeIndication:
-          (connection, speakers, speakerNumber, totalVolume) {
+      onAudioVolumeIndication: (connection, speakers, speakerNumber, totalVolume) {
         if (status == CallStatus.connected) {
           for (AudioVolumeInfo e in speakers) {
             if (e.uid == remoteUID && (e.volume ?? 0) > 100) {
@@ -271,14 +270,10 @@ class _EmergencyPageState extends State<EmergencyPage>
                                     radius: 120,
                                   ),
                                   Container(
-                                    decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: TimberlandColor.secondaryColor),
-                                    padding: const EdgeInsets.all(
-                                        kHorizontalPadding),
+                                    decoration: const BoxDecoration(shape: BoxShape.circle, color: TimberlandColor.secondaryColor),
+                                    padding: const EdgeInsets.all(kHorizontalPadding),
                                     child: const Image(
-                                      image: AssetImage(
-                                          'assets/icons/emergency-icon.png'),
+                                      image: AssetImage('assets/icons/emergency-icon.png'),
                                       height: 64,
                                       width: 64,
                                     ),
@@ -303,8 +298,7 @@ class _EmergencyPageState extends State<EmergencyPage>
                                 ),
                                 AutoSizeText(
                                   '${status.name.toTitleCase()}...',
-                                  style:
-                                      Theme.of(context).textTheme.displaySmall,
+                                  style: Theme.of(context).textTheme.displaySmall,
                                   maxLines: 1,
                                 ),
                               ],
@@ -316,10 +310,7 @@ class _EmergencyPageState extends State<EmergencyPage>
                         ? 'You are now connected to TMBP Admin station'
                         : 'After pressing the emergency button, we will contact our nearest admin station to your current location.',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium
-                        ?.copyWith(fontWeight: FontWeight.normal),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.normal),
                   ),
                   const SizedBox(
                     height: kVerticalPadding,

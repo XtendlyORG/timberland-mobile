@@ -12,8 +12,6 @@ import 'package:timberland_biketrail/features/notifications/presentation/widgets
 import 'package:timberland_biketrail/features/notifications/presentation/widgets/notification_banner.dart';
 import 'package:vibration/vibration.dart';
 
-import 'incoming_call_notif_dialog.dart';
-
 class TMBTNotificationListener extends StatefulWidget {
   const TMBTNotificationListener({
     Key? key,
@@ -160,12 +158,13 @@ class _TMBTNotificationListenerState extends State<TMBTNotificationListener> wit
               },
             ),
           ),
-          Align(
+          /*  Align(
             alignment: const Alignment(0, .25),
             child: AnimatedBuilder(
               animation: incomingCallAnimation,
               child: IncomingCallNotifDialog(
                 incomingCallNotifCtrl: incomingCallNotifCtrl,
+                configs: widget.configs,
               ),
               builder: (context, child) {
                 return ScaleTransition(
@@ -174,7 +173,7 @@ class _TMBTNotificationListenerState extends State<TMBTNotificationListener> wit
                 );
               },
             ),
-          ),
+          ), */
           Align(
             alignment: const Alignment(0, 0),
             child: AnimatedBuilder(

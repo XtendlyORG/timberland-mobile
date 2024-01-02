@@ -173,12 +173,13 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
     socket.on(
       'received-client-data',
       (data) {
+        String memberId = Session().currentUser!.id;
         print('admin data received');
         if (data['member_id'].toString() == Session().currentUser!.id) {
           print('CALL RECEIVED');
           onIncomingCall(
             EmergencyConfigs(
-              channelID: data['channel'],
+              channelID: "tmbt-admin-emergency-$memberId",
               token: data['token'],
               uid: data['uid'],
               emergencyId: -1,

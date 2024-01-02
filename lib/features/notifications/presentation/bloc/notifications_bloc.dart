@@ -41,11 +41,17 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     //   emit(NotificationsInitial());
     //   emit(const NotificationRecieved(onForeground: false));
     // });
-    on<IncomingCallEvent>(
-      (event, emit) => emit(
+    on<IncomingCallEvent>((event, emit) {
+      log('Incoming call event recieved');
+      log("1ic${event.configs.channelID}");
+      log("1ic${event.configs.token}");
+      log("1ic${event.configs.emergencyId}");
+      log("1ic${event.configs.uid}");
+
+      emit(
         IncomingCallNotification(configs: event.configs),
-      ),
-    );
+      );
+    });
 
     on<FetchLatestAnnouncement>((event, emit) async {
       if (Session().currentUser == null) {
@@ -63,7 +69,6 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
         (r) {
           log(r.toString());
           if (r != null) {
-            
             emit(AnnouncementRecieved(announcements: r));
           }
         },

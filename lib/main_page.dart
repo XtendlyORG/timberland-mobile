@@ -11,6 +11,8 @@ import 'package:go_router/go_router.dart';
 import 'package:move_to_background/move_to_background.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:timberland_biketrail/features/notifications/presentation/bloc/notifications_bloc.dart';
+import 'package:timberland_biketrail/features/notifications/presentation/widgets/incoming_call_notif_dialog.dart';
 
 import 'core/configs/environment_configs.dart';
 import 'core/constants/navbar_configs.dart';
@@ -37,14 +39,21 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin {
   late int currentIndex;
   late PageController pageController;
+
+  AnimationController? ctrl;
 
   final serviceLocator = GetIt.instance;
   @override
   void initState() {
     super.initState();
+    ctrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+      reverseDuration: const Duration(milliseconds: 300),
+    );
     currentIndex = widget.selectedTabIndex;
     pageController = PageController(
       initialPage: currentIndex,
@@ -87,11 +96,6 @@ class _MainPageState extends State<MainPage> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     if (currentIndex != widget.selectedTabIndex) {
       currentIndex = widget.selectedTabIndex;
@@ -100,124 +104,139 @@ class _MainPageState extends State<MainPage> {
       );
     }
 
-    return FutureBuilder(
-        future: verifyToken(serviceLocator(), serviceLocator()),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return BlocBuilder<AuthBloc, AuthState>(
-              buildWhen: (previous, current) {
-                if (current is UserGuideFinished) {
-                  SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-                    context.goNamed(Routes.booking.name);
-                  });
-                }
-                return current is! UnAuthenticated;
-              },
-              builder: (context, state) {
-                if (state is UnAuthenticated && Session().isLoggedIn) {
-                  Future.delayed(Duration.zero, () {
-                    BlocProvider.of<AuthBloc>(context).add(
-                      const FetchUserEvent(),
-                    );
-                  });
-                }
-                if (state is Authenticated) {
-                  if (state.firstTimeUser) {
+    return BlocListener<NotificationsBloc, NotificationsState>(
+      listener: (context, state) {
+        if (state is IncomingCallNotification) {
+          log('showing dialog of incoming call');
+          showDialog(
+              context: context,
+              builder: (builder) {
+                return IncomingCallNotifDialog(
+                  incomingCallNotifCtrl: ctrl!,
+                  configs: state.configs,
+                );
+              });
+        }
+      },
+      child: FutureBuilder(
+          future: verifyToken(serviceLocator(), serviceLocator()),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return BlocBuilder<AuthBloc, AuthState>(
+                buildWhen: (previous, current) {
+                  if (current is UserGuideFinished) {
                     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-                      ScaffoldMessenger.of(context).clearSnackBars();
-                      context.goNamed(Routes.onboarding.name);
+                      context.goNamed(Routes.booking.name);
                     });
-                    return const Scaffold();
                   }
+                  return current is! UnAuthenticated;
+                },
+                builder: (context, state) {
+                  if (state is UnAuthenticated && Session().isLoggedIn) {
+                    Future.delayed(Duration.zero, () {
+                      BlocProvider.of<AuthBloc>(context).add(
+                        const FetchUserEvent(),
+                      );
+                    });
+                  }
+                  if (state is Authenticated) {
+                    if (state.firstTimeUser) {
+                      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                        ScaffoldMessenger.of(context).clearSnackBars();
+                        context.goNamed(Routes.onboarding.name);
+                      });
+                      return const Scaffold();
+                    }
 
-                  return WillPopScope(
-                    onWillPop: () async {
-                      MoveToBackground.moveTaskToBack();
-                      return false;
-                    },
-                    child: DecoratedSafeArea(
-                      child: Scaffold(
-                        endDrawer: const Dashboard(),
-                        appBar: TimberlandAppbar(
-                          actions: currentIndex == 3
-                              ? [
-                                  ProfileSettingsButton(
-                                    user: state.user,
-                                  ),
-                                ]
-                              : null,
-                        ),
-                        extendBodyBehindAppBar: true,
-                        bottomNavigationBar: BottomNavBar(
-                          index: currentIndex,
-                          configs: navbarConfigs,
-                          onTap: (index) {
-                            pageController.jumpToPage(
-                              index,
-                            );
-                          },
-                        ),
-                        body: TimberlandContainer(
-                          child: RepaintBoundary(
-                            child: LayoutBuilder(
-                              builder: (context, constraints) {
-                                return SizedBox(
-                                  height: constraints.maxHeight,
-                                  child: PageView(
-                                    controller: pageController,
-                                    onPageChanged: (index) {
-                                      // dismis keyboard
-                                      WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+                    return WillPopScope(
+                      onWillPop: () async {
+                        MoveToBackground.moveTaskToBack();
+                        return false;
+                      },
+                      child: DecoratedSafeArea(
+                        child: Scaffold(
+                          endDrawer: const Dashboard(),
+                          appBar: TimberlandAppbar(
+                            actions: currentIndex == 3
+                                ? [
+                                    ProfileSettingsButton(
+                                      user: state.user,
+                                    ),
+                                  ]
+                                : null,
+                          ),
+                          extendBodyBehindAppBar: true,
+                          bottomNavigationBar: BottomNavBar(
+                            index: currentIndex,
+                            configs: navbarConfigs,
+                            onTap: (index) {
+                              pageController.jumpToPage(
+                                index,
+                              );
+                            },
+                          ),
+                          body: TimberlandContainer(
+                            child: RepaintBoundary(
+                              child: LayoutBuilder(
+                                builder: (context, constraints) {
+                                  return SizedBox(
+                                    height: constraints.maxHeight,
+                                    child: PageView(
+                                      controller: pageController,
+                                      onPageChanged: (index) {
+                                        // dismis keyboard
+                                        WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
 
-                                      currentIndex = index;
+                                        currentIndex = index;
 
-                                      context.goNamed(
-                                        navbarConfigs[currentIndex].routeName,
-                                      );
-                                    },
-                                    children: const [
-                                      RepaintBoundary(
-                                        child: TrailDirectory(),
-                                      ),
-                                      RepaintBoundary(
-                                        child: TrailRulesPage(),
-                                      ),
-                                      RepaintBoundary(
-                                        child: BookingPage(),
-                                      ),
-                                      RepaintBoundary(
-                                        child: ProfilePage(),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
+                                        context.goNamed(
+                                          navbarConfigs[currentIndex].routeName,
+                                        );
+                                      },
+                                      children: const [
+                                        RepaintBoundary(
+                                          child: TrailDirectory(),
+                                        ),
+                                        RepaintBoundary(
+                                          child: TrailRulesPage(),
+                                        ),
+                                        RepaintBoundary(
+                                          child: BookingPage(),
+                                        ),
+                                        RepaintBoundary(
+                                          child: ProfilePage(),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                  return const SafeArea(
+                    child: Scaffold(
+                      body: TimberlandContainer(
+                        child: Center(
+                          child: RepaintBoundary(
+                            child: CircularProgressIndicator(),
                           ),
                         ),
                       ),
                     ),
                   );
-                }
-                return const SafeArea(
-                  child: Scaffold(
-                    body: TimberlandContainer(
-                      child: Center(
-                        child: RepaintBoundary(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
+                },
+              );
+            }
+            return const Center(
+              child: RepaintBoundary(
+                child: CircularProgressIndicator(),
+              ),
             );
-          }
-          return const Center(
-            child: RepaintBoundary(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        });
+          }),
+    );
   }
 }

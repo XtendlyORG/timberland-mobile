@@ -1,7 +1,8 @@
 import 'dart:io';
-import 'package:path/path.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:path/path.dart';
 
 class PDFViewPage extends StatefulWidget {
   final File file;
@@ -22,20 +23,21 @@ class _PDFViewPageState extends State<PDFViewPage> {
     final text = '${indexPage + 1} of $pages';
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(name),
         actions: pages >= 2
             ? [
                 Center(child: Text(text)),
                 IconButton(
-                  icon: Icon(Icons.chevron_left, size: 32),
+                  icon: const Icon(Icons.chevron_left, size: 32),
                   onPressed: () {
                     final page = indexPage == 0 ? pages : indexPage - 1;
                     controller.setPage(page);
                   },
                 ),
                 IconButton(
-                  icon: Icon(Icons.chevron_right, size: 32),
+                  icon: const Icon(Icons.chevron_right, size: 32),
                   onPressed: () {
                     final page = indexPage == pages - 1 ? 0 : indexPage + 1;
                     controller.setPage(page);
@@ -44,17 +46,18 @@ class _PDFViewPageState extends State<PDFViewPage> {
               ]
             : null,
       ),
-      body: PDFView(
-        filePath: widget.file.path,
-        autoSpacing: false,
-        pageSnap: false,
-        pageFling: false,
-        fitPolicy: FitPolicy.BOTH,
-        onRender: (pages) => setState(() => this.pages = pages ?? 0),
-        onViewCreated: (controller) =>
-            setState(() => this.controller = controller),
-        onPageChanged: (indexPage, _) =>
-            setState(() => this.indexPage = indexPage ?? 0),
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: PDFView(
+          filePath: widget.file.path,
+          autoSpacing: false,
+          pageSnap: false,
+          pageFling: false,
+          fitPolicy: FitPolicy.BOTH,
+          onRender: (pages) => setState(() => this.pages = pages ?? 0),
+          onViewCreated: (controller) => setState(() => this.controller = controller),
+          onPageChanged: (indexPage, _) => setState(() => this.indexPage = indexPage ?? 0),
+        ),
       ),
     );
   }
