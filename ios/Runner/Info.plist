@@ -31,11 +31,11 @@
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Stream music from a variety of streaming services, including Spotify, Apple Music, and Amazon Music.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Allow camera to take a photo</string>
+	<string>To enable you to take selfies for profile picture</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow access to microphone to use emergency feature</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Allow access to photo library to upload a photo</string>
+	<string>To allow you to customize your avatar with photos from your library.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
