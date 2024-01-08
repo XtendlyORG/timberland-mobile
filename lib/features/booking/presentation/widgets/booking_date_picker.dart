@@ -32,20 +32,36 @@ class BookingDatePicker extends StatelessWidget {
       onTap: () {
         DateTime? minDate;
 
-        bool isPast230Pm = TimeOfDay.now().hour > 14 ||
-            (TimeOfDay.now().hour == 14 && TimeOfDay.now().minute > 30);
+        bool isPast230Pm = TimeOfDay.now().hour > 14 || (TimeOfDay.now().hour == 14 && TimeOfDay.now().minute > 30);
 
         bool currentTimeIsPastSelectedTime = (selectedTime != null &&
             (selectedTime!.hour < TimeOfDay.now().hour ||
-                (selectedTime!.hour == TimeOfDay.now().hour &&
-                    selectedTime!.minute < TimeOfDay.now().minute)));
+                (selectedTime!.hour == TimeOfDay.now().hour && selectedTime!.minute < TimeOfDay.now().minute)));
 
         if (isPast230Pm || currentTimeIsPastSelectedTime) {
+          DateTime now = DateTime.now();
+          DateTime feb14 = DateTime(2024, 2, 14);
+          if (now.isAfter(feb14) || now.isAtSameMomentAs(feb14)) {
+            minDate = DateTime(
+              DateTime.now().year,
+              DateTime.now().month,
+              DateTime.now().day + 1,
+            );
+          } else {
+            minDate = feb14;
+          }
+        }
+
+        DateTime now = DateTime.now();
+        DateTime feb14 = DateTime(2024, 2, 14);
+        if (now.isAfter(feb14) || now.isAtSameMomentAs(feb14)) {
           minDate = DateTime(
             DateTime.now().year,
             DateTime.now().month,
-            DateTime.now().day + 1,
+            DateTime.now().day,
           );
+        } else {
+          minDate = feb14;
         }
 
         showDialog(
