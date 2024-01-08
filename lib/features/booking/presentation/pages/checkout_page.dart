@@ -80,6 +80,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
             leading: IconButton(
               onPressed: () async {
                 String id = state.checkoutHtml.split('?id=')[1];
+                log('THE URL ${state.checkoutHtml}');
+                log('THE ID IS: $id');
                 await makeApiCall(id, "cancel");
                 // context.pushNamed(Routes.cancelledfulBooking.name);
               },
