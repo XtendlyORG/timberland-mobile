@@ -28,6 +28,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   @override
   void initState() {
     super.initState();
+
     if (Platform.isAndroid) WebView.platform = AndroidWebView();
   }
 
@@ -115,7 +116,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   }
                 },
                 navigationDelegate: (request) async {
-                  String id = request.url.split('?id=')[1];
+                  String id = state.checkoutHtml.split('?id=')[1];
 
                   log('the current url: ${request.url}');
                   log('the id: $id');

@@ -40,20 +40,20 @@ class BookingDatePicker extends StatelessWidget {
 
         if (isPast230Pm || currentTimeIsPastSelectedTime) {
           DateTime now = DateTime.now();
-          DateTime feb14 = DateTime(2024, 2, 14);
-          if (now.isAfter(feb14) || now.isAtSameMomentAs(feb14)) {
+          DateTime feb15 = DateTime(2024, 2, 15);
+          if (now.isAfter(feb15) || now.isAtSameMomentAs(feb15)) {
             minDate = DateTime(
               DateTime.now().year,
               DateTime.now().month,
               DateTime.now().day + 1,
             );
           } else {
-            minDate = feb14;
+            minDate = feb15;
           }
         }
 
         DateTime now = DateTime.now();
-        DateTime feb14 = DateTime(2024, 2, 14);
+        DateTime feb14 = DateTime(2024, 2, 15);
         if (now.isAfter(feb14) || now.isAtSameMomentAs(feb14)) {
           minDate = DateTime(
             DateTime.now().year,
