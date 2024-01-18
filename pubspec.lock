@@ -608,6 +608,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+  hand_signature:
+    dependency: "direct main"
+    description:
+      name: hand_signature
+      sha256: "69cc5a978a5a15dfc1fabb01c097efcf91e9af2006475e48bb8f2560db368a97"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
   html:
     dependency: transitive
     description:

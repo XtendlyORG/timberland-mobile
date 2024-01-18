@@ -1,8 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-
 import 'dart:convert';
+import 'dart:typed_data';
 
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:http_parser/http_parser.dart';
 
 class BookingRequestParams extends Equatable {
   final String firstName;
@@ -11,13 +13,16 @@ class BookingRequestParams extends Equatable {
   final String email;
   final String date;
   final String time;
-  const BookingRequestParams({
+  Uint8List? signature;
+
+  BookingRequestParams({
     required this.firstName,
     required this.lastName,
     required this.mobileNumber,
     required this.email,
     required this.date,
     required this.time,
+    this.signature,
   });
 
   @override
@@ -39,6 +44,11 @@ class BookingRequestParams extends Equatable {
       'email': email,
       'date': date,
       'time': time,
+      'signature': MultipartFile.fromBytes(
+        signature!,
+        filename: 'signature.png',
+        contentType: MediaType('image', 'png'),
+      ),
     };
   }
 

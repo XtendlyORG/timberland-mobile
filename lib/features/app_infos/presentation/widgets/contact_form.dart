@@ -118,8 +118,7 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
                     (category) => DropdownMenuItem<String>(
                       value: category,
                       child: Container(
-                        constraints:
-                            const BoxConstraints(maxWidth: kMaxWidthMobile),
+                        constraints: const BoxConstraints(maxWidth: kMaxWidthMobile),
                         width: 230,
                         child: AutoSizeText(
                           category,
@@ -138,8 +137,7 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
               hint: const Text('Subject'),
               decoration: const InputDecoration(),
               validator: (gender) {
-                return nonEmptyValidator(gender,
-                    errorMessage: 'Please select a subject');
+                return nonEmptyValidator(gender, errorMessage: 'Please select a subject');
               },
             ),
           ),
@@ -160,9 +158,7 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
                       errorMessage: 'Please enter a message',
                     );
                   },
-                  decoration: const InputDecoration(
-                      hintText: 'Message',
-                      contentPadding: EdgeInsets.fromLTRB(12, 8, 32, 8)),
+                  decoration: const InputDecoration(hintText: 'Message', contentPadding: EdgeInsets.fromLTRB(12, 8, 32, 8)),
                   textCapitalization: TextCapitalization.sentences,
                   textInputAction: TextInputAction.newline,
                 ),
@@ -199,8 +195,7 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
                   .map(
                     (image) => ExcludeFocus(
                       child: Padding(
-                        padding:
-                            const EdgeInsets.only(top: kVerticalPadding / 2),
+                        padding: const EdgeInsets.only(top: kVerticalPadding / 2),
                         child: TextFormField(
                           controller: image.ctrl,
                           enableInteractiveSelection: false,
@@ -262,10 +257,8 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
                               subject: selectedSubject!,
                               message: messageCtrl.text,
                               images: imageConfigs
-                                  .where((imageConfig) =>
-                                      imageConfig.imageFile != null)
-                                  .map<File>(
-                                      (imageConfig) => imageConfig.imageFile!)
+                                  .where((imageConfig) => imageConfig.imageFile != null)
+                                  .map<File>((imageConfig) => imageConfig.imageFile!)
                                   .toList(),
                             ),
                           ),
@@ -286,7 +279,7 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
   void showImagePicker(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: Theme.of(context).backgroundColor.withOpacity(.5),
+      backgroundColor: Theme.of(context).colorScheme.background.withOpacity(.5),
       barrierColor: Colors.transparent,
       clipBehavior: Clip.hardEdge,
       shape: const RoundedRectangleBorder(
@@ -299,8 +292,7 @@ class _ContactsPageFormState extends State<ContactsPageForm> {
             final temp = await ImagePicker().pickImage(source: source);
             images.addAll([if (temp != null) temp]);
           } else {
-            images.addAll(
-                await ImagePicker().pickMultiImage(imageQuality: 10) ?? []);
+            images.addAll(await ImagePicker().pickMultiImage(imageQuality: 10));
             // final imageList =
             //     await ImagePicker().pickMultiImage(imageQuality: 10);
             // // imageList.forEach((element) => images.add(element));

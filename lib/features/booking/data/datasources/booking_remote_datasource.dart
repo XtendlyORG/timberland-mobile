@@ -25,18 +25,23 @@ class BookingRemoteDataSource implements BookingDatasource {
       dioClient.options.headers["authorization"] = "token $token";
       log('THE BOOKING DATE AND TIME: ${params.date} ${params.time}');
       try {
+        final data = FormData.fromMap(params.toMap());
+        log('THE DATA: ${params.toMap()}');
         final result = await dioClient.post(
           '${environmentConfig.apihost}/bookings',
-          data: params.toJson(),
+          data: data,
         );
         log(result.statusCode.toString());
 
         if (result.statusCode == 200) {
           if (result.data is Map<String, dynamic>) {
+            log(result.data.toString());
             return BookingResponse.fromMap(result.data);
           }
         }
       } on DioError catch (dioError) {
+        log('error: $dioError');
+        log('status code: ${dioError.response}');
         if ((dioError.response?.statusCode ?? -1) == 400) {
           if (dioError.response?.data is Map<String, dynamic>) {
             if ((dioError.response?.data['message'] as String) == "Sorry, You already have a completed booking for this day.") {
