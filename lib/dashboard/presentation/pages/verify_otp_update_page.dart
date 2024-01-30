@@ -22,7 +22,7 @@ class VerifyUpdateOtpPage extends StatelessWidget {
     return BlocListener<ProfileBloc, ProfileState>(
       listener: (context, state) {
         if (state is OTPToUpdateSent) {
-          showInfo('New OTP is sent to ${state.email}');
+          showInfo('New OTP is sent to ${state.email}. OTP may be in your spam folder');
         }
         if (state is ProfileOtpError) {
           if (state.otpPenaltyDuration != 0) {

@@ -113,7 +113,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(
             OtpResent(
               parameter: initState.parameter,
-              message: "New OTP is sent to $email",
+              message: "New OTP is sent to $email.\nOTP may be in your spam folder",
             ),
           );
         },
@@ -142,14 +142,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(OtpSent(
             hasError: true,
             parameter: event.parameter,
-            message: "OTP is sent to $email",
+            message: "OTP is sent to $email.\nOTP may be in your spam folder",
           ));
         },
         (r) {
           emit(
             OtpSent(
               parameter: event.parameter,
-              message: "OTP is sent to $email",
+              message: "OTP is sent to $email.\nOTP may be in your spam folder",
             ),
           );
         },
@@ -259,7 +259,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(
             OtpSent(
               parameter: event.email,
-              message: "OTP is sent to $email",
+              message: "OTP is sent to $email.\nOTP may be in your spam folder",
             ),
           );
         },
