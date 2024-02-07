@@ -53,7 +53,7 @@ class BookingDatePicker extends StatelessWidget {
         }
 
         DateTime now = DateTime.now();
-        DateTime feb14 = DateTime(2024, 2, 15);
+        DateTime feb14 = DateTime(2024, 2, 08);
         if (now.isAfter(feb14) || now.isAtSameMomentAs(feb14)) {
           minDate = DateTime(
             DateTime.now().year,
