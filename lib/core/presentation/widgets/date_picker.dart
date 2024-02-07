@@ -39,6 +39,17 @@ class CustomDatePicker extends StatelessWidget {
             textAlign: TextAlign.center,
             textStyle: Theme.of(context).textTheme.titleMedium,
           ),
+          selectableDayPredicate: (date) {
+            if(date == DateTime(02, 18, 2024)){
+              return false;
+            }
+
+            if(date.weekday == 1){
+              return false;
+            }
+
+            return true;
+          },
           minDate: minDate,
           monthViewSettings: DateRangePickerMonthViewSettings(
             blackoutDates: blackoutDates,

@@ -1,5 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 
 import '../widgets/checkout_information.dart';
 
@@ -8,6 +10,10 @@ class SuccessBookingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+        final user = (BlocProvider.of<AuthBloc>(context).state as Authenticated).user;
+        
+
+
     return CheckoutInformationWidget(
       icon: const Icon(
         Icons.check_circle_rounded,
@@ -21,8 +27,8 @@ class SuccessBookingPage extends StatelessWidget {
             ),
         maxLines: 1,
       ),
-      subtitle: const AutoSizeText(
-        "Your payment was successful! Thanks for using our application.",
+      subtitle:  AutoSizeText(
+        "Thank you, ${user.firstName} ${user.lastName}. See you at Timberland Mountain Bike Park",
         textAlign: TextAlign.center,
       ),
     );
