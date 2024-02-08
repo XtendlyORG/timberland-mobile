@@ -40,7 +40,7 @@ class CustomDatePicker extends StatelessWidget {
             textStyle: Theme.of(context).textTheme.titleMedium,
           ),
           selectableDayPredicate: (date) {
-            if(date == DateTime(02, 18, 2024)){
+            if(date == DateTime(2024, 02, 18)){
               return false;
             }
 
