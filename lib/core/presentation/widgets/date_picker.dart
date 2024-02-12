@@ -11,6 +11,7 @@ class CustomDatePicker extends StatelessWidget {
   final DateTime? minDate;
   final DateTime? maxDate;
   final DateTime? initialSelectedDate;
+  final bool isBooking;
   const CustomDatePicker({
     Key? key,
     this.onSumbit,
@@ -20,6 +21,7 @@ class CustomDatePicker extends StatelessWidget {
     this.minDate,
     this.maxDate,
     this.initialSelectedDate,
+    required this.isBooking,
   }) : super(key: key);
 
   @override
@@ -33,6 +35,20 @@ class CustomDatePicker extends StatelessWidget {
           maxDate: maxDate,
           enablePastDates: enablePastDates,
           showTodayButton: showTodayButton,
+          selectableDayPredicate: (date) {
+            if (!isBooking) {
+              return true;
+            }
+            if (date == DateTime(2024, 02, 18)) {
+              return false;
+            }
+
+            if (date.weekday == 1) {
+              return false;
+            }
+
+            return true;
+          },
           toggleDaySelection: true,
           cancelText: "Cancel",
           headerStyle: DateRangePickerHeaderStyle(
