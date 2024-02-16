@@ -149,6 +149,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                       builder: (context) {
                         return Dialog(
                           child: CustomDatePicker(
+                            isBooking: false,
                             maxDate: DateTime(
                               DateTime.now().year - 16,
                               12,

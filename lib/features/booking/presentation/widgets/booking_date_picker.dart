@@ -69,6 +69,7 @@ class BookingDatePicker extends StatelessWidget {
           builder: (context) {
             return Dialog(
               child: CustomDatePicker(
+                isBooking: true,
                 enablePastDates: false,
                 minDate: minDate,
                 onSumbit: onSubmit,
