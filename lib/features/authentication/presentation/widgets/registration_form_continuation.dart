@@ -152,8 +152,8 @@ class RegistrationContinuationForm extends StatelessWidget {
                             isBooking: false,
                             maxDate: DateTime(
                               DateTime.now().year - 16,
-                              12,
-                              31,
+                              DateTime.now().month,
+                              DateTime.now().day,
                             ),
                             onSumbit: (value) {
                               if (value is DateTime) {

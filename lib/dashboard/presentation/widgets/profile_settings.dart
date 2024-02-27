@@ -87,6 +87,8 @@ class ProfileSettingsButton extends StatelessWidget {
                   builder: (ctx) {
                     return CustomDialog(
                       content: Container(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        height: 200,
                         decoration: BoxDecoration(
                           gradient: TimberlandColor.linearGradient,
                         ),
