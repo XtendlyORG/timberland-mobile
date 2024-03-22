@@ -164,7 +164,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                             isBooking: false,
                             maxDate: DateTime(
                               //LIMIT AGE BELOW 18 CANNOT REGISTER
-                              DateTime.now().year - 17,
+                              DateTime.now().year - 18,
                               DateTime.now().month,
                               DateTime.now().day,
                             ),
