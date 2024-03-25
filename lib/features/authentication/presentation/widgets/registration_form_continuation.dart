@@ -299,7 +299,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                 ),
               ),
             Text(
-              'Only people 16 years old and above can register',
+              'Only people 18 years old and above can register',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleSmall,
             ),
