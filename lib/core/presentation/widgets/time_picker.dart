@@ -86,11 +86,11 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
 
                   hour = (val < 3 ? val + 12 : val);
                   print(hour);
-                  if (hour == 14) {
+                  if (hour == 13 || hour == 1) {
                     minute = 0;
                   }
                   if (hour == 7) {
-                    minute = 30;
+                    minute = 0;
                   }
                 },
               ),
@@ -109,17 +109,20 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
                 textStyle: widget.textStyle,
                 items: List.generate(
                   hour == 7
-                      ? 30
+                      ? 60
                       : (hour == 13 || hour == 1)
-                          ? 31
+                          ? 1
                           : 60,
                   (index) {
-                    return (hour == 7) ? index + 30 : index;
+                    return index;
                   },
                 ),
                 fix2Digits: true,
                 controller: minuteCtrl,
                 onChange: (val) {
+                  if (hour == 1) {
+                    hour = 13;
+                  }
                   minute = val;
                 },
               ),

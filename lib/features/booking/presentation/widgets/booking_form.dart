@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -44,6 +45,7 @@ class _BookingFormState extends State<BookingForm> {
   late TextEditingController emailCtrl;
   late TextEditingController firstNameCtrl;
   late TextEditingController lastNameCtrl;
+  String? group;
 
   @override
   void initState() {
@@ -86,19 +88,22 @@ class _BookingFormState extends State<BookingForm> {
           }
         }
         if (state is BookingSubmitted) {
+          log('redirect url: ${state.checkoutHtml}');
+          context.goNamed(Routes.checkout.name);
           EasyLoading.dismiss();
-          if (state.isFree) {
+          /*  if (state.isFree) {
             BlocProvider.of<FreePassCounterCubit>(context).decrement();
             showSuccess('Free booking completed');
             Navigator.pop(context);
           } else {
             log('redirect url: ${state.checkoutHtml}');
             context.goNamed(Routes.checkout.name);
-          }
+          } */
         }
       },
       child: BlocBuilder<FreePassCounterCubit, int?>(
         builder: (context, freePassCount) {
+          freePassCount = 0;
           return Form(
             key: formKey,
             child: Column(
@@ -244,6 +249,65 @@ class _BookingFormState extends State<BookingForm> {
                     ],
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 0,
+                    vertical: kVerticalPadding,
+                  ),
+                  child: AutoSizeText(
+                    'Only riders aged 16 & up are allowed in TMBP',
+                    style: Theme.of(context).textTheme.labelLarge,
+                    maxLines: 1,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Please confirm your age:',
+                      style: Theme.of(context).textTheme.labelLarge,
+                    ),
+                    const Spacer(),
+                    SizedBox(
+                      height: 25,
+                      width: 25,
+                      child: Radio(
+                        value: "16-18",
+                        visualDensity: VisualDensity.compact,
+                        groupValue: group,
+                        onChanged: (value) {
+                          setState(() {
+                            group = value.toString();
+                          });
+                        },
+                      ),
+                    ),
+                    Text(
+                      '16-18',
+                      style: Theme.of(context).textTheme.labelMedium,
+                    ),
+                    const Spacer(),
+                    SizedBox(
+                      height: 25,
+                      width: 25,
+                      child: Radio(
+                        value: "18+",
+                        visualDensity: VisualDensity.compact,
+                        groupValue: group,
+                        onChanged: (value) {
+                          setState(() {
+                            group = value.toString();
+                          });
+                        },
+                      ),
+                    ),
+                    Text(
+                      'Above 18',
+                      style: Theme.of(context).textTheme.labelMedium,
+                    ),
+                  ],
+                ),
                 const SizedBox(
                   height: kVerticalPadding,
                 ),
@@ -252,6 +316,23 @@ class _BookingFormState extends State<BookingForm> {
                   child: FilledTextButton(
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
+                        if (group == null) {
+                          EasyLoading.showInfo('Please confirm your age');
+                          return;
+                        }
+
+                        onSumbit(context);
+                      }
+
+                      //code for free booking credit when user has canceled a previous booking, commenting this out
+                      //because timberland requested to remove credits, but will keep this code here just in case
+                      // - Edison 03/08/2024
+                      /* if (formKey.currentState!.validate()) {
+                        if (group == null) {
+                          EasyLoading.showInfo('Please confirm your age');
+                          return;
+                        }
+
                         if (freePassCount != null && freePassCount > 0) {
                           _showBookingDialog(
                             context,
@@ -265,9 +346,10 @@ class _BookingFormState extends State<BookingForm> {
                         } else {
                           onSumbit(context);
                         }
-                      }
+                      } */
                     },
-                    child: freePassCount != null && freePassCount > 0 ? Text('Free Booking (x$freePassCount)') : const Text("Submit"),
+                    //child: freePassCount != null && freePassCount > 0 ? Text('Free Booking (x$freePassCount)') : const Text("Submit"),
+                    child: const Text("Submit"),
                   ),
                 ),
               ],

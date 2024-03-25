@@ -34,7 +34,7 @@ class _BookingTimePickerState extends State<BookingTimePicker> {
     super.initState();
     start = const TimeOfDay(
       hour: 7,
-      minute: 30,
+      minute: 0,
     );
 
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
