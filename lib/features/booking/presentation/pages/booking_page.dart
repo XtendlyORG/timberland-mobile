@@ -63,7 +63,7 @@ class BookingPage extends StatelessWidget {
                 vertical: kVerticalPadding,
               ),
               child: AutoSizeText(
-                'Park Opens: 7:30AM\nLast Entry: 1:30PM\nPark Closes: 4:00PM',
+                'Park Opens: 7:00AM\nLast Entry: 1:00PM\nPark Closes: 4:00PM',
                 style: Theme.of(context).textTheme.labelLarge,
                 maxLines: 3,
                 textAlign: TextAlign.center,

@@ -46,9 +46,7 @@ class CancelBookingBottomSheet extends StatelessWidget {
             ),
             Container(
               color: TimberlandColor.lightBlue,
-              padding: const EdgeInsets.symmetric(
-                  horizontal: kVerticalPadding * 1.5,
-                  vertical: kVerticalPadding),
+              padding: const EdgeInsets.symmetric(horizontal: kVerticalPadding * 1.5, vertical: kVerticalPadding),
               child: Row(
                 children: const [
                   Icon(
@@ -60,9 +58,14 @@ class CancelBookingBottomSheet extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      "Please select a cancellation reason. When you cancel a booking, you will get a FREE pass that you can consume within four months.",
+                      "Please select a cancellation reason. When you cancel a booking, it is not refundable.",
                     ),
                   ),
+                  /*  Expanded(
+                    child: Text(
+                      "Please select a cancellation reason. When you cancel a booking, you will get a FREE pass that you can consume within four months.",
+                    ),
+                  ), */
                 ],
               ),
             ),
