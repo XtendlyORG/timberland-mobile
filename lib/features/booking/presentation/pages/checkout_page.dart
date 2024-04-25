@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
@@ -108,6 +109,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
   Widget build(BuildContext context) {
     final state = BlocProvider.of<BookingBloc>(context).state as BookingSubmitted;
     print("This is the booking ${state.isFree} ${state.checkoutHtml}");
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      if (state.checkoutHtml.contains('booking is free')) {
+        context.pushNamed(Routes.successfulBooking.name);
+      }
+    });
     return WillPopScope(
       onWillPop: () async {
         bool willPop = await showPopConfirmDialog();
@@ -175,9 +181,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     setState(() {
                       progress = loadingProgress;
                     });
-                  } else if (mounted && state.checkoutHtml.contains('booking is free')) {
-                    // Navigator.pop(context);
-                    // context.pushNamed(Routes.successfulBooking.name);
                   }
                 },
                 navigationDelegate: (request) async {
@@ -185,12 +188,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
                   log('the current url: ${request.url}');
                   log('the id: $id');
-
-                  if (state.checkoutHtml.contains('booking is free') && request.url.contains("booking is free")) {
-                    print('This is the request url ${request.url}');
-                    Navigator.pop(context);
-                    context.pushNamed(Routes.successfulBooking.name);
-                  }
 
                   if (request.url.contains('v2/checkout/result?')) {
                     inResultScreen = true;
