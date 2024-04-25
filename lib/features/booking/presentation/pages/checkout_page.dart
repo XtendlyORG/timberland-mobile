@@ -176,8 +176,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       progress = loadingProgress;
                     });
                   } else if (mounted && state.checkoutHtml.contains('booking is free')) {
-                    Navigator.pop(context);
-                    context.pushNamed(Routes.successfulBooking.name);
+                    // Navigator.pop(context);
+                    // context.pushNamed(Routes.successfulBooking.name);
                   }
                 },
                 navigationDelegate: (request) async {
@@ -185,6 +185,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
                   log('the current url: ${request.url}');
                   log('the id: $id');
+
+                  if (state.checkoutHtml.contains('booking is free') && request.url.contains("booking is free")) {
+                    print('This is the request url ${request.url}');
+                    Navigator.pop(context);
+                    context.pushNamed(Routes.successfulBooking.name);
+                  }
 
                   if (request.url.contains('v2/checkout/result?')) {
                     inResultScreen = true;
