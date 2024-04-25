@@ -107,6 +107,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   @override
   Widget build(BuildContext context) {
     final state = BlocProvider.of<BookingBloc>(context).state as BookingSubmitted;
+    print("This is the booking ${state.isFree} ${state.checkoutHtml}");
     return WillPopScope(
       onWillPop: () async {
         bool willPop = await showPopConfirmDialog();
@@ -174,6 +175,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     setState(() {
                       progress = loadingProgress;
                     });
+                  } else if (mounted && state.checkoutHtml.contains('booking is free')) {
+                    Navigator.pop(context);
+                    context.pushNamed(Routes.successfulBooking.name);
                   }
                 },
                 navigationDelegate: (request) async {
