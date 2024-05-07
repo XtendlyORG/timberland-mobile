@@ -41,7 +41,7 @@ class BlockedBookingDatePicker extends StatelessWidget {
           debugPrint("This is the booking ${blockedBookings.length}");
 
           // Check if selected date is within range of any of the blocked dates
-          List<BlockedBookingsModel> tempList = blockedBookings.where((bk) => (bk.isBlocked ?? true) && bk.status != "Expired").toList();
+          List<BlockedBookingsModel> tempList = blockedBookings.where((bk) => (bk.isBlocked ?? true) && bk.status == "Active").toList();
           List<int> bookingsWithinRange = [];
           for (var booking in tempList) {
             bool isCurrentWithinRange = dateIsWithinRange(currentDate, booking.startDate, booking.endDate);
@@ -70,6 +70,7 @@ class BlockedBookingDatePicker extends StatelessWidget {
                 onSumbit: (value) {
                   onHandleDate(value);
                 },
+                blockedBookings: blockedBookings,
               ),
             );
           },
