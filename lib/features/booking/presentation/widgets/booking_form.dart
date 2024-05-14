@@ -14,11 +14,15 @@ import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
+import 'package:timberland_biketrail/features/booking/data/models/blocked_booking_model.dart';
 import 'package:timberland_biketrail/features/booking/domain/params/booking_request_params.dart';
+import 'package:timberland_biketrail/features/booking/domain/repositories/blocked_booking_dates_repository.dart';
 import 'package:timberland_biketrail/features/booking/presentation/cubit/free_pass_counter_cubit.dart';
+import 'package:timberland_biketrail/features/booking/presentation/widgets/blocked_booking_date_picker.dart';
 import 'package:timberland_biketrail/features/booking/presentation/widgets/booking_date_picker.dart';
 import 'package:timberland_biketrail/features/booking/presentation/widgets/booking_time_picker.dart';
 
+import '../../../../dependency_injection/dependency_injection.dart' as di;
 import '../../../../core/constants/constants.dart';
 import '../../../../core/presentation/widgets/widgets.dart';
 import '../bloc/booking_bloc.dart';
@@ -47,8 +51,24 @@ class _BookingFormState extends State<BookingForm> {
   late TextEditingController lastNameCtrl;
   String? group;
 
+  bool isDateLoaded = false;
+  List<BlockedBookingsModel> blockedBookings = [];
+  void getBlockedBookingDates() async {
+    debugPrint("This is the init");
+    BlockedBookingRepository repository = di.serviceLocator<BlockedBookingRepository>();
+    final result = await repository.getBookings();
+    if(result is List<BlockedBookingsModel>){
+      setState(() {
+        isDateLoaded = true;
+        blockedBookings = result;
+      });
+    }
+  }
+
   @override
   void initState() {
+    getBlockedBookingDates();
+
     waiverAccepted = false;
     formKey = GlobalKey<FormState>();
     selectedDate = null;
@@ -120,7 +140,9 @@ class _BookingFormState extends State<BookingForm> {
                           children: [
                             const Text('Date'),
                             ExcludeFocus(
-                              child: BookingDatePicker(
+                              child: BlockedBookingDatePicker(
+                                isDateLoaded: isDateLoaded,
+                                blockedBookings: blockedBookings,
                                 controller: dateCtrl,
                                 selectedTime: selectedTime,
                                 enabled: true,

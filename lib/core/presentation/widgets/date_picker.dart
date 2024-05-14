@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
+import 'package:timberland_biketrail/features/booking/data/models/blocked_booking_model.dart';
+import 'package:timberland_biketrail/features/constants/helpers.dart';
 
 class CustomDatePicker extends StatelessWidget {
   final Function(Object?)? onSumbit;
@@ -12,6 +14,7 @@ class CustomDatePicker extends StatelessWidget {
   final DateTime? maxDate;
   final DateTime? initialSelectedDate;
   final bool isBooking;
+  final List<BlockedBookingsModel>? blockedBookings;
   const CustomDatePicker({
     Key? key,
     this.onSumbit,
@@ -22,6 +25,7 @@ class CustomDatePicker extends StatelessWidget {
     this.maxDate,
     this.initialSelectedDate,
     required this.isBooking,
+    this.blockedBookings,
   }) : super(key: key);
 
   @override
@@ -36,6 +40,7 @@ class CustomDatePicker extends StatelessWidget {
           enablePastDates: enablePastDates,
           showTodayButton: showTodayButton,
           selectableDayPredicate: (date) {
+
             if (!isBooking) {
               return true;
             }
@@ -45,6 +50,20 @@ class CustomDatePicker extends StatelessWidget {
 
             if (date.weekday == 1) {
               return false;
+            }
+
+            if(blockedBookings != null){
+              // Check if selected date is within range of any of the blocked dates
+              List<BlockedBookingsModel> tempList = blockedBookings!.where((bk) => (bk.isBlocked ?? true) && bk.status == "Active").toList();
+              List<int> bookingsWithinRange = [];
+              for (var booking in tempList) {
+                bool isCurrentWithinRange = dateIsWithinRange(date, booking.startDate, booking.endDate);
+                if(isCurrentWithinRange){
+                  bookingsWithinRange.add(booking.bookingId ?? 0);
+                }
+              }
+
+              return !bookingsWithinRange.isNotEmpty;
             }
 
             return true;
