@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "228825043575",
+    "project_id": "timberland-mobile-dev",
+    "storage_bucket": "timberland-mobile-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:228825043575:android:a9055d89f7e6df6967ec72",
+        "android_client_info": {
+          "package_name": "com.example.timberland_biketrail"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4aCjoaoKlqRX4HTc7vSPWab09In_4tEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

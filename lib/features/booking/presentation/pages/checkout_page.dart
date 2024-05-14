@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
@@ -107,6 +108,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
   @override
   Widget build(BuildContext context) {
     final state = BlocProvider.of<BookingBloc>(context).state as BookingSubmitted;
+    print("This is the booking ${state.isFree} ${state.checkoutHtml}");
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      if (state.checkoutHtml.contains('booking is free')) {
+        context.pushNamed(Routes.successfulBooking.name);
+      }
+    });
     return WillPopScope(
       onWillPop: () async {
         bool willPop = await showPopConfirmDialog();

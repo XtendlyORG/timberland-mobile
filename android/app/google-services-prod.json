@@ -1,0 +1,54 @@
+{
+    "project_info": {
+      "project_number": "847781439492",
+      "project_id": "timberland-bike-trail",
+      "storage_bucket": "timberland-bike-trail.appspot.com"
+    },
+    "client": [
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:847781439492:android:bdc8767db035a0cbe42d51",
+          "android_client_info": {
+            "package_name": "com.example.timberland_biketrail"
+          }
+        },
+        "oauth_client": [
+          {
+            "client_id": "847781439492-d8n6n08hiq4ritrvi49daohbdmml92rg.apps.googleusercontent.com",
+            "client_type": 1,
+            "android_info": {
+              "package_name": "com.example.timberland_biketrail",
+              "certificate_hash": "d9edddbc86fba26fe9e9fa521cf2eef64caa8fdd"
+            }
+          },
+          {
+            "client_id": "847781439492-blo9ftnhl38oe83v9g4humvr2m9166p4.apps.googleusercontent.com",
+            "client_type": 3
+          }
+        ],
+        "api_key": [
+          {
+            "current_key": "AIzaSyBLJ99yQHtRXjWkHAhM1X4Ey9pt8dDl0p8"
+          }
+        ],
+        "services": {
+          "appinvite_service": {
+            "other_platform_oauth_client": [
+              {
+                "client_id": "847781439492-blo9ftnhl38oe83v9g4humvr2m9166p4.apps.googleusercontent.com",
+                "client_type": 3
+              },
+              {
+                "client_id": "847781439492-4oaqvde4luf53ct5r9d9dh3cm9l0im16.apps.googleusercontent.com",
+                "client_type": 2,
+                "ios_info": {
+                  "bundle_id": "com.xtendly.paygpwa"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "configuration_version": "1"
+  }
