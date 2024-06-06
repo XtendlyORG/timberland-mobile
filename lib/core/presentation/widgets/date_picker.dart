@@ -48,9 +48,10 @@ class CustomDatePicker extends StatelessWidget {
               return false;
             }
 
-            if (date.weekday == 1) {
-              return false;
-            }
+            // Disable Dates on Mondays
+            // if (date.weekday == 1) {
+            //   return false;
+            // }
 
             if(blockedBookings != null){
               // Check if selected date is within range of any of the blocked dates
