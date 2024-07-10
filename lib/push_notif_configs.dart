@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:timberland_biketrail/core/utils/internet_connection.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
@@ -33,7 +34,29 @@ Future<void> initFirebaseMessaging() async {
   );
 
   // Notification callback while app is open (foreground)
-  FirebaseMessaging.onMessage.listen((event) {
+  FirebaseMessaging.onMessage.listen((event) async {
+
+    // Announcement Handler
+    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    const AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails('your channel id', 'your channel name',
+            channelDescription: 'your channel description',
+            importance: Importance.max,
+            priority: Priority.high,
+            ticker: 'ticker');
+    const NotificationDetails notificationDetails =
+        NotificationDetails(android: androidNotificationDetails);
+    await flutterLocalNotificationsPlugin.show(
+        DateTime.now().millisecondsSinceEpoch,
+        "Timberland Mountain Bike Park",
+        "Timberland Mountain Bike Park Announcement. You've received a new notification Tap to view (Firebase test)",
+        notificationDetails,
+        payload: 'item x');
+    
+    // Incoming Call Handler
     if (Session().currentUser == null) return;
     if (event.notification != null) {
       if ((event.data['member_id'] as String? ?? '') !=
@@ -78,7 +101,29 @@ Future<void> initFirebaseMessaging() async {
   });
 
 // When app is opened from a terminated state
-  FirebaseMessaging.instance.getInitialMessage().then((value) {
+  FirebaseMessaging.instance.getInitialMessage().then((value) async {
+    
+    // Announcement Handler
+    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    const AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails('your channel id', 'your channel name',
+            channelDescription: 'your channel description',
+            importance: Importance.max,
+            priority: Priority.high,
+            ticker: 'ticker');
+    const NotificationDetails notificationDetails =
+        NotificationDetails(android: androidNotificationDetails);
+    await flutterLocalNotificationsPlugin.show(
+        DateTime.now().millisecondsSinceEpoch,
+        "Timberland Mountain Bike Park",
+        "Timberland Mountain Bike Park Announcement. You've received a new notification Tap to view (Firebase test)",
+        notificationDetails,
+        payload: 'item x');
+
+    // Incoming Call Handler
     if (Session().currentUser == null) return;
     if (value != null && value.notification != null) {
       if ((value.data['member_id'] as String? ?? '') !=
@@ -121,7 +166,29 @@ Future<void> initFirebaseMessaging() async {
   });
 
   // When app is opened from a background state (not terminated)
-  FirebaseMessaging.onMessageOpenedApp.listen((event) {
+  FirebaseMessaging.onMessageOpenedApp.listen((event) async {
+
+    // Announcement Handler
+    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    const AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails('your channel id', 'your channel name',
+            channelDescription: 'your channel description',
+            importance: Importance.max,
+            priority: Priority.high,
+            ticker: 'ticker');
+    const NotificationDetails notificationDetails =
+        NotificationDetails(android: androidNotificationDetails);
+    await flutterLocalNotificationsPlugin.show(
+        DateTime.now().millisecondsSinceEpoch,
+        "Timberland Mountain Bike Park",
+        "Timberland Mountain Bike Park Announcement. You've received a new notification Tap to view (Firebase test)",
+        notificationDetails,
+        payload: 'item x');
+
+    // Incoming Call Handler
     if (Session().currentUser == null) return;
     if ((event.data['member_id'] as String? ?? '') !=
         Session().currentUser!.id) {
@@ -166,6 +233,28 @@ Future<void> initFirebaseMessaging() async {
 }
 
 Future<void> _onBackgroundMessageHandler(RemoteMessage message) async {
+
+  // Announcement Handler
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  const AndroidNotificationDetails androidNotificationDetails =
+      AndroidNotificationDetails('your channel id', 'your channel name',
+          channelDescription: 'your channel description',
+          importance: Importance.max,
+          priority: Priority.high,
+          ticker: 'ticker');
+  const NotificationDetails notificationDetails =
+      NotificationDetails(android: androidNotificationDetails);
+  await flutterLocalNotificationsPlugin.show(
+      DateTime.now().millisecondsSinceEpoch,
+      "Timberland Mountain Bike Park",
+      "Timberland Mountain Bike Park Announcement. You've received a new notification Tap to view (Firebase test)",
+      notificationDetails,
+      payload: 'item x');
+
+  // Incoming Call Handler
   if (Session().currentUser == null) return;
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
