@@ -4,7 +4,10 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
+import 'package:timberland_biketrail/features/booking/data/models/announcement_model.dart';
+import 'package:timberland_biketrail/features/booking/domain/repositories/announcement_repository.dart';
 import 'package:timberland_biketrail/features/emergency/domain/entities/emergency_configs.dart';
 import 'package:timberland_biketrail/features/notifications/domain/entities/announcement.dart';
 import 'package:timberland_biketrail/features/notifications/domain/repositories/push_notif_repository.dart';
@@ -14,8 +17,10 @@ part 'notifications_state.dart';
 
 class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   final PushNotificationRepository repository;
+  final AnnouncementRepository announcementRepository;
   NotificationsBloc({
     required this.repository,
+    required this.announcementRepository,
   }) : super(NotificationsInitial()) {
     on<CheckForFCMTokenUpdate>((event, emit) async {
       final result = await repository.checkForFCMTokenUpdates();
@@ -59,20 +64,42 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
         return;
       }
       log('fetching announcements');
-      final result = await repository.checkForAnnouncements();
-
-      result.fold(
-        (l) {
-          //TODO: emit error state
-          log(l.message.toString());
-        },
-        (r) {
-          log(r.toString());
-          if (r != null) {
-            emit(AnnouncementRecieved(announcements: r));
-          }
-        },
-      );
+      try {
+        final result = await announcementRepository.getAnnouncements();
+        emit(AnnouncementRecieved(
+          announcements: [Announcement(
+            title: "",
+            content: "",
+            dateCreated: DateTime.now(),
+            id: ""
+          )],
+          announcementsList: result
+        ));
+      } catch (e) {
+        log("ERROR: Failed to load announcement ${e.toString()}");
+      }
     });
+
+    // on<FetchLatestAnnouncement>((event, emit) async {
+    //   if (Session().currentUser == null) {
+    //     log('No user logged in');
+    //     return;
+    //   }
+    //   log('fetching announcements');
+    //   final result = await repository.checkForAnnouncements();
+
+    //   result.fold(
+    //     (l) {
+    //       //TODO: emit error state
+    //       log(l.message.toString());
+    //     },
+    //     (r) {
+    //       log(r.toString());
+    //       if (r != null) {
+    //         emit(AnnouncementRecieved(announcements: r));
+    //       }
+    //     },
+    //   );
+    // });
   }
 }

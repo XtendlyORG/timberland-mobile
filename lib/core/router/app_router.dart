@@ -15,6 +15,7 @@ import 'package:timberland_biketrail/features/authentication/domain/params/regis
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/pages/registration_continuation_page.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/pages/reset_password.dart';
+import 'package:timberland_biketrail/features/booking/data/models/announcement_model.dart';
 import 'package:timberland_biketrail/features/booking/domain/params/booking_request_params.dart';
 import 'package:timberland_biketrail/features/booking/presentation/pages/cancelled_booking.dart';
 import 'package:timberland_biketrail/features/booking/presentation/pages/checkout_page.dart';
@@ -25,7 +26,9 @@ import 'package:timberland_biketrail/features/history/domain/entities/entities.d
 import 'package:timberland_biketrail/features/history/presentation/bloc/history_bloc.dart';
 import 'package:timberland_biketrail/features/history/presentation/pages/booking_history_details.dart';
 import 'package:timberland_biketrail/features/notifications/domain/entities/announcement.dart';
+import 'package:timberland_biketrail/features/notifications/presentation/pages/announcement_list.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/pages/announcement_page.dart';
+import 'package:timberland_biketrail/features/notifications/presentation/pages/announcement_view.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/pages/checkout_now_page.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/widgets/notification_listener.dart';
 
@@ -101,6 +104,59 @@ final appRouter = GoRouter(
           child: const OnboardingSlider(),
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+    ),
+    GoRoute(
+      path: Routes.announcementsList.path,
+      name: Routes.announcementsList.name,
+      pageBuilder: (context, routeState) {
+        // final appinfoBloc = BlocProvider.of<AppInfoBloc>(context);
+        // if (appinfoBloc.state is! FAQState) {
+        //   appinfoBloc.add(
+        //     const FetchFAQSEvent(),
+        //   );
+        // }
+        return CustomTransitionPage(
+          child: const AnnouncementListPage(),
+          // key: routeState.pageKey,
+          // restorationId: routeState.pageKey.value,
+          transitionDuration: const Duration(milliseconds: 500),
+          transitionsBuilder: (context, animation, secondaryAnim, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+    ),
+    GoRoute(
+      path: Routes.announcementsView.path,
+      name: Routes.announcementsView.name,
+      pageBuilder: (context, routeState) {
+        // final appinfoBloc = BlocProvider.of<AppInfoBloc>(context);
+        // if (appinfoBloc.state is! FAQState) {
+        //   appinfoBloc.add(
+        //     const FetchFAQSEvent(),
+        //   );
+        // }
+        AnnouncementModel data = routeState.extra as AnnouncementModel;
+        return CustomTransitionPage(
+          child: AnnouncementViewPage(
+            title: data.title ?? "Announcement!",
+            description: data.content ?? "Welcome to Timberland Mountain Bike Park Mobile",
+            imagePath: data.image ?? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHwJRHWhpFcogNg6AGOI2Km1AZSeWLKKdE4g&s",
+          ),
+          // key: routeState.pageKey,
+          // restorationId: routeState.pageKey.value,
+          transitionDuration: const Duration(milliseconds: 500),
+          transitionsBuilder: (context, animation, secondaryAnim, child) {
             return FadeTransition(
               opacity: animation,
               child: child,
