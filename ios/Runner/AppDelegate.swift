@@ -1,5 +1,7 @@
 import UIKit
 import Flutter
+import Firebase
+import flutter_local_notifications
 
 public class SwiftClearAppDataPlugin: NSObject, FlutterPlugin {
     public static func register(with registrar: FlutterPluginRegistrar) {
@@ -30,6 +32,21 @@ public class SwiftClearAppDataPlugin: NSObject, FlutterPlugin {
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
+
+    FirebaseApp.configure()
+    //if(FirebaseApp.app() == nil)
+    //{
+        //FirebaseApp.configure()
+    //}
+      
+    FlutterLocalNotificationsPlugin.setPluginRegistrantCallback { (registry) in
+    GeneratedPluginRegistrant.register(with: registry)
+    }
+
+    if #available(iOS 10.0, *) {
+    UNUserNotificationCenter.current().delegate = self as UNUserNotificationCenterDelegate
+    }
+    
       let flutterViewController: FlutterViewController = window?.rootViewController as! FlutterViewController
               let channel = FlutterMethodChannel(name: "your_channel_name", binaryMessenger: flutterViewController.binaryMessenger)
       SwiftClearAppDataPlugin.register(with: flutterViewController.registrar(forPlugin: "ClearAppDataPlugin")!)

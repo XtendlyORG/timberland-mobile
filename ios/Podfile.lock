@@ -71,6 +71,8 @@ PODS:
     - GoogleUtilities/UserDefaults (~> 7.8)
     - nanopb (< 2.30910.0, >= 2.30908.0)
   - Flutter (1.0.0)
+  - flutter_local_notifications (0.0.1):
+    - Flutter
   - flutter_native_splash (0.0.1):
     - Flutter
   - flutter_pdfview (1.0.2):
@@ -147,6 +149,7 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - Flutter (from `Flutter`)
+  - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - flutter_pdfview (from `.symlinks/plugins/flutter_pdfview/ios`)
   - flutter_ringtone_player (from `.symlinks/plugins/flutter_ringtone_player/ios`)
@@ -194,6 +197,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_messaging/ios"
   Flutter:
     :path: Flutter
+  flutter_local_notifications:
+    :path: ".symlinks/plugins/flutter_local_notifications/ios"
   flutter_native_splash:
     :path: ".symlinks/plugins/flutter_native_splash/ios"
   flutter_pdfview:
@@ -243,6 +248,7 @@ SPEC CHECKSUMS:
   FirebaseInstallations: cae95cab0f965ce05b805189de1d4c70b11c76fb
   FirebaseMessaging: 0c0ae1eb722ef0c07f7801e5ded8dccd1357d6d4
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  flutter_local_notifications: 4cde75091f6327eb8517fa068a0a5950212d2086
   flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
   flutter_pdfview: b9048185fe900613565f8aba51e7792663847e72
   flutter_ringtone_player: 15eba85187230b87b2512f0e1b92225618bc03e7
@@ -269,4 +275,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 81fc5f1ecc6e45fbef76019bf6879fe96728a66c
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.15.2
