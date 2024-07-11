@@ -1,4 +1,5 @@
 import 'package:auto_animated/auto_animated.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -76,44 +77,43 @@ class AnnouncementListPage extends StatelessWidget {
               extendBodyBehindAppbar: true,
               body: Column(
                 children: [
-                  const SizedBox(height: kVerticalPadding),
-                  SizedBox(
-                    width: double.infinity,
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox.fromSize(
+                    size: Size(
+                      MediaQuery.of(context).size.width,
+                      MediaQuery.of(context).size.height - 200
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: kHorizontalPadding,
-                        vertical: kVerticalPadding * 3,
                       ),
-                      child: LiveList.options(
-                        // crossAxisAlignment: CrossAxisAlignment.start,
-                        options: const LiveOptions(
-                          showItemInterval: Duration(milliseconds: 100),
-                          visibleFraction: 0.05,
-                        ),
-                        shrinkWrap: true,
-                        itemCount: state.announcementsList.length,
-                        physics: const NeverScrollableScrollPhysics(),
-                        padding: EdgeInsets.zero,
-                        itemBuilder: (context, index, animation) {
-                          return FadeTransition(
-                            opacity: Tween<double>(
-                              begin: 0,
-                              end: 1,
-                            ).animate(animation),
-                            child: SlideTransition(
-                              position: Tween<Offset>(
-                                begin: const Offset(-.5, 0),
-                                end: Offset.zero,
-                              ).animate(animation),
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 20.0),
-                                child: AnnouncementWidget(
-                                  data: state.announcementsList[index],
-                                ),
-                              ),
-                            ),
-                          );
+                      child: RefreshIndicator(
+                        onRefresh: () async {
+                          notificationsBloc.add(FetchLatestAnnouncement());
                         },
+                        child: ListView(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 20
+                          ),
+                          children: [
+                            const SizedBox(
+                              height: 150,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                AutoSizeText(
+                                  "No announcements to show",
+                                  minFontSize: Theme.of(context).textTheme.titleSmall!.fontSize!,
+                                  style: Theme.of(context).textTheme.titleSmall,
+                                  textAlign: TextAlign.left,
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
                       ),
                     ),
                   ),

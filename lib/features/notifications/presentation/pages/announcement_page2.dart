@@ -17,8 +17,8 @@ class AnnouncementPage2 extends StatefulWidget {
 
 class _AnnouncementPage2State extends State<AnnouncementPage2> {
   void timer() async {
-    // await Future.delayed(const Duration(seconds: 2));
-    // context.goNamed(Routes.home.name);
+    await Future.delayed(const Duration(seconds: 2));
+    context.goNamed(Routes.home.name);
   }
 
   late NotificationsBloc notificationsBloc;

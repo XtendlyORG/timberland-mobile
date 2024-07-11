@@ -101,6 +101,17 @@ class Dashboard extends StatelessWidget {
                     ),
                     DashBoardListTile(
                       onTap: () {
+                        context.goNamed(Routes.announcementsList.name);
+                        Navigator.pop(context);
+                      },
+                      leading: const Icon(
+                        Icons.campaign,
+                        size: 24,
+                      ),
+                      titleText: 'Announcements',
+                    ),
+                    DashBoardListTile(
+                      onTap: () {
                         if (!disableEmergency) {
                           showDialog(
                             context: context,
