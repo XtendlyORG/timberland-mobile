@@ -70,6 +70,7 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
         List<AnnouncementModel> filterList = result.isNotEmpty
           ? result.where((notif) => dateIsWithinRange(DateTime.now(), DateTime.tryParse(notif.pushDateTime ?? DateTime.now().toString()), DateTime.tryParse(notif.expiredDateTime ?? DateTime.now().toString()))).toList()
           : [];
+        filterList.sort((ntf1, ntf2) => compareInt(true, (ntf1.order ?? 1), (ntf2.order ?? 1)));
         emit(AnnouncementRecieved(
           announcements: [Announcement(
             title: "",
