@@ -184,6 +184,9 @@ class _AnnouncementSliderState extends State<AnnouncementSlider> {
             );
           },
         ),
+        const SizedBox(
+          height: 100,
+        ),
         const Expanded(child: SizedBox()),
       ],
     );

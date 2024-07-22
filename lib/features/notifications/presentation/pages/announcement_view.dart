@@ -97,6 +97,7 @@ class AnnouncementViewPage extends StatelessWidget {
                 ),
                 Expanded(
                   child: Container(
+                    width: double.infinity,
                     color: Colors.white,
                     padding: const EdgeInsets.all(30),
                     child: SingleChildScrollView(
