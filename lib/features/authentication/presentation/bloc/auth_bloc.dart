@@ -2,25 +2,33 @@
 // ignore: depend_on_referenced_packages
 
 import 'dart:developer';
+import 'dart:io';
 
 // ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:timberland_biketrail/core/errors/failures.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
 import 'package:timberland_biketrail/features/authentication/domain/params/forgot_password.dart';
 import 'package:timberland_biketrail/features/authentication/domain/params/params.dart';
 import 'package:timberland_biketrail/features/authentication/domain/repositories/auth_repository.dart';
+import 'package:timberland_biketrail/features/session/session_repository.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository repository;
+  final SessionRepository sessionRepository;
 
   AuthBloc({
     required this.repository,
+    required this.sessionRepository,
   }) : super(const UnAuthenticated()) {
     on<FetchUserEvent>((event, emit) async {
       emit(
@@ -57,6 +65,33 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         const AuthLoading(loadingMessage: "Logging in to your account."),
       );
       final result = await repository.login(event.loginParameter);
+      
+      // Get Device ID
+      String deviceIdentifier = "unknown";
+      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+
+      if (Platform.isAndroid) {
+        AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+        deviceIdentifier = androidInfo.id;
+      } else if (Platform.isIOS) {
+        IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+        deviceIdentifier = iosInfo.identifierForVendor ?? 'unknown';
+      } else if (Platform.isLinux) {
+        LinuxDeviceInfo linuxInfo = await deviceInfo.linuxInfo;
+        deviceIdentifier = linuxInfo.machineId ?? 'unknown';
+      }
+
+      String fcmToken = await FirebaseMessaging.instance.getToken() ?? "";
+      final registerDevice = await sessionRepository.deviceSubscribe({
+        "fcmToken": fcmToken,
+        "device_id": deviceIdentifier,
+        "member_id": result.isRight()
+          ? ((result as Right).value as User).id
+          : 0
+      });
+
+      debugPrint("This is the device subscribe $registerDevice $result");
+      
       result.fold(
         (failure) {
           if (failure is UnverifiedEmailFailure) {
@@ -79,7 +114,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             ));
           }
         },
-        (user) {
+        (user) async {
           emit(
             Authenticated(
               user: user,
