@@ -1,12 +1,15 @@
 import 'package:auto_animated/auto_animated.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_area.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/dependency_injection/notifs_dependency.dart';
 import 'package:timberland_biketrail/features/app_infos/presentation/widgets/faq_widget.dart';
+import 'package:timberland_biketrail/features/booking/data/models/announcement_model.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/bloc/notifications_bloc.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/widgets/announcement_widget.dart';
 
@@ -14,7 +17,12 @@ import '../../../../core/constants/constants.dart';
 import '../../../../core/presentation/widgets/timberland_scaffold.dart';
 
 class AnnouncementListPage extends StatelessWidget {
-  const AnnouncementListPage({Key? key}) : super(key: key);
+  const AnnouncementListPage({
+    Key? key,
+    this.notifId
+  }) : super(key: key);
+
+  final String? notifId;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +36,24 @@ class AnnouncementListPage extends StatelessWidget {
       },
       builder: (context, state) {
         if(state is AnnouncementRecieved && state.announcementsList.isNotEmpty){
+          
+          SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+            if(notifId != null){
+              List<AnnouncementModel> templist = state.announcementsList.where((notif) => notif.id.toString() == notifId).toList();
+              AnnouncementModel? tempData = templist.isNotEmpty
+                ? templist.first
+                : null;
+              if(tempData != null){
+                context.pushNamed(
+                  Routes.announcementsView.name,
+                  extra: tempData // AnnouncementModel()
+                );
+              }else{
+                showError("Failed to view announcement");
+              }
+            }
+          });
+
           return DecoratedSafeArea(
             child: TimberlandScaffold(
               titleText: 'Announcement',
