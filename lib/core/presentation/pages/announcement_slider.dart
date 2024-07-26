@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -204,8 +205,12 @@ class AnnouncementSlide extends StatelessWidget {
                         topRight: Radius.circular(10),
                         bottomRight: Radius.circular(0),
                       ),
+                      image: DecorationImage(
+                        image: AssetImage('assets/icons/launcher-icon.png'),
+                        fit: BoxFit.cover
+                      )
                     ),
-                    child: const Center(child: CircularProgressIndicator.adaptive())
+                    // child: const Center(child: CircularProgressIndicator.adaptive())
                   ),
                 ),
                 AspectRatio(
@@ -259,7 +264,44 @@ class AnnouncementSlide extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
                 maxLines: 5,
-                overflow: TextOverflow.ellipsis,
+                // overflow: TextOverflow.ellipsis,
+                overflowReplacement: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    text: description.length < 125
+                        ? description
+                        : description.substring(0, 125),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.copyWith(color: Colors.white, fontSize: 14),
+                    children: <TextSpan>[
+                      TextSpan(
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () async {
+                            //
+                          },
+                        text: " ... See more",
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: Colors.white, // TimberlandColor.primary,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // Text(
+                //   "${description.length < 125
+                //       ? description
+                //       : description.substring(0, 125)
+                //   } ...See More",
+                //   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                //     color: Colors.white,
+                //     fontSize: 14
+                //   ),
+                //   textAlign: TextAlign.center,
+                // ),
               ),
             ),
             const SizedBox(
