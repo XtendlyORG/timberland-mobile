@@ -281,7 +281,7 @@ class AnnouncementSlide extends StatelessWidget {
                           ..onTap = () async {
                             //
                           },
-                        text: " ... See more",
+                        text: " ... Read more",
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: Colors.white, // TimberlandColor.primary,
                           fontSize: 14,
@@ -295,7 +295,7 @@ class AnnouncementSlide extends StatelessWidget {
                 //   "${description.length < 125
                 //       ? description
                 //       : description.substring(0, 125)
-                //   } ...See More",
+                //   } ... Read More",
                 //   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 //     color: Colors.white,
                 //     fontSize: 14
