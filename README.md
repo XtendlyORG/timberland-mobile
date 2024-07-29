@@ -65,3 +65,17 @@ flutter run -t lib/main_prod.dart
                 - 📁 `\bloc` - State management we use for this app [flutter_bloc](https://pub.dev/packages/)
                 - 📁 `\pages` - pages for authentication feature
                 - 📁 `\widgets` - widgets used in authentication feature 
+
+FVM 3.7.12
+
+https://fvm.app/documentation/getting-started/installation
+
+ #### SAMPLE RUN:
+ ```
+ fvm flutter run -t lib/main.dart -d <emulator-id>
+ ```
+
+  #### SAMPLE BUILD:
+ ```
+ fvm flutter build apk -t lib/main.dart
+ ```

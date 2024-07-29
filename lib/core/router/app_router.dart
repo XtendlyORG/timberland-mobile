@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/presentation/pages/404_page.dart';
 import 'package:timberland_biketrail/core/presentation/pages/first_time_user_page.dart';
@@ -51,6 +52,8 @@ import '../../main_page.dart';
 import '../presentation/widgets/inherited_widgets/inherited_trail.dart';
 import '../utils/session.dart';
 import 'routes.dart';
+
+final myServiceLocator = GetIt.instance;
 
 final appRouter = GoRouter(
   initialLocation: Routes.home.path,
@@ -123,7 +126,11 @@ final appRouter = GoRouter(
         //   );
         // }
         return CustomTransitionPage(
-          child: const AnnouncementListPage(),
+          child: AnnouncementListPage(
+            notifId: routeState.extra is String
+              ? routeState.extra as String
+              : null
+          ),
           // key: routeState.pageKey,
           // restorationId: routeState.pageKey.value,
           transitionDuration: const Duration(milliseconds: 500),
