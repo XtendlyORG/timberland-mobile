@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -11,13 +10,12 @@ import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/dependency_injection/dependency_injection.dart';
 import 'package:timberland_biketrail/features/emergency/domain/entities/emergency_configs.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/bloc/notifications_bloc.dart';
-import 'package:timberland_biketrail/firebase_options.dart';
 import 'package:vibration/vibration.dart';
 
 Future<void> initFirebaseMessaging() async {
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
 
   final messaging = FirebaseMessaging.instance;
   await messaging.requestPermission(
@@ -280,9 +278,9 @@ Future<void> _onBackgroundMessageHandler(RemoteMessage message) async {
 
   // Incoming Call Handler
   if (Session().currentUser == null) return;
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
   // WidgetsFlutterBinding.ensureInitialized();
   initializeDependencies();
 

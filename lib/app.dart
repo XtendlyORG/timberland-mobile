@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -20,6 +22,7 @@ import 'package:timberland_biketrail/features/emergency/presentation/bloc/emerge
 import 'package:timberland_biketrail/features/history/presentation/bloc/history_bloc.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/bloc/notifications_bloc.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/widgets/announcement_custom_notif.dart';
+import 'package:timberland_biketrail/firebase_options.dart';
 import 'package:timberland_biketrail/push_notif_configs.dart';
 
 import 'core/router/app_router.dart';
@@ -58,10 +61,15 @@ Future<void> run({
 
   await dotenv.load(fileName: dotEnvFileName);
 
+  await Firebase.initializeApp(
+    name: 'ios',
+    options: DefaultFirebaseOptions.ios,
+  );
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  await initFirebaseMessaging();
+
   await Session().init();
   await InternetConnectivity().init();
-
-  await initFirebaseMessaging();
   await initMyServiceLocator();
   runApp(MultiBlocProvider(
     providers: [

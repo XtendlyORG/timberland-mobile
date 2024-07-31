@@ -6,7 +6,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:timberland_biketrail/core/constants/onboarding.dart';
 import 'package:timberland_biketrail/core/constants/padding.dart';
 import 'package:timberland_biketrail/core/presentation/pages/announcement_slider.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
@@ -106,7 +105,7 @@ class _AnnouncementSliderState extends State<AnnouncementSlider> {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(
-            vertical: 50.0,
+            vertical: 40.0,
             horizontal: 25.0
           ),
           child: Row(
@@ -124,7 +123,6 @@ class _AnnouncementSliderState extends State<AnnouncementSlider> {
             ],
           ),
         ),
-        const Expanded(child: SizedBox()),
         ConstrainedBox(
           constraints: const BoxConstraints(
             maxHeight: 500,
@@ -183,9 +181,6 @@ class _AnnouncementSliderState extends State<AnnouncementSlider> {
               curve: Curves.ease,
             );
           },
-        ),
-        const SizedBox(
-          height: 100,
         ),
         const Expanded(child: SizedBox()),
       ],
