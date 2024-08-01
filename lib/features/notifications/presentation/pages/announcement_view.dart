@@ -5,10 +5,12 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_area.dart';
+import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
 import 'package:timberland_biketrail/features/app_infos/presentation/widgets/faq_widget.dart';
 import 'package:timberland_biketrail/features/constants/helpers.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/presentation/widgets/timberland_scaffold.dart';
@@ -220,7 +222,15 @@ class AnnouncementViewPage extends StatelessWidget {
       data: formatHTMLString(description),
       style: htmlStyle,
       onLinkTap: (url, data, elem) {
-        //
+        debugPrint("This is the url $url");
+        try {
+          launchUrl(
+            Uri.parse(url ?? "https://www.google.com"),
+            mode: LaunchMode.externalApplication,
+          );
+        } catch (e) {
+          showError("Failed to launch URL");
+        }
       },
     );
 
