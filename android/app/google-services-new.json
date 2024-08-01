@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "887706029319",
+    "project_id": "timberland-ea38a",
+    "storage_bucket": "timberland-ea38a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887706029319:android:f369ae0be48585068549a2",
+        "android_client_info": {
+          "package_name": "com.example.timberland_management_frontend"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzY1CdsTYU4mzCbHGpIF45SXmWzkCzaYQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887706029319:android:32925f33e37ce3018549a2",
+        "android_client_info": {
+          "package_name": "com.timberland.timberlandMobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzY1CdsTYU4mzCbHGpIF45SXmWzkCzaYQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
