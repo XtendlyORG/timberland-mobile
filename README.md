@@ -79,3 +79,6 @@ https://fvm.app/documentation/getting-started/installation
  ```
  fvm flutter build apk -t lib/main.dart
  ```
+ ```
+ fvm flutter build appbundle -t lib/main.dart
+ ```
