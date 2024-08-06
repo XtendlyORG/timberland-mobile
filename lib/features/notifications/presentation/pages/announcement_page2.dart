@@ -53,7 +53,13 @@ class _AnnouncementPage2State extends State<AnnouncementPage2> {
                   fit: BoxFit.cover,
                 ),
               ),
-              AnnouncementSlider(announcements: state.announcementsList),
+              SizedBox.fromSize(
+                size: MediaQuery.of(context).size,
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: AnnouncementSlider(announcements: state.announcementsList),
+                ),
+              ),
             ],
           );
         }else if(state is AnnouncementRecieved && state.announcementsList.isEmpty){
