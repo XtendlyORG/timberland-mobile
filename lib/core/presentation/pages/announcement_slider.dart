@@ -171,7 +171,7 @@ class AnnouncementSlide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediaquery = MediaQuery.of(context);
+    Size size = MediaQuery.of(context).size;
 
     return GestureDetector(
       onTap: () {
@@ -249,7 +249,10 @@ class AnnouncementSlide extends StatelessWidget {
               child: AutoSizeText(
                 title,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: Colors.white
+                  color: Colors.white,
+                  fontSize: size.height > 700
+                    ? null
+                    : 14
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -260,7 +263,9 @@ class AnnouncementSlide extends StatelessWidget {
                 description,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: Colors.white,
-                  fontSize: 16
+                  fontSize: size.height > 700
+                    ? 16
+                    : 13
                 ),
                 textAlign: TextAlign.center,
                 maxLines: 5,
@@ -284,7 +289,9 @@ class AnnouncementSlide extends StatelessWidget {
                         text: " ... Read more",
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: Colors.white, // TimberlandColor.primary,
-                          fontSize: 16,
+                          fontSize: size.height > 700
+                            ? 16
+                            : 13,
                           fontWeight: FontWeight.bold
                         ),
                       ),

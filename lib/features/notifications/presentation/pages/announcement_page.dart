@@ -183,12 +183,19 @@ class _AnnouncementSliderState extends State<AnnouncementSlider> {
             );
           },
         ),
-        const Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: 12.0,
-            // horizontal: 25.0
+        MediaQuery.of(context).size.height > 700
+        ?  const Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: 12.0,
+              // horizontal: 25.0
+            ),
+          )
+        : const Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: 6.0,
+              // horizontal: 25.0
+            ),
           ),
-        ),
         // Expanded(child: Container(color: Colors.green)),
       ],
     );
