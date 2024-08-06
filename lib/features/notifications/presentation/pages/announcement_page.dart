@@ -105,8 +105,8 @@ class _AnnouncementSliderState extends State<AnnouncementSlider> {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(
-            vertical: 40.0,
-            horizontal: 25.0
+            vertical: 25.0,
+            // horizontal: 25.0
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -118,48 +118,49 @@ class _AnnouncementSliderState extends State<AnnouncementSlider> {
                 child: const Icon(
                   Icons.cancel_outlined,
                   color: Colors.grey,
+                  size: 30,
                 ),
               )
             ],
           ),
         ),
-        ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxHeight: 500,
-            maxWidth: 300,
-          ),
-          child: Stack(
-              children: [
-                PageView.builder(
-                  controller: controller,
-                  onPageChanged: (index) {
-                    if(index < currentIndex){
-                      _timer?.cancel();
-                    }
-                    setState(() {
-                      currentIndex = index;
-                    });
-                  },
-                  itemCount: widget.announcements.length,
-                  itemBuilder: (context, index) {
-                    return AnnouncementSlide(
-                      title: widget.announcements[index].title ?? "Announcement!",
-                      description: (widget.announcements[index].content ?? "Welcome to Timberland Mountain Bike Park Mobile").split("\n").isNotEmpty
-                    ? removeHtmlTags((widget.announcements[index].content ?? "Welcome to Timberland Mountain Bike Park Mobile").split("\n").first)
-                    : removeHtmlTags((widget.announcements[index].content ?? "Welcome to Timberland Mountain Bike Park Mobile")),
-                      imagePath: widget.announcements[index].image ?? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHwJRHWhpFcogNg6AGOI2Km1AZSeWLKKdE4g&s",
-                      cancelTimer: () {
-                        // Cancel Auto Slide
+        Expanded(
+          child: SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: Stack(
+                children: [
+                  PageView.builder(
+                    controller: controller,
+                    onPageChanged: (index) {
+                      if(index < currentIndex){
                         _timer?.cancel();
-                      },
-                    );
-                  },
-                ),
-              ],
-            ),
+                      }
+                      setState(() {
+                        currentIndex = index;
+                      });
+                    },
+                    itemCount: widget.announcements.length,
+                    itemBuilder: (context, index) {
+                      return AnnouncementSlide(
+                        title: widget.announcements[index].title ?? "Announcement!",
+                        description: (widget.announcements[index].content ?? "Welcome to Timberland Mountain Bike Park Mobile").split("\n").isNotEmpty
+                      ? removeHtmlTags((widget.announcements[index].content ?? "Welcome to Timberland Mountain Bike Park Mobile").split("\n").first)
+                      : removeHtmlTags((widget.announcements[index].content ?? "Welcome to Timberland Mountain Bike Park Mobile")),
+                        imagePath: widget.announcements[index].image ?? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHwJRHWhpFcogNg6AGOI2Km1AZSeWLKKdE4g&s",
+                        cancelTimer: () {
+                          // Cancel Auto Slide
+                          _timer?.cancel();
+                        },
+                      );
+                    },
+                  ),
+                ],
+              ),
+          ),
         ),
         const SizedBox(
-          height: 30,
+          height: 25,
         ),
         SmoothPageIndicator(
           controller: controller,
@@ -182,7 +183,13 @@ class _AnnouncementSliderState extends State<AnnouncementSlider> {
             );
           },
         ),
-        const Expanded(child: SizedBox()),
+        const Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: 12.0,
+            // horizontal: 25.0
+          ),
+        ),
+        // Expanded(child: Container(color: Colors.green)),
       ],
     );
   }

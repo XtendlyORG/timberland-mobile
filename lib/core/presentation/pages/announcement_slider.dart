@@ -241,8 +241,8 @@ class AnnouncementSlide extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(
-              height: 10,
+            const Expanded(
+              child: SizedBox(),
             ),
             Padding(
               padding: const EdgeInsets.all(10),
@@ -260,7 +260,7 @@ class AnnouncementSlide extends StatelessWidget {
                 description,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: Colors.white,
-                  fontSize: 14
+                  fontSize: 16
                 ),
                 textAlign: TextAlign.center,
                 maxLines: 5,
@@ -284,7 +284,7 @@ class AnnouncementSlide extends StatelessWidget {
                         text: " ... Read more",
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: Colors.white, // TimberlandColor.primary,
-                          fontSize: 14,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold
                         ),
                       ),
@@ -304,8 +304,8 @@ class AnnouncementSlide extends StatelessWidget {
                 // ),
               ),
             ),
-            const SizedBox(
-              height: 10,
+            const Expanded(
+              child: SizedBox(),
             ),
           ],
         ),
