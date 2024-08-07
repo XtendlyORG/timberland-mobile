@@ -199,6 +199,7 @@ class AnnouncementSlide extends StatelessWidget {
                     width: double.infinity,
                     height: double.infinity,
                     decoration: const BoxDecoration(
+                      color: Colors.white,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
                         bottomLeft: Radius.circular(0),
