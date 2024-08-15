@@ -180,7 +180,7 @@ class AnnouncementSlide extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.10),
+          color: Colors.white, // Colors.white.withOpacity(0.10),
           border: Border.all(
             color: Colors.white.withOpacity(0.50),
             width: 1,
@@ -250,7 +250,7 @@ class AnnouncementSlide extends StatelessWidget {
               child: AutoSizeText(
                 title,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: Colors.white,
+                  // color: Colors.white,
                   fontSize: size.height > 700
                     ? null
                     : 14
@@ -263,7 +263,7 @@ class AnnouncementSlide extends StatelessWidget {
               child: AutoSizeText(
                 description,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Colors.white,
+                  // color: Colors.white,
                   fontSize: size.height > 700
                     ? 16
                     : 13
@@ -280,7 +280,7 @@ class AnnouncementSlide extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .bodyLarge
-                        ?.copyWith(color: Colors.white, fontSize: 14),
+                        ?.copyWith(), // color: Colors.white, fontSize: 14),
                     children: <TextSpan>[
                       TextSpan(
                         recognizer: TapGestureRecognizer()
@@ -289,7 +289,7 @@ class AnnouncementSlide extends StatelessWidget {
                           },
                         text: " ... Read more",
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Colors.white, // TimberlandColor.primary,
+                          // color: Colors.white, // TimberlandColor.primary,
                           fontSize: size.height > 700
                             ? 16
                             : 13,

@@ -47,7 +47,8 @@ class _AnnouncementPage2State extends State<AnnouncementPage2> {
               SizedBox.fromSize(
                 size: MediaQuery.of(context).size,
                 child: Image.asset(
-                  'assets/splash/announcement_background.png',
+                  // 'assets/splash/announcement_background.png',
+                  'assets/splash/splash_background.png',
                   colorBlendMode: BlendMode.darken,
                   color: Colors.black.withOpacity(.3),
                   fit: BoxFit.cover,
