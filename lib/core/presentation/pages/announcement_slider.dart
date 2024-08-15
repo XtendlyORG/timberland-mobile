@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:move_to_background/move_to_background.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
@@ -172,7 +173,7 @@ class AnnouncementSlide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
+    debugPrint("Ths is the image $imagePath");
     return GestureDetector(
       onTap: () {
         cancelTimer();
@@ -191,6 +192,7 @@ class AnnouncementSlide extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            if(!imagePath.contains("undefined"))
             Stack(
               children: [
                 AspectRatio(
@@ -206,12 +208,12 @@ class AnnouncementSlide extends StatelessWidget {
                         topRight: Radius.circular(10),
                         bottomRight: Radius.circular(0),
                       ),
-                      image: DecorationImage(
-                        image: AssetImage('assets/icons/launcher-icon.png'),
-                        fit: BoxFit.cover
-                      )
+                      // image: DecorationImage(
+                      //   image: AssetImage('assets/icons/launcher-icon.png'),
+                      //   fit: BoxFit.cover
+                      // )
                     ),
-                    // child: const Center(child: CircularProgressIndicator.adaptive())
+                    child: const Center(child: CircularProgressIndicator.adaptive())
                   ),
                 ),
                 AspectRatio(
@@ -251,6 +253,8 @@ class AnnouncementSlide extends StatelessWidget {
                 title,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   // color: Colors.white,
+                  fontFamily: GoogleFonts.robotoCondensed().fontFamily,
+                  fontWeight: FontWeight.bold,
                   fontSize: size.height > 700
                     ? null
                     : 14
