@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/decorated_safe_area.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
@@ -242,7 +243,8 @@ class AnnouncementViewPage extends StatelessWidget {
             size: MediaQuery.of(context).size,
             child: Column(
               children: [
-                AspectRatio(
+                !imagePath.contains("undefined")
+                ? AspectRatio(
                   aspectRatio: 1,
                   child: Container(
                     width: double.infinity,
@@ -303,6 +305,9 @@ class AnnouncementViewPage extends StatelessWidget {
                       },
                     )
                   ),
+                )
+                : const SizedBox(
+                  height: 60,
                 ),
                 Expanded(
                   child: Container(
@@ -316,7 +321,10 @@ class AnnouncementViewPage extends StatelessWidget {
                           AutoSizeText(
                             title,
                             minFontSize: Theme.of(context).textTheme.titleLarge!.fontSize!,
-                            style: Theme.of(context).textTheme.titleLarge,
+                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              fontFamily: GoogleFonts.robotoCondensed().fontFamily,
+                              fontWeight: FontWeight.bold,
+                            ),
                             textAlign: TextAlign.left,
                           ),
                           const SizedBox(
