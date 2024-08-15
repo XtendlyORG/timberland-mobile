@@ -208,12 +208,12 @@ class AnnouncementSlide extends StatelessWidget {
                         topRight: Radius.circular(10),
                         bottomRight: Radius.circular(0),
                       ),
-                      image: DecorationImage(
-                        image: AssetImage('assets/icons/launcher-icon.png'),
-                        fit: BoxFit.cover
-                      )
+                      // image: DecorationImage(
+                      //   image: AssetImage('assets/icons/launcher-icon.png'),
+                      //   fit: BoxFit.cover
+                      // )
                     ),
-                    // child: const Center(child: CircularProgressIndicator.adaptive())
+                    child: const Center(child: CircularProgressIndicator.adaptive())
                   ),
                 ),
                 AspectRatio(
