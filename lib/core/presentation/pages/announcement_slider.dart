@@ -273,7 +273,9 @@ class AnnouncementSlide extends StatelessWidget {
                     : 13
                 ),
                 textAlign: TextAlign.center,
-                maxLines: 5,
+                maxLines: (imagePath.contains("undefined"))
+                    ? 10
+                    : 5,
                 // overflow: TextOverflow.ellipsis,
                 overflowReplacement: RichText(
                   textAlign: TextAlign.center,
