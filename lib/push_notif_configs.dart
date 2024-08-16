@@ -2,9 +2,7 @@ import 'dart:developer';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timberland_biketrail/core/utils/internet_connection.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/dependency_injection/dependency_injection.dart';
@@ -37,14 +35,14 @@ Future<void> initFirebaseMessaging() async {
   FirebaseMessaging.onMessage.listen((event) async {
     debugPrint("Trigger firebase event ${event.data.toString()} ${event.notification?.title}");
 
-    if(event.data['title'].toString() != "null"){
-      log('Firebase notifs ${event.data['title']} ${event.data['content']}');
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('firebase-notif-id', event.data['id'] ?? 'Announcement!');
-      await prefs.setString('firebase-notif-title', event.data['title'] ?? 'Announcement!');
-      await prefs.setString('firebase-notif-content', event.data['content'] ?? "Timberland Mountain Bike Park Announcement. You've received a new notification Tap to view");
-      return;
-    }
+    // if(event.data['title'].toString() != "null"){
+    //   log('Firebase notifs ${event.data['title']} ${event.data['content']}');
+    //   final prefs = await SharedPreferences.getInstance();
+    //   await prefs.setString('firebase-notif-id', event.data['id'] ?? 'Announcement!');
+    //   await prefs.setString('firebase-notif-title', event.data['title'] ?? 'Announcement!');
+    //   await prefs.setString('firebase-notif-content', event.data['content'] ?? "Timberland Mountain Bike Park Announcement. You've received a new notification Tap to view");
+    //   return;
+    // }
 
     // Announcement Handler
     // final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -115,24 +113,24 @@ Future<void> initFirebaseMessaging() async {
     debugPrint("Trigger firebase value ${value?.data.toString()}");
     
     // Announcement Handler
-    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    // final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    // FlutterLocalNotificationsPlugin();
+    // FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-    const AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails('your channel id', 'your channel name',
-            channelDescription: 'your channel description',
-            importance: Importance.max,
-            priority: Priority.high,
-            ticker: 'ticker');
-    const NotificationDetails notificationDetails =
-        NotificationDetails(android: androidNotificationDetails);
-    await flutterLocalNotificationsPlugin.show(
-        DateTime.now().millisecondsSinceEpoch,
-        value?.notification?.title ?? "Timberland Mountain Bike Park",
-        value?.notification?.body ?? "Timberland Mountain Bike Park Announcement. You've received a new notification.",
-        notificationDetails,
-        payload: 'item x');
+    // const AndroidNotificationDetails androidNotificationDetails =
+    //     AndroidNotificationDetails('your channel id', 'your channel name',
+    //         channelDescription: 'your channel description',
+    //         importance: Importance.max,
+    //         priority: Priority.high,
+    //         ticker: 'ticker');
+    // const NotificationDetails notificationDetails =
+    //     NotificationDetails(android: androidNotificationDetails);
+    // await flutterLocalNotificationsPlugin.show(
+    //     DateTime.now().millisecondsSinceEpoch,
+    //     value?.notification?.title ?? "Timberland Mountain Bike Park",
+    //     value?.notification?.body ?? "Timberland Mountain Bike Park Announcement. You've received a new notification.",
+    //     notificationDetails,
+    //     payload: 'item x');
 
     // Incoming Call Handler
     if (Session().currentUser == null) return;
@@ -180,34 +178,34 @@ Future<void> initFirebaseMessaging() async {
   FirebaseMessaging.onMessageOpenedApp.listen((event) async {
     debugPrint("Trigger firebase open event ${event.data.toString()}");
 
-    if(event.data['title'].toString() != "null"){
-      log('Firebase notifs ${event.data['title']} ${event.data['content']}');
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('firebase-notif-id', event.data['id'] ?? 'Announcement!');
-      await prefs.setString('firebase-notif-title', event.data['title'] ?? 'Announcement!');
-      await prefs.setString('firebase-notif-content', event.data['content'] ?? "Timberland Mountain Bike Park Announcement. You've received a new notification.");
-      return;
-    }
+    // if(event.data['title'].toString() != "null"){
+    //   log('Firebase notifs ${event.data['title']} ${event.data['content']}');
+    //   final prefs = await SharedPreferences.getInstance();
+    //   await prefs.setString('firebase-notif-id', event.data['id'] ?? 'Announcement!');
+    //   await prefs.setString('firebase-notif-title', event.data['title'] ?? 'Announcement!');
+    //   await prefs.setString('firebase-notif-content', event.data['content'] ?? "Timberland Mountain Bike Park Announcement. You've received a new notification.");
+    //   return;
+    // }
 
     // Announcement Handler
-    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    // final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    // FlutterLocalNotificationsPlugin();
+    // FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-    const AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails('your channel id', 'your channel name',
-            channelDescription: 'your channel description',
-            importance: Importance.max,
-            priority: Priority.high,
-            ticker: 'ticker');
-    const NotificationDetails notificationDetails =
-        NotificationDetails(android: androidNotificationDetails);
-    await flutterLocalNotificationsPlugin.show(
-        DateTime.now().millisecondsSinceEpoch,
-        event.notification?.title ?? "Timberland Mountain Bike Park",
-        event.notification?.body ?? "Timberland Mountain Bike Park Announcement. You've received a new notification.",
-        notificationDetails,
-        payload: 'item x');
+    // const AndroidNotificationDetails androidNotificationDetails =
+    //     AndroidNotificationDetails('your channel id', 'your channel name',
+    //         channelDescription: 'your channel description',
+    //         importance: Importance.max,
+    //         priority: Priority.high,
+    //         ticker: 'ticker');
+    // const NotificationDetails notificationDetails =
+    //     NotificationDetails(android: androidNotificationDetails);
+    // await flutterLocalNotificationsPlugin.show(
+    //     DateTime.now().millisecondsSinceEpoch,
+    //     event.notification?.title ?? "Timberland Mountain Bike Park",
+    //     event.notification?.body ?? "Timberland Mountain Bike Park Announcement. You've received a new notification.",
+    //     notificationDetails,
+    //     payload: 'item x');
 
     // Incoming Call Handler
     if (Session().currentUser == null) return;
@@ -257,24 +255,24 @@ Future<void> _onBackgroundMessageHandler(RemoteMessage message) async {
   debugPrint("Trigger firebase back ${message.data.toString()}");
 
   // Announcement Handler
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  // final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  //     FlutterLocalNotificationsPlugin();
+  // FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-  const AndroidNotificationDetails androidNotificationDetails =
-      AndroidNotificationDetails('your channel id', 'your channel name',
-          channelDescription: 'your channel description',
-          importance: Importance.max,
-          priority: Priority.high,
-          ticker: 'ticker');
-  const NotificationDetails notificationDetails =
-      NotificationDetails(android: androidNotificationDetails);
-  await flutterLocalNotificationsPlugin.show(
-      DateTime.now().millisecondsSinceEpoch,
-      message.notification?.title ?? "Timberland Mountain Bike Park",
-      message.notification?.body ?? "Timberland Mountain Bike Park Announcement. You've received a new notification.",
-      notificationDetails,
-      payload: 'item x');
+  // const AndroidNotificationDetails androidNotificationDetails =
+  //     AndroidNotificationDetails('your channel id', 'your channel name',
+  //         channelDescription: 'your channel description',
+  //         importance: Importance.max,
+  //         priority: Priority.high,
+  //         ticker: 'ticker');
+  // const NotificationDetails notificationDetails =
+  //     NotificationDetails(android: androidNotificationDetails);
+  // await flutterLocalNotificationsPlugin.show(
+  //     DateTime.now().millisecondsSinceEpoch,
+  //     message.notification?.title ?? "Timberland Mountain Bike Park",
+  //     message.notification?.body ?? "Timberland Mountain Bike Park Announcement. You've received a new notification.",
+  //     notificationDetails,
+  //     payload: 'item x');
 
   // Incoming Call Handler
   if (Session().currentUser == null) return;
