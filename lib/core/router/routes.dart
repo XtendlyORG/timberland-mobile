@@ -6,6 +6,8 @@ enum Routes {
 
   announcements(name: 'announcements', path: '/announcements'),
   announcements2(name: 'announcements2', path: '/announcements2'),
+  announcementsList(name: 'announcements-list', path: '/announcements-list'),
+  announcementsView(name: 'announcements-view', path: '/announcements-view'),
 
   checkoutNotification(
     name: 'checkout-notification',

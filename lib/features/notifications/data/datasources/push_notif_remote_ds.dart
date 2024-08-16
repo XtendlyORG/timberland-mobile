@@ -60,7 +60,9 @@ class PushNotificationRemoteDataSourceImpl
         return;
       }
     } on DioError catch (e) {
-      throw PushNotificationException(message: e.message);
+      // throw PushNotificationException(message: e.message);
+      debugPrint("Error: ${PushNotificationException(message: e.message).toString()} ${e.toString()}");
+      return;
     }
   }
 

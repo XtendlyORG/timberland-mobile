@@ -1,5 +1,8 @@
+import 'dart:async';
 import 'dart:developer';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +11,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/state_indicators/state_indicators.dart';
 import 'package:timberland_biketrail/core/utils/internet_connection.dart';
 import 'package:timberland_biketrail/dashboard/presentation/cubit/profile_header_cubit.dart';
@@ -16,6 +21,8 @@ import 'package:timberland_biketrail/features/booking/presentation/cubit/free_pa
 import 'package:timberland_biketrail/features/emergency/presentation/bloc/emergency_bloc.dart';
 import 'package:timberland_biketrail/features/history/presentation/bloc/history_bloc.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/bloc/notifications_bloc.dart';
+import 'package:timberland_biketrail/features/notifications/presentation/widgets/announcement_custom_notif.dart';
+import 'package:timberland_biketrail/firebase_options.dart';
 import 'package:timberland_biketrail/push_notif_configs.dart';
 
 import 'core/router/app_router.dart';
@@ -27,6 +34,13 @@ import 'features/app_infos/presentation/bloc/app_info_bloc.dart';
 import 'features/authentication/presentation/bloc/auth_bloc.dart';
 import 'features/booking/presentation/bloc/booking_bloc.dart';
 import 'features/trail/presentation/bloc/trail_bloc.dart';
+
+Future<void> initMyServiceLocator() async {
+  myServiceLocator.registerLazySingleton<GoRouter>(
+    () => appRouter,
+  );
+  return;
+}
 
 const platform = MethodChannel('your_channel_name');
 
@@ -47,10 +61,16 @@ Future<void> run({
 
   await dotenv.load(fileName: dotEnvFileName);
 
+  await Firebase.initializeApp(
+    name: 'ios',
+    options: DefaultFirebaseOptions.ios,
+  );
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  await initFirebaseMessaging();
+
   await Session().init();
   await InternetConnectivity().init();
-
-  await initFirebaseMessaging();
+  await initMyServiceLocator();
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider<AuthBloc>(
@@ -86,7 +106,7 @@ Future<void> run({
         create: (context) => di.serviceLocator<NotificationsBloc>()..add(FetchLatestAnnouncement()),
       ),
     ],
-    child: const MyApp(),
+    child: const MaterialApp(home: MyApp()),
   ));
 }
 
@@ -98,8 +118,30 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
+  Timer? notifsTimer;
+  void onNotifs() async {
+    // obtain shared preferences
+    final prefs = await SharedPreferences.getInstance();
+    final notifId = prefs.getString('firebase-notif-id') ?? '';
+    final notifTitle = prefs.getString('firebase-notif-title') ?? '';
+    final notifContent = prefs.getString('firebase-notif-content') ?? '';
+    log('Main App Firebase notifs $notifTitle $notifContent ${notifTitle != '' && notifContent != ''}');
+    if(notifId != '' && notifTitle != '' && notifContent != ''){
+      // await prefs.setString('firebase-notif-id', '');
+      await prefs.setString('firebase-notif-title', '');
+      await prefs.setString('firebase-notif-content', '');
+      TMBPModal.notificationToast(
+        ctx: context,
+        textTitle: notifTitle,
+        textContent: notifContent
+      );
+    }
+  }
+
   @override
   void initState() {
+    notifsTimer = Timer.periodic(const Duration(seconds: 5), (Timer t) => onNotifs());
     super.initState();
     final Session session = Session();
     FlutterNativeSplash.remove();
@@ -144,6 +186,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void dispose() {
+    notifsTimer?.cancel();
     InternetConnectivity().removeListener(() {});
     super.dispose();
   }
