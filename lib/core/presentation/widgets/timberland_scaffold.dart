@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/constants/navbar_configs.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/widgets.dart';
+import 'package:timberland_biketrail/core/router/routes.dart';
 import 'package:timberland_biketrail/dashboard/presentation/widgets/dashboard.dart';
 
 class TimberlandScaffold extends StatelessWidget {
@@ -51,7 +52,16 @@ class TimberlandScaffold extends StatelessWidget {
                       message: 'Back',
                       child: IconButton(
                         onPressed: () {
-                          context.pop();
+                          if(Navigator.canPop(context)){
+                            Navigator.pop(context);
+                            return;
+                          }
+                          
+                          context.goNamed(Routes.trails.name);
+                          if(Navigator.canPop(context)){
+                            Navigator.pop(context);
+                          }
+                          // context.pop();
                         },
                         icon: Icon(
                           Icons.arrow_back_rounded,

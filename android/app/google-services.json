@@ -1,51 +1,45 @@
 {
   "project_info": {
-    "project_number": "847781439492",
-    "project_id": "timberland-bike-trail",
-    "storage_bucket": "timberland-bike-trail.appspot.com"
+    "project_number": "887706029319",
+    "project_id": "timberland-ea38a",
+    "storage_bucket": "timberland-ea38a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:847781439492:android:bdc8767db035a0cbe42d51",
+        "mobilesdk_app_id": "1:887706029319:android:f369ae0be48585068549a2",
         "android_client_info": {
-          "package_name": "com.example.timberland_biketrail"
+          "package_name": "com.example.timberland_management_frontend"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "847781439492-d8n6n08hiq4ritrvi49daohbdmml92rg.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.timberland_biketrail",
-            "certificate_hash": "d9edddbc86fba26fe9e9fa521cf2eef64caa8fdd"
-          }
-        },
-        {
-          "client_id": "847781439492-blo9ftnhl38oe83v9g4humvr2m9166p4.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBLJ99yQHtRXjWkHAhM1X4Ey9pt8dDl0p8"
+          "current_key": "AIzaSyAzY1CdsTYU4mzCbHGpIF45SXmWzkCzaYQ"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "847781439492-blo9ftnhl38oe83v9g4humvr2m9166p4.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "847781439492-4oaqvde4luf53ct5r9d9dh3cm9l0im16.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.xtendly.paygpwa"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887706029319:android:32925f33e37ce3018549a2",
+        "android_client_info": {
+          "package_name": "com.timberland.timberlandMobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzY1CdsTYU4mzCbHGpIF45SXmWzkCzaYQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
         }
       }
     }

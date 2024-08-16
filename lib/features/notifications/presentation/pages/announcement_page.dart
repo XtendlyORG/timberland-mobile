@@ -1,14 +1,18 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:timberland_biketrail/core/constants/onboarding.dart';
 import 'package:timberland_biketrail/core/constants/padding.dart';
-import 'package:timberland_biketrail/core/presentation/widgets/custom_scroll_behavior.dart';
+import 'package:timberland_biketrail/core/presentation/pages/announcement_slider.dart';
 import 'package:timberland_biketrail/core/router/router.dart';
 import 'package:timberland_biketrail/core/themes/timberland_color.dart';
+import 'package:timberland_biketrail/features/booking/data/models/announcement_model.dart';
+import 'package:timberland_biketrail/features/constants/helpers.dart';
 import 'package:timberland_biketrail/features/notifications/domain/entities/announcement.dart';
 
 class AnnouncementsPage extends StatefulWidget {
@@ -57,7 +61,7 @@ class AnnouncementSlider extends StatefulWidget {
     Key? key,
     required this.announcements,
   }) : super(key: key);
-  final List<Announcement> announcements;
+  final List<AnnouncementModel> announcements;
 
   @override
   State<AnnouncementSlider> createState() => _AnnouncementSliderState();
@@ -67,83 +71,111 @@ class _AnnouncementSliderState extends State<AnnouncementSlider> {
   late final PageController controller;
   late int currentIndex;
 
+  Timer? _timer;
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(milliseconds: 3500), (timer) {
+      if(widget.announcements.length == (currentIndex + 1)){
+        context.pushNamed(Routes.home.name);
+      }else{
+        controller.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.ease);
+        setState(() {
+          currentIndex += 1;
+        });
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    _startTimer();
     controller = PageController();
     currentIndex = 0;
   }
 
   @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.min,
+      mainAxisSize: MainAxisSize.max,
       children: [
-        ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxHeight: 400,
-            maxWidth: 300,
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 25.0,
+            // horizontal: 25.0
           ),
-          child: Stack(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              PageView.builder(
-                controller: controller,
-                scrollBehavior: const CustomScrollBehavior(),
-                itemCount: widget.announcements.length,
-                padEnds: false,
-                onPageChanged: (value) {},
-                itemBuilder: (context, index) {
-                  final announcement = widget.announcements[index];
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: kVerticalPadding),
-                    child: SizedBox(), //AnnouncementWidget(announcement: announcement),
-                  );
+              GestureDetector(
+                onTap: () {
+                  context.pushNamed(Routes.home.name);
                 },
-              ),
-              Align(
-                alignment: Alignment.topRight,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    right: kVerticalPadding * 1.5,
-                    top: kVerticalPadding * .5,
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.canPop(context) ? context.pop() : context.goNamed(Routes.home.name);
-                    },
-                    child: const Align(
-                      alignment: Alignment.topRight,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: TimberlandColor.primary,
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: Icon(
-                            Icons.close,
-                            size: 16,
-                            color: TimberlandColor.background,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                child: const Icon(
+                  Icons.cancel_outlined,
+                  color: Colors.grey,
+                  size: 30,
                 ),
-              ),
+              )
             ],
           ),
         ),
+        Expanded(
+          child: SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: Stack(
+                children: [
+                  PageView.builder(
+                    controller: controller,
+                    onPageChanged: (index) {
+                      if(index < currentIndex){
+                        _timer?.cancel();
+                      }
+                      setState(() {
+                        currentIndex = index;
+                      });
+                    },
+                    itemCount: widget.announcements.length,
+                    itemBuilder: (context, index) {
+                      return AnnouncementSlide(
+                        title: widget.announcements[index].title ?? "Announcement!",
+                        description: (widget.announcements[index].content ?? "Welcome to Timberland Mountain Bike Park Mobile").split("\n").isNotEmpty
+                      ? removeHtmlTags((widget.announcements[index].content ?? "Welcome to Timberland Mountain Bike Park Mobile").split("\n").first)
+                      : removeHtmlTags((widget.announcements[index].content ?? "Welcome to Timberland Mountain Bike Park Mobile")),
+                        imagePath: widget.announcements[index].image ?? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHwJRHWhpFcogNg6AGOI2Km1AZSeWLKKdE4g&s",
+                        cancelTimer: () {
+                          // Cancel Auto Slide
+                          _timer?.cancel();
+                        },
+                      );
+                    },
+                  ),
+                ],
+              ),
+          ),
+        ),
         const SizedBox(
-          height: kVerticalPadding,
+          height: 25,
         ),
         SmoothPageIndicator(
           controller: controller,
           count: widget.announcements.length,
           effect: const ExpandingDotsEffect(
+            offset: 8.0,
+            dotWidth: 8.0,
+            dotHeight: 8.0,
+            spacing: 4.0,
+            radius: 8.0,
             activeDotColor: TimberlandColor.primary,
           ),
           onDotClicked: (index) {
+            _timer?.cancel();
             currentIndex = index;
             controller.animateToPage(
               index,
@@ -152,6 +184,20 @@ class _AnnouncementSliderState extends State<AnnouncementSlider> {
             );
           },
         ),
+        MediaQuery.of(context).size.height > 700
+        ?  const Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: 12.0,
+              // horizontal: 25.0
+            ),
+          )
+        : const Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: 6.0,
+              // horizontal: 25.0
+            ),
+          ),
+        // Expanded(child: Container(color: Colors.green)),
       ],
     );
   }

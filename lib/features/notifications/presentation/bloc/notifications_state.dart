@@ -38,8 +38,10 @@ class IncomingCallNotification extends NotificationsState {
 
 class AnnouncementRecieved extends NotificationsState {
   final List<Announcement> announcements;
+  final List<AnnouncementModel> announcementsList;
   const AnnouncementRecieved({
     required this.announcements,
+    required this.announcementsList,
   });
 
   @override
