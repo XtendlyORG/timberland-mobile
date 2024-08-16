@@ -70,16 +70,36 @@ class _AnnouncementPage2State extends State<AnnouncementPage2> {
 
           return Stack(
             alignment: Alignment.center,
-            children: const [
-              CircularProgressIndicator.adaptive()
+            children: [
+              SizedBox.fromSize(
+                size: MediaQuery.of(context).size,
+                child: Image.asset(
+                  // 'assets/splash/announcement_background.png',
+                  'assets/splash/splash_background.png',
+                  colorBlendMode: BlendMode.darken,
+                  color: Colors.black.withOpacity(.3),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              // const CircularProgressIndicator.adaptive()
             ],
           );
         }
 
         return Stack(
           alignment: Alignment.center,
-          children: const [
-            CircularProgressIndicator.adaptive()
+          children: [
+            SizedBox.fromSize(
+              size: MediaQuery.of(context).size,
+              child: Image.asset(
+                // 'assets/splash/announcement_background.png',
+                'assets/splash/splash_background.png',
+                colorBlendMode: BlendMode.darken,
+                color: Colors.black.withOpacity(.3),
+                fit: BoxFit.cover,
+              ),
+            ),
+            // const CircularProgressIndicator.adaptive()
           ],
         );
       }
