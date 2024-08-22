@@ -108,6 +108,11 @@ class Session extends ChangeNotifier {
     _currentUser = user;
     notifyListeners();
   }
+
+  void performAutoLogin() {
+    _isLoggedIn = true;
+    notifyListeners();
+  }
 }
 
 abstract class _PrefKeys {

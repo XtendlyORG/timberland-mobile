@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -76,6 +77,8 @@ class _LoginPageState extends State<LoginPage> {
       } catch (e) {
         log(e.toString());
       }
+    } else {
+      Session().performAutoLogin();
     }
     if (mounted) {
       setState(() {
@@ -86,22 +89,34 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (Session().lockAuthUntil == null) {
-      if (displayFingerPrintDialog) {
-        authtenticateWithFingerPrint(
-          context: context,
-          onLockedOut: () {
-            BlocProvider.of<AuthBloc>(context).add(
-              const LockAuthEvent(),
-            );
-          },
+
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      debugPrint("This is login");
+      if (Session().currentUser != null) {
+        debugPrint("This is option 1");
+        Session().performAutoLogin();
+      } else if (Session().lockAuthUntil == null) {
+        if (displayFingerPrintDialog) {
+          debugPrint("This is option 2");
+          authtenticateWithFingerPrint(
+            context: context,
+            onLockedOut: () {
+              BlocProvider.of<AuthBloc>(context).add(
+                const LockAuthEvent(),
+              );
+            },
+          );
+        } else {
+          debugPrint("This is option 3");
+          Session().performAutoLogin();
+        }
+      } else {
+        debugPrint("This is option 4");
+        BlocProvider.of<AuthBloc>(context).add(
+          const LockAuthEvent(),
         );
       }
-    } else {
-      BlocProvider.of<AuthBloc>(context).add(
-        const LockAuthEvent(),
-      );
-    }
+    });
 
     return DecoratedSafeArea(
       child: Scaffold(
