@@ -3,9 +3,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timberland_biketrail/core/constants/helpers.dart';
 import 'package:timberland_biketrail/core/presentation/pages/404_page.dart';
 import 'package:timberland_biketrail/core/presentation/pages/first_time_user_page.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/inherited_widgets/inherited_register_parameter.dart';
@@ -33,7 +33,6 @@ import 'package:timberland_biketrail/features/notifications/presentation/pages/a
 import 'package:timberland_biketrail/features/notifications/presentation/pages/announcement_view.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/pages/checkout_now_page.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/widgets/notification_listener.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../dashboard/presentation/pages/qr_code_page.dart';
 import '../../dashboard/presentation/pages/update_profile_page.dart';
@@ -109,10 +108,9 @@ final appRouter = GoRouter(
           child: Stack(
             children: [
               // UseFathom().webViewAnalytics(route: state.location),
-              WebView(
-                initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}',
-                javascriptMode: JavascriptMode.unrestricted,
-                onWebViewCreated: (WebViewController webViewController) async {
+              InAppWebView(
+                initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}'))),
+                onWebViewCreated: (webViewController) async {
                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                   // await webViewController.runJavascript('''
                   //   var script = document.createElement('script');
@@ -123,7 +121,7 @@ final appRouter = GoRouter(
                   // ''');
 
                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                  await webViewController.runJavascript('''
+                  await webViewController.evaluateJavascript(source:'''
                     var script = document.createElement('script');
                     script.src = 'https://cdn.usefathom.com/script.js';
                     script.setAttribute('data-site', 'VTLWLMFB');
@@ -131,7 +129,31 @@ final appRouter = GoRouter(
                     document.head.appendChild(script);
                   ''');
                   debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}');
-              }),
+                }
+              ),
+              // WebView(
+              //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}',
+              //   javascriptMode: JavascriptMode.unrestricted,
+              //   onWebViewCreated: (WebViewController webViewController) async {
+              //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+              //     // await webViewController.runJavascript('''
+              //     //   var script = document.createElement('script');
+              //     //   script.src = 'https://cdn.usefathom.com/script.js';
+              //     //   script.setAttribute('data-site', 'CKWVTEIX');
+              //     //   script.defer = true;
+              //     //   document.head.appendChild(script);
+              //     // ''');
+
+              //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+              //     await webViewController.runJavascript('''
+              //       var script = document.createElement('script');
+              //       script.src = 'https://cdn.usefathom.com/script.js';
+              //       script.setAttribute('data-site', 'VTLWLMFB');
+              //       script.defer = true;
+              //       document.head.appendChild(script);
+              //     ''');
+              //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}');
+              // }),
               Container(
                 color: Colors.white,
                 width: MediaQuery.of(context).size.width,
@@ -140,7 +162,7 @@ final appRouter = GoRouter(
               const OnboardingSlider(),
             ],
           ),
-          transitionDuration: const Duration(milliseconds: 500),
+          transitionDuration: const Duration(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
               opacity: animation,
@@ -164,10 +186,9 @@ final appRouter = GoRouter(
           child: Stack(
             children: [
               // UseFathom().webViewAnalytics(route: routeState.location),
-              WebView(
-                initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
-                javascriptMode: JavascriptMode.unrestricted,
-                onWebViewCreated: (WebViewController webViewController) async {
+              InAppWebView(
+                initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}'))),
+                onWebViewCreated: (webViewController) async {
                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                   // await webViewController.runJavascript('''
                   //   var script = document.createElement('script');
@@ -178,7 +199,7 @@ final appRouter = GoRouter(
                   // ''');
 
                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                  await webViewController.runJavascript('''
+                  await webViewController.evaluateJavascript(source:'''
                     var script = document.createElement('script');
                     script.src = 'https://cdn.usefathom.com/script.js';
                     script.setAttribute('data-site', 'VTLWLMFB');
@@ -186,7 +207,31 @@ final appRouter = GoRouter(
                     document.head.appendChild(script);
                   ''');
                   debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
-              }),
+                }
+              ),
+              // WebView(
+              //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
+              //   javascriptMode: JavascriptMode.unrestricted,
+              //   onWebViewCreated: (WebViewController webViewController) async {
+              //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+              //     // await webViewController.runJavascript('''
+              //     //   var script = document.createElement('script');
+              //     //   script.src = 'https://cdn.usefathom.com/script.js';
+              //     //   script.setAttribute('data-site', 'CKWVTEIX');
+              //     //   script.defer = true;
+              //     //   document.head.appendChild(script);
+              //     // ''');
+
+              //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+              //     await webViewController.runJavascript('''
+              //       var script = document.createElement('script');
+              //       script.src = 'https://cdn.usefathom.com/script.js';
+              //       script.setAttribute('data-site', 'VTLWLMFB');
+              //       script.defer = true;
+              //       document.head.appendChild(script);
+              //     ''');
+              //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
+              // }),
               Container(
                 color: Colors.white,
                 width: MediaQuery.of(context).size.width,
@@ -201,7 +246,7 @@ final appRouter = GoRouter(
           ),
           // key: routeState.pageKey,
           // restorationId: routeState.pageKey.value,
-          transitionDuration: const Duration(milliseconds: 500),
+          transitionDuration: const Duration(),
           transitionsBuilder: (context, animation, secondaryAnim, child) {
             return FadeTransition(
               opacity: animation,
@@ -226,10 +271,9 @@ final appRouter = GoRouter(
           child: Stack(
             children: [
               // UseFathom().webViewAnalytics(route: routeState.location),
-              WebView(
-                initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
-                javascriptMode: JavascriptMode.unrestricted,
-                onWebViewCreated: (WebViewController webViewController) async {
+              InAppWebView(
+                initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}'))),
+                onWebViewCreated: (webViewController) async {
                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                   // await webViewController.runJavascript('''
                   //   var script = document.createElement('script');
@@ -240,7 +284,7 @@ final appRouter = GoRouter(
                   // ''');
 
                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                  await webViewController.runJavascript('''
+                  await webViewController.evaluateJavascript(source:'''
                     var script = document.createElement('script');
                     script.src = 'https://cdn.usefathom.com/script.js';
                     script.setAttribute('data-site', 'VTLWLMFB');
@@ -248,7 +292,31 @@ final appRouter = GoRouter(
                     document.head.appendChild(script);
                   ''');
                   debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
-              }),
+                }
+              ),
+              // WebView(
+              //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
+              //   javascriptMode: JavascriptMode.unrestricted,
+              //   onWebViewCreated: (WebViewController webViewController) async {
+              //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+              //     // await webViewController.runJavascript('''
+              //     //   var script = document.createElement('script');
+              //     //   script.src = 'https://cdn.usefathom.com/script.js';
+              //     //   script.setAttribute('data-site', 'CKWVTEIX');
+              //     //   script.defer = true;
+              //     //   document.head.appendChild(script);
+              //     // ''');
+
+              //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+              //     await webViewController.runJavascript('''
+              //       var script = document.createElement('script');
+              //       script.src = 'https://cdn.usefathom.com/script.js';
+              //       script.setAttribute('data-site', 'VTLWLMFB');
+              //       script.defer = true;
+              //       document.head.appendChild(script);
+              //     ''');
+              //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
+              // }),
               Container(
                 color: Colors.white,
                 width: MediaQuery.of(context).size.width,
@@ -263,7 +331,7 @@ final appRouter = GoRouter(
           ),
           // key: routeState.pageKey,
           // restorationId: routeState.pageKey.value,
-          transitionDuration: const Duration(milliseconds: 500),
+          transitionDuration: const Duration(),
           transitionsBuilder: (context, animation, secondaryAnim, child) {
             return FadeTransition(
               opacity: animation,
@@ -283,10 +351,9 @@ final appRouter = GoRouter(
           child: Stack(
             children: [
               // UseFathom().webViewAnalytics(route: state.location),
-              WebView(
-                initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}',
-                javascriptMode: JavascriptMode.unrestricted,
-                onWebViewCreated: (WebViewController webViewController) async {
+              InAppWebView(
+                initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}'))),
+                onWebViewCreated: (webViewController) async {
                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                   // await webViewController.runJavascript('''
                   //   var script = document.createElement('script');
@@ -297,7 +364,7 @@ final appRouter = GoRouter(
                   // ''');
 
                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                  await webViewController.runJavascript('''
+                  await webViewController.evaluateJavascript(source:'''
                     var script = document.createElement('script');
                     script.src = 'https://cdn.usefathom.com/script.js';
                     script.setAttribute('data-site', 'VTLWLMFB');
@@ -305,7 +372,31 @@ final appRouter = GoRouter(
                     document.head.appendChild(script);
                   ''');
                   debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}');
-              }),
+                }
+              ),
+              // WebView(
+              //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}',
+              //   javascriptMode: JavascriptMode.unrestricted,
+              //   onWebViewCreated: (WebViewController webViewController) async {
+              //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+              //     // await webViewController.runJavascript('''
+              //     //   var script = document.createElement('script');
+              //     //   script.src = 'https://cdn.usefathom.com/script.js';
+              //     //   script.setAttribute('data-site', 'CKWVTEIX');
+              //     //   script.defer = true;
+              //     //   document.head.appendChild(script);
+              //     // ''');
+
+              //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+              //     await webViewController.runJavascript('''
+              //       var script = document.createElement('script');
+              //       script.src = 'https://cdn.usefathom.com/script.js';
+              //       script.setAttribute('data-site', 'VTLWLMFB');
+              //       script.defer = true;
+              //       document.head.appendChild(script);
+              //     ''');
+              //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}');
+              // }),
               Container(
                 color: Colors.white,
                 width: MediaQuery.of(context).size.width,
@@ -316,7 +407,7 @@ final appRouter = GoRouter(
               ),
             ],
           ),
-          transitionDuration: const Duration(milliseconds: 500),
+          transitionDuration: const Duration(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
               opacity: animation,
@@ -336,10 +427,9 @@ final appRouter = GoRouter(
           child: Stack(
             children: [
               // UseFathom().webViewAnalytics(route: state.location),
-              WebView(
-                initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}',
-                javascriptMode: JavascriptMode.unrestricted,
-                onWebViewCreated: (WebViewController webViewController) async {
+              InAppWebView(
+                initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}'))),
+                onWebViewCreated: (webViewController) async {
                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                   // await webViewController.runJavascript('''
                   //   var script = document.createElement('script');
@@ -350,7 +440,7 @@ final appRouter = GoRouter(
                   // ''');
 
                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                  await webViewController.runJavascript('''
+                  await webViewController.evaluateJavascript(source:'''
                     var script = document.createElement('script');
                     script.src = 'https://cdn.usefathom.com/script.js';
                     script.setAttribute('data-site', 'VTLWLMFB');
@@ -358,7 +448,31 @@ final appRouter = GoRouter(
                     document.head.appendChild(script);
                   ''');
                   debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}');
-              }),
+                }
+              ),
+              // WebView(
+              //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}',
+              //   javascriptMode: JavascriptMode.unrestricted,
+              //   onWebViewCreated: (WebViewController webViewController) async {
+              //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+              //     // await webViewController.runJavascript('''
+              //     //   var script = document.createElement('script');
+              //     //   script.src = 'https://cdn.usefathom.com/script.js';
+              //     //   script.setAttribute('data-site', 'CKWVTEIX');
+              //     //   script.defer = true;
+              //     //   document.head.appendChild(script);
+              //     // ''');
+
+              //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+              //     await webViewController.runJavascript('''
+              //       var script = document.createElement('script');
+              //       script.src = 'https://cdn.usefathom.com/script.js';
+              //       script.setAttribute('data-site', 'VTLWLMFB');
+              //       script.defer = true;
+              //       document.head.appendChild(script);
+              //     ''');
+              //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}');
+              // }),
               Container(
                 color: Colors.white,
                 width: MediaQuery.of(context).size.width,
@@ -367,7 +481,7 @@ final appRouter = GoRouter(
               const AnnouncementPage2(),
             ],
           ),
-          transitionDuration: const Duration(milliseconds: 500),
+          transitionDuration: const Duration(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
               opacity: animation,
@@ -385,10 +499,9 @@ final appRouter = GoRouter(
           child: Stack(
             children: [
               // UseFathom().webViewAnalytics(route: state.location),
-              WebView(
-                initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}',
-                javascriptMode: JavascriptMode.unrestricted,
-                onWebViewCreated: (WebViewController webViewController) async {
+              InAppWebView(
+                initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}'))),
+                onWebViewCreated: (webViewController) async {
                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                   // await webViewController.runJavascript('''
                   //   var script = document.createElement('script');
@@ -399,7 +512,7 @@ final appRouter = GoRouter(
                   // ''');
 
                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                  await webViewController.runJavascript('''
+                  await webViewController.evaluateJavascript(source:'''
                     var script = document.createElement('script');
                     script.src = 'https://cdn.usefathom.com/script.js';
                     script.setAttribute('data-site', 'VTLWLMFB');
@@ -407,7 +520,31 @@ final appRouter = GoRouter(
                     document.head.appendChild(script);
                   ''');
                   debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}');
-              }),
+                }
+              ),
+              // WebView(
+              //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}',
+              //   javascriptMode: JavascriptMode.unrestricted,
+              //   onWebViewCreated: (WebViewController webViewController) async {
+              //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+              //     // await webViewController.runJavascript('''
+              //     //   var script = document.createElement('script');
+              //     //   script.src = 'https://cdn.usefathom.com/script.js';
+              //     //   script.setAttribute('data-site', 'CKWVTEIX');
+              //     //   script.defer = true;
+              //     //   document.head.appendChild(script);
+              //     // ''');
+
+              //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+              //     await webViewController.runJavascript('''
+              //       var script = document.createElement('script');
+              //       script.src = 'https://cdn.usefathom.com/script.js';
+              //       script.setAttribute('data-site', 'VTLWLMFB');
+              //       script.defer = true;
+              //       document.head.appendChild(script);
+              //     ''');
+              //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}');
+              // }),
               Container(
                 color: Colors.white,
                 width: MediaQuery.of(context).size.width,
@@ -416,7 +553,7 @@ final appRouter = GoRouter(
               const CheckOutNowPage(),
             ],
           ),
-          transitionDuration: const Duration(milliseconds: 500),
+          transitionDuration: const Duration(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
               opacity: animation,
@@ -436,10 +573,9 @@ final appRouter = GoRouter(
           child: Stack(
             children: [
               // UseFathom().webViewAnalytics(route: state.location),
-              WebView(
-                initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}',
-                javascriptMode: JavascriptMode.unrestricted,
-                onWebViewCreated: (WebViewController webViewController) async {
+              InAppWebView(
+                initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}'))),
+                onWebViewCreated: (webViewController) async {
                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                   // await webViewController.runJavascript('''
                   //   var script = document.createElement('script');
@@ -450,7 +586,7 @@ final appRouter = GoRouter(
                   // ''');
 
                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                  await webViewController.runJavascript('''
+                  await webViewController.evaluateJavascript(source:'''
                     var script = document.createElement('script');
                     script.src = 'https://cdn.usefathom.com/script.js';
                     script.setAttribute('data-site', 'VTLWLMFB');
@@ -458,7 +594,31 @@ final appRouter = GoRouter(
                     document.head.appendChild(script);
                   ''');
                   debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}');
-              }),
+                }
+              ),
+              // WebView(
+              //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}',
+              //   javascriptMode: JavascriptMode.unrestricted,
+              //   onWebViewCreated: (WebViewController webViewController) async {
+              //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+              //     // await webViewController.runJavascript('''
+              //     //   var script = document.createElement('script');
+              //     //   script.src = 'https://cdn.usefathom.com/script.js';
+              //     //   script.setAttribute('data-site', 'CKWVTEIX');
+              //     //   script.defer = true;
+              //     //   document.head.appendChild(script);
+              //     // ''');
+
+              //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+              //     await webViewController.runJavascript('''
+              //       var script = document.createElement('script');
+              //       script.src = 'https://cdn.usefathom.com/script.js';
+              //       script.setAttribute('data-site', 'VTLWLMFB');
+              //       script.defer = true;
+              //       document.head.appendChild(script);
+              //     ''');
+              //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}');
+              // }),
               Container(
                 color: Colors.white,
                 width: MediaQuery.of(context).size.width,
@@ -479,10 +639,9 @@ final appRouter = GoRouter(
               child: Stack(
                 children: [
                   // UseFathom().webViewAnalytics(route: state.location),
-                  WebView(
-                    initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}',
-                    javascriptMode: JavascriptMode.unrestricted,
-                    onWebViewCreated: (WebViewController webViewController) async {
+                  InAppWebView(
+                    initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}'))),
+                    onWebViewCreated: (webViewController) async {
                       // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                       // await webViewController.runJavascript('''
                       //   var script = document.createElement('script');
@@ -493,7 +652,7 @@ final appRouter = GoRouter(
                       // ''');
 
                       // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                      await webViewController.runJavascript('''
+                      await webViewController.evaluateJavascript(source:'''
                         var script = document.createElement('script');
                         script.src = 'https://cdn.usefathom.com/script.js';
                         script.setAttribute('data-site', 'VTLWLMFB');
@@ -501,7 +660,31 @@ final appRouter = GoRouter(
                         document.head.appendChild(script);
                       ''');
                       debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}');
-                  }),
+                    }
+                  ),
+                  // WebView(
+                  //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}',
+                  //   javascriptMode: JavascriptMode.unrestricted,
+                  //   onWebViewCreated: (WebViewController webViewController) async {
+                  //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                  //     // await webViewController.runJavascript('''
+                  //     //   var script = document.createElement('script');
+                  //     //   script.src = 'https://cdn.usefathom.com/script.js';
+                  //     //   script.setAttribute('data-site', 'CKWVTEIX');
+                  //     //   script.defer = true;
+                  //     //   document.head.appendChild(script);
+                  //     // ''');
+
+                  //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                  //     await webViewController.runJavascript('''
+                  //       var script = document.createElement('script');
+                  //       script.src = 'https://cdn.usefathom.com/script.js';
+                  //       script.setAttribute('data-site', 'VTLWLMFB');
+                  //       script.defer = true;
+                  //       document.head.appendChild(script);
+                  //     ''');
+                  //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}');
+                  // }),
                   Container(
                     color: Colors.white,
                     width: MediaQuery.of(context).size.width,
@@ -526,7 +709,7 @@ final appRouter = GoRouter(
                   ),
                 ],
               ),
-              transitionDuration: const Duration(milliseconds: 500),
+              transitionDuration: const Duration(),
               transitionsBuilder: (context, animation, secondaryAnimation, child) {
                 return FadeTransition(
                   opacity: animation,
@@ -546,10 +729,9 @@ final appRouter = GoRouter(
           child: Stack(
             children: [
               // UseFathom().webViewAnalytics(route: state.location),
-              WebView(
-                initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}',
-                javascriptMode: JavascriptMode.unrestricted,
-                onWebViewCreated: (WebViewController webViewController) async {
+              InAppWebView(
+                initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}'))),
+                onWebViewCreated: (webViewController) async {
                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                   // await webViewController.runJavascript('''
                   //   var script = document.createElement('script');
@@ -560,7 +742,7 @@ final appRouter = GoRouter(
                   // ''');
 
                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                  await webViewController.runJavascript('''
+                  await webViewController.evaluateJavascript(source:'''
                     var script = document.createElement('script');
                     script.src = 'https://cdn.usefathom.com/script.js';
                     script.setAttribute('data-site', 'VTLWLMFB');
@@ -568,7 +750,31 @@ final appRouter = GoRouter(
                     document.head.appendChild(script);
                   ''');
                   debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}');
-              }),
+                }
+              ),
+              // WebView(
+              //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}',
+              //   javascriptMode: JavascriptMode.unrestricted,
+              //   onWebViewCreated: (WebViewController webViewController) async {
+              //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+              //     // await webViewController.runJavascript('''
+              //     //   var script = document.createElement('script');
+              //     //   script.src = 'https://cdn.usefathom.com/script.js';
+              //     //   script.setAttribute('data-site', 'CKWVTEIX');
+              //     //   script.defer = true;
+              //     //   document.head.appendChild(script);
+              //     // ''');
+
+              //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+              //     await webViewController.runJavascript('''
+              //       var script = document.createElement('script');
+              //       script.src = 'https://cdn.usefathom.com/script.js';
+              //       script.setAttribute('data-site', 'VTLWLMFB');
+              //       script.defer = true;
+              //       document.head.appendChild(script);
+              //     ''');
+              //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}');
+              // }),
               Container(
                 color: Colors.white,
                 width: MediaQuery.of(context).size.width,
@@ -577,7 +783,7 @@ final appRouter = GoRouter(
               const ForgotPasswordPage(),
             ],
           ),
-          transitionDuration: const Duration(milliseconds: 500),
+          transitionDuration: const Duration(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
               opacity: animation,
@@ -595,10 +801,9 @@ final appRouter = GoRouter(
               child: Stack(
                 children: [
                   // UseFathom().webViewAnalytics(route: state.location),
-                  WebView(
-                    initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}',
-                    javascriptMode: JavascriptMode.unrestricted,
-                    onWebViewCreated: (WebViewController webViewController) async {
+                  InAppWebView(
+                    initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}'))),
+                    onWebViewCreated: (webViewController) async {
                       // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                       // await webViewController.runJavascript('''
                       //   var script = document.createElement('script');
@@ -609,7 +814,7 @@ final appRouter = GoRouter(
                       // ''');
 
                       // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                      await webViewController.runJavascript('''
+                      await webViewController.evaluateJavascript(source:'''
                         var script = document.createElement('script');
                         script.src = 'https://cdn.usefathom.com/script.js';
                         script.setAttribute('data-site', 'VTLWLMFB');
@@ -617,7 +822,31 @@ final appRouter = GoRouter(
                         document.head.appendChild(script);
                       ''');
                       debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}');
-                  }),
+                    }
+                  ),
+                  // WebView(
+                  //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}',
+                  //   javascriptMode: JavascriptMode.unrestricted,
+                  //   onWebViewCreated: (WebViewController webViewController) async {
+                  //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                  //     // await webViewController.runJavascript('''
+                  //     //   var script = document.createElement('script');
+                  //     //   script.src = 'https://cdn.usefathom.com/script.js';
+                  //     //   script.setAttribute('data-site', 'CKWVTEIX');
+                  //     //   script.defer = true;
+                  //     //   document.head.appendChild(script);
+                  //     // ''');
+
+                  //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                  //     await webViewController.runJavascript('''
+                  //       var script = document.createElement('script');
+                  //       script.src = 'https://cdn.usefathom.com/script.js';
+                  //       script.setAttribute('data-site', 'VTLWLMFB');
+                  //       script.defer = true;
+                  //       document.head.appendChild(script);
+                  //     ''');
+                  //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}');
+                  // }),
                   Container(
                     color: Colors.white,
                     width: MediaQuery.of(context).size.width,
@@ -635,7 +864,7 @@ final appRouter = GoRouter(
                   ),
                 ],
               ),
-              transitionDuration: const Duration(milliseconds: 500),
+              transitionDuration: const Duration(),
               transitionsBuilder: (context, animation, secondaryAnimation, child) {
                 return FadeTransition(
                   opacity: animation,
@@ -653,10 +882,9 @@ final appRouter = GoRouter(
               child: Stack(
                 children: [
                   // UseFathom().webViewAnalytics(route: routeState.location),
-                  WebView(
-                    initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
-                    javascriptMode: JavascriptMode.unrestricted,
-                    onWebViewCreated: (WebViewController webViewController) async {
+                  InAppWebView(
+                    initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}'))),
+                    onWebViewCreated: (webViewController) async {
                       // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                       // await webViewController.runJavascript('''
                       //   var script = document.createElement('script');
@@ -667,7 +895,7 @@ final appRouter = GoRouter(
                       // ''');
 
                       // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                      await webViewController.runJavascript('''
+                      await webViewController.evaluateJavascript(source:'''
                         var script = document.createElement('script');
                         script.src = 'https://cdn.usefathom.com/script.js';
                         script.setAttribute('data-site', 'VTLWLMFB');
@@ -675,7 +903,31 @@ final appRouter = GoRouter(
                         document.head.appendChild(script);
                       ''');
                       debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
-                  }),
+                    }
+                  ),
+                  // WebView(
+                  //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
+                  //   javascriptMode: JavascriptMode.unrestricted,
+                  //   onWebViewCreated: (WebViewController webViewController) async {
+                  //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                  //     // await webViewController.runJavascript('''
+                  //     //   var script = document.createElement('script');
+                  //     //   script.src = 'https://cdn.usefathom.com/script.js';
+                  //     //   script.setAttribute('data-site', 'CKWVTEIX');
+                  //     //   script.defer = true;
+                  //     //   document.head.appendChild(script);
+                  //     // ''');
+
+                  //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                  //     await webViewController.runJavascript('''
+                  //       var script = document.createElement('script');
+                  //       script.src = 'https://cdn.usefathom.com/script.js';
+                  //       script.setAttribute('data-site', 'VTLWLMFB');
+                  //       script.defer = true;
+                  //       document.head.appendChild(script);
+                  //     ''');
+                  //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
+                  // }),
                   Container(
                     color: Colors.white,
                     width: MediaQuery.of(context).size.width,
@@ -684,7 +936,7 @@ final appRouter = GoRouter(
                   const ResetPasswordPage(),
                 ],
               ),
-              transitionDuration: const Duration(milliseconds: 500),
+              transitionDuration: const Duration(),
               transitionsBuilder: (context, animation, secondaryAnimation, child) {
                 return FadeTransition(
                   opacity: animation,
@@ -708,10 +960,9 @@ final appRouter = GoRouter(
           child: Stack(
             children: [
               // UseFathom().webViewAnalytics(route: state.location),
-              WebView(
-                initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}',
-                javascriptMode: JavascriptMode.unrestricted,
-                onWebViewCreated: (WebViewController webViewController) async {
+              InAppWebView(
+                initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}'))),
+                onWebViewCreated: (webViewController) async {
                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                   // await webViewController.runJavascript('''
                   //   var script = document.createElement('script');
@@ -722,7 +973,7 @@ final appRouter = GoRouter(
                   // ''');
 
                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                  await webViewController.runJavascript('''
+                  await webViewController.evaluateJavascript(source:'''
                     var script = document.createElement('script');
                     script.src = 'https://cdn.usefathom.com/script.js';
                     script.setAttribute('data-site', 'VTLWLMFB');
@@ -730,7 +981,31 @@ final appRouter = GoRouter(
                     document.head.appendChild(script);
                   ''');
                   debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}');
-              }),
+                }
+              ),
+              // WebView(
+              //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}',
+              //   javascriptMode: JavascriptMode.unrestricted,
+              //   onWebViewCreated: (WebViewController webViewController) async {
+              //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+              //     // await webViewController.runJavascript('''
+              //     //   var script = document.createElement('script');
+              //     //   script.src = 'https://cdn.usefathom.com/script.js';
+              //     //   script.setAttribute('data-site', 'CKWVTEIX');
+              //     //   script.defer = true;
+              //     //   document.head.appendChild(script);
+              //     // ''');
+
+              //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+              //     await webViewController.runJavascript('''
+              //       var script = document.createElement('script');
+              //       script.src = 'https://cdn.usefathom.com/script.js';
+              //       script.setAttribute('data-site', 'VTLWLMFB');
+              //       script.defer = true;
+              //       document.head.appendChild(script);
+              //     ''');
+              //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}');
+              // }),
               Container(
                 color: Colors.white,
                 width: MediaQuery.of(context).size.width,
@@ -739,7 +1014,7 @@ final appRouter = GoRouter(
               const RegistrationPage(),
             ],
           ),
-          transitionDuration: const Duration(milliseconds: 500),
+          transitionDuration: const Duration(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
               opacity: animation,
@@ -757,10 +1032,9 @@ final appRouter = GoRouter(
               child: Stack(
                 children: [
                   // UseFathom().webViewAnalytics(route: state.location),
-                  WebView(
-                    initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}',
-                    javascriptMode: JavascriptMode.unrestricted,
-                    onWebViewCreated: (WebViewController webViewController) async {
+                  InAppWebView(
+                    initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}'))),
+                    onWebViewCreated: (webViewController) async {
                       // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                       // await webViewController.runJavascript('''
                       //   var script = document.createElement('script');
@@ -771,7 +1045,7 @@ final appRouter = GoRouter(
                       // ''');
 
                       // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                      await webViewController.runJavascript('''
+                      await webViewController.evaluateJavascript(source:'''
                         var script = document.createElement('script');
                         script.src = 'https://cdn.usefathom.com/script.js';
                         script.setAttribute('data-site', 'VTLWLMFB');
@@ -779,7 +1053,31 @@ final appRouter = GoRouter(
                         document.head.appendChild(script);
                       ''');
                       debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}');
-                  }),
+                    }
+                  ),
+                  // WebView(
+                  //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}',
+                  //   javascriptMode: JavascriptMode.unrestricted,
+                  //   onWebViewCreated: (WebViewController webViewController) async {
+                  //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                  //     // await webViewController.runJavascript('''
+                  //     //   var script = document.createElement('script');
+                  //     //   script.src = 'https://cdn.usefathom.com/script.js';
+                  //     //   script.setAttribute('data-site', 'CKWVTEIX');
+                  //     //   script.defer = true;
+                  //     //   document.head.appendChild(script);
+                  //     // ''');
+
+                  //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                  //     await webViewController.runJavascript('''
+                  //       var script = document.createElement('script');
+                  //       script.src = 'https://cdn.usefathom.com/script.js';
+                  //       script.setAttribute('data-site', 'VTLWLMFB');
+                  //       script.defer = true;
+                  //       document.head.appendChild(script);
+                  //     ''');
+                  //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}');
+                  // }),
                   Container(
                     color: Colors.white,
                     width: MediaQuery.of(context).size.width,
@@ -791,7 +1089,7 @@ final appRouter = GoRouter(
                   ),
                 ],
               ),
-              transitionDuration: const Duration(milliseconds: 500),
+              transitionDuration: const Duration(),
               transitionsBuilder: (context, animation, secondaryAnimation, child) {
                 return FadeTransition(
                   opacity: animation,
@@ -809,10 +1107,9 @@ final appRouter = GoRouter(
               child: Stack(
                 children: [
                   // UseFathom().webViewAnalytics(route: state.location),
-                  WebView(
-                    initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}',
-                    javascriptMode: JavascriptMode.unrestricted,
-                    onWebViewCreated: (WebViewController webViewController) async {
+                  InAppWebView(
+                    initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}'))),
+                    onWebViewCreated: (webViewController) async {
                       // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                       // await webViewController.runJavascript('''
                       //   var script = document.createElement('script');
@@ -823,7 +1120,7 @@ final appRouter = GoRouter(
                       // ''');
 
                       // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                      await webViewController.runJavascript('''
+                      await webViewController.evaluateJavascript(source:'''
                         var script = document.createElement('script');
                         script.src = 'https://cdn.usefathom.com/script.js';
                         script.setAttribute('data-site', 'VTLWLMFB');
@@ -831,7 +1128,31 @@ final appRouter = GoRouter(
                         document.head.appendChild(script);
                       ''');
                       debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}');
-                  }),
+                    }
+                  ),
+                  // WebView(
+                  //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}',
+                  //   javascriptMode: JavascriptMode.unrestricted,
+                  //   onWebViewCreated: (WebViewController webViewController) async {
+                  //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                  //     // await webViewController.runJavascript('''
+                  //     //   var script = document.createElement('script');
+                  //     //   script.src = 'https://cdn.usefathom.com/script.js';
+                  //     //   script.setAttribute('data-site', 'CKWVTEIX');
+                  //     //   script.defer = true;
+                  //     //   document.head.appendChild(script);
+                  //     // ''');
+
+                  //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                  //     await webViewController.runJavascript('''
+                  //       var script = document.createElement('script');
+                  //       script.src = 'https://cdn.usefathom.com/script.js';
+                  //       script.setAttribute('data-site', 'VTLWLMFB');
+                  //       script.defer = true;
+                  //       document.head.appendChild(script);
+                  //     ''');
+                  //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${state.location}');
+                  // }),
                   Container(
                     color: Colors.white,
                     width: MediaQuery.of(context).size.width,
@@ -850,7 +1171,7 @@ final appRouter = GoRouter(
                   ),
                 ],
               ),
-              transitionDuration: const Duration(milliseconds: 500),
+              transitionDuration: const Duration(),
               transitionsBuilder: (context, animation, secondaryAnimation, child) {
                 return FadeTransition(
                   opacity: animation,
@@ -888,10 +1209,9 @@ final appRouter = GoRouter(
               child: Stack(
                 children: [
                   // UseFathom().webViewAnalytics(route: routeState.location),
-                  WebView(
-                    initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
-                    javascriptMode: JavascriptMode.unrestricted,
-                    onWebViewCreated: (WebViewController webViewController) async {
+                  InAppWebView(
+                    initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}'))),
+                    onWebViewCreated: (webViewController) async {
                       // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                       // await webViewController.runJavascript('''
                       //   var script = document.createElement('script');
@@ -902,7 +1222,7 @@ final appRouter = GoRouter(
                       // ''');
 
                       // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                      await webViewController.runJavascript('''
+                      await webViewController.evaluateJavascript(source:'''
                         var script = document.createElement('script');
                         script.src = 'https://cdn.usefathom.com/script.js';
                         script.setAttribute('data-site', 'VTLWLMFB');
@@ -910,7 +1230,31 @@ final appRouter = GoRouter(
                         document.head.appendChild(script);
                       ''');
                       debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
-                  }),
+                    }
+                  ),
+                  // WebView(
+                  //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
+                  //   javascriptMode: JavascriptMode.unrestricted,
+                  //   onWebViewCreated: (WebViewController webViewController) async {
+                  //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                  //     // await webViewController.runJavascript('''
+                  //     //   var script = document.createElement('script');
+                  //     //   script.src = 'https://cdn.usefathom.com/script.js';
+                  //     //   script.setAttribute('data-site', 'CKWVTEIX');
+                  //     //   script.defer = true;
+                  //     //   document.head.appendChild(script);
+                  //     // ''');
+
+                  //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                  //     await webViewController.runJavascript('''
+                  //       var script = document.createElement('script');
+                  //       script.src = 'https://cdn.usefathom.com/script.js';
+                  //       script.setAttribute('data-site', 'VTLWLMFB');
+                  //       script.defer = true;
+                  //       document.head.appendChild(script);
+                  //     ''');
+                  //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
+                  // }),
                   Container(
                     color: Colors.white,
                     width: MediaQuery.of(context).size.width,
@@ -921,7 +1265,7 @@ final appRouter = GoRouter(
                   ),
                 ],
               ),
-              transitionDuration: const Duration(milliseconds: 500),
+              transitionDuration: const Duration(),
               transitionsBuilder: (context, animation, secondaryAnimation, child) {
                 return FadeTransition(
                   opacity: animation,
@@ -939,10 +1283,9 @@ final appRouter = GoRouter(
                   child: Stack(
                     children: [
                       // UseFathom().webViewAnalytics(route: routeState.location),
-                      WebView(
-                        initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
-                        javascriptMode: JavascriptMode.unrestricted,
-                        onWebViewCreated: (WebViewController webViewController) async {
+                      InAppWebView(
+                        initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}'))),
+                        onWebViewCreated: (webViewController) async {
                           // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                           // await webViewController.runJavascript('''
                           //   var script = document.createElement('script');
@@ -953,7 +1296,7 @@ final appRouter = GoRouter(
                           // ''');
 
                           // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                          await webViewController.runJavascript('''
+                          await webViewController.evaluateJavascript(source:'''
                             var script = document.createElement('script');
                             script.src = 'https://cdn.usefathom.com/script.js';
                             script.setAttribute('data-site', 'VTLWLMFB');
@@ -961,7 +1304,31 @@ final appRouter = GoRouter(
                             document.head.appendChild(script);
                           ''');
                           debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
-                      }),
+                        }
+                      ),
+                      // WebView(
+                      //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
+                      //   javascriptMode: JavascriptMode.unrestricted,
+                      //   onWebViewCreated: (WebViewController webViewController) async {
+                      //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                      //     // await webViewController.runJavascript('''
+                      //     //   var script = document.createElement('script');
+                      //     //   script.src = 'https://cdn.usefathom.com/script.js';
+                      //     //   script.setAttribute('data-site', 'CKWVTEIX');
+                      //     //   script.defer = true;
+                      //     //   document.head.appendChild(script);
+                      //     // ''');
+
+                      //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                      //     await webViewController.runJavascript('''
+                      //       var script = document.createElement('script');
+                      //       script.src = 'https://cdn.usefathom.com/script.js';
+                      //       script.setAttribute('data-site', 'VTLWLMFB');
+                      //       script.defer = true;
+                      //       document.head.appendChild(script);
+                      //     ''');
+                      //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
+                      // }),
                       Container(
                         color: Colors.white,
                         width: MediaQuery.of(context).size.width,
@@ -970,7 +1337,7 @@ final appRouter = GoRouter(
                       const CustomMapPage(),
                     ],
                   ),
-                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionDuration: const Duration(),
                   transitionsBuilder: (context, animation, secondaryAnimation, child) {
                     return FadeTransition(
                       opacity: animation,
@@ -988,10 +1355,9 @@ final appRouter = GoRouter(
                   child: Stack(
                     children: [
                       // UseFathom().webViewAnalytics(route: routeState.location),
-                      WebView(
-                        initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
-                        javascriptMode: JavascriptMode.unrestricted,
-                        onWebViewCreated: (WebViewController webViewController) async {
+                      InAppWebView(
+                        initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}'))),
+                        onWebViewCreated: (webViewController) async {
                           // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                           // await webViewController.runJavascript('''
                           //   var script = document.createElement('script');
@@ -1002,7 +1368,7 @@ final appRouter = GoRouter(
                           // ''');
 
                           // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                          await webViewController.runJavascript('''
+                          await webViewController.evaluateJavascript(source:'''
                             var script = document.createElement('script');
                             script.src = 'https://cdn.usefathom.com/script.js';
                             script.setAttribute('data-site', 'VTLWLMFB');
@@ -1010,7 +1376,31 @@ final appRouter = GoRouter(
                             document.head.appendChild(script);
                           ''');
                           debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
-                      }),
+                        }
+                      ),
+                      // WebView(
+                      //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
+                      //   javascriptMode: JavascriptMode.unrestricted,
+                      //   onWebViewCreated: (WebViewController webViewController) async {
+                      //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                      //     // await webViewController.runJavascript('''
+                      //     //   var script = document.createElement('script');
+                      //     //   script.src = 'https://cdn.usefathom.com/script.js';
+                      //     //   script.setAttribute('data-site', 'CKWVTEIX');
+                      //     //   script.defer = true;
+                      //     //   document.head.appendChild(script);
+                      //     // ''');
+
+                      //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                      //     await webViewController.runJavascript('''
+                      //       var script = document.createElement('script');
+                      //       script.src = 'https://cdn.usefathom.com/script.js';
+                      //       script.setAttribute('data-site', 'VTLWLMFB');
+                      //       script.defer = true;
+                      //       document.head.appendChild(script);
+                      //     ''');
+                      //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
+                      // }),
                       Container(
                         color: Colors.white,
                         width: MediaQuery.of(context).size.width,
@@ -1022,7 +1412,7 @@ final appRouter = GoRouter(
                       ),
                     ],
                   ),
-                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionDuration: const Duration(),
                   transitionsBuilder: (context, animation, secondaryAnimation, child) {
                     return FadeTransition(
                       opacity: animation,
@@ -1048,10 +1438,9 @@ final appRouter = GoRouter(
               child: Stack(
                 children: [
                   // UseFathom().webViewAnalytics(route: routeState.location),
-                  WebView(
-                    initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
-                    javascriptMode: JavascriptMode.unrestricted,
-                    onWebViewCreated: (WebViewController webViewController) async {
+                  InAppWebView(
+                    initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}'))),
+                    onWebViewCreated: (webViewController) async {
                       // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                       // await webViewController.runJavascript('''
                       //   var script = document.createElement('script');
@@ -1062,7 +1451,7 @@ final appRouter = GoRouter(
                       // ''');
 
                       // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                      await webViewController.runJavascript('''
+                      await webViewController.evaluateJavascript(source:'''
                         var script = document.createElement('script');
                         script.src = 'https://cdn.usefathom.com/script.js';
                         script.setAttribute('data-site', 'VTLWLMFB');
@@ -1070,7 +1459,31 @@ final appRouter = GoRouter(
                         document.head.appendChild(script);
                       ''');
                       debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
-                  }),
+                    }
+                  ),
+                  // WebView(
+                  //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
+                  //   javascriptMode: JavascriptMode.unrestricted,
+                  //   onWebViewCreated: (WebViewController webViewController) async {
+                  //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                  //     // await webViewController.runJavascript('''
+                  //     //   var script = document.createElement('script');
+                  //     //   script.src = 'https://cdn.usefathom.com/script.js';
+                  //     //   script.setAttribute('data-site', 'CKWVTEIX');
+                  //     //   script.defer = true;
+                  //     //   document.head.appendChild(script);
+                  //     // ''');
+
+                  //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                  //     await webViewController.runJavascript('''
+                  //       var script = document.createElement('script');
+                  //       script.src = 'https://cdn.usefathom.com/script.js';
+                  //       script.setAttribute('data-site', 'VTLWLMFB');
+                  //       script.defer = true;
+                  //       document.head.appendChild(script);
+                  //     ''');
+                  //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
+                  // }),
                   Container(
                     color: Colors.white,
                     width: MediaQuery.of(context).size.width,
@@ -1081,7 +1494,7 @@ final appRouter = GoRouter(
                   ),
                 ],
               ),
-              transitionDuration: const Duration(milliseconds: 500),
+              transitionDuration: const Duration(),
               transitionsBuilder: (context, animation, secondaryAnimation, child) {
                 return FadeTransition(
                   opacity: animation,
@@ -1099,10 +1512,9 @@ final appRouter = GoRouter(
               child: Stack(
                 children: [
                   // UseFathom().webViewAnalytics(route: routeState.location),
-                  WebView(
-                    initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
-                    javascriptMode: JavascriptMode.unrestricted,
-                    onWebViewCreated: (WebViewController webViewController) async {
+                  InAppWebView(
+                    initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}'))),
+                    onWebViewCreated: (webViewController) async {
                       // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                       // await webViewController.runJavascript('''
                       //   var script = document.createElement('script');
@@ -1113,7 +1525,7 @@ final appRouter = GoRouter(
                       // ''');
 
                       // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                      await webViewController.runJavascript('''
+                      await webViewController.evaluateJavascript(source:'''
                         var script = document.createElement('script');
                         script.src = 'https://cdn.usefathom.com/script.js';
                         script.setAttribute('data-site', 'VTLWLMFB');
@@ -1121,7 +1533,31 @@ final appRouter = GoRouter(
                         document.head.appendChild(script);
                       ''');
                       debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
-                  }),
+                    }
+                  ),
+                  // WebView(
+                  //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
+                  //   javascriptMode: JavascriptMode.unrestricted,
+                  //   onWebViewCreated: (WebViewController webViewController) async {
+                  //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                  //     // await webViewController.runJavascript('''
+                  //     //   var script = document.createElement('script');
+                  //     //   script.src = 'https://cdn.usefathom.com/script.js';
+                  //     //   script.setAttribute('data-site', 'CKWVTEIX');
+                  //     //   script.defer = true;
+                  //     //   document.head.appendChild(script);
+                  //     // ''');
+
+                  //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                  //     await webViewController.runJavascript('''
+                  //       var script = document.createElement('script');
+                  //       script.src = 'https://cdn.usefathom.com/script.js';
+                  //       script.setAttribute('data-site', 'VTLWLMFB');
+                  //       script.defer = true;
+                  //       document.head.appendChild(script);
+                  //     ''');
+                  //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
+                  // }),
                   Container(
                     color: Colors.white,
                     width: MediaQuery.of(context).size.width,
@@ -1132,7 +1568,7 @@ final appRouter = GoRouter(
                   ),
                 ],
               ),
-              transitionDuration: const Duration(milliseconds: 500),
+              transitionDuration: const Duration(),
               transitionsBuilder: (context, animation, secondaryAnimation, child) {
                 return FadeTransition(
                   opacity: animation,
@@ -1150,10 +1586,9 @@ final appRouter = GoRouter(
                   child: Stack(
                     children: [
                       // UseFathom().webViewAnalytics(route: routeState.location),
-                      WebView(
-                        initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
-                        javascriptMode: JavascriptMode.unrestricted,
-                        onWebViewCreated: (WebViewController webViewController) async {
+                      InAppWebView(
+                        initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}'))),
+                        onWebViewCreated: (webViewController) async {
                           // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                           // await webViewController.runJavascript('''
                           //   var script = document.createElement('script');
@@ -1164,7 +1599,7 @@ final appRouter = GoRouter(
                           // ''');
 
                           // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                          await webViewController.runJavascript('''
+                          await webViewController.evaluateJavascript(source:'''
                             var script = document.createElement('script');
                             script.src = 'https://cdn.usefathom.com/script.js';
                             script.setAttribute('data-site', 'VTLWLMFB');
@@ -1172,7 +1607,31 @@ final appRouter = GoRouter(
                             document.head.appendChild(script);
                           ''');
                           debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
-                      }),
+                        }
+                      ),
+                      // WebView(
+                      //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
+                      //   javascriptMode: JavascriptMode.unrestricted,
+                      //   onWebViewCreated: (WebViewController webViewController) async {
+                      //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                      //     // await webViewController.runJavascript('''
+                      //     //   var script = document.createElement('script');
+                      //     //   script.src = 'https://cdn.usefathom.com/script.js';
+                      //     //   script.setAttribute('data-site', 'CKWVTEIX');
+                      //     //   script.defer = true;
+                      //     //   document.head.appendChild(script);
+                      //     // ''');
+
+                      //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                      //     await webViewController.runJavascript('''
+                      //       var script = document.createElement('script');
+                      //       script.src = 'https://cdn.usefathom.com/script.js';
+                      //       script.setAttribute('data-site', 'VTLWLMFB');
+                      //       script.defer = true;
+                      //       document.head.appendChild(script);
+                      //     ''');
+                      //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
+                      // }),
                       Container(
                         color: Colors.white,
                         width: MediaQuery.of(context).size.width,
@@ -1208,10 +1667,9 @@ final appRouter = GoRouter(
                   child: Stack(
                     children: [
                       // UseFathom().webViewAnalytics(route: routeState.location),
-                      WebView(
-                        initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
-                        javascriptMode: JavascriptMode.unrestricted,
-                        onWebViewCreated: (WebViewController webViewController) async {
+                      InAppWebView(
+                        initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}'))),
+                        onWebViewCreated: (webViewController) async {
                           // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                           // await webViewController.runJavascript('''
                           //   var script = document.createElement('script');
@@ -1222,7 +1680,7 @@ final appRouter = GoRouter(
                           // ''');
 
                           // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                          await webViewController.runJavascript('''
+                          await webViewController.evaluateJavascript(source:'''
                             var script = document.createElement('script');
                             script.src = 'https://cdn.usefathom.com/script.js';
                             script.setAttribute('data-site', 'VTLWLMFB');
@@ -1230,7 +1688,31 @@ final appRouter = GoRouter(
                             document.head.appendChild(script);
                           ''');
                           debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
-                      }),
+                        }
+                      ),
+                      // WebView(
+                      //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
+                      //   javascriptMode: JavascriptMode.unrestricted,
+                      //   onWebViewCreated: (WebViewController webViewController) async {
+                      //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                      //     // await webViewController.runJavascript('''
+                      //     //   var script = document.createElement('script');
+                      //     //   script.src = 'https://cdn.usefathom.com/script.js';
+                      //     //   script.setAttribute('data-site', 'CKWVTEIX');
+                      //     //   script.defer = true;
+                      //     //   document.head.appendChild(script);
+                      //     // ''');
+
+                      //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                      //     await webViewController.runJavascript('''
+                      //       var script = document.createElement('script');
+                      //       script.src = 'https://cdn.usefathom.com/script.js';
+                      //       script.setAttribute('data-site', 'VTLWLMFB');
+                      //       script.defer = true;
+                      //       document.head.appendChild(script);
+                      //     ''');
+                      //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
+                      // }),
                       Container(
                         color: Colors.white,
                         width: MediaQuery.of(context).size.width,
@@ -1264,10 +1746,9 @@ final appRouter = GoRouter(
                       child: Stack(
                         children: [
                           // UseFathom().webViewAnalytics(route: routeState.location),
-                          WebView(
-                            initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
-                            javascriptMode: JavascriptMode.unrestricted,
-                            onWebViewCreated: (WebViewController webViewController) async {
+                          InAppWebView(
+                            initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}'))),
+                            onWebViewCreated: (webViewController) async {
                               // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                               // await webViewController.runJavascript('''
                               //   var script = document.createElement('script');
@@ -1278,7 +1759,7 @@ final appRouter = GoRouter(
                               // ''');
 
                               // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                              await webViewController.runJavascript('''
+                              await webViewController.evaluateJavascript(source:'''
                                 var script = document.createElement('script');
                                 script.src = 'https://cdn.usefathom.com/script.js';
                                 script.setAttribute('data-site', 'VTLWLMFB');
@@ -1286,7 +1767,31 @@ final appRouter = GoRouter(
                                 document.head.appendChild(script);
                               ''');
                               debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
-                          }),
+                            }
+                          ),
+                          // WebView(
+                          //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
+                          //   javascriptMode: JavascriptMode.unrestricted,
+                          //   onWebViewCreated: (WebViewController webViewController) async {
+                          //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                          //     // await webViewController.runJavascript('''
+                          //     //   var script = document.createElement('script');
+                          //     //   script.src = 'https://cdn.usefathom.com/script.js';
+                          //     //   script.setAttribute('data-site', 'CKWVTEIX');
+                          //     //   script.defer = true;
+                          //     //   document.head.appendChild(script);
+                          //     // ''');
+
+                          //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                          //     await webViewController.runJavascript('''
+                          //       var script = document.createElement('script');
+                          //       script.src = 'https://cdn.usefathom.com/script.js';
+                          //       script.setAttribute('data-site', 'VTLWLMFB');
+                          //       script.defer = true;
+                          //       document.head.appendChild(script);
+                          //     ''');
+                          //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
+                          // }),
                           Container(
                             color: Colors.white,
                             width: MediaQuery.of(context).size.width,
@@ -1322,10 +1827,9 @@ final appRouter = GoRouter(
                   child: Stack(
                     children: [
                       // UseFathom().webViewAnalytics(route: routeState.location),
-                      WebView(
-                        initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
-                        javascriptMode: JavascriptMode.unrestricted,
-                        onWebViewCreated: (WebViewController webViewController) async {
+                      InAppWebView(
+                        initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}'))),
+                        onWebViewCreated: (webViewController) async {
                           // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                           // await webViewController.runJavascript('''
                           //   var script = document.createElement('script');
@@ -1336,7 +1840,7 @@ final appRouter = GoRouter(
                           // ''');
 
                           // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                          await webViewController.runJavascript('''
+                          await webViewController.evaluateJavascript(source:'''
                             var script = document.createElement('script');
                             script.src = 'https://cdn.usefathom.com/script.js';
                             script.setAttribute('data-site', 'VTLWLMFB');
@@ -1344,7 +1848,31 @@ final appRouter = GoRouter(
                             document.head.appendChild(script);
                           ''');
                           debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
-                      }),
+                        }
+                      ),
+                      // WebView(
+                      //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
+                      //   javascriptMode: JavascriptMode.unrestricted,
+                      //   onWebViewCreated: (WebViewController webViewController) async {
+                      //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                      //     // await webViewController.runJavascript('''
+                      //     //   var script = document.createElement('script');
+                      //     //   script.src = 'https://cdn.usefathom.com/script.js';
+                      //     //   script.setAttribute('data-site', 'CKWVTEIX');
+                      //     //   script.defer = true;
+                      //     //   document.head.appendChild(script);
+                      //     // ''');
+
+                      //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                      //     await webViewController.runJavascript('''
+                      //       var script = document.createElement('script');
+                      //       script.src = 'https://cdn.usefathom.com/script.js';
+                      //       script.setAttribute('data-site', 'VTLWLMFB');
+                      //       script.defer = true;
+                      //       document.head.appendChild(script);
+                      //     ''');
+                      //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
+                      // }),
                       Container(
                         color: Colors.white,
                         width: MediaQuery.of(context).size.width,
@@ -1378,10 +1906,9 @@ final appRouter = GoRouter(
                   child: Stack(
                     children: [
                       // UseFathom().webViewAnalytics(route: routeState.location),
-                      WebView(
-                        initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
-                        javascriptMode: JavascriptMode.unrestricted,
-                        onWebViewCreated: (WebViewController webViewController) async {
+                      InAppWebView(
+                        initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}'))),
+                        onWebViewCreated: (webViewController) async {
                           // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                           // await webViewController.runJavascript('''
                           //   var script = document.createElement('script');
@@ -1392,7 +1919,7 @@ final appRouter = GoRouter(
                           // ''');
 
                           // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                          await webViewController.runJavascript('''
+                          await webViewController.evaluateJavascript(source:'''
                             var script = document.createElement('script');
                             script.src = 'https://cdn.usefathom.com/script.js';
                             script.setAttribute('data-site', 'VTLWLMFB');
@@ -1400,7 +1927,31 @@ final appRouter = GoRouter(
                             document.head.appendChild(script);
                           ''');
                           debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
-                      }),
+                        }
+                      ),
+                      // WebView(
+                      //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
+                      //   javascriptMode: JavascriptMode.unrestricted,
+                      //   onWebViewCreated: (WebViewController webViewController) async {
+                      //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                      //     // await webViewController.runJavascript('''
+                      //     //   var script = document.createElement('script');
+                      //     //   script.src = 'https://cdn.usefathom.com/script.js';
+                      //     //   script.setAttribute('data-site', 'CKWVTEIX');
+                      //     //   script.defer = true;
+                      //     //   document.head.appendChild(script);
+                      //     // ''');
+
+                      //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                      //     await webViewController.runJavascript('''
+                      //       var script = document.createElement('script');
+                      //       script.src = 'https://cdn.usefathom.com/script.js';
+                      //       script.setAttribute('data-site', 'VTLWLMFB');
+                      //       script.defer = true;
+                      //       document.head.appendChild(script);
+                      //     ''');
+                      //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
+                      // }),
                       Container(
                         color: Colors.white,
                         width: MediaQuery.of(context).size.width,
@@ -1411,7 +1962,7 @@ final appRouter = GoRouter(
                   ),
                   // key: routeState.pageKey,
                   // restorationId: routeState.pageKey.value,
-                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionDuration: const Duration(),
                   transitionsBuilder: (context, animation, secondaryAnim, child) {
                     return FadeTransition(
                       opacity: animation,
@@ -1435,10 +1986,9 @@ final appRouter = GoRouter(
                   child: Stack(
                     children: [
                       // UseFathom().webViewAnalytics(route: routeState.location),
-                      WebView(
-                        initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
-                        javascriptMode: JavascriptMode.unrestricted,
-                        onWebViewCreated: (WebViewController webViewController) async {
+                      InAppWebView(
+                        initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}'))),
+                        onWebViewCreated: (webViewController) async {
                           // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                           // await webViewController.runJavascript('''
                           //   var script = document.createElement('script');
@@ -1449,7 +1999,7 @@ final appRouter = GoRouter(
                           // ''');
 
                           // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                          await webViewController.runJavascript('''
+                          await webViewController.evaluateJavascript(source:'''
                             var script = document.createElement('script');
                             script.src = 'https://cdn.usefathom.com/script.js';
                             script.setAttribute('data-site', 'VTLWLMFB');
@@ -1457,7 +2007,31 @@ final appRouter = GoRouter(
                             document.head.appendChild(script);
                           ''');
                           debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
-                      }),
+                        }
+                      ),
+                      // WebView(
+                      //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
+                      //   javascriptMode: JavascriptMode.unrestricted,
+                      //   onWebViewCreated: (WebViewController webViewController) async {
+                      //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                      //     // await webViewController.runJavascript('''
+                      //     //   var script = document.createElement('script');
+                      //     //   script.src = 'https://cdn.usefathom.com/script.js';
+                      //     //   script.setAttribute('data-site', 'CKWVTEIX');
+                      //     //   script.defer = true;
+                      //     //   document.head.appendChild(script);
+                      //     // ''');
+
+                      //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                      //     await webViewController.runJavascript('''
+                      //       var script = document.createElement('script');
+                      //       script.src = 'https://cdn.usefathom.com/script.js';
+                      //       script.setAttribute('data-site', 'VTLWLMFB');
+                      //       script.defer = true;
+                      //       document.head.appendChild(script);
+                      //     ''');
+                      //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
+                      // }),
                       Container(
                         color: Colors.white,
                         width: MediaQuery.of(context).size.width,
@@ -1468,7 +2042,7 @@ final appRouter = GoRouter(
                   ),
                   // key: routeState.pageKey,
                   // restorationId: routeState.pageKey.value,
-                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionDuration: const Duration(),
                   transitionsBuilder: (context, animation, secondaryAnim, child) {
                     return FadeTransition(
                       opacity: animation,
@@ -1492,10 +2066,9 @@ final appRouter = GoRouter(
                     child: Stack(
                       children: [
                         // UseFathom().webViewAnalytics(route: routeState.location),
-                        WebView(
-                          initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
-                          javascriptMode: JavascriptMode.unrestricted,
-                          onWebViewCreated: (WebViewController webViewController) async {
+                        InAppWebView(
+                          initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}'))),
+                          onWebViewCreated: (webViewController) async {
                             // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                             // await webViewController.runJavascript('''
                             //   var script = document.createElement('script');
@@ -1506,7 +2079,7 @@ final appRouter = GoRouter(
                             // ''');
 
                             // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                            await webViewController.runJavascript('''
+                            await webViewController.evaluateJavascript(source:'''
                               var script = document.createElement('script');
                               script.src = 'https://cdn.usefathom.com/script.js';
                               script.setAttribute('data-site', 'VTLWLMFB');
@@ -1514,7 +2087,31 @@ final appRouter = GoRouter(
                               document.head.appendChild(script);
                             ''');
                             debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
-                        }),
+                          }
+                        ),
+                        // WebView(
+                        //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
+                        //   javascriptMode: JavascriptMode.unrestricted,
+                        //   onWebViewCreated: (WebViewController webViewController) async {
+                        //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                        //     // await webViewController.runJavascript('''
+                        //     //   var script = document.createElement('script');
+                        //     //   script.src = 'https://cdn.usefathom.com/script.js';
+                        //     //   script.setAttribute('data-site', 'CKWVTEIX');
+                        //     //   script.defer = true;
+                        //     //   document.head.appendChild(script);
+                        //     // ''');
+
+                        //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                        //     await webViewController.runJavascript('''
+                        //       var script = document.createElement('script');
+                        //       script.src = 'https://cdn.usefathom.com/script.js';
+                        //       script.setAttribute('data-site', 'VTLWLMFB');
+                        //       script.defer = true;
+                        //       document.head.appendChild(script);
+                        //     ''');
+                        //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
+                        // }),
                         Container(
                           color: Colors.white,
                           width: MediaQuery.of(context).size.width,
@@ -1525,7 +2122,7 @@ final appRouter = GoRouter(
                     ),
                     // key: routeState.pageKey,
                     // restorationId: routeState.pageKey.value,
-                    transitionDuration: const Duration(milliseconds: 500),
+                    transitionDuration: const Duration(),
                     transitionsBuilder: (context, animation, secondaryAnim, child) {
                       return FadeTransition(
                         opacity: animation,
@@ -1543,10 +2140,9 @@ final appRouter = GoRouter(
                         child: Stack(
                           children: [
                             // UseFathom().webViewAnalytics(route: routeState.location),
-                            WebView(
-                              initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
-                              javascriptMode: JavascriptMode.unrestricted,
-                              onWebViewCreated: (WebViewController webViewController) async {
+                            InAppWebView(
+                              initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}'))),
+                              onWebViewCreated: (webViewController) async {
                                 // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                                 // await webViewController.runJavascript('''
                                 //   var script = document.createElement('script');
@@ -1557,7 +2153,7 @@ final appRouter = GoRouter(
                                 // ''');
 
                                 // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                                await webViewController.runJavascript('''
+                                await webViewController.evaluateJavascript(source:'''
                                   var script = document.createElement('script');
                                   script.src = 'https://cdn.usefathom.com/script.js';
                                   script.setAttribute('data-site', 'VTLWLMFB');
@@ -1565,7 +2161,31 @@ final appRouter = GoRouter(
                                   document.head.appendChild(script);
                                 ''');
                                 debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
-                            }),
+                              }
+                            ),
+                            // WebView(
+                            //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
+                            //   javascriptMode: JavascriptMode.unrestricted,
+                            //   onWebViewCreated: (WebViewController webViewController) async {
+                            //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                            //     // await webViewController.runJavascript('''
+                            //     //   var script = document.createElement('script');
+                            //     //   script.src = 'https://cdn.usefathom.com/script.js';
+                            //     //   script.setAttribute('data-site', 'CKWVTEIX');
+                            //     //   script.defer = true;
+                            //     //   document.head.appendChild(script);
+                            //     // ''');
+
+                            //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                            //     await webViewController.runJavascript('''
+                            //       var script = document.createElement('script');
+                            //       script.src = 'https://cdn.usefathom.com/script.js';
+                            //       script.setAttribute('data-site', 'VTLWLMFB');
+                            //       script.defer = true;
+                            //       document.head.appendChild(script);
+                            //     ''');
+                            //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
+                            // }),
                             Container(
                               color: Colors.white,
                               width: MediaQuery.of(context).size.width,
@@ -1576,7 +2196,7 @@ final appRouter = GoRouter(
                             ),
                           ],
                         ),
-                        transitionDuration: const Duration(milliseconds: 500),
+                        transitionDuration: const Duration(),
                         transitionsBuilder: (context, animation, secondaryAnim, child) {
                           return FadeTransition(
                             opacity: animation,
@@ -1597,10 +2217,9 @@ final appRouter = GoRouter(
               child: Stack(
                 children: [
                   // UseFathom().webViewAnalytics(route: routeState.location),
-                  WebView(
-                    initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
-                    javascriptMode: JavascriptMode.unrestricted,
-                    onWebViewCreated: (WebViewController webViewController) async {
+                  InAppWebView(
+                    initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}'))),
+                    onWebViewCreated: (webViewController) async {
                       // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                       // await webViewController.runJavascript('''
                       //   var script = document.createElement('script');
@@ -1611,7 +2230,7 @@ final appRouter = GoRouter(
                       // ''');
 
                       // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                      await webViewController.runJavascript('''
+                      await webViewController.evaluateJavascript(source:'''
                         var script = document.createElement('script');
                         script.src = 'https://cdn.usefathom.com/script.js';
                         script.setAttribute('data-site', 'VTLWLMFB');
@@ -1619,7 +2238,31 @@ final appRouter = GoRouter(
                         document.head.appendChild(script);
                       ''');
                       debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
-                  }),
+                    }
+                  ),
+                  // WebView(
+                  //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
+                  //   javascriptMode: JavascriptMode.unrestricted,
+                  //   onWebViewCreated: (WebViewController webViewController) async {
+                  //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                  //     // await webViewController.runJavascript('''
+                  //     //   var script = document.createElement('script');
+                  //     //   script.src = 'https://cdn.usefathom.com/script.js';
+                  //     //   script.setAttribute('data-site', 'CKWVTEIX');
+                  //     //   script.defer = true;
+                  //     //   document.head.appendChild(script);
+                  //     // ''');
+
+                  //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                  //     await webViewController.runJavascript('''
+                  //       var script = document.createElement('script');
+                  //       script.src = 'https://cdn.usefathom.com/script.js';
+                  //       script.setAttribute('data-site', 'VTLWLMFB');
+                  //       script.defer = true;
+                  //       document.head.appendChild(script);
+                  //     ''');
+                  //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
+                  // }),
                   Container(
                     color: Colors.white,
                     width: MediaQuery.of(context).size.width,
@@ -1630,7 +2273,7 @@ final appRouter = GoRouter(
                   ),
                 ],
               ),
-              transitionDuration: const Duration(milliseconds: 500),
+              transitionDuration: const Duration(),
               transitionsBuilder: (context, animation, secondaryAnim, child) {
                 return FadeTransition(
                   opacity: animation,
@@ -1649,10 +2292,9 @@ final appRouter = GoRouter(
                   child: Stack(
                     children: [
                       // UseFathom().webViewAnalytics(route: routeState.location),
-                      WebView(
-                        initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
-                        javascriptMode: JavascriptMode.unrestricted,
-                        onWebViewCreated: (WebViewController webViewController) async {
+                      InAppWebView(
+                        initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}'))),
+                        onWebViewCreated: (webViewController) async {
                           // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                           // await webViewController.runJavascript('''
                           //   var script = document.createElement('script');
@@ -1663,7 +2305,7 @@ final appRouter = GoRouter(
                           // ''');
 
                           // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                          await webViewController.runJavascript('''
+                          await webViewController.evaluateJavascript(source:'''
                             var script = document.createElement('script');
                             script.src = 'https://cdn.usefathom.com/script.js';
                             script.setAttribute('data-site', 'VTLWLMFB');
@@ -1671,7 +2313,31 @@ final appRouter = GoRouter(
                             document.head.appendChild(script);
                           ''');
                           debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
-                      }),
+                        }
+                      ),
+                      // WebView(
+                      //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
+                      //   javascriptMode: JavascriptMode.unrestricted,
+                      //   onWebViewCreated: (WebViewController webViewController) async {
+                      //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                      //     // await webViewController.runJavascript('''
+                      //     //   var script = document.createElement('script');
+                      //     //   script.src = 'https://cdn.usefathom.com/script.js';
+                      //     //   script.setAttribute('data-site', 'CKWVTEIX');
+                      //     //   script.defer = true;
+                      //     //   document.head.appendChild(script);
+                      //     // ''');
+
+                      //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                      //     await webViewController.runJavascript('''
+                      //       var script = document.createElement('script');
+                      //       script.src = 'https://cdn.usefathom.com/script.js';
+                      //       script.setAttribute('data-site', 'VTLWLMFB');
+                      //       script.defer = true;
+                      //       document.head.appendChild(script);
+                      //     ''');
+                      //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
+                      // }),
                       Container(
                         color: Colors.white,
                         width: MediaQuery.of(context).size.width,
@@ -1682,7 +2348,7 @@ final appRouter = GoRouter(
                       ),
                     ],
                   ),
-                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionDuration: const Duration(),
                   transitionsBuilder: (context, animation, secondaryAnim, child) {
                     return FadeTransition(
                       opacity: animation,
@@ -1700,10 +2366,9 @@ final appRouter = GoRouter(
                   child: Stack(
                     children: [
                       // UseFathom().webViewAnalytics(route: routeState.location),
-                      WebView(
-                        initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
-                        javascriptMode: JavascriptMode.unrestricted,
-                        onWebViewCreated: (WebViewController webViewController) async {
+                      InAppWebView(
+                        initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}'))),
+                        onWebViewCreated: (webViewController) async {
                           // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                           // await webViewController.runJavascript('''
                           //   var script = document.createElement('script');
@@ -1714,7 +2379,7 @@ final appRouter = GoRouter(
                           // ''');
 
                           // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                          await webViewController.runJavascript('''
+                          await webViewController.evaluateJavascript(source:'''
                             var script = document.createElement('script');
                             script.src = 'https://cdn.usefathom.com/script.js';
                             script.setAttribute('data-site', 'VTLWLMFB');
@@ -1722,7 +2387,31 @@ final appRouter = GoRouter(
                             document.head.appendChild(script);
                           ''');
                           debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
-                      }),
+                        }
+                      ),
+                      // WebView(
+                      //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
+                      //   javascriptMode: JavascriptMode.unrestricted,
+                      //   onWebViewCreated: (WebViewController webViewController) async {
+                      //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                      //     // await webViewController.runJavascript('''
+                      //     //   var script = document.createElement('script');
+                      //     //   script.src = 'https://cdn.usefathom.com/script.js';
+                      //     //   script.setAttribute('data-site', 'CKWVTEIX');
+                      //     //   script.defer = true;
+                      //     //   document.head.appendChild(script);
+                      //     // ''');
+
+                      //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                      //     await webViewController.runJavascript('''
+                      //       var script = document.createElement('script');
+                      //       script.src = 'https://cdn.usefathom.com/script.js';
+                      //       script.setAttribute('data-site', 'VTLWLMFB');
+                      //       script.defer = true;
+                      //       document.head.appendChild(script);
+                      //     ''');
+                      //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
+                      // }),
                       Container(
                         color: Colors.white,
                         width: MediaQuery.of(context).size.width,
@@ -1731,7 +2420,7 @@ final appRouter = GoRouter(
                       const CheckoutPage(),
                     ],
                   ),
-                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionDuration: const Duration(),
                   transitionsBuilder: (context, animation, secondaryAnim, child) {
                     return FadeTransition(
                       opacity: animation,
@@ -1749,10 +2438,9 @@ final appRouter = GoRouter(
                   child: Stack(
                     children: [
                       // UseFathom().webViewAnalytics(route: routeState.location),
-                      WebView(
-                        initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
-                        javascriptMode: JavascriptMode.unrestricted,
-                        onWebViewCreated: (WebViewController webViewController) async {
+                      InAppWebView(
+                        initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}'))),
+                        onWebViewCreated: (webViewController) async {
                           // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                           // await webViewController.runJavascript('''
                           //   var script = document.createElement('script');
@@ -1763,7 +2451,7 @@ final appRouter = GoRouter(
                           // ''');
 
                           // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                          await webViewController.runJavascript('''
+                          await webViewController.evaluateJavascript(source:'''
                             var script = document.createElement('script');
                             script.src = 'https://cdn.usefathom.com/script.js';
                             script.setAttribute('data-site', 'VTLWLMFB');
@@ -1771,7 +2459,31 @@ final appRouter = GoRouter(
                             document.head.appendChild(script);
                           ''');
                           debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
-                      }),
+                        }
+                      ),
+                      // WebView(
+                      //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
+                      //   javascriptMode: JavascriptMode.unrestricted,
+                      //   onWebViewCreated: (WebViewController webViewController) async {
+                      //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                      //     // await webViewController.runJavascript('''
+                      //     //   var script = document.createElement('script');
+                      //     //   script.src = 'https://cdn.usefathom.com/script.js';
+                      //     //   script.setAttribute('data-site', 'CKWVTEIX');
+                      //     //   script.defer = true;
+                      //     //   document.head.appendChild(script);
+                      //     // ''');
+
+                      //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                      //     await webViewController.runJavascript('''
+                      //       var script = document.createElement('script');
+                      //       script.src = 'https://cdn.usefathom.com/script.js';
+                      //       script.setAttribute('data-site', 'VTLWLMFB');
+                      //       script.defer = true;
+                      //       document.head.appendChild(script);
+                      //     ''');
+                      //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
+                      // }),
                       Container(
                         color: Colors.white,
                         width: MediaQuery.of(context).size.width,
@@ -1780,7 +2492,7 @@ final appRouter = GoRouter(
                       const SuccessBookingPage(),
                     ],
                   ),
-                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionDuration: const Duration(),
                   transitionsBuilder: (context, animation, secondaryAnim, child) {
                     return FadeTransition(
                       opacity: animation,
@@ -1798,10 +2510,9 @@ final appRouter = GoRouter(
                   child: Stack(
                     children: [
                       // UseFathom().webViewAnalytics(route: routeState.location),
-                      WebView(
-                        initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
-                        javascriptMode: JavascriptMode.unrestricted,
-                        onWebViewCreated: (WebViewController webViewController) async {
+                      InAppWebView(
+                        initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}'))),
+                        onWebViewCreated: (webViewController) async {
                           // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                           // await webViewController.runJavascript('''
                           //   var script = document.createElement('script');
@@ -1812,7 +2523,7 @@ final appRouter = GoRouter(
                           // ''');
 
                           // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                          await webViewController.runJavascript('''
+                          await webViewController.evaluateJavascript(source:'''
                             var script = document.createElement('script');
                             script.src = 'https://cdn.usefathom.com/script.js';
                             script.setAttribute('data-site', 'VTLWLMFB');
@@ -1820,7 +2531,31 @@ final appRouter = GoRouter(
                             document.head.appendChild(script);
                           ''');
                           debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
-                      }),
+                        }
+                      ),
+                      // WebView(
+                      //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
+                      //   javascriptMode: JavascriptMode.unrestricted,
+                      //   onWebViewCreated: (WebViewController webViewController) async {
+                      //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                      //     // await webViewController.runJavascript('''
+                      //     //   var script = document.createElement('script');
+                      //     //   script.src = 'https://cdn.usefathom.com/script.js';
+                      //     //   script.setAttribute('data-site', 'CKWVTEIX');
+                      //     //   script.defer = true;
+                      //     //   document.head.appendChild(script);
+                      //     // ''');
+
+                      //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                      //     await webViewController.runJavascript('''
+                      //       var script = document.createElement('script');
+                      //       script.src = 'https://cdn.usefathom.com/script.js';
+                      //       script.setAttribute('data-site', 'VTLWLMFB');
+                      //       script.defer = true;
+                      //       document.head.appendChild(script);
+                      //     ''');
+                      //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
+                      // }),
                       Container(
                         color: Colors.white,
                         width: MediaQuery.of(context).size.width,
@@ -1829,7 +2564,7 @@ final appRouter = GoRouter(
                       const FailedBookingPage(),
                     ],
                   ),
-                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionDuration: const Duration(),
                   transitionsBuilder: (context, animation, secondaryAnim, child) {
                     return FadeTransition(
                       opacity: animation,
@@ -1847,10 +2582,9 @@ final appRouter = GoRouter(
                   child: Stack(
                     children: [
                       // UseFathom().webViewAnalytics(route: routeState.location),
-                      WebView(
-                        initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
-                        javascriptMode: JavascriptMode.unrestricted,
-                        onWebViewCreated: (WebViewController webViewController) async {
+                      InAppWebView(
+                        initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}'))),
+                        onWebViewCreated: (webViewController) async {
                           // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                           // await webViewController.runJavascript('''
                           //   var script = document.createElement('script');
@@ -1861,7 +2595,7 @@ final appRouter = GoRouter(
                           // ''');
 
                           // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                          await webViewController.runJavascript('''
+                          await webViewController.evaluateJavascript(source:'''
                             var script = document.createElement('script');
                             script.src = 'https://cdn.usefathom.com/script.js';
                             script.setAttribute('data-site', 'VTLWLMFB');
@@ -1869,7 +2603,31 @@ final appRouter = GoRouter(
                             document.head.appendChild(script);
                           ''');
                           debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
-                      }),
+                        }
+                      ),
+                      // WebView(
+                      //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
+                      //   javascriptMode: JavascriptMode.unrestricted,
+                      //   onWebViewCreated: (WebViewController webViewController) async {
+                      //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                      //     // await webViewController.runJavascript('''
+                      //     //   var script = document.createElement('script');
+                      //     //   script.src = 'https://cdn.usefathom.com/script.js';
+                      //     //   script.setAttribute('data-site', 'CKWVTEIX');
+                      //     //   script.defer = true;
+                      //     //   document.head.appendChild(script);
+                      //     // ''');
+
+                      //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                      //     await webViewController.runJavascript('''
+                      //       var script = document.createElement('script');
+                      //       script.src = 'https://cdn.usefathom.com/script.js';
+                      //       script.setAttribute('data-site', 'VTLWLMFB');
+                      //       script.defer = true;
+                      //       document.head.appendChild(script);
+                      //     ''');
+                      //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
+                      // }),
                       Container(
                         color: Colors.white,
                         width: MediaQuery.of(context).size.width,
@@ -1878,7 +2636,7 @@ final appRouter = GoRouter(
                       const CancelledBookingPage(),
                     ],
                   ),
-                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionDuration: const Duration(),
                   transitionsBuilder: (context, animation, secondaryAnim, child) {
                     return FadeTransition(
                       opacity: animation,
@@ -1906,10 +2664,9 @@ final appRouter = GoRouter(
           child: Stack(
             children: [
               // UseFathom().webViewAnalytics(route: routeState.location),
-              WebView(
-                initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
-                javascriptMode: JavascriptMode.unrestricted,
-                onWebViewCreated: (WebViewController webViewController) async {
+              InAppWebView(
+                initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}'))),
+                onWebViewCreated: (webViewController) async {
                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                   // await webViewController.runJavascript('''
                   //   var script = document.createElement('script');
@@ -1920,7 +2677,7 @@ final appRouter = GoRouter(
                   // ''');
 
                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                  await webViewController.runJavascript('''
+                  await webViewController.evaluateJavascript(source:'''
                     var script = document.createElement('script');
                     script.src = 'https://cdn.usefathom.com/script.js';
                     script.setAttribute('data-site', 'VTLWLMFB');
@@ -1928,7 +2685,31 @@ final appRouter = GoRouter(
                     document.head.appendChild(script);
                   ''');
                   debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
-              }),
+                }
+              ),
+              // WebView(
+              //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
+              //   javascriptMode: JavascriptMode.unrestricted,
+              //   onWebViewCreated: (WebViewController webViewController) async {
+              //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+              //     // await webViewController.runJavascript('''
+              //     //   var script = document.createElement('script');
+              //     //   script.src = 'https://cdn.usefathom.com/script.js';
+              //     //   script.setAttribute('data-site', 'CKWVTEIX');
+              //     //   script.defer = true;
+              //     //   document.head.appendChild(script);
+              //     // ''');
+
+              //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+              //     await webViewController.runJavascript('''
+              //       var script = document.createElement('script');
+              //       script.src = 'https://cdn.usefathom.com/script.js';
+              //       script.setAttribute('data-site', 'VTLWLMFB');
+              //       script.defer = true;
+              //       document.head.appendChild(script);
+              //     ''');
+              //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
+              // }),
               Container(
                 color: Colors.white,
                 width: MediaQuery.of(context).size.width,
@@ -1939,7 +2720,7 @@ final appRouter = GoRouter(
           ),
           // key: routeState.pageKey,
           // restorationId: routeState.pageKey.value,
-          transitionDuration: const Duration(milliseconds: 500),
+          transitionDuration: const Duration(),
           transitionsBuilder: (context, animation, secondaryAnim, child) {
             return FadeTransition(
               opacity: animation,
@@ -1959,10 +2740,9 @@ final appRouter = GoRouter(
           child: Stack(
             children: [
               // UseFathom().webViewAnalytics(route: routeState.location),
-              WebView(
-                initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
-                javascriptMode: JavascriptMode.unrestricted,
-                onWebViewCreated: (WebViewController webViewController) async {
+              InAppWebView(
+                initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}'))),
+                onWebViewCreated: (webViewController) async {
                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                   // await webViewController.runJavascript('''
                   //   var script = document.createElement('script');
@@ -1973,7 +2753,7 @@ final appRouter = GoRouter(
                   // ''');
 
                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                  await webViewController.runJavascript('''
+                  await webViewController.evaluateJavascript(source:'''
                     var script = document.createElement('script');
                     script.src = 'https://cdn.usefathom.com/script.js';
                     script.setAttribute('data-site', 'VTLWLMFB');
@@ -1981,7 +2761,31 @@ final appRouter = GoRouter(
                     document.head.appendChild(script);
                   ''');
                   debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
-              }),
+                }
+              ),
+              // WebView(
+              //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
+              //   javascriptMode: JavascriptMode.unrestricted,
+              //   onWebViewCreated: (WebViewController webViewController) async {
+              //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+              //     // await webViewController.runJavascript('''
+              //     //   var script = document.createElement('script');
+              //     //   script.src = 'https://cdn.usefathom.com/script.js';
+              //     //   script.setAttribute('data-site', 'CKWVTEIX');
+              //     //   script.defer = true;
+              //     //   document.head.appendChild(script);
+              //     // ''');
+
+              //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+              //     await webViewController.runJavascript('''
+              //       var script = document.createElement('script');
+              //       script.src = 'https://cdn.usefathom.com/script.js';
+              //       script.setAttribute('data-site', 'VTLWLMFB');
+              //       script.defer = true;
+              //       document.head.appendChild(script);
+              //     ''');
+              //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
+              // }),
               Container(
                 color: Colors.white,
                 width: MediaQuery.of(context).size.width,
@@ -1990,7 +2794,7 @@ final appRouter = GoRouter(
               const ContactsPage(),
             ],
           ),
-          transitionDuration: const Duration(milliseconds: 500),
+          transitionDuration: const Duration(),
           transitionsBuilder: (context, animation, secondaryAnim, child) {
             return FadeTransition(
               opacity: animation,
@@ -2010,10 +2814,9 @@ final appRouter = GoRouter(
               child: Stack(
                 children: [
                   // UseFathom().webViewAnalytics(route: routeState.location),
-                  WebView(
-                    initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
-                    javascriptMode: JavascriptMode.unrestricted,
-                    onWebViewCreated: (WebViewController webViewController) async {
+                  InAppWebView(
+                    initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}'))),
+                    onWebViewCreated: (webViewController) async {
                       // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                       // await webViewController.runJavascript('''
                       //   var script = document.createElement('script');
@@ -2024,7 +2827,7 @@ final appRouter = GoRouter(
                       // ''');
 
                       // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                      await webViewController.runJavascript('''
+                      await webViewController.evaluateJavascript(source:'''
                         var script = document.createElement('script');
                         script.src = 'https://cdn.usefathom.com/script.js';
                         script.setAttribute('data-site', 'VTLWLMFB');
@@ -2032,7 +2835,31 @@ final appRouter = GoRouter(
                         document.head.appendChild(script);
                       ''');
                       debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
-                  }),
+                    }
+                  ),
+                  // WebView(
+                  //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
+                  //   javascriptMode: JavascriptMode.unrestricted,
+                  //   onWebViewCreated: (WebViewController webViewController) async {
+                  //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                  //     // await webViewController.runJavascript('''
+                  //     //   var script = document.createElement('script');
+                  //     //   script.src = 'https://cdn.usefathom.com/script.js';
+                  //     //   script.setAttribute('data-site', 'CKWVTEIX');
+                  //     //   script.defer = true;
+                  //     //   document.head.appendChild(script);
+                  //     // ''');
+
+                  //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                  //     await webViewController.runJavascript('''
+                  //       var script = document.createElement('script');
+                  //       script.src = 'https://cdn.usefathom.com/script.js';
+                  //       script.setAttribute('data-site', 'VTLWLMFB');
+                  //       script.defer = true;
+                  //       document.head.appendChild(script);
+                  //     ''');
+                  //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
+                  // }),
                   Container(
                     color: Colors.white,
                     width: MediaQuery.of(context).size.width,
@@ -2041,7 +2868,7 @@ final appRouter = GoRouter(
                   const ContactUsThankyouPage(),
                 ],
               ),
-              transitionDuration: const Duration(milliseconds: 500),
+              transitionDuration: const Duration(),
               transitionsBuilder: (context, animation, secondaryAnim, child) {
                 return FadeTransition(
                   opacity: animation,
@@ -2063,10 +2890,9 @@ final appRouter = GoRouter(
           child: Stack(
             children: [
               // UseFathom().webViewAnalytics(route: routeState.location),
-              WebView(
-                initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
-                javascriptMode: JavascriptMode.unrestricted,
-                onWebViewCreated: (WebViewController webViewController) async {
+              InAppWebView(
+                initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}'))),
+                onWebViewCreated: (webViewController) async {
                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                   // await webViewController.runJavascript('''
                   //   var script = document.createElement('script');
@@ -2077,7 +2903,7 @@ final appRouter = GoRouter(
                   // ''');
 
                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                  await webViewController.runJavascript('''
+                  await webViewController.evaluateJavascript(source:'''
                     var script = document.createElement('script');
                     script.src = 'https://cdn.usefathom.com/script.js';
                     script.setAttribute('data-site', 'VTLWLMFB');
@@ -2085,7 +2911,31 @@ final appRouter = GoRouter(
                     document.head.appendChild(script);
                   ''');
                   debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
-              }),
+                }
+              ),
+              // WebView(
+              //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}',
+              //   javascriptMode: JavascriptMode.unrestricted,
+              //   onWebViewCreated: (WebViewController webViewController) async {
+              //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+              //     // await webViewController.runJavascript('''
+              //     //   var script = document.createElement('script');
+              //     //   script.src = 'https://cdn.usefathom.com/script.js';
+              //     //   script.setAttribute('data-site', 'CKWVTEIX');
+              //     //   script.defer = true;
+              //     //   document.head.appendChild(script);
+              //     // ''');
+
+              //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+              //     await webViewController.runJavascript('''
+              //       var script = document.createElement('script');
+              //       script.src = 'https://cdn.usefathom.com/script.js';
+              //       script.setAttribute('data-site', 'VTLWLMFB');
+              //       script.defer = true;
+              //       document.head.appendChild(script);
+              //     ''');
+              //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode${routeState.location}');
+              // }),
               Container(
                 color: Colors.white,
                 width: MediaQuery.of(context).size.width,
@@ -2096,7 +2946,7 @@ final appRouter = GoRouter(
               ),
             ],
           ),
-          transitionDuration: const Duration(milliseconds: 500),
+          transitionDuration: const Duration(),
           transitionsBuilder: (context, animation, secondaryAnim, child) {
             return FadeTransition(
               opacity: animation,
