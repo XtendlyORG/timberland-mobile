@@ -13,6 +13,7 @@ import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/bloc/notifications_bloc.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/widgets/incoming_call_notif_dialog.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import 'core/configs/environment_configs.dart';
 import 'core/constants/navbar_configs.dart';
@@ -193,18 +194,150 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                                           navbarConfigs[currentIndex].routeName,
                                         );
                                       },
-                                      children: const [
+                                      children: [
                                         RepaintBoundary(
-                                          child: TrailDirectory(),
+                                          child: Stack(
+                                            children: [
+                                              // UseFathom().webViewAnalytics(route: routeState.location),
+                                              WebView(
+                                                initialUrl: 'https://timberland.xtendly.com/mobile-analytics/dev-mode/trails',
+                                                javascriptMode: JavascriptMode.unrestricted,
+                                                onWebViewCreated: (WebViewController webViewController) async {
+                                                  // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                                                  // await webViewController.runJavascript('''
+                                                  //   var script = document.createElement('script');
+                                                  //   script.src = 'https://cdn.usefathom.com/script.js';
+                                                  //   script.setAttribute('data-site', 'CKWVTEIX');
+                                                  //   script.defer = true;
+                                                  //   document.head.appendChild(script);
+                                                  // ''');
+
+                                                  // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                                                  // await webViewController.runJavascript('''
+                                                  //   var script = document.createElement('script');
+                                                  //   script.src = 'https://cdn.usefathom.com/script.js';
+                                                  //   script.setAttribute('data-site', 'VTLWLMFB');
+                                                  //   script.defer = true;
+                                                  //   document.head.appendChild(script);
+                                                  // ''');
+                                                  debugPrint('Executed javascript ${DateTime.now()} https://timberland.xtendly.com/mobile-analytics/dev-mode/trails');
+                                              }),
+                                              Container(
+                                                color: Colors.white,
+                                                width: MediaQuery.of(context).size.width,
+                                                height: MediaQuery.of(context).size.height,
+                                              ),
+                                              const TrailDirectory(),
+                                            ],
+                                          ),
                                         ),
                                         RepaintBoundary(
-                                          child: TrailRulesPage(),
+                                          child: Stack(
+                                            children: [
+                                              // UseFathom().webViewAnalytics(route: routeState.location),
+                                              WebView(
+                                                initialUrl: 'https://timberland.xtendly.com/mobile-analytics/dev-mode/rules',
+                                                javascriptMode: JavascriptMode.unrestricted,
+                                                onWebViewCreated: (WebViewController webViewController) async {
+                                                  // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                                                  // await webViewController.runJavascript('''
+                                                  //   var script = document.createElement('script');
+                                                  //   script.src = 'https://cdn.usefathom.com/script.js';
+                                                  //   script.setAttribute('data-site', 'CKWVTEIX');
+                                                  //   script.defer = true;
+                                                  //   document.head.appendChild(script);
+                                                  // ''');
+
+                                                  // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                                                  // await webViewController.runJavascript('''
+                                                  //   var script = document.createElement('script');
+                                                  //   script.src = 'https://cdn.usefathom.com/script.js';
+                                                  //   script.setAttribute('data-site', 'VTLWLMFB');
+                                                  //   script.defer = true;
+                                                  //   document.head.appendChild(script);
+                                                  // ''');
+                                                  debugPrint('Executed javascript ${DateTime.now()} https://timberland.xtendly.com/mobile-analytics/dev-mode/rules');
+                                              }),
+                                              Container(
+                                                color: Colors.white,
+                                                width: MediaQuery.of(context).size.width,
+                                                height: MediaQuery.of(context).size.height,
+                                              ),
+                                              const TrailRulesPage(),
+                                            ],
+                                          ),
                                         ),
                                         RepaintBoundary(
-                                          child: BookingPage(),
+                                          child: Stack(
+                                            children: [
+                                              // UseFathom().webViewAnalytics(route: routeState.location),
+                                              WebView(
+                                                initialUrl: 'https://timberland.xtendly.com/mobile-analytics/dev-mode/booking',
+                                                javascriptMode: JavascriptMode.unrestricted,
+                                                onWebViewCreated: (WebViewController webViewController) async {
+                                                  // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                                                  // await webViewController.runJavascript('''
+                                                  //   var script = document.createElement('script');
+                                                  //   script.src = 'https://cdn.usefathom.com/script.js';
+                                                  //   script.setAttribute('data-site', 'CKWVTEIX');
+                                                  //   script.defer = true;
+                                                  //   document.head.appendChild(script);
+                                                  // ''');
+
+                                                  // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                                                  // await webViewController.runJavascript('''
+                                                  //   var script = document.createElement('script');
+                                                  //   script.src = 'https://cdn.usefathom.com/script.js';
+                                                  //   script.setAttribute('data-site', 'VTLWLMFB');
+                                                  //   script.defer = true;
+                                                  //   document.head.appendChild(script);
+                                                  // ''');
+                                                  debugPrint('Executed javascript ${DateTime.now()} https://timberland.xtendly.com/mobile-analytics/dev-mode/booking');
+                                              }),
+                                              Container(
+                                                color: Colors.white,
+                                                width: MediaQuery.of(context).size.width,
+                                                height: MediaQuery.of(context).size.height,
+                                              ),
+                                              const BookingPage(),
+                                            ],
+                                          ),
                                         ),
                                         RepaintBoundary(
-                                          child: ProfilePage(),
+                                          child: Stack(
+                                            children: [
+                                              // UseFathom().webViewAnalytics(route: routeState.location),
+                                              WebView(
+                                                initialUrl: 'https://timberland.xtendly.com/mobile-analytics/dev-mode/profile',
+                                                javascriptMode: JavascriptMode.unrestricted,
+                                                onWebViewCreated: (WebViewController webViewController) async {
+                                                  // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
+                                                  // await webViewController.runJavascript('''
+                                                  //   var script = document.createElement('script');
+                                                  //   script.src = 'https://cdn.usefathom.com/script.js';
+                                                  //   script.setAttribute('data-site', 'CKWVTEIX');
+                                                  //   script.defer = true;
+                                                  //   document.head.appendChild(script);
+                                                  // ''');
+
+                                                  // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
+                                                  // await webViewController.runJavascript('''
+                                                  //   var script = document.createElement('script');
+                                                  //   script.src = 'https://cdn.usefathom.com/script.js';
+                                                  //   script.setAttribute('data-site', 'VTLWLMFB');
+                                                  //   script.defer = true;
+                                                  //   document.head.appendChild(script);
+                                                  // ''');
+                                                  debugPrint('Executed javascript ${DateTime.now()} https://timberland.xtendly.com/mobile-analytics/dev-mode/profile');
+                                              }),
+                                              Container(
+                                                color: Colors.white,
+                                                width: MediaQuery.of(context).size.width,
+                                                height: MediaQuery.of(context).size.height,
+                                              ),
+                                              const ProfilePage(),
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),
