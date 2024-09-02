@@ -29,7 +29,7 @@ class AnnouncementListPage extends StatelessWidget {
             children: [
               // UseFathom().webViewAnalytics(route: routeState.location),
               InAppWebView(
-                initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://management.timberlandresort.com/mobile-analytics/dev-mode/announcements-list'))),
+                initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse('https://timberland.xtendly.com/mobile-analytics/dev-mode/announcements-list'))),
                 onWebViewCreated: (webViewController) async {
                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
                   // await webViewController.runJavascript('''
@@ -41,18 +41,18 @@ class AnnouncementListPage extends StatelessWidget {
                   // ''');
 
                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="VTLWLMFB" defer></script>');
-                  await webViewController.evaluateJavascript(source:'''
-                    var script = document.createElement('script');
-                    script.src = 'https://cdn.usefathom.com/script.js';
-                    script.setAttribute('data-site', 'VTLWLMFB');
-                    script.defer = true;
-                    document.head.appendChild(script);
-                  ''');
-                  debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode/announcements-list');
+                  // await webViewController.evaluateJavascript(source:'''
+                  //   var script = document.createElement('script');
+                  //   script.src = 'https://cdn.usefathom.com/script.js';
+                  //   script.setAttribute('data-site', 'VTLWLMFB');
+                  //   script.defer = true;
+                  //   document.head.appendChild(script);
+                  // ''');
+                  debugPrint('Executed javascript ${DateTime.now()} https://timberland.xtendly.com/mobile-analytics/dev-mode/announcements-list');
                 }
               ),
               // WebView(
-              //   initialUrl: 'https://management.timberlandresort.com/mobile-analytics/dev-mode/announcements-list',
+              //   initialUrl: 'https://timberland.xtendly.com/mobile-analytics/dev-mode/announcements-list',
               //   javascriptMode: JavascriptMode.unrestricted,
               //   onWebViewCreated: (WebViewController webViewController) async {
               //     // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
@@ -72,7 +72,7 @@ class AnnouncementListPage extends StatelessWidget {
               //       script.defer = true;
               //       document.head.appendChild(script);
               //     ''');
-              //     debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/dev-mode/announcements-list');
+              //     debugPrint('Executed javascript ${DateTime.now()} https://timberland.xtendly.com/mobile-analytics/dev-mode/announcements-list');
               // }),
               Container(
                 color: Colors.white,
