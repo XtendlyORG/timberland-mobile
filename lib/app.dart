@@ -56,7 +56,7 @@ Future<void> run({
   required String dotEnvFileName,
 }) async {
   WidgetsFlutterBinding.ensureInitialized();
-  await clearAppData();
+  // await clearAppData();
   di.initializeDependencies();
 
   await dotenv.load(fileName: dotEnvFileName);
