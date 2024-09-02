@@ -8,8 +8,8 @@ class UseFathom {
   }) {
     // Temporary domain for html
     String initialUrlPath = (dotenv.env['API_URL']?.contains("api.timberlandresort.com") ?? false)
-        ? 'https://management.timberlandresort.com/mobile-analytics$route'
-        : 'https://management.timberlandresort.com/mobile-analytics/dev-mode$route';
+        ? 'https://timberland.xtendly.com/mobile-analytics$route'
+        : 'https://timberland.xtendly.com/mobile-analytics/dev-mode$route';
     
     return WebView(
       initialUrl: initialUrlPath,
