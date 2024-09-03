@@ -32,7 +32,7 @@ class AnnouncementListPage extends StatelessWidget {
             children: [
               // UseFathom().webViewAnalytics(route: routeState.location),
               WebView(
-                initialUrl: 'https://timberland.xtendly.com/mobile-analytics/dev-mode/announcements-list',
+                initialUrl: 'https://management.timberlandresort.com/mobile-analytics/announcements-list',
                 javascriptMode: JavascriptMode.unrestricted,
                 onWebViewCreated: (WebViewController webViewController) async {
                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
@@ -52,7 +52,7 @@ class AnnouncementListPage extends StatelessWidget {
                   //   script.defer = true;
                   //   document.head.appendChild(script);
                   // ''');
-                  debugPrint('Executed javascript ${DateTime.now()} https://timberland.xtendly.com/mobile-analytics/dev-mode/announcements-list');
+                  debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/announcements-list');
               }),
               Container(
                 color: Colors.white,

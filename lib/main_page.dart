@@ -200,7 +200,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                                             children: [
                                               // UseFathom().webViewAnalytics(route: routeState.location),
                                               WebView(
-                                                initialUrl: 'https://timberland.xtendly.com/mobile-analytics/dev-mode/trails',
+                                                initialUrl: 'https://management.timberlandresort.com/mobile-analytics/trails',
                                                 javascriptMode: JavascriptMode.unrestricted,
                                                 onWebViewCreated: (WebViewController webViewController) async {
                                                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
@@ -220,7 +220,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                                                   //   script.defer = true;
                                                   //   document.head.appendChild(script);
                                                   // ''');
-                                                  debugPrint('Executed javascript ${DateTime.now()} https://timberland.xtendly.com/mobile-analytics/dev-mode/trails');
+                                                  debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/trails');
                                               }),
                                               Container(
                                                 color: Colors.white,
@@ -236,7 +236,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                                             children: [
                                               // UseFathom().webViewAnalytics(route: routeState.location),
                                               WebView(
-                                                initialUrl: 'https://timberland.xtendly.com/mobile-analytics/dev-mode/rules',
+                                                initialUrl: 'https://management.timberlandresort.com/mobile-analytics/rules',
                                                 javascriptMode: JavascriptMode.unrestricted,
                                                 onWebViewCreated: (WebViewController webViewController) async {
                                                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
@@ -256,7 +256,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                                                   //   script.defer = true;
                                                   //   document.head.appendChild(script);
                                                   // ''');
-                                                  debugPrint('Executed javascript ${DateTime.now()} https://timberland.xtendly.com/mobile-analytics/dev-mode/rules');
+                                                  debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/rules');
                                               }),
                                               Container(
                                                 color: Colors.white,
@@ -272,7 +272,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                                             children: [
                                               // UseFathom().webViewAnalytics(route: routeState.location),
                                               WebView(
-                                                initialUrl: 'https://timberland.xtendly.com/mobile-analytics/dev-mode/booking',
+                                                initialUrl: 'https://management.timberlandresort.com/mobile-analytics/booking',
                                                 javascriptMode: JavascriptMode.unrestricted,
                                                 onWebViewCreated: (WebViewController webViewController) async {
                                                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
@@ -292,7 +292,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                                                   //   script.defer = true;
                                                   //   document.head.appendChild(script);
                                                   // ''');
-                                                  debugPrint('Executed javascript ${DateTime.now()} https://timberland.xtendly.com/mobile-analytics/dev-mode/booking');
+                                                  debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/booking');
                                               }),
                                               Container(
                                                 color: Colors.white,
@@ -308,7 +308,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                                             children: [
                                               // UseFathom().webViewAnalytics(route: routeState.location),
                                               WebView(
-                                                initialUrl: 'https://timberland.xtendly.com/mobile-analytics/dev-mode/profile',
+                                                initialUrl: 'https://management.timberlandresort.com/mobile-analytics/profile',
                                                 javascriptMode: JavascriptMode.unrestricted,
                                                 onWebViewCreated: (WebViewController webViewController) async {
                                                   // await webViewController.runJavascript('<script src="https://cdn.usefathom.com/script.js" data-site="CKWVTEIX" defer></script>');
@@ -328,7 +328,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                                                   //   script.defer = true;
                                                   //   document.head.appendChild(script);
                                                   // ''');
-                                                  debugPrint('Executed javascript ${DateTime.now()} https://timberland.xtendly.com/mobile-analytics/dev-mode/profile');
+                                                  debugPrint('Executed javascript ${DateTime.now()} https://management.timberlandresort.com/mobile-analytics/profile');
                                               }),
                                               Container(
                                                 color: Colors.white,
