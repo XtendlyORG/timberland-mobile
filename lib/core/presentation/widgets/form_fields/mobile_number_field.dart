@@ -73,18 +73,27 @@ class _MobileNumberFieldState extends State<MobileNumberField> {
           children: [
             SizedBox(
               width: 60,
-              child: ExcludeFocus(
-                child: TextField(
-                  enableInteractiveSelection: false,
-                  enabled: widget.enabled,
-                  decoration: InputDecoration(
-                    disabledBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 0.5),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  ExcludeFocus(
+                    child: TextField(
+                      enableInteractiveSelection: false,
+                      enabled: widget.enabled,
+                      decoration: InputDecoration(
+                        disabledBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey, width: 0.5),
+                        ),
+                        hintText: '', //'+63',
+                        hintStyle: Theme.of(context).textTheme.titleMedium,
+                      ),
                     ),
-                    hintText: '+63',
-                    hintStyle: Theme.of(context).textTheme.titleMedium,
                   ),
-                ),
+                  Text(
+                    "+63",
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ],
               ),
             ),
             const SizedBox(
