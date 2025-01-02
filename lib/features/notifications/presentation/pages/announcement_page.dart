@@ -59,8 +59,10 @@ class AnnouncementSlider extends StatefulWidget {
   const AnnouncementSlider({
     Key? key,
     required this.announcements,
+    required this.timer
   }) : super(key: key);
   final List<AnnouncementModel> announcements;
+  final VoidCallback timer;
 
   @override
   State<AnnouncementSlider> createState() => _AnnouncementSliderState();
@@ -74,7 +76,8 @@ class _AnnouncementSliderState extends State<AnnouncementSlider> {
   void _startTimer() {
     _timer = Timer.periodic(const Duration(milliseconds: 3500), (timer) {
       if(widget.announcements.length == (currentIndex + 1)){
-        context.pushNamed(Routes.home.name);
+        // context.pushNamed(Routes.home.name);
+        widget.timer();
       }else{
         controller.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.ease);
         setState(() {
