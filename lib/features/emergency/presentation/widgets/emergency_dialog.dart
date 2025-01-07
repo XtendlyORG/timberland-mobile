@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/dialogs/custom_dialog.dart';
 
@@ -68,7 +69,8 @@ class EmergencyDialog extends StatelessWidget {
                   Expanded(
                     child: TextButton(
                       onPressed: () {
-                        context.pushNamed(Routes.emergency.name);
+                        // context.pushNamed(Routes.emergency.name);
+                        GetIt.instance<GoRouter>().pushNamed(Routes.emergency.name);
                         Navigator.pop(context);
                       },
                       child: const Text(
