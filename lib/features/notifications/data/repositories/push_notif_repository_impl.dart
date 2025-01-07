@@ -24,6 +24,7 @@ class PushNotificationRepositoryImpl implements PushNotificationRepository {
             if (value == (Session().getFCMToken() ?? '')) {
               return;
             }
+            Session().saveFCMToken(value);
             remoteDataSource.updateToken(
               Session().currentUser!.id,
               value,
