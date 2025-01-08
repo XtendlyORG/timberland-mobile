@@ -20,7 +20,7 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
     required this.environmentConfig,
   }) {
     socket = IO.io(
-      '${environmentConfig.apihost}:3001',
+      environmentConfig.apihost,
       IO.OptionBuilder().setTransports(['websocket']).build(),
     );
   }
