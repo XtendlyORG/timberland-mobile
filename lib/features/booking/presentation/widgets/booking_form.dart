@@ -277,7 +277,7 @@ class _BookingFormState extends State<BookingForm> {
                     vertical: kVerticalPadding,
                   ),
                   child: AutoSizeText(
-                    'Only riders aged 16 & up are allowed in TMBP',
+                    'Only riders aged 18 & up are allowed in TMBP',
                     style: Theme.of(context).textTheme.labelLarge,
                     maxLines: 1,
                     textAlign: TextAlign.center,
