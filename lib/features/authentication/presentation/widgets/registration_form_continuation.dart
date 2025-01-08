@@ -29,7 +29,7 @@ import 'package:timberland_biketrail/features/authentication/presentation/bloc/a
 import '../../../booking/presentation/pages/waiver/pdf_repository.dart';
 import '../../../booking/presentation/pages/waiver/pdf_view_page.dart';
 
-class RegistrationContinuationForm extends StatelessWidget {
+class RegistrationContinuationForm extends StatefulWidget {
   final UpdateUserDetailsParams?
       user; // user will not be null when update profile
   const RegistrationContinuationForm({
@@ -38,55 +38,92 @@ class RegistrationContinuationForm extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<RegistrationContinuationForm> createState() => _RegistrationContinuationFormState();
+}
+
+class _RegistrationContinuationFormState extends State<RegistrationContinuationForm> {
+
+  final formKey = GlobalKey<FormState>();
+  late TextEditingController birthdayCtrl;
+  late TextEditingController addressCtrl;
+  late TextEditingController professionCtrl;
+  late TextEditingController emergencyContactsCtrl;
+  late TextEditingController imageCtrl;
+  late TextEditingController bikeModelCtrl;
+  late TextEditingController bikeYearCtrl;
+  late TextEditingController bikeColorCtrl;
+  
+  DateTime? birthday;
+  String? selectedGender;
+  String? selectedBloodType;
+  File? imageFile;
+  bool agreedToTermsOfUse = false;
+  bool imageReady = true;
+
+  @override
+  void dispose() {
+    // Dispose all controllers
+    birthdayCtrl.dispose();
+    addressCtrl.dispose();
+    professionCtrl.dispose();
+    emergencyContactsCtrl.dispose();
+    imageCtrl.dispose();
+    bikeModelCtrl.dispose();
+    bikeYearCtrl.dispose();
+    bikeColorCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     bool imageReady = true;
     final registerParameter =
         InheritedRegisterParameter.of(context).registerParameter!;
-    final formKey = GlobalKey<FormState>();
-    DateTime? birthday = registerParameter.birthDay;
-    final birthdayCtrl = TextEditingController(
+    // final formKey = GlobalKey<FormState>();
+    birthday = registerParameter.birthDay;
+    birthdayCtrl = TextEditingController(
       text:
-          birthday != null ? DateFormat.yMMMMd('en_US').format(birthday) : null,
+          birthday != null ? DateFormat.yMMMMd('en_US').format(birthday ?? DateTime.now()) : null,
     );
 
-    String? selectedGender = registerParameter.gender;
-    final addressCtrl = TextEditingController(
+    selectedGender = registerParameter.gender;
+    addressCtrl = TextEditingController(
       text: registerParameter.address,
     );
-    final professionCtrl =
+    professionCtrl =
         TextEditingController(text: registerParameter.profession);
-    String? selectedBloodType = registerParameter.bloodType;
+    selectedBloodType = registerParameter.bloodType;
 
-    final emergencyContactsCtrl =
+    emergencyContactsCtrl =
         TextEditingController(text: registerParameter.emergencyContactInfo);
-    final imageCtrl = TextEditingController(
+    imageCtrl = TextEditingController(
       text: registerParameter.profilePic != null
           ? 'profile_pic.${registerParameter.profilePic!.path.split('.').last}'
           : null,
     );
-    File? imageFile = registerParameter.profilePic;
-    final bikeModelCtrl =
+    imageFile = registerParameter.profilePic;
+    bikeModelCtrl =
         TextEditingController(text: registerParameter.bikeModel);
-    final bikeYearCtrl =
+    bikeYearCtrl =
         TextEditingController(text: registerParameter.bikeYear);
-    final bikeColorCtrl =
+    bikeColorCtrl =
         TextEditingController(text: registerParameter.bikeColor);
 
-    bool agreedToTermsOfUse = false;
+    agreedToTermsOfUse = false;
 
-    if (user != null) {
+    if (widget.user != null) {
       // auto fill fields with current user's informations
-      selectedGender = user!.gender;
-      birthday = user!.birthday;
+      selectedGender = widget.user!.gender;
+      birthday = widget.user!.birthday;
       birthdayCtrl.text =
-          birthday != null ? DateFormat.yMMMMd('en_US').format(birthday) : '';
-      selectedBloodType = user!.bloodType;
-      addressCtrl.text = user!.address ?? '';
-      professionCtrl.text = user!.profession ?? '';
-      emergencyContactsCtrl.text = user!.emergencyContactInfo ?? '';
-      bikeModelCtrl.text = user!.bikeModel ?? '';
-      bikeYearCtrl.text = user!.bikeYear ?? '';
-      bikeColorCtrl.text = user!.bikeColor ?? '';
+          birthday != null ? DateFormat.yMMMMd('en_US').format(birthday ?? DateTime.now()) : '';
+      selectedBloodType = widget.user!.bloodType;
+      addressCtrl.text = widget.user!.address ?? '';
+      professionCtrl.text = widget.user!.profession ?? '';
+      emergencyContactsCtrl.text = widget.user!.emergencyContactInfo ?? '';
+      bikeModelCtrl.text = widget.user!.bikeModel ?? '';
+      bikeYearCtrl.text = widget.user!.bikeYear ?? '';
+      bikeColorCtrl.text = widget.user!.bikeColor ?? '';
       agreedToTermsOfUse = true;
     }
 
@@ -235,7 +272,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                 textInputAction: TextInputAction.next,
               ),
             ),
-            if (user == null)
+            if (widget.user == null)
               Container(
                 margin: const EdgeInsets.only(
                   bottom: kVerticalPadding,
@@ -348,7 +385,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                           : null,
                       profilePic: imageFile,
                     );
-                    if (user == null) {
+                    if (widget.user == null) {
                       BlocProvider.of<AuthBloc>(context).add(
                         RequestRegisterEvent(parameter: registerParams),
                       );
@@ -365,10 +402,10 @@ class RegistrationContinuationForm extends StatelessWidget {
                   }
                 },
                 child:
-                    user == null ? const Text("Register") : const Text("Save"),
+                    widget.user == null ? const Text("Register") : const Text("Save"),
               ),
             ),
-            if (user == null)
+            if (widget.user == null)
               RepaintBoundary(
                 child: CustomCheckbox(
                   onChange: (val) {
