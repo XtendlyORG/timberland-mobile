@@ -7,7 +7,7 @@ import 'package:timberland_biketrail/core/utils/validators/non_empty_validator.d
 import 'package:timberland_biketrail/core/utils/validators/validators.dart';
 import 'package:timberland_biketrail/dashboard/domain/params/update_user_detail.dart';
 
-class RegistrationForm extends StatelessWidget {
+class RegistrationForm extends StatefulWidget {
   const RegistrationForm({
     Key? key,
     this.user,
@@ -25,22 +25,44 @@ class RegistrationForm extends StatelessWidget {
   final UpdateUserDetailsParams? user;
 
   @override
-  Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
-    final firstNameCtrl = TextEditingController();
-    final middleNameCtrl = TextEditingController();
-    final lastNameCtrl = TextEditingController();
-    final emailCtrl = TextEditingController();
-    final passwordCtrl = TextEditingController();
-    final mobileNumberCtrl = TextEditingController();
+  State<RegistrationForm> createState() => _RegistrationFormState();
+}
 
-    if (user != null) {
-      firstNameCtrl.text = user!.firstName;
-      lastNameCtrl.text = user!.lastName;
-      middleNameCtrl.text = user!.middleName ?? '';
-      mobileNumberCtrl.text = user!.mobileNumber;
+class _RegistrationFormState extends State<RegistrationForm> {
+  final formKey = GlobalKey<FormState>();
+  final firstNameCtrl = TextEditingController();
+  final middleNameCtrl = TextEditingController();
+  final lastNameCtrl = TextEditingController();
+  final emailCtrl = TextEditingController();
+  final passwordCtrl = TextEditingController();
+  final mobileNumberCtrl = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize controllers with user data if available
+    if (widget.user != null) {
+      firstNameCtrl.text = widget.user!.firstName;
+      lastNameCtrl.text = widget.user!.lastName;
+      middleNameCtrl.text = widget.user!.middleName ?? '';
+      mobileNumberCtrl.text = widget.user!.mobileNumber;
     }
+  }
 
+  @override
+  void dispose() {
+    // Clean up controllers
+    firstNameCtrl.dispose();
+    middleNameCtrl.dispose();
+    lastNameCtrl.dispose();
+    emailCtrl.dispose();
+    passwordCtrl.dispose();
+    mobileNumberCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Form(
       key: formKey,
       child: Column(
@@ -98,7 +120,7 @@ class RegistrationForm extends StatelessWidget {
               textCapitalization: TextCapitalization.words,
             ),
           ),
-          if (user == null) ...[
+          if (widget.user == null) ...[
             Container(
               margin: const EdgeInsets.only(
                 bottom: kVerticalPadding,
@@ -139,7 +161,7 @@ class RegistrationForm extends StatelessWidget {
                 child: FilledTextButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
-                      onSumbit(
+                      widget.onSumbit(
                         firstNameCtrl.text,
                         middleNameCtrl.text.isNotEmpty ? middleNameCtrl.text : null,
                         lastNameCtrl.text,
