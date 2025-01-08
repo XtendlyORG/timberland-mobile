@@ -19,12 +19,11 @@ import 'package:timberland_biketrail/features/booking/domain/params/booking_requ
 import 'package:timberland_biketrail/features/booking/domain/repositories/blocked_booking_dates_repository.dart';
 import 'package:timberland_biketrail/features/booking/presentation/cubit/free_pass_counter_cubit.dart';
 import 'package:timberland_biketrail/features/booking/presentation/widgets/blocked_booking_date_picker.dart';
-import 'package:timberland_biketrail/features/booking/presentation/widgets/booking_date_picker.dart';
 import 'package:timberland_biketrail/features/booking/presentation/widgets/booking_time_picker.dart';
 
-import '../../../../dependency_injection/dependency_injection.dart' as di;
 import '../../../../core/constants/constants.dart';
 import '../../../../core/presentation/widgets/widgets.dart';
+import '../../../../dependency_injection/dependency_injection.dart' as di;
 import '../bloc/booking_bloc.dart';
 
 class BookingForm extends StatefulWidget {
@@ -277,7 +276,7 @@ class _BookingFormState extends State<BookingForm> {
                     vertical: kVerticalPadding,
                   ),
                   child: AutoSizeText(
-                    'Only riders aged 16 & up are allowed in TMBP',
+                    'Only riders aged 18 & up are allowed in TMBP',
                     style: Theme.of(context).textTheme.labelLarge,
                     maxLines: 1,
                     textAlign: TextAlign.center,
