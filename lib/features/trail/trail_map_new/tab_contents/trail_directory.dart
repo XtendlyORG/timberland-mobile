@@ -58,172 +58,175 @@ class _TrailDirectoryState extends State<TrailDirectory> {
       child: Row(
         children: [
           /////INFO???
-          SingleChildScrollView(
-            child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-              ClipRRect(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
-                  child: Container(
-                    color: const Color.fromARGB(24, 255, 255, 255),
-                    height: 40,
-                    width: MediaQuery.of(context).size.width * .50,
+          SizedBox(
+            height: double.infinity,
+            child: SingleChildScrollView(
+              child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+                ClipRRect(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
+                    child: Container(
+                      color: const Color.fromARGB(24, 255, 255, 255),
+                      height: 20, // 40,
+                      width: MediaQuery.of(context).size.width * .50,
+                    ),
                   ),
                 ),
-              ),
-              const Center(
+                const Center(
+                    child: Text(
+                  'INFO',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                )),
+                const SizedBox(height: 10),
+            
+                /// SIGN GUIDE
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const Text(
+                      "Sign Guide:",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Image.asset(
+                      'assets/trail_map/trailguide.png',
+                      width: 100,
+                    ),
+                  ],
+                ),
+            
+                /// SKILL LEVEL
+                const SizedBox(
+                  height: 10,
+                ),
+                const Center(
                   child: Text(
-                'INFO',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              )),
-              const SizedBox(height: 10),
-          
-              /// SIGN GUIDE
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  const Text(
-                    "Sign Guide:",
+                    'SKILL LEVEL',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  Image.asset(
-                    'assets/trail_map/trailguide.png',
-                    width: 100,
-                  ),
-                ],
-              ),
-          
-              /// SKILL LEVEL
-              const SizedBox(
-                height: 10,
-              ),
-              const Center(
-                child: Text(
-                  'SKILL LEVEL',
-                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              //NOVICE
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  SizedBox(
-                    width: 100,
-                    child: Text(
-                      'NOVICE',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: size.width < 375
-                            ? 11.5
-                            : 13
+                const SizedBox(
+                  height: 10,
+                ),
+                //NOVICE
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      child: Text(
+                        'NOVICE',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: size.width < 375
+                              ? 11.5
+                              : 13
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    height: 30,
-                    width: 30,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.white,
-                        border: Border.all(color: Colors.green)),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              //INTERMEDIATE
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  SizedBox(
-                    width: 100,
-                    child: Text(
-                      'INTERMEDIATE',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: size.width < 375
-                            ? 11.5
-                            : 13
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 30,
-                    width: 30,
-                    decoration: BoxDecoration(
-                        color: Colors.green,
-                        border: Border.all(color: Colors.white)),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              //ADVANCE
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  SizedBox(
-                    width: 100,
-                    child: Text(
-                      'ADVANCE',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: size.width < 375
-                            ? 11.5
-                            : 13
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 30,
-                    width: 30,
-                    decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 2, 46, 165),
-                        border: Border.all(color: Colors.white)),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              //EXPRRT
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  SizedBox(
-                    width: 100,
-                    child: Text(
-                      'EXPERT',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: size.width < 375
-                            ? 11.5
-                            : 13
-                      ),
-                    ),
-                  ),
-                  Transform.rotate(
-                    angle: 45 *
-                        3.14159265359 /
-                        180, // Rotate 45 degrees (in radians)
-                    child: Container(
-                      height: 25,
-                      width: 25,
+                    Container(
+                      height: 30,
+                      width: 30,
                       decoration: BoxDecoration(
-                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.white,
+                          border: Border.all(color: Colors.green)),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                //INTERMEDIATE
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      child: Text(
+                        'INTERMEDIATE',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: size.width < 375
+                              ? 11.5
+                              : 13
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 30,
+                      width: 30,
+                      decoration: BoxDecoration(
+                          color: Colors.green,
                           border: Border.all(color: Colors.white)),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-            ]),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                //ADVANCE
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      child: Text(
+                        'ADVANCE',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: size.width < 375
+                              ? 11.5
+                              : 13
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 30,
+                      width: 30,
+                      decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 2, 46, 165),
+                          border: Border.all(color: Colors.white)),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                //EXPRRT
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      child: Text(
+                        'EXPERT',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: size.width < 375
+                              ? 11.5
+                              : 13
+                        ),
+                      ),
+                    ),
+                    Transform.rotate(
+                      angle: 45 *
+                          3.14159265359 /
+                          180, // Rotate 45 degrees (in radians)
+                      child: Container(
+                        height: 25,
+                        width: 25,
+                        decoration: BoxDecoration(
+                            color: Colors.black,
+                            border: Border.all(color: Colors.white)),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+              ]),
+            ),
           ),
           ClipRRect(
             child: BackdropFilter(
@@ -240,81 +243,84 @@ class _TrailDirectoryState extends State<TrailDirectory> {
           ),
 
           /////TRAILS
-          SingleChildScrollView(
-            child: Column(children: [
-              ClipRRect(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
-                  child: Container(
-                    color: const Color.fromARGB(24, 255, 255, 255),
-                    height: 40,
-                    width: MediaQuery.of(context).size.width * .50,
+          SizedBox(
+            height: double.infinity,
+            child: SingleChildScrollView(
+              child: Column(children: [
+                ClipRRect(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
+                    child: Container(
+                      color: const Color.fromARGB(24, 255, 255, 255),
+                      height: 20, // 40,
+                      width: MediaQuery.of(context).size.width * .50,
+                    ),
                   ),
                 ),
-              ),
-              const Center(
-                  child: Text(
-                'TRAILS',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              )),
-          
-              //Trail Widgets
-              const SizedBox(
-                height: 10,
-              ),
-              SizedBox(
-                height: 260,
-                width: 200,
-                child: MediaQuery.removePadding(
-                  context: context,
-                  removeTop: true,
-                  child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount: trailList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Column(
-                          children: [
-                            Material(
-                              child: InkWell(
-                                onTap: () {
-                                  double scale = 4;
-                                  widget.selectTrail(
-                                      trailList[index].name.toString());
-                                  final zoomed = Matrix4.identity()
-                                    ..translate(
-                                        Coordinates.values
-                                            .byName(trailList[index]
-                                                .coordinates
-                                                .toString())
-                                            .x,
-                                        Coordinates.values
-                                            .byName(trailList[index]
-                                                .coordinates
-                                                .toString())
-                                            .y)
-                                    ..scale(scale);
-                                  final value = zoomed;
-                                  widget.controller.value = value;
-                                },
-                                child: TrailWidget(
-                                    name: trailList[index].name.toString(),
-                                    ascent: trailList[index].ascent.toString(),
-                                    decent: trailList[index].decent.toString(),
-                                    difficulty:
-                                        trailList[index].difficulty.toString(),
-                                    distance:
-                                        trailList[index].distance.toString()),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                          ],
-                        );
-                      }),
+                const Center(
+                    child: Text(
+                  'TRAILS',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                )),
+            
+                //Trail Widgets
+                const SizedBox(
+                  height: 10,
                 ),
-              )
-            ]),
+                SizedBox(
+                  height: 260,
+                  width: 200,
+                  child: MediaQuery.removePadding(
+                    context: context,
+                    removeTop: true,
+                    child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: trailList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Column(
+                            children: [
+                              Material(
+                                child: InkWell(
+                                  onTap: () {
+                                    double scale = 4;
+                                    widget.selectTrail(
+                                        trailList[index].name.toString());
+                                    final zoomed = Matrix4.identity()
+                                      ..translate(
+                                          Coordinates.values
+                                              .byName(trailList[index]
+                                                  .coordinates
+                                                  .toString())
+                                              .x,
+                                          Coordinates.values
+                                              .byName(trailList[index]
+                                                  .coordinates
+                                                  .toString())
+                                              .y)
+                                      ..scale(scale);
+                                    final value = zoomed;
+                                    widget.controller.value = value;
+                                  },
+                                  child: TrailWidget(
+                                      name: trailList[index].name.toString(),
+                                      ascent: trailList[index].ascent.toString(),
+                                      decent: trailList[index].decent.toString(),
+                                      difficulty:
+                                          trailList[index].difficulty.toString(),
+                                      distance:
+                                          trailList[index].distance.toString()),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                            ],
+                          );
+                        }),
+                  ),
+                )
+              ]),
+            ),
           ),
         ],
       ),
