@@ -27,7 +27,7 @@ class PushNotificationRepositoryImpl implements PushNotificationRepository {
             Session().saveFCMToken(value);
             remoteDataSource.updateToken(
               Session().currentUser!.id,
-              value,
+              "null", // Temporary fix for 431 error // value,
             );
           }
         });
