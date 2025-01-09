@@ -20,6 +20,7 @@ class PushNotificationRepositoryImpl implements PushNotificationRepository {
     return this(
       callback: () async {
         FirebaseMessaging.instance.getToken().then((value) async {
+          return; // Firebase not working in iOS
           if (value != null) {
             if (value == (Session().getFCMToken() ?? '')) {
               return;
