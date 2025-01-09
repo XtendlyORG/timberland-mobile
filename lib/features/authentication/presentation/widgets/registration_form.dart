@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:timberland_biketrail/core/constants/constants.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/filled_text_button.dart';
 import 'package:timberland_biketrail/core/presentation/widgets/form_fields/form_fields.dart';
@@ -159,8 +160,12 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 width: (MediaQuery.of(context).size.width / 2) - kHorizontalPadding,
                 margin: const EdgeInsets.only(bottom: kVerticalPadding),
                 child: FilledTextButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (formKey.currentState!.validate()) {
+                      // Alternative for frequent rebuild
+                      const storage = FlutterSecureStorage();
+                      await storage.write(key: 'registerFormInit', value: "false");
+
                       widget.onSumbit(
                         firstNameCtrl.text,
                         middleNameCtrl.text.isNotEmpty ? middleNameCtrl.text : null,
