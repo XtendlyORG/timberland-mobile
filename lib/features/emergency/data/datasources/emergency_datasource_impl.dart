@@ -20,8 +20,8 @@ class EmergencyDataSourceImpl implements EmergencyDataSource {
     required this.environmentConfig,
   }) {
     socket = IO.io(
-      // environmentConfig.apihost, // PROD GCP
-      '${environmentConfig.apihost}:3001', // PROD - DEV AZ
+      // environmentConfig.apihost, // PROD - DEV AZ
+      '${environmentConfig.apihost}:3001', // PROD GCP
       IO.OptionBuilder().setTransports(['websocket']).build(),
     );
   }
