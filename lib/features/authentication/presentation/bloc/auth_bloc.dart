@@ -11,6 +11,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:timberland_biketrail/core/errors/failures.dart';
 import 'package:timberland_biketrail/core/utils/session.dart';
 import 'package:timberland_biketrail/features/authentication/domain/entities/user.dart';
@@ -162,6 +163,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           loadingMessage: 'Sending OTP to $email.',
         ),
       );
+
+      // Alternative fix for Azure Issue
+      // Check if server is AZ
+      bool isServerAz = (dotenv.env['SERVER'] ?? 'GCP') == 'AZ';
+      if(isServerAz){
+        await repository.requestRegister(
+          event.parameter,
+        );
+      }
       final result = await repository.requestRegister(
         event.parameter,
       );

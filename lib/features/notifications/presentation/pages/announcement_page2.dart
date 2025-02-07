@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timberland_biketrail/dependency_injection/notifs_dependency.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/bloc/notifications_bloc.dart';
 import 'package:timberland_biketrail/features/notifications/presentation/pages/announcement_page.dart';
 
@@ -58,7 +57,10 @@ class _AnnouncementPage2State extends State<AnnouncementPage2> {
                 size: MediaQuery.of(context).size,
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: AnnouncementSlider(announcements: state.announcementsList),
+                  child: AnnouncementSlider(
+                    announcements: state.announcementsList,
+                    timer: timer,
+                  ),
                 ),
               ),
             ],

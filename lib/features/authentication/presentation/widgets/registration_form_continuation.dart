@@ -7,6 +7,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -29,7 +30,7 @@ import 'package:timberland_biketrail/features/authentication/presentation/bloc/a
 import '../../../booking/presentation/pages/waiver/pdf_repository.dart';
 import '../../../booking/presentation/pages/waiver/pdf_view_page.dart';
 
-class RegistrationContinuationForm extends StatelessWidget {
+class RegistrationContinuationForm extends StatefulWidget {
   final UpdateUserDetailsParams?
       user; // user will not be null when update profile
   const RegistrationContinuationForm({
@@ -38,57 +39,234 @@ class RegistrationContinuationForm extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  State<RegistrationContinuationForm> createState() => _RegistrationContinuationFormState();
+}
+
+class _RegistrationContinuationFormState extends State<RegistrationContinuationForm> {
+
+  final formKey = GlobalKey<FormState>();
+  TextEditingController birthdayCtrl = TextEditingController();
+  TextEditingController addressCtrl = TextEditingController();
+  TextEditingController professionCtrl = TextEditingController();
+  TextEditingController emergencyContactsCtrl = TextEditingController();
+  TextEditingController imageCtrl = TextEditingController();
+  TextEditingController bikeModelCtrl = TextEditingController();
+  TextEditingController bikeYearCtrl = TextEditingController();
+  TextEditingController bikeColorCtrl = TextEditingController();
+  
+  DateTime? birthday;
+  String? selectedGender;
+  String? selectedBloodType;
+  File? imageFile;
+  bool agreedToTermsOfUse = false;
+  bool imageReady = true;
+
+  // Alternative for frequent rebuild
+  void handleInitForm(bool isInit) async {
+    const storage = FlutterSecureStorage();
+    await storage.write(key: 'registerFormInit', value: isInit.toString());
+  }
+
+  void initData() async {
+    const storage = FlutterSecureStorage();
+    final isInit = await storage.read(key: 'registerFormInit');
+    if(isInit != "true"){
+      handleInitForm(true);
+      bool imageReady = true;
+      final registerParameter =
+          InheritedRegisterParameter.of(context).registerParameter!;
+      // final formKey = GlobalKey<FormState>();
+      birthday = registerParameter.birthDay;
+      birthdayCtrl = TextEditingController(
+        text: birthday != null
+            ? DateFormat.yMMMMd('en_US').format(birthday ?? DateTime.now())
+            : null,
+      );
+
+      selectedGender = registerParameter.gender;
+      addressCtrl = TextEditingController(
+        text: registerParameter.address,
+      );
+      professionCtrl = TextEditingController(text: registerParameter.profession);
+      selectedBloodType = registerParameter.bloodType;
+
+      emergencyContactsCtrl =
+          TextEditingController(text: registerParameter.emergencyContactInfo);
+      imageCtrl = TextEditingController(
+        text: registerParameter.profilePic != null
+            ? 'profile_pic.${registerParameter.profilePic!.path.split('.').last}'
+            : null,
+      );
+      imageFile = registerParameter.profilePic;
+      bikeModelCtrl = TextEditingController(text: registerParameter.bikeModel);
+      bikeYearCtrl = TextEditingController(text: registerParameter.bikeYear);
+      bikeColorCtrl = TextEditingController(text: registerParameter.bikeColor);
+
+      agreedToTermsOfUse = false;
+
+      if (widget.user != null) {
+        // auto fill fields with current user's informations
+        selectedGender = widget.user!.gender;
+        birthday = widget.user!.birthday;
+        birthdayCtrl.text = birthday != null
+            ? DateFormat.yMMMMd('en_US').format(birthday ?? DateTime.now())
+            : '';
+        selectedBloodType = widget.user!.bloodType;
+        addressCtrl.text = widget.user!.address ?? '';
+        professionCtrl.text = widget.user!.profession ?? '';
+        emergencyContactsCtrl.text = widget.user!.emergencyContactInfo ?? '';
+        bikeModelCtrl.text = widget.user!.bikeModel ?? '';
+        bikeYearCtrl.text = widget.user!.bikeYear ?? '';
+        bikeColorCtrl.text = widget.user!.bikeColor ?? '';
+        agreedToTermsOfUse = true;
+      }
+    }
+  }
+
+  void validateRebuild() async {
+    // const storage = FlutterSecureStorage();
+    // final isInit = await storage.read(key: 'registerFormInit');
+    // if(isInit != "true"){
+    // }
+    
+    handleInitForm(true);
     bool imageReady = true;
     final registerParameter =
         InheritedRegisterParameter.of(context).registerParameter!;
-    final formKey = GlobalKey<FormState>();
-    DateTime? birthday = registerParameter.birthDay;
-    final birthdayCtrl = TextEditingController(
-      text:
-          birthday != null ? DateFormat.yMMMMd('en_US').format(birthday) : null,
+    // final formKey = GlobalKey<FormState>();
+    birthday = registerParameter.birthDay;
+    birthdayCtrl = TextEditingController(
+      text: birthday != null
+          ? DateFormat.yMMMMd('en_US').format(birthday ?? DateTime.now())
+          : null,
     );
 
-    String? selectedGender = registerParameter.gender;
-    final addressCtrl = TextEditingController(
+    selectedGender = registerParameter.gender;
+    addressCtrl = TextEditingController(
       text: registerParameter.address,
     );
-    final professionCtrl =
-        TextEditingController(text: registerParameter.profession);
-    String? selectedBloodType = registerParameter.bloodType;
+    professionCtrl = TextEditingController(text: registerParameter.profession);
+    selectedBloodType = registerParameter.bloodType;
 
-    final emergencyContactsCtrl =
+    emergencyContactsCtrl =
         TextEditingController(text: registerParameter.emergencyContactInfo);
-    final imageCtrl = TextEditingController(
+    imageCtrl = TextEditingController(
       text: registerParameter.profilePic != null
           ? 'profile_pic.${registerParameter.profilePic!.path.split('.').last}'
           : null,
     );
-    File? imageFile = registerParameter.profilePic;
-    final bikeModelCtrl =
-        TextEditingController(text: registerParameter.bikeModel);
-    final bikeYearCtrl =
-        TextEditingController(text: registerParameter.bikeYear);
-    final bikeColorCtrl =
-        TextEditingController(text: registerParameter.bikeColor);
+    imageFile = registerParameter.profilePic;
+    bikeModelCtrl = TextEditingController(text: registerParameter.bikeModel);
+    bikeYearCtrl = TextEditingController(text: registerParameter.bikeYear);
+    bikeColorCtrl = TextEditingController(text: registerParameter.bikeColor);
 
-    bool agreedToTermsOfUse = false;
+    agreedToTermsOfUse = false;
 
-    if (user != null) {
+    if (widget.user != null) {
       // auto fill fields with current user's informations
-      selectedGender = user!.gender;
-      birthday = user!.birthday;
-      birthdayCtrl.text =
-          birthday != null ? DateFormat.yMMMMd('en_US').format(birthday) : '';
-      selectedBloodType = user!.bloodType;
-      addressCtrl.text = user!.address ?? '';
-      professionCtrl.text = user!.profession ?? '';
-      emergencyContactsCtrl.text = user!.emergencyContactInfo ?? '';
-      bikeModelCtrl.text = user!.bikeModel ?? '';
-      bikeYearCtrl.text = user!.bikeYear ?? '';
-      bikeColorCtrl.text = user!.bikeColor ?? '';
+      selectedGender = widget.user!.gender;
+      birthday = widget.user!.birthday;
+      birthdayCtrl.text = birthday != null
+          ? DateFormat.yMMMMd('en_US').format(birthday ?? DateTime.now())
+          : '';
+      selectedBloodType = widget.user!.bloodType;
+      addressCtrl.text = widget.user!.address ?? '';
+      professionCtrl.text = widget.user!.profession ?? '';
+      emergencyContactsCtrl.text = widget.user!.emergencyContactInfo ?? '';
+      bikeModelCtrl.text = widget.user!.bikeModel ?? '';
+      bikeYearCtrl.text = widget.user!.bikeYear ?? '';
+      bikeColorCtrl.text = widget.user!.bikeColor ?? '';
       agreedToTermsOfUse = true;
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant RegistrationContinuationForm oldWidget) {
+    log("This is the update widget");
+    // validateRebuild();
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void didChangeDependencies() {
+    log("This is the update dependency");
+    validateRebuild();
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    handleInitForm(false);
+    // Dispose all controllers
+    birthdayCtrl.dispose();
+    addressCtrl.dispose();
+    professionCtrl.dispose();
+    emergencyContactsCtrl.dispose();
+    imageCtrl.dispose();
+    bikeModelCtrl.dispose();
+    bikeYearCtrl.dispose();
+    bikeColorCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final registerParameter = InheritedRegisterParameter.of(context).registerParameter!;
+    // bool imageReady = true;
+    // final registerParameter =
+    //     InheritedRegisterParameter.of(context).registerParameter!;
+    // // final formKey = GlobalKey<FormState>();
+    // birthday = registerParameter.birthDay;
+    // birthdayCtrl = TextEditingController(
+    //   text:
+    //       birthday != null ? DateFormat.yMMMMd('en_US').format(birthday ?? DateTime.now()) : null,
+    // );
+
+    // selectedGender = registerParameter.gender;
+    // addressCtrl = TextEditingController(
+    //   text: registerParameter.address,
+    // );
+    // professionCtrl =
+    //     TextEditingController(text: registerParameter.profession);
+    // selectedBloodType = registerParameter.bloodType;
+
+    // emergencyContactsCtrl =
+    //     TextEditingController(text: registerParameter.emergencyContactInfo);
+    // imageCtrl = TextEditingController(
+    //   text: registerParameter.profilePic != null
+    //       ? 'profile_pic.${registerParameter.profilePic!.path.split('.').last}'
+    //       : null,
+    // );
+    // imageFile = registerParameter.profilePic;
+    // bikeModelCtrl =
+    //     TextEditingController(text: registerParameter.bikeModel);
+    // bikeYearCtrl =
+    //     TextEditingController(text: registerParameter.bikeYear);
+    // bikeColorCtrl =
+    //     TextEditingController(text: registerParameter.bikeColor);
+
+    // agreedToTermsOfUse = false;
+
+    // if (widget.user != null) {
+    //   // auto fill fields with current user's informations
+    //   selectedGender = widget.user!.gender;
+    //   birthday = widget.user!.birthday;
+    //   birthdayCtrl.text =
+    //       birthday != null ? DateFormat.yMMMMd('en_US').format(birthday ?? DateTime.now()) : '';
+    //   selectedBloodType = widget.user!.bloodType;
+    //   addressCtrl.text = widget.user!.address ?? '';
+    //   professionCtrl.text = widget.user!.profession ?? '';
+    //   emergencyContactsCtrl.text = widget.user!.emergencyContactInfo ?? '';
+    //   bikeModelCtrl.text = widget.user!.bikeModel ?? '';
+    //   bikeYearCtrl.text = widget.user!.bikeYear ?? '';
+    //   bikeColorCtrl.text = widget.user!.bikeColor ?? '';
+    //   agreedToTermsOfUse = true;
+    // }
 
     return BlocListener<AuthBloc, AuthState>(
       listenWhen: (previous, current) => current is OtpSent,
@@ -235,7 +413,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                 textInputAction: TextInputAction.next,
               ),
             ),
-            if (user == null)
+            if (widget.user == null)
               Container(
                 margin: const EdgeInsets.only(
                   bottom: kVerticalPadding,
@@ -348,7 +526,7 @@ class RegistrationContinuationForm extends StatelessWidget {
                           : null,
                       profilePic: imageFile,
                     );
-                    if (user == null) {
+                    if (widget.user == null) {
                       BlocProvider.of<AuthBloc>(context).add(
                         RequestRegisterEvent(parameter: registerParams),
                       );
@@ -365,10 +543,10 @@ class RegistrationContinuationForm extends StatelessWidget {
                   }
                 },
                 child:
-                    user == null ? const Text("Register") : const Text("Save"),
+                    widget.user == null ? const Text("Register") : const Text("Save"),
               ),
             ),
-            if (user == null)
+            if (widget.user == null)
               RepaintBoundary(
                 child: CustomCheckbox(
                   onChange: (val) {
